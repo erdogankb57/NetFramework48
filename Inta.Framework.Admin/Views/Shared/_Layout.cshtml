@@ -1,0 +1,241 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors" />
+    <meta name="generator" content="Jekyll v4.0.1" />
+    <title>INTA Yazılım Yönetim Paneli</title>
+    @*  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,500;0,700;1,500&display=swap" rel="stylesheet" />*@
+    <!-- Bootstrap core CSS -->
+    <link href="@Url.Content("~/Content/css/reset.css")" rel="stylesheet" />
+
+
+    <link href="@Url.Content("~/Content/css/perfect-scrollbar.v0.5.2.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/css/bootstrap.min.css")" rel="stylesheet" />
+
+    <link href="@Url.Content("~/Content/css/jquery.dataTables.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/css/style.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/css/responsive.css")" rel="stylesheet" />
+
+    <script src="@Url.Content("~/Content/js/fontawesome.js")"></script>
+
+    <script src="@Url.Content("~/Content/js/jquery-3.5.0.js")"></script>
+    <script src="@Url.Content("~/Content/js/jquery-ui.js")"></script>
+
+    <script src="@Url.Content("~/Content/js/validation.js")"></script>
+    <script src="@Url.Content("~/Content/js/function.js")"></script>
+
+    <script src="@Url.Content("~/Content/ckeditor/ckeditor.js")"></script>
+    <script src="@Url.Content("~/Content/ckeditor/samples/js/sample.js")"></script>
+    <script src="~/Content/js/core.js"></script>
+    <link href="~/Content/css/core.css" rel="stylesheet" />
+    <!-- Custom styles for this template -->
+    <style>
+        .custom-combobox {
+            position: relative;
+            display: inline-block;
+        }
+
+        .custom-combobox-toggle {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            margin-left: -1px;
+            padding: 0;
+        }
+
+        .custom-combobox-input {
+            margin: 0;
+            padding: 5px 10px;
+        }
+
+        .progress {
+            display: block;
+            width: 0px;
+            height: 3px;
+            background: red;
+            transition: width .3s;
+            position: absolute;
+            z-index: 99999;
+            left: 0px;
+            top: 0px;
+        }
+
+            .progress.hide {
+                opacity: 0;
+                transition: opacity 1.3s;
+            }
+    </style>
+</head>
+<body>
+    @*<script>
+            var activeMenuId = @(ViewBag.ActiveMenuId);
+                             var UploadFolder = '@(ViewBag.FileShowFolder)';
+
+
+        </script>*@
+    <div class="progress"></div>
+
+    <div id="menuOpacity"></div>
+    <div class="loading-content">
+        <div class="loading">
+            <div class="spinner-border m-5" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </div>
+    <div class="main-left">
+        <div class="brand">
+            <a href="/"><img src="@Url.Content("~/Content/images/logo.png")" width="80" /></a>
+        </div>
+        <div class="nav-menu-container">
+            <div class="nav-menu">
+                <ul>
+                    @Html.Partial("_SystemMenu")
+          
+                </ul>
+            </div>
+            <div class="copyright">İNTA Yazılım Hizmetleri</div>
+        </div>
+        <a href="javascript:void(0)" class="close-mobile">X</a>
+    </div>
+    <div class="main-right">
+
+        <div class="header">
+
+            <div class="container-fluid">
+                <div class="col-12">
+                    <div class="row">
+
+                        <div class="col-2 col-sm-2  col-md-2 col-lg-2">
+                            <a href="javascript:void(0)" class="show-mobile">
+                                <span class="line"></span>
+                                <span class="line"></span>
+                                <span class="line"></span>
+                            </a>
+                        </div>
+
+                        <div class="col-10 col-sm-10 col-md-10 col-lg-10">
+
+
+                            <div class="user">
+
+
+                                <a type="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-2x fa-user"></i>
+                                    <span>
+                                        Merhaba, @ViewBag.UserName  <br />
+                                        @ViewBag.RoleName
+                                    </span>
+                                </a>
+
+
+                                <div class="account dropdown-menu dropdown-menu-right">
+                                    <div class="account_arrow"></div>
+                                    <div class="user-box">
+                                        <div class="name">
+                                            @ViewBag.UserName <br />
+                                            @ViewBag.RoleName
+                                        </div>
+                                        <div class="image">
+                                            <img src="@Url.Content("~/Content/images/user.jpg")" />
+                                        </div>
+                                    </div>
+                                    <div class="link">
+                                        <ul>
+                                            <li><a href="/Account">Hesabım</a></li>
+                                            <li>
+                                                <a href="/MessageHistory">
+                                                    Mesajlarım @{
+                                                        if (Convert.ToInt32(ViewBag.MessageCount) > 0)
+                                                        {
+                                                            <span>@ViewBag.MessageCount</span>
+                                                        }
+                                                    }
+                                                </a>
+                                            </li>
+                                            <li><a href="/Login/SignOut">Çıkış</a></li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div id="dropDownLanguage">
+
+                                @(Html.SelectListFor("Select * from Language", ObjectId:"SelectListTest",ObjectName:"SelectListTest",DisplayName:"Name",ValueName:"Id",SelectedValue:"1",DefaultText:"Seçiniz",DefaultValue:""))
+
+                            </div>
+
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="content">
+            <div class="container-fluid">
+                <h1 class="caption">
+                    @ViewBag.ActiveMenuAd
+                </h1>
+                <nav aria-label="breadcrumb">
+                    @*@await Component.InvokeAsync("BreadCrumpComponent")*@
+                </nav>
+
+                @RenderBody()
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+    <script src="@Url.Content("~/Content/js/feather.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/chart.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/perfect-scrollbar.v0.5.2.js")"></script>
+    <script src="@Url.Content("~/Content/js/general.js")"></script>
+
+    <script src="@Url.Content("~/Content/js/jquery.dataTables.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/popper.min.js")" crossorigin="anonymous"></script>
+    <link href="@Url.Content("~/Content/css/jquery-ui.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Content/css/assets/dist/js/bootstrap.js")"></script>
+
+    <script src="@Url.Content("~/Content/fancybox/js/jquery.fancybox.min.js")"></script>
+    <link href="@Url.Content("~/Content/fancybox/css/jquery.fancybox.min.css")" rel="stylesheet" />
+
+    @RenderSection("scripts", false)
+
+    <script>
+        $(document).ready(function () {
+            // Handle click on checkbox to set state of "Select all" control
+            $('#dataTable tbody').on('change', 'input[type="checkbox"]', function () {
+
+                // If checkbox is not checked
+                if (!this.checked) {
+                    $(this).parent("td").parent("tr").removeClass('selected');
+
+                    var el = $('#example-select-all').get(0);
+                    // If "Select all" control is checked and has 'indeterminate' property
+                    if (el && el.checked && ('indeterminate' in el)) {
+                        // Set visual state of "Select all" control
+                        // as 'indeterminate'
+                        el.indeterminate = true;
+                    }
+                } else {
+                    $(this).parent("td").parent("tr").addClass('selected');
+                }
+            });
+
+        });
+    </script>
+
+
+</body>
+</html>

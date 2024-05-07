@@ -1,0 +1,26 @@
+﻿@{
+    Inta.Framework.Ado.Net.DBLayer db = new Inta.Framework.Ado.Net.DBLayer(System.Configuration.ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+    var ustMenu = db.Find<Inta.Framework.Admin.Models.SystemMenu>("Select * from SystemMenu where SystemMenuId=0", System.Data.CommandType.Text);
+}
+
+
+@foreach (var item in ustMenu.Data)
+{
+    <li menu-id="@item.Id">
+
+        <a class="item" item-id="@item.Id" href="@item.Link"><i class="@item.MenuIcon" style="font-size: 18px;"></i> @item.Name</a>
+        <ul class="nav-menu-sub">
+            @{
+                Inta.Framework.Ado.Net.DBLayer dbAltMenu = new Inta.Framework.Ado.Net.DBLayer(System.Configuration.ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+                var altMenu = dbAltMenu.Find<Inta.Framework.Admin.Models.SystemMenu>("Select * from SystemMenu where SystemMenuId=" + item.Id, System.Data.CommandType.Text);
+
+            }
+
+            @foreach (var menu in altMenu.Data)
+            {
+                <li><a href="@menu.Link"><i class="@menu.MenuIcon" style="font-size: 18px;"></i>@menu.Name </a></li>
+            }
+
+        </ul>
+    </li>
+}

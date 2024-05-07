@@ -1,0 +1,354 @@
+﻿body,html{
+    font-size:12px;
+    font-weight:normal;
+}
+label{
+    font-weight:normal;
+}
+
+.form-control{
+    font-size:12px;
+    height:auto !important;
+    padding:6px 10px;
+}
+
+table {
+    width: 100%;
+}
+
+table, th, td {
+    border: 1px solid #cfcfcf;
+    border-collapse: collapse;
+    font-size:12px;
+}
+
+th, td {
+    padding: 5px 10px !important;
+    text-align: left;
+}
+
+
+.PagingDataList table {
+    float: left;
+}
+
+    .PagingDataList table tr th {
+        cursor: pointer;
+        background: #c6c6c6;
+        padding: 8px 5px !important;
+    }
+
+.PagingDataList .PagingRow {
+    float: left;
+    width: 100%;
+}
+
+    .PagingDataList .PagingRow ul {
+        list-style: none;
+        float: right;
+    }
+
+        .PagingDataList .PagingRow ul li {
+            float: left;
+            padding: 5px 0 0 5px;
+        }
+
+            .PagingDataList .PagingRow ul li .number {
+                text-align: center;
+                display: block;
+                min-height: 25px;
+                min-width: 25px;
+                padding: 3px 5px;
+                border: 1px solid #cfcfcf;
+                font-size: 12px;
+                color: #000000;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+            .PagingDataList .PagingRow ul li span {
+                text-align: center;
+                display: block;
+                min-height: 25px;
+                min-width: 25px;
+                padding: 3px 5px;
+                border: 1px solid #cfcfcf;
+                font-size: 12px;
+                color: #000000;
+            }
+
+            .PagingDataList .PagingRow ul li number:hover {
+                background: #cfcfcf;
+            }
+
+
+            .PagingDataList .PagingRow ul li .prev {
+                text-align: center;
+                display: block;
+                min-height: 25px;
+                min-width: 25px;
+                padding: 3px 5px;
+                border: 1px solid #cfcfcf;
+                font-size: 12px;
+                color: #000000;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+                .PagingDataList .PagingRow ul li .prev:hover {
+                    background: #c6c6c6;
+                }
+
+            .PagingDataList .PagingRow ul li .next {
+                text-align: center;
+                display: block;
+                min-height: 25px;
+                min-width: 25px;
+                padding: 3px 5px;
+                border: 1px solid #cfcfcf;
+                font-size: 12px;
+                color: #000000;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+                .PagingDataList .PagingRow ul li .next:hover {
+                    background: #c6c6c6;
+                }
+
+
+            .PagingDataList .PagingRow ul li a:hover {
+                background: #c6c6c6;
+            }
+
+            .PagingDataList .PagingRow ul li .active {
+                background: #c6c6c6;
+            }
+
+
+
+
+/*CheckBoxListFilter*/
+
+.CheckBoxListFilter {
+    width: 100%;
+    position: relative;
+}
+
+    .CheckBoxListFilter input[name="CheckBoxListFilterSearch"] {
+        font-size: 12px !important;
+        border-radius: 4px;
+        display: inline-block;
+        margin: 0;
+    }
+
+        .CheckBoxListFilter input[name="CheckBoxListFilterSearch"]:focus {
+            border-color: #d8d8d8;
+            outline: 0;
+        }
+
+
+
+    .CheckBoxListFilter .CheckBoxListFilterOpen {
+        -webkit-box-shadow: 0px 5px 10px 0px rgba(163,163,163,0.46);
+        -moz-box-shadow: 0px 5px 10px 0px rgba(163,163,163,0.46);
+        box-shadow: 0px 5px 10px 0px rgba(163,163,163,0.46);
+        border: solid 1px #cfcfcf;
+        width: 100%;
+        position: absolute;
+        background: #FFFFFF;
+        padding: 10px;
+        margin: 2px 0 0 0;
+        border-radius: 0.25rem;
+        overflow-y: hidden;
+        display: none;
+    }
+
+        .CheckBoxListFilter .CheckBoxListFilterOpen ul {
+            padding: 0px;
+            font-size: 12px;
+            width: 100%;
+            max-height: 140px;
+            float: left;
+            position: relative;
+            margin: 5px 0;
+            overflow:hidden;
+        }
+
+            .CheckBoxListFilter .CheckBoxListFilterOpen ul li {
+                list-style: none;
+                margin: 0px;
+                float: left;
+                width: calc(100% - 10px);
+                padding: 3px 10px;
+                background: #FFFFFF;
+                font-size:12px;
+            }
+
+                .CheckBoxListFilter .CheckBoxListFilterOpen ul li:hover {
+                    background: #eaeaea;
+                }
+
+                .CheckBoxListFilter .CheckBoxListFilterOpen ul li input[type="checkbox"] {
+                    margin: 2px 0 0 0;
+                }
+
+                .CheckBoxListFilter .CheckBoxListFilterOpen ul li label {
+                    margin: 0 0 0 5px;
+                    font-size:12px;
+                    padding:0 15px;
+                }
+
+
+    .CheckBoxListFilter .CheckBoxListFilterInput {
+        font-size: 12px;
+        padding-right: 30px;
+        padding-bottom: 0px !important;
+        float: left;
+    }
+
+        .CheckBoxListFilter .CheckBoxListFilterInput span {
+            background: url(../images/select-icon.png) no-repeat;
+            background-position: 0px 0px;
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            right: 0px;
+            top: 0px;
+            z-index: 5;
+        }
+
+        .CheckBoxListFilter .CheckBoxListFilterInput ul {
+            padding: 0px;
+            font-size: 12px;
+            max-height: 140px;
+            float: left;
+            position: relative;
+            margin: 0px;
+            overflow-x: hidden;
+            width: 100%;
+            white-space: nowrap;
+            height: 28px;
+        }
+
+            .CheckBoxListFilter .CheckBoxListFilterInput ul .ps-scrollbar-x-rail, .CheckBoxListFilter .CheckBoxListFilterInput ul .ps-scrollbar-x {
+                height: 4px;
+            }
+
+            .CheckBoxListFilter .CheckBoxListFilterInput ul li {
+                list-style: none;
+                margin: 0px;
+                display: inline-block;
+                padding: 1px 10px;
+                margin: 1px 2px 1px 0;
+                background: #eaeaea;
+                border-radius: 5px;
+                cursor: pointer;
+                justify-content: center;
+                align-items: center;
+            }
+
+                .CheckBoxListFilter .CheckBoxListFilterInput ul li:hover {
+                    background: #eaeaea;
+                }
+
+                .CheckBoxListFilter .CheckBoxListFilterInput ul li input[type="checkbox"] {
+                    margin: 2px 0 0 0;
+                }
+
+                .CheckBoxListFilter .CheckBoxListFilterInput ul li label {
+                    margin: 0 0 0 5px
+                }
+
+
+/*CheckBoxListFilter*/
+
+/*SelectList*/
+
+select {
+    border-radius: 4px;
+    display: inline-block;
+    font: inherit;
+    line-height: 1.5em;
+    padding: 0.5em 3.5em 0.5em 1em;
+    margin: 0;
+    background: url(../images/select-icon.png) no-repeat;
+    background-position: center right;
+}
+
+    .bootstrap-select, select:focus {
+        outline: none !important;
+        border: 1px solid #ced4da !important;
+    }
+
+
+
+/*SelectList*/
+
+
+
+/*RadioButtonList*/
+.RadioButtonList {
+    width: 100%;
+    position: relative;
+    border: solid 1px #cfcfcf;
+    border-radius: .25rem;
+    float: left;
+}
+
+    .RadioButtonList input[type="text"] {
+        padding: 0px;
+        margin: 0px;
+        width: 100%;
+        padding: 5px 10px;
+        outline: none;
+    }
+
+    .RadioButtonList input[name="RadioButtonListSearch"] {
+        font-size: 12px;
+    }
+
+    .RadioButtonList .RadioButtonListOpen {
+        width: 100%;
+        background: #FFFFFF;
+        float: left;
+        padding: 10px;
+        border-radius: 0.25rem;
+        overflow-y: hidden;
+    }
+
+    .RadioButtonList ul {
+        margin: 10px 0 0 0;
+        padding: 0px;
+        font-size: 12px;
+        width: 100%;
+        max-height: 135px;
+        float: left;
+        position: relative;
+        overflow-y:hidden;
+    }
+
+        .RadioButtonList ul li {
+            list-style: none;
+            padding: 0px;
+            margin: 0px;
+            float: left;
+            width: calc(100% - 20px);
+            padding: 0px 20px;
+            background: #FFFFFF;
+        }
+
+            .RadioButtonList ul li:hover {
+                background: #eaeaea;
+            }
+
+            .RadioButtonList ul li input[type="RadioButton"] {
+                margin: 2px 0 0 0;
+            }
+
+            .RadioButtonList ul li label {
+                margin: 0 0 0 5px
+            }
+
+
+/*RadioButtonList*/
