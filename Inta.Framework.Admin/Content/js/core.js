@@ -207,8 +207,11 @@ var $PagingDataList = {
             $PagingDataList.ReloadData($(table).attr("id"), jsonData);
         })
     },
-    AddRecordModal: function (AddUrl, id) {
+    AddRecordModal: function (AddUrl, isAddPopup, id) {
         debugger;
+        if (isAddPopup == 'False') {
+            location.href = AddUrl;
+        }
         $.ajax({
             url: AddUrl,
             type: "POST",

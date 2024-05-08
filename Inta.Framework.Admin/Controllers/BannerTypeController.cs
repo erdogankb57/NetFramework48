@@ -44,7 +44,7 @@ namespace Inta.Framework.Admin.Controllers
                 Id = s.Id,
                 Name = s.Name,
                 IsActive = s.IsActive ? "Aktif" : "Pasif",
-                Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/BannerType/Add'," + s.Id.ToString() + ")\">Düzenle</a>",
+                Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/BannerType/Add','True'," + s.Id.ToString() + ")\">Düzenle</a>",
                 Delete = "<a href='javascript:void(0)' onclick=\"$PagingDataList.DeleteRecordModal('PagingDataListTest','/BannerType/Delete',SearchDataList," + s.Id.ToString() + ")\">Sil</a>"
             }).ToList();
 
@@ -114,9 +114,9 @@ namespace Inta.Framework.Admin.Controllers
                 parameters.Add(new SqlParameter { ParameterName = "SmallImageWidth", Value = request.SmallImageWidth });
                 parameters.Add(new SqlParameter { ParameterName = "BigImageWidth", Value = request.BigImageWidth });
                 parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = request.IsActive });
+                parameters.Add(new SqlParameter { ParameterName = "Description", Value = request.Description });
 
-
-                db.ExecuteNoneQuery("insert into [BannerType](Name,SmallImageWidth,BigImageWidth,IsActive) values(@Name,@SmallImageWidth,@BigImageWidth,@IsActive)", System.Data.CommandType.Text, parameters);
+                db.ExecuteNoneQuery("insert into [BannerType](Name,SmallImageWidth,BigImageWidth,Description,IsActive) values(@Name,@SmallImageWidth,@BigImageWidth,@Description,@IsActive)", System.Data.CommandType.Text, parameters);
 
                 return Json(new ReturnObject<BannerType>
                 {
@@ -132,8 +132,9 @@ namespace Inta.Framework.Admin.Controllers
                 parameters.Add(new SqlParameter { ParameterName = "BigImageWidth", Value = request.BigImageWidth });
                 parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
                 parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = request.IsActive });
+                parameters.Add(new SqlParameter { ParameterName = "Description", Value = request.Description });
 
-                db.ExecuteNoneQuery("Update [BannerType] set Name=@Name,SmallImageWidth=@SmallImageWidth,BigImageWidth=@BigImageWidth,IsActive=@IsActive where Id=@Id", System.Data.CommandType.Text, parameters);
+                db.ExecuteNoneQuery("Update [BannerType] set Name=@Name,SmallImageWidth=@SmallImageWidth,BigImageWidth=@BigImageWidth,IsActive=@IsActive,Description=@Description where Id=@Id", System.Data.CommandType.Text, parameters);
 
                 return Json(new ReturnObject<BannerType>
                 {

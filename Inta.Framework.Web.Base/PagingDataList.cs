@@ -16,6 +16,7 @@ namespace Inta.Framework.Web.Base
         List<PagingDataListColumn> Header = null,
         string Url = null,
         string AddUrl = "",
+        bool isAddPopup = true,
         string DeleteUrl = "",
         string ActiveUrl = "",
         string PassiveUrl = "",
@@ -35,7 +36,7 @@ namespace Inta.Framework.Web.Base
             shtml.Append("<div class='PagingDataTable'>");
             shtml.Append("<div class='col-lg-12'>");
             shtml.Append("    <div class='form-group'>");
-            shtml.Append($"        <button type = 'button' class='btn btn-standart' onclick=\"$PagingDataList.AddRecordModal('{AddUrl}',0)\">");
+            shtml.Append($"        <button type = 'button' class='btn btn-standart' onclick=\"$PagingDataList.AddRecordModal('{AddUrl}','{isAddPopup}',0)\">");
             shtml.Append("            Banner Tipi Ekle");
             shtml.Append("        </button>");
             shtml.Append($"        <button type='button' id='deleteAllRecord' onclick=\"$PagingDataList.DeleteRecordModal('{ObjectId}','{DeleteUrl}',{CallBackFunction},0)\" class='deleteAllRecord btn btn-standart' data-toggle='modal'>");
