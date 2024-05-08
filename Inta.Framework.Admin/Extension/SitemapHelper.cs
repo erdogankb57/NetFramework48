@@ -19,20 +19,26 @@ namespace Inta.Framework.Admin.Extension
             List<SqlParameter> parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter { ParameterName = "ControllerName", Value = controllerName });
             parameters.Add(new SqlParameter { ParameterName = "ActionName", Value = actionName });
-            var data = dbLayer.Find("Select * from SystemMenu where ControllerName=@ControllerName and ActionName=@ActionName", System.Data.CommandType.Text, parameters).Data;
-            for (int i = 0; i < data.Rows.Count; i++)
-            {
-                shtml.Append(GetTopMenu(Convert.ToInt32(data.Rows[i]["Id"])));
-                //shtml.Append("<li class=\"breadcrumb-item\"><a href='#'>" + data.Rows[i]["Name"] + "</a></li>");
-            }
+            var data = dbLayer.Get("Select * from SystemMenu where ControllerName=@ControllerName and ActionName=@ActionName", System.Data.CommandType.Text, parameters).Data;
+            if (data != null)
+                shtml.Append(GetTopMenu(Convert.ToInt32(data["Id"])));
 
             return shtml.ToString();
         }
 
         public static string Caption(this HtmlHelper helper, string controllerName, string actionName)
         {
-            StringBuilder shtml = new StringBuilder();
-            return shtml.ToString();
+            string shtml = "";
+            DBLayer dbLayer = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter { ParameterName = "ControllerName", Value = controllerName });
+            parameters.Add(new SqlParameter { ParameterName = "ActionName", Value = actionName });
+
+            var data = dbLayer.Get("Select * from SystemMenu where ControllerName=@ControllerName and ActionName=@ActionName", System.Data.CommandType.Text, parameters).Data;
+            if (data != null)
+                shtml = data["Name"].ToString();
+
+            return shtml;
         }
 
         private static string GetTopMenu(int menuId)
@@ -42,13 +48,17 @@ namespace Inta.Framework.Admin.Extension
             DBLayer dbLayer = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             List<SqlParameter> parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter { ParameterName = "Id", Value = menuId });
-            var data = dbLayer.Find("Select * from SystemMenu where Id=@Id", System.Data.CommandType.Text, parameters).Data;
-            for (int i = 0; i < data.Rows.Count; i++)
+            var data = dbLayer.Get("Select * from SystemMenu where Id=@Id", System.Data.CommandType.Text, parameters).Data;
+            if (data != null)
             {
-                if (data.Rows[i]["SystemMenuId"] != "0")
-                    shtml.Append(GetTopMenu(Convert.ToInt32(data.Rows[i]["SystemMenuId"])));
+                if (Convert.ToInt32(data["SystemMenuId"]) != 0)
+                {
+                    shtml.Append(GetTopMenu(Convert.ToInt32(data["SystemMenuId"])));
+                    shtml.Append("<li class=\"breadcrumb-item\"><a href='/" + data["ControllerName"] + "/" + data["ActionName"] + "'>" + data["Name"] + "</a></li>");
 
-                shtml.Append("<li class=\"breadcrumb-item\"><a href='#'>" + data.Rows[i]["Name"] + "</a></li>");
+                }
+                else
+                    shtml.Append("<li class=\"breadcrumb-item\"><a href='#'>" + data["Name"] + "</a></li>");
             }
 
             return shtml.ToString();

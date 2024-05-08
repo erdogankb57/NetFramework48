@@ -6,15 +6,16 @@
 
 @foreach (var item in ustMenu.Data)
 {
+
+    Inta.Framework.Ado.Net.DBLayer dbAltMenu = new Inta.Framework.Ado.Net.DBLayer(System.Configuration.ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+    var altMenu = dbAltMenu.Find<Inta.Framework.Admin.Models.SystemMenu>("Select * from SystemMenu where SystemMenuId=" + item.Id, System.Data.CommandType.Text);
+    bool active = altMenu.Data.Any(a => a.ControllerName == this.ViewContext.RouteData.Values["controller"].ToString() && a.ActionName == this.ViewContext.RouteData.Values["action"].ToString());
+
     <li menu-id="@item.Id">
 
-        <a class="item" item-id="@item.Id" href="@item.Link"><i class="@item.MenuIcon" style="font-size: 18px;"></i> @item.Name</a>
-        <ul class="nav-menu-sub">
-            @{
-                Inta.Framework.Ado.Net.DBLayer dbAltMenu = new Inta.Framework.Ado.Net.DBLayer(System.Configuration.ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
-                var altMenu = dbAltMenu.Find<Inta.Framework.Admin.Models.SystemMenu>("Select * from SystemMenu where SystemMenuId=" + item.Id, System.Data.CommandType.Text);
+        <a class="item @(active ? "active" : "")" item-id="@item.Id" href="@item.Link"><i class="@item.MenuIcon" style="font-size: 18px;"></i> @item.Name</a>
+        <ul class="nav-menu-sub @(active ? "active" : "")">
 
-            }
 
             @foreach (var menu in altMenu.Data)
             {

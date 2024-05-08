@@ -263,7 +263,7 @@ namespace Inta.Framework.Ado.Net
                 }
             }
         }
-        public ReturnObject<DataTable> Get(string commandText, System.Data.CommandType commandType, List<SqlParameter> Parameters = null)
+        public ReturnObject<DataRow> Get(string commandText, System.Data.CommandType commandType, List<SqlParameter> Parameters = null)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -271,7 +271,7 @@ namespace Inta.Framework.Ado.Net
                 try
                 {
                     if (connection == null)
-                        return new ReturnObject<DataTable> { Data = null, ResultType = MessageType.Error };
+                        return new ReturnObject<DataRow> { Data = null, ResultType = MessageType.Error };
 
                     if (connection.State == System.Data.ConnectionState.Closed)
                         connection.Open();
@@ -292,14 +292,14 @@ namespace Inta.Framework.Ado.Net
                     cmd.Dispose();
                     connection.Dispose();
                     connection.Close();
-                    return new ReturnObject<DataTable> { Data = dt, ResultType = MessageType.Success };
+                    return new ReturnObject<DataRow> { Data = dt.Rows[0], ResultType = MessageType.Success };
 
                 }
                 catch (Exception ex)
                 {
                     connection.Dispose();
                     connection.Close();
-                    return new ReturnErrorObject<DataTable> { Data = null, ResultType = MessageType.Error, Exception = ex };
+                    return new ReturnErrorObject<DataRow> { Data = null, ResultType = MessageType.Error, Exception = ex };
                 }
             }
         }
