@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Inta.Framework.Ado.Net;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -13,23 +14,23 @@ namespace Inta.Framework.Admin.Models
 		{
 		}
 
-		[Column("Id")]
+		[DatabaseColumn(Name = "Id")]
 		public int Id { get; set; }
-		[Column("SystemUserId")]
+		[DatabaseColumn(Name = "SystemUserId")]
 		public int SystemUserId { get; set; }
-		[Column("LanguageId")]
+		[DatabaseColumn(Name = "LanguageId")]
 		public int LanguageId { get; set; }
-		[Column("Name")]
+		[DatabaseColumn(Name = "Name")]
 		public string Name { get; set; }
-		[Column("Description")]
+		[DatabaseColumn(Name = "Description")]
 		public string Description { get; set; }
-		[Column("SmallImageWidth")]
+		[DatabaseColumn(Name = "SmallImageWidth")]
 		public int SmallImageWidth { get; set; }
-		[Column("BigImageWidth")]
+		[DatabaseColumn(Name = "BigImageWidth")]
 		public int BigImageWidth { get; set; }
-		[Column("RecordDate")]
+		[DatabaseColumn(Name = "RecordDate")]
 		public DateTime? RecordDate { get; set; }
-		[Column("IsActive")]
+		[DatabaseColumn(Name = "IsActive")]
 		public bool IsActive { get; set; }
 	}
 }

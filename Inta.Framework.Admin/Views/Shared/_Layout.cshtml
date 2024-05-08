@@ -163,7 +163,10 @@
                             </div>
                             <div id="dropDownLanguage">
 
-                                @(Html.SelectListFor("Select * from Language", ObjectId:"SelectListTest",ObjectName:"SelectListTest",DisplayName:"Name",ValueName:"Id",SelectedValue:"1",DefaultText:"Seçiniz",DefaultValue:""))
+                                @{ 
+                                    string LanguageId = ViewBag.LanguageId.ToString();
+                                    @Html.Raw(Html.SelectListFor("Select * from Language", ObjectId: "SelectListLanguage", ObjectName: "SelectListLanguage", DisplayName: "Name", ValueName: "Id", SelectedValue: LanguageId, DefaultText: "Seçiniz", DefaultValue: ""));
+                                }
 
                             </div>
 

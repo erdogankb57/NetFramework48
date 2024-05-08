@@ -1,4 +1,5 @@
-﻿using Inta.Framework.Ado.Net;
+﻿using Inta.Framework.Admin.Models;
+using Inta.Framework.Ado.Net;
 using Inta.Framework.Contract;
 using Inta.Framework.Web.Base;
 using System;
@@ -10,12 +11,6 @@ using System.Web.Mvc;
 
 namespace Inta.Framework.Admin.Controllers
 {
-    public class Banner
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public bool IsActive { get; set; }
-    }
     public class TestController : Controller
     {
         public ActionResult Index()

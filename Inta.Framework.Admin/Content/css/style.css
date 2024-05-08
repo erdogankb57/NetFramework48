@@ -188,7 +188,7 @@ input[type=number]:focus,
 
 
     .main-right .header .user {
-        width: 192px;
+        width: 210px;
         text-align: right;
         font-size: 14px;
         margin: 17px 0 0 0;
@@ -212,7 +212,7 @@ input[type=number]:focus,
 
         .main-right .header .user a {
             font-size: 14px;
-            width: 155px;
+            width: 170px;
             text-align: left;
             float: right;
             margin: 8px 0 0 0;

@@ -62,12 +62,12 @@
                                 Text = "Ad"
                             });
                         }
-                        @Html.PagingDataListFor("PagingDataListTest", col, "/Test/TestDataList", "/BannerType/Add", "/BannerType/Add", "/BannerType/Add", "/BannerType/Add", 20, "Id")
+                        @Html.PagingDataListFor("PagingDataList", col, "/Test/TestDataList", "/BannerType/Add", "/BannerType/Add", "/BannerType/Add", "/BannerType/Add", 20, "Id")
 
                         <script type="text/javascript">
                             $(function () {
                                 var val = { Name: "a" };
-                                $PagingDataList.ReloadData("PagingDataListTest", val)
+                                $PagingDataList.ReloadData("PagingDataList", val)
                             })
                         </script>
                     </div>

@@ -120,6 +120,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\BannerController.cs" />
     <Compile Include="Controllers\BannerTypeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -131,6 +132,7 @@
     </Compile>
     <Compile Include="Models\AuthenticationData.cs" />
     <Compile Include="Models\AuthorizationCheck.cs" />
+    <Compile Include="Models\Banner.cs" />
     <Compile Include="Models\BannerType.cs" />
     <Compile Include="Models\SystemMenu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -577,6 +579,8 @@
     <Content Include="Views\Shared\_SystemMenu.cshtml" />
     <Content Include="Views\BannerType\Index.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\Banner\Index.cshtml" />
+    <Content Include="Views\Banner\Add.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Inta.Framework.Ado.Net\Inta.Framework.Ado.Net.csproj">

@@ -35,6 +35,8 @@ namespace Inta.Framework.Admin.Models
                     if (controller != null && userRole?.Data != null)
                         controller.ViewBag.RoleName = userRole.Data["Name"];
 
+                    if (!string.IsNullOrEmpty(_authenticationData.LanguageId.ToString()))
+                        controller.ViewBag.LanguageId = _authenticationData.LanguageId.ToString();
 
                     List<SqlParameter> parameters = new List<SqlParameter>();
                     parameters.Add(new SqlParameter { ParameterName = "RoleId", Value = user.Data["SystemRoleId"] });

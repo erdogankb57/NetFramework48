@@ -1,8 +1,6 @@
 ﻿@{
     ViewBag.Title = "View";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.ModuleName = "Tanımlamalar";
-    ViewBag.PageName = "Banner Tipleri";
+    ViewBag.PageName = "Banner";
 }
 
 <div class="form-content">
@@ -94,7 +92,7 @@
 
                     });
                 }
-                @Html.PagingDataListFor(ObjectId: "BannerTypeList", Header: col, Url: "/BannerType/GetList", AddUrl: "/BannerType/Add", isAddPopup: true, DeleteUrl: "/BannerType/Delete", ActiveUrl: "/BannerType/Active", PassiveUrl: "/BannerType/Passive", SaveUrl: "/BannerType/Save", CallBackFunction: "SearchDataList", PagingRowCount: 20, OrderColumn: "Id")
+                @Html.PagingDataListFor(ObjectId: "PagingDataList", Header: col, Url: "/Banner/GetList", AddUrl: "/Banner/Add", isAddPopup: true, DeleteUrl: "/Banner/Delete", ActiveUrl: "/Banner/Active", PassiveUrl: "/Banner/Passive", SaveUrl: "/Banner/Save", CallBackFunction: "SearchDataList", PagingRowCount: 20, OrderColumn: "Id")
 
             </div>
         </div>
@@ -115,7 +113,7 @@
                     val["IsActive"] = $("#IsActive").is(":checked");
                 }
 
-                $PagingDataList.ReloadData("BannerTypeList", val);
+                $PagingDataList.ReloadData("PagingDataList", val);
 
             })
         }
@@ -123,7 +121,7 @@
         $("#saveForm").submit(function (e) {
             debugger;
             e.preventDefault();
-            $PagingDataList.Save("saveForm", "BannerTypeList", SearchDataList);
+            $PagingDataList.Save("saveForm", "PagingDataList", SearchDataList);
 
         });
     </script>
