@@ -223,7 +223,7 @@ var $PagingDataList = {
             }
         });
     },
-    DeleteRecordModal: function (ObjectId, DeleteUrl, id) {
+    DeleteRecordModal: function (ObjectId, DeleteUrl, CallBackFunction, id) {
         debugger;
 
         $PagingDataList.SelectedRecord(ObjectId);
@@ -256,7 +256,7 @@ var $PagingDataList = {
                 data: { "ids": ids },
                 success: function (response) {
                     debugger;
-                    SearchDataList();
+                    CallBackFunction.call();
                     showAlert(".listMessage", "Kayıt silme işlemi başarıyla tamamlandı.", "success");
                     $PagingDataList.SelectedPassiveRecord(ObjectId);
 
@@ -267,7 +267,7 @@ var $PagingDataList = {
                 }
             });
         }
-    }, ActiveRecordModal: function (ObjectId, ActiveUrl, id) {
+    }, ActiveRecordModal: function (ObjectId, ActiveUrl, CallBackFunction, id) {
         debugger;
 
         $PagingDataList.SelectedRecord(ObjectId);
@@ -294,7 +294,7 @@ var $PagingDataList = {
                 data: { "ids": ids },
                 success: function (response) {
                     debugger;
-                    SearchDataList();
+                    CallBackFunction.call();
                     showAlert(".listMessage", "Kayıt aktif etme işlemi başarıyla tamamlandı.", "success");
                     $PagingDataList.SelectedPassiveRecord(ObjectId);
 
@@ -305,7 +305,7 @@ var $PagingDataList = {
                 }
             });
         }
-    }, PassiveRecordModal: function (ObjectId, PassiveUrl, id) {
+    }, PassiveRecordModal: function (ObjectId, PassiveUrl, CallBackFunction, id) {
         debugger;
 
         $PagingDataList.SelectedRecord(ObjectId);
@@ -332,7 +332,7 @@ var $PagingDataList = {
                 data: { "ids": ids },
                 success: function (response) {
                     debugger;
-                    SearchDataList();
+                    CallBackFunction.call();
                     showAlert(".listMessage", "Kayıt pasif etme işlemi başarıyla tamamlandı.", "success");
                     $PagingDataList.SelectedPassiveRecord(ObjectId);
                 },
@@ -342,6 +342,51 @@ var $PagingDataList = {
                 }
             });
         }
+    },
+    Save: function (formId, ObjectId, CallBack) {
+        debugger;
+        if ($("#" + formId).FormValidate() == false)
+            return;
+
+        $("#" + formId).find("button[type='submit']").prop('disabled', true);
+
+        var saveUrl = $("#" + ObjectId).attr("SaveUrl");
+
+        var formData = new FormData($('#saveForm')[0]);
+        $.ajax({
+            url: saveUrl,
+            type: "POST",
+            data: formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                if (data.ResultType == 0) {
+                    if ($("#Id").val() == "")
+                        addRecordModal(null);
+
+                    $("#" + formId).find("button[type='submit']").prop('disabled', false);
+
+                    setTimeout(function () {
+                        showAlert(".popupMessage", "Kayıt işlemi başarıyla tamamlandı.", "success");
+                    }, 100);
+                }
+                else
+                    setTimeout(function () {
+                        showAlert(".popupMessage", "Kayıt işlemi sırasında hata oluştu. Lütfen alanları kontrol ediniz.", "error");
+                    }, 100);
+
+                $("#" + formId).find("button[type='submit']").prop('disabled', false);
+
+                CallBack.call();
+
+            }, error: function (data) {
+                setTimeout(function () {
+                    showAlert(".popupMessage", "Kayıt işlemi sırasında hata oluştu. Lütfen alanları kontrol ediniz.", "error");
+                }, 100);
+            }
+        });
+
     }
 
 

@@ -64,7 +64,7 @@
                         Width = 100,
                         Short = true
 
-                    }) ;
+                    });
                     col.Add(new PagingDataListColumn
                     {
                         Name = "Name",
@@ -94,7 +94,7 @@
 
                     });
                 }
-                @Html.PagingDataListFor(ObjectId: "PagingDataListTest", Header: col, Url: "/BannerType/GetList", AddUrl: "/BannerType/Add", DeleteUrl: "/BannerType/Delete", ActiveUrl: "/BannerType/Active", PassiveUrl: "/BannerType/Passive", PagingRowCount: 20, OrderColumn: "Id")
+                @Html.PagingDataListFor(ObjectId: "PagingDataListTest", Header: col, Url: "/BannerType/GetList", AddUrl: "/BannerType/Add", DeleteUrl: "/BannerType/Delete", ActiveUrl: "/BannerType/Active", PassiveUrl: "/BannerType/Passive", SaveUrl: "/BannerType/Save", CallBackFunction: "SearchDataList", PagingRowCount: 20, OrderColumn: "Id")
 
             </div>
         </div>
@@ -115,10 +115,16 @@
                     val["IsActive"] = $("#IsActive").is(":checked");
                 }
 
-                $PagingDataList.ReloadData("PagingDataListTest", val)
+                $PagingDataList.ReloadData("PagingDataListTest", val);
+
             })
         }
         SearchDataList();
-    </script>
+        $("#saveForm").submit(function (e) {
+            debugger;
+            e.preventDefault();
+            $PagingDataList.Save("saveForm", "PagingDataListTest", SearchDataList);
 
+        });
+    </script>
 }

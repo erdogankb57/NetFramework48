@@ -24,7 +24,6 @@
     <script src="@Url.Content("~/Content/js/jquery-3.5.0.js")"></script>
     <script src="@Url.Content("~/Content/js/jquery-ui.js")"></script>
 
-    <script src="@Url.Content("~/Content/js/validation.js")"></script>
     <script src="@Url.Content("~/Content/js/function.js")"></script>
 
     <script src="@Url.Content("~/Content/ckeditor/ckeditor.js")"></script>
@@ -94,7 +93,7 @@
             <div class="nav-menu">
                 <ul>
                     @Html.Partial("_SystemMenu")
-          
+
                 </ul>
             </div>
             <div class="copyright">İNTA Yazılım Hizmetleri</div>
@@ -185,7 +184,9 @@
                     @ViewBag.ActiveMenuAd
                 </h1>
                 <nav aria-label="breadcrumb">
-                    @*@await Component.InvokeAsync("BreadCrumpComponent")*@
+                    <ol class="breadcrumb">
+                        @Html.Raw(Html.Breadcrump(this.ViewContext.RouteData.Values["controller"].ToString(), this.ViewContext.RouteData.Values["action"].ToString()))
+                    </ol>
                 </nav>
 
                 @RenderBody()
@@ -196,6 +197,7 @@
 
 
     </div>
+    <script src="@Url.Content("~/Content/js/validation.js")"></script>
 
     <script src="@Url.Content("~/Content/js/feather.min.js")"></script>
     <script src="@Url.Content("~/Content/js/chart.min.js")"></script>

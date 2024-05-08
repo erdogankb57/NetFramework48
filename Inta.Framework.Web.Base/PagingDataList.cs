@@ -19,39 +19,43 @@ namespace Inta.Framework.Web.Base
         string DeleteUrl = "",
         string ActiveUrl = "",
         string PassiveUrl = "",
+        string SaveUrl = "",
+        string CallBackFunction = "",
         int PagingRowCount = 0,
         string OrderColumn = null,
         string OrderType = "asc"
         )
         {
             StringBuilder shtml = new StringBuilder();
+            shtml.Append("<form id='saveForm' method='post' novalidate>");
+            shtml.Append("    <div class='modal fade' id='addRecordModal' tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true'>");
+            shtml.Append("    </div>");
+            shtml.Append("</form>");
+
             shtml.Append("<div class='PagingDataTable'>");
             shtml.Append("<div class='col-lg-12'>");
             shtml.Append("    <div class='form-group'>");
             shtml.Append($"        <button type = 'button' class='btn btn-standart' onclick=\"$PagingDataList.AddRecordModal('{AddUrl}',0)\">");
             shtml.Append("            Banner Tipi Ekle");
             shtml.Append("        </button>");
-            shtml.Append($"        <button type='button' id='deleteAllRecord' onclick=\"$PagingDataList.DeleteRecordModal('{ObjectId}','{DeleteUrl}',0)\" class='deleteAllRecord btn btn-standart' data-toggle='modal'>");
+            shtml.Append($"        <button type='button' id='deleteAllRecord' onclick=\"$PagingDataList.DeleteRecordModal('{ObjectId}','{DeleteUrl}',{CallBackFunction},0)\" class='deleteAllRecord btn btn-standart' data-toggle='modal'>");
             shtml.Append("            Seçilen kayıtları sil");
             shtml.Append("        </button>");
-            shtml.Append($"        <button type='button' id='activeAllRecord' onclick=\"$PagingDataList.ActiveRecordModal('{ObjectId}','{ActiveUrl}',0)\" class='deleteAllRecord btn btn-standart' data-toggle='modal'>");
+            shtml.Append($"        <button type='button' id='activeAllRecord' onclick=\"$PagingDataList.ActiveRecordModal('{ObjectId}','{ActiveUrl}',{CallBackFunction},0)\" class='deleteAllRecord btn btn-standart' data-toggle='modal'>");
             shtml.Append("            Seçilen kayıtları aktif yap");
             shtml.Append("        </button>");
-            shtml.Append($"        <button type='button' id='passiveAllRecord' onclick=\"$PagingDataList.PassiveRecordModal('{ObjectId}','{PassiveUrl}',0)\" class='deleteAllRecord btn btn-standart' data-toggle='modal'>");
+            shtml.Append($"        <button type='button' id='passiveAllRecord' onclick=\"$PagingDataList.PassiveRecordModal('{ObjectId}','{PassiveUrl}',{CallBackFunction},0)\" class='deleteAllRecord btn btn-standart' data-toggle='modal'>");
             shtml.Append("            Seçilen kayıtları pasif yap");
             shtml.Append("        </button>");
             shtml.Append("    </div>");
             shtml.Append("</div>");
 
             shtml.Append("<div class='PagingDataList col-lg-12'>");
-            shtml.Append("<table id='" + ObjectId + "' Url='" + Url + "' AddUrl='" + AddUrl + "' DeleteUrl='" + DeleteUrl + "' PagingRowCount='" + PagingRowCount + "' OrderColumnn='" + OrderColumn + "' OrderType='" + OrderType + "'>");
+            shtml.Append("<table id='" + ObjectId + "' Url='" + Url + "' AddUrl='" + AddUrl + "' DeleteUrl='" + DeleteUrl + "' PagingRowCount='" + PagingRowCount + "' OrderColumnn='" + OrderColumn + "' SaveUrl='" + SaveUrl + "' OrderType='" + OrderType + "'>");
             shtml.Append("<thead>");
             shtml.Append("<tr>");
 
-            shtml.Append("<form id='saveForm' method='post' novalidate>");
-            shtml.Append("    <div class='modal fade' id='addRecordModal' tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true'>");
-            shtml.Append("    </div>");
-            shtml.Append("</form>");
+
 
 
             if (Header != null)

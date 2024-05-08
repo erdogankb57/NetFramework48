@@ -122,10 +122,13 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\BannerTypeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SharedController.cs" />
     <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Extension\SitemapHelper.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\BannerType.cs" />
     <Compile Include="Models\SystemMenu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -485,32 +488,6 @@
     <Content Include="Content\images\user.jpg" />
     <Content Include="Content\js\autocomplete.js" />
     <Content Include="Content\js\chart.min.js" />
-    <Content Include="Content\js\controller\account.js" />
-    <Content Include="Content\js\controller\banner.js" />
-    <Content Include="Content\js\controller\bannertype.js" />
-    <Content Include="Content\js\controller\category.js" />
-    <Content Include="Content\js\controller\categoryadd.js" />
-    <Content Include="Content\js\controller\contactinformation.js" />
-    <Content Include="Content\js\controller\contentimagebulkadd.js" />
-    <Content Include="Content\js\controller\editorimageupload.js" />
-    <Content Include="Content\js\controller\editortemplate.js" />
-    <Content Include="Content\js\controller\firmvariables.js" />
-    <Content Include="Content\js\controller\formelement.js" />
-    <Content Include="Content\js\controller\formelementoptions.js" />
-    <Content Include="Content\js\controller\formgroup.js" />
-    <Content Include="Content\js\controller\generalsettings.js" />
-    <Content Include="Content\js\controller\login.js" />
-    <Content Include="Content\js\controller\messagehistory.js" />
-    <Content Include="Content\js\controller\pagetype.js" />
-    <Content Include="Content\js\controller\record.js" />
-    <Content Include="Content\js\controller\recordadd.js" />
-    <Content Include="Content\js\controller\recordfile.js" />
-    <Content Include="Content\js\controller\recordimage.js" />
-    <Content Include="Content\js\controller\SEOIndex.js" />
-    <Content Include="Content\js\controller\statictext.js" />
-    <Content Include="Content\js\controller\systemaction.js" />
-    <Content Include="Content\js\controller\systemrole.js" />
-    <Content Include="Content\js\controller\systemuser.js" />
     <Content Include="Content\js\feather.min.js" />
     <Content Include="Content\js\fontawesome.js" />
     <Content Include="Content\js\function.js" />

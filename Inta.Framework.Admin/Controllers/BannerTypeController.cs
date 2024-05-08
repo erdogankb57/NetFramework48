@@ -1,4 +1,5 @@
-﻿using Inta.Framework.Ado.Net;
+﻿using Inta.Framework.Admin.Models;
+using Inta.Framework.Ado.Net;
 using Inta.Framework.Contract;
 using Inta.Framework.Web.Base;
 using System;
@@ -43,8 +44,8 @@ namespace Inta.Framework.Admin.Controllers
                 Id = s.Id,
                 Name = s.Name,
                 IsActive = s.IsActive ? "Aktif" : "Pasif",
-                Edit = "<a onclick=\"$PagingDataList.AddRecordModal('/BannerType/Add'," + s.Id.ToString() + ")\">Düzenle</a>",
-                Delete = "<a onclick=\"$PagingDataList.DeleteRecordModal('PagingDataListTest','/BannerType/Delete'," + s.Id.ToString() + ")\">Sil</a>"
+                Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/BannerType/Add'," + s.Id.ToString() + ")\">Düzenle</a>",
+                Delete = "<a href='javascript:void(0)' onclick=\"$PagingDataList.DeleteRecordModal('PagingDataListTest','/BannerType/Delete',SearchDataList," + s.Id.ToString() + ")\">Sil</a>"
             }).ToList();
 
 
@@ -91,11 +92,55 @@ namespace Inta.Framework.Admin.Controllers
             }
             return Json("OK", JsonRequestBehavior.AllowGet);
         }
-
-
         public ActionResult Add(int? id)
         {
-            return PartialView("Add");
+            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter { ParameterName = "Id", Value = id });
+
+            var model = db.Get<BannerType>("select * from [BannerType] where Id=@Id", System.Data.CommandType.Text, parameters);
+            return PartialView("Add", model.Data);
+        }
+
+        [HttpPost]
+        public ActionResult Save(BannerType request)
+        {
+            ReturnObject<BannerType> result = new ReturnObject<BannerType>();
+            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+            if (request.Id == 0)
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Name });
+                parameters.Add(new SqlParameter { ParameterName = "SmallImageWidth", Value = request.SmallImageWidth });
+                parameters.Add(new SqlParameter { ParameterName = "BigImageWidth", Value = request.BigImageWidth });
+                parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = request.IsActive });
+
+
+                db.ExecuteNoneQuery("insert into [BannerType](Name,SmallImageWidth,BigImageWidth,IsActive) values(@Name,@SmallImageWidth,@BigImageWidth,@IsActive)", System.Data.CommandType.Text, parameters);
+
+                return Json(new ReturnObject<BannerType>
+                {
+                    Data = request,
+                    ResultType = MessageType.Success
+                });
+            }
+            else
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Name });
+                parameters.Add(new SqlParameter { ParameterName = "SmallImageWidth", Value = request.SmallImageWidth });
+                parameters.Add(new SqlParameter { ParameterName = "BigImageWidth", Value = request.BigImageWidth });
+                parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
+                parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = request.IsActive });
+
+                db.ExecuteNoneQuery("Update [BannerType] set Name=@Name,SmallImageWidth=@SmallImageWidth,BigImageWidth=@BigImageWidth,IsActive=@IsActive where Id=@Id", System.Data.CommandType.Text, parameters);
+
+                return Json(new ReturnObject<BannerType>
+                {
+                    Data = request,
+                    ResultType = MessageType.Success
+                });
+            }
         }
     }
 }
