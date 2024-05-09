@@ -227,13 +227,14 @@ var $PagingDataList = {
                     if (shortContentEditor) { shortContentEditor.destroy(true); }
                     CKEDITOR.replace($(this).attr("id"), {
                         enterMode: CKEDITOR.ENTER_BR,
+                        htmlEncodeOutput: true,
                         height: 250,
                         filebrowserImageUploadUrl: '/Contents',//for uploading image
                         filebrowserImageBrowseUrl: '/EditorImageUpload'
                     });
                 });
 
-                
+
             },
             error: function (response) {
 

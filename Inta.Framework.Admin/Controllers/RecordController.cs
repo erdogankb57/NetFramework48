@@ -122,6 +122,8 @@ namespace Inta.Framework.Admin.Controllers
         }
 
         [HttpPost]
+
+        [ValidateInput(false)]//Ckeditor data alınamadığı için eklendi.
         public ActionResult Save(Record request, HttpPostedFileBase FileImage)
         {
             AuthenticationData authenticationData = new AuthenticationData();
