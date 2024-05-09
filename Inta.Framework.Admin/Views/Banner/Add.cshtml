@@ -2,7 +2,7 @@
 @{
     List<SelectListItem> targets = new List<SelectListItem>();
     targets.Add(new SelectListItem { Text = "Seçiniz", Value = "" });
-    targets.Add(new SelectListItem { Text = "Farklı sekmede aç", Value = "1" });
+    targets.Add(new SelectListItem { Text = "Farklı sekmede aç", Value = "0" });
     targets.Add(new SelectListItem { Text = "Aynı sayfada aç", Value = "1" });
 
     int languageId = Convert.ToInt32(ViewBag.LanguageId);
@@ -32,7 +32,7 @@
                     <div class="col-lg-9">
 
                         @{
-                            @Html.Raw(Html.SelectListFor("Select * from BannerType", ObjectId: "SelectListLanguage", ObjectName: "SelectListLanguage", DisplayName: "Name", ValueName: "Id", SelectedValue: Model.BannerTypeId.ToString(), DefaultText: "Seçiniz", DefaultValue: ""));
+                            @Html.Raw(Html.SelectListFor("Select * from BannerType", ObjectId: "BannerTypeId", ObjectName: "BannerTypeId", DisplayName: "Name", ValueName: "Id", SelectedValue: Model.BannerTypeId.ToString(), DefaultText: "Seçiniz", DefaultValue: ""));
                         }
 
                     </div>

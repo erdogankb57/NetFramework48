@@ -112,18 +112,47 @@ namespace Inta.Framework.Admin.Controllers
         [HttpPost]
         public ActionResult Save(Banner request)
         {
+            AuthenticationData authenticationData = new AuthenticationData();
             ReturnObject<Banner> result = new ReturnObject<Banner>();
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = authenticationData.LanguageId });
+            parameters.Add(new SqlParameter { ParameterName = "BannerTypeId", Value = request.BannerTypeId });
+            if (!string.IsNullOrEmpty(request.Name))
+                parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Name });
+            else
+                parameters.Add(new SqlParameter { ParameterName = "Name", Value = DBNull.Value });
+
+            if (!string.IsNullOrEmpty(request.Link))
+                parameters.Add(new SqlParameter { ParameterName = "Link", Value = request.Link });
+            else
+                parameters.Add(new SqlParameter { ParameterName = "Link", Value = DBNull.Value });
+
+            parameters.Add(new SqlParameter { ParameterName = "TargetId", Value = request.TargetId });
+
+            if (!string.IsNullOrEmpty(request.ShortExplanation))
+                parameters.Add(new SqlParameter { ParameterName = "ShortExplanation", Value = request.ShortExplanation });
+            else
+                parameters.Add(new SqlParameter { ParameterName = "ShortExplanation", Value = DBNull.Value });
+
+            parameters.Add(new SqlParameter { ParameterName = "OrderNumber", Value = request.OrderNumber });
+
+            if (!string.IsNullOrEmpty(request.Image))
+                parameters.Add(new SqlParameter { ParameterName = "Image", Value = request.Image });
+            else
+                parameters.Add(new SqlParameter { ParameterName = "Image", Value = DBNull.Value });
+
+            parameters.Add(new SqlParameter { ParameterName = "RecordDate", Value = DateTime.Now });
+
+            if (request.IsActive)
+                parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 1 });
+            else
+                parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 0 });
+
+
             if (request.Id == 0)
             {
-                List<SqlParameter> parameters = new List<SqlParameter>();
-                parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Name });
-                parameters.Add(new SqlParameter { ParameterName = "OrderNumber", Value = request.OrderNumber });
-                parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = request.IsActive });
-
-
-
-                db.ExecuteNoneQuery("insert into [Banner](Name,OrderNumber,IsActive) values(@Name,@OrderNumber,@IsActive)", System.Data.CommandType.Text, parameters);
+                db.ExecuteNoneQuery("insert into [Banner](LanguageId,BannerTypeId,Name,Link,TargetId,ShortExplanation,OrderNumber,Image,RecordDate,IsActive) values(@LanguageId,@BannerTypeId,@Name,@Link,@TargetId,@ShortExplanation,@OrderNumber,@Image,@RecordDate,@IsActive)", System.Data.CommandType.Text, parameters);
 
                 return Json(new ReturnObject<Banner>
                 {
@@ -133,15 +162,20 @@ namespace Inta.Framework.Admin.Controllers
             }
             else
             {
-                List<SqlParameter> parameters = new List<SqlParameter>();
-                parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Name });
-                parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = request.IsActive });
                 parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
 
-
-
-
-                db.ExecuteNoneQuery("Update [Banner] set Name=@Name,IsActive=@IsActive where Id=@Id", System.Data.CommandType.Text, parameters);
+                db.ExecuteNoneQuery(@"Update [Banner] set 
+                LanguageId=@LanguageId,
+                BannerTypeId=@BannerTypeId,
+                Name=@Name,
+                Link=@Link,
+                TargetId=@TargetId,
+                ShortExplanation=@ShortExplanation,
+                OrderNumber=@OrderNumber,
+                Image=@Image,
+                RecordDate=@RecordDate,
+                IsActive=@IsActive 
+                where Id=@Id", System.Data.CommandType.Text, parameters);
 
                 return Json(new ReturnObject<Banner>
                 {
