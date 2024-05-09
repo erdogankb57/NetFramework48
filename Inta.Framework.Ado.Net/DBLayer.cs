@@ -232,23 +232,25 @@ namespace Inta.Framework.Ado.Net
                     adapter.Fill(dt);
 
                     TEntity result = new TEntity();
-                    foreach (PropertyInfo item in result.GetType().GetProperties())
+                    if (dt.Rows.Count > 0)
                     {
-                        string columnName = item.Name;
-                        var attr = item.GetCustomAttribute<DatabaseColumn>();
-                        if (attr != null && attr.Name != String.Empty)
-                            columnName = attr.Name;
-
-                        if (item.PropertyType == dt.Rows[0][columnName].GetType() || dt.Rows[0][columnName] == DBNull.Value)
-                            item.SetValue(result, dt.Rows[0][columnName] != DBNull.Value ? dt.Rows[0][columnName] : null);
-                        else
+                        foreach (PropertyInfo item in result.GetType().GetProperties())
                         {
-                            connection.Dispose();
-                            connection.Close();
-                            return new ReturnErrorObject<TEntity> { Data = result, ResultType = MessageType.Success, Exception = new Exception("Property tipi hatası oluştu. " + item.Name + " property tipi " + item.PropertyType.GetType().Name + " fakat " + columnName + " db objesi tipi " + dt.Rows[0][columnName].GetType().Name + " ") };
+                            string columnName = item.Name;
+                            var attr = item.GetCustomAttribute<DatabaseColumn>();
+                            if (attr != null && attr.Name != String.Empty)
+                                columnName = attr.Name;
+
+                            if (item.PropertyType == dt.Rows[0][columnName].GetType() || dt.Rows[0][columnName] == DBNull.Value)
+                                item.SetValue(result, dt.Rows[0][columnName] != DBNull.Value ? dt.Rows[0][columnName] : null);
+                            else
+                            {
+                                connection.Dispose();
+                                connection.Close();
+                                return new ReturnErrorObject<TEntity> { Data = result, ResultType = MessageType.Success, Exception = new Exception("Property tipi hatası oluştu. " + item.Name + " property tipi " + item.PropertyType.GetType().Name + " fakat " + columnName + " db objesi tipi " + dt.Rows[0][columnName].GetType().Name + " ") };
+                            }
                         }
                     }
-
                     cmd.Dispose();
                     connection.Dispose();
                     connection.Close();

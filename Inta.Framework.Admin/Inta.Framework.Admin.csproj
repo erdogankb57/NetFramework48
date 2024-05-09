@@ -125,6 +125,7 @@
     <Compile Include="Controllers\ContactInformationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\MessageHistoryController.cs" />
     <Compile Include="Controllers\SEOIndexController.cs" />
     <Compile Include="Controllers\SharedController.cs" />
     <Compile Include="Controllers\TestController.cs" />
@@ -137,6 +138,7 @@
     <Compile Include="Models\Banner.cs" />
     <Compile Include="Models\BannerType.cs" />
     <Compile Include="Models\ContactInformation.cs" />
+    <Compile Include="Models\MessageHistory.cs" />
     <Compile Include="Models\SEOIndex.cs" />
     <Compile Include="Models\SystemMenu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -589,6 +591,8 @@
     <Content Include="Views\ContactInformation\Index.cshtml" />
     <Content Include="Views\SEOIndex\Index.cshtml" />
     <Content Include="Views\SEOIndex\Add.cshtml" />
+    <Content Include="Views\MessageHistory\Index.cshtml" />
+    <Content Include="Views\MessageHistory\Add.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Inta.Framework.Ado.Net\Inta.Framework.Ado.Net.csproj">
