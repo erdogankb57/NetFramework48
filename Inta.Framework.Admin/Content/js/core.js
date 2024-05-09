@@ -234,7 +234,7 @@ var $PagingDataList = {
                     });
                 });
 
-
+                $CheckBoxListFilter.Init();
             },
             error: function (response) {
 
@@ -426,6 +426,7 @@ var $CheckBoxListFilter = {
         $('.CheckBoxListFilterOpen ul').perfectScrollbar();
 
         $("input[name='CheckBoxListFilterSearch']").keyup(function () {
+            debugger;
             var item = $(this);
             $(item).parents(".CheckBoxListFilter").find(".CheckBoxListFilterOpen").find("ul li").css("display", "none");
             var objList = $(item).parents(".CheckBoxListFilter").find(".CheckBoxListFilterOpen").find("ul li label");
@@ -434,7 +435,9 @@ var $CheckBoxListFilter = {
                 txtValue = $(objList[i]).html();
 
                 if (txtValue.toLocaleLowerCase("tr-Tr").indexOf(filter) > -1) {
-                    $(objList[i]).parent("li").css("display", "block");
+                    $(objList[i]).parents("li").css("display", "block");
+                } else {
+                    $(objList[i]).parents("li").css("display", "none");
                 }
             }
             $('.CheckBoxListFilterOpen ul').perfectScrollbar("update");
