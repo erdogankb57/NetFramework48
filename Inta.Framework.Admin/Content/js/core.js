@@ -218,8 +218,22 @@ var $PagingDataList = {
             dataType: 'html',
             data: { "id": id },
             success: function (response) {
+                debugger;
                 $("#addRecordModal").html($.parseHTML(response));
                 $("#addRecordModal").modal('show');
+
+                $("textarea.ckeditor").each(function () {
+                    var shortContentEditor = CKEDITOR.instances[$(this).attr("id")];
+                    if (shortContentEditor) { shortContentEditor.destroy(true); }
+                    CKEDITOR.replace($(this).attr("id"), {
+                        enterMode: CKEDITOR.ENTER_BR,
+                        height: 250,
+                        filebrowserImageUploadUrl: '/Contents',//for uploading image
+                        filebrowserImageBrowseUrl: '/EditorImageUpload'
+                    });
+                });
+
+                
             },
             error: function (response) {
 

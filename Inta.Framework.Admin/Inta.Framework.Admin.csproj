@@ -126,6 +126,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MessageHistoryController.cs" />
+    <Compile Include="Controllers\RecordController.cs" />
     <Compile Include="Controllers\SEOIndexController.cs" />
     <Compile Include="Controllers\SharedController.cs" />
     <Compile Include="Controllers\TestController.cs" />
@@ -135,12 +136,6 @@
     </Compile>
     <Compile Include="Models\AuthenticationData.cs" />
     <Compile Include="Models\AuthorizationCheck.cs" />
-    <Compile Include="Models\Banner.cs" />
-    <Compile Include="Models\BannerType.cs" />
-    <Compile Include="Models\ContactInformation.cs" />
-    <Compile Include="Models\MessageHistory.cs" />
-    <Compile Include="Models\SEOIndex.cs" />
-    <Compile Include="Models\SystemMenu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -593,6 +588,8 @@
     <Content Include="Views\SEOIndex\Add.cshtml" />
     <Content Include="Views\MessageHistory\Index.cshtml" />
     <Content Include="Views\MessageHistory\Add.cshtml" />
+    <Content Include="Views\Record\Index.cshtml" />
+    <Content Include="Views\Record\Add.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Inta.Framework.Ado.Net\Inta.Framework.Ado.Net.csproj">
@@ -602,6 +599,10 @@
     <ProjectReference Include="..\Inta.Framework.Contract\Inta.Framework.Contract.csproj">
       <Project>{F5C4E264-B7B8-4BC2-B0C6-0A7A418D9167}</Project>
       <Name>Inta.Framework.Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Inta.Framework.Entity\Inta.Framework.Entity.csproj">
+      <Project>{12D2FD96-B942-4F99-885A-2248849D1AD6}</Project>
+      <Name>Inta.Framework.Entity</Name>
     </ProjectReference>
     <ProjectReference Include="..\Inta.Framework.Extension\Inta.Framework.Extension.csproj">
       <Project>{AD5F7236-DBC3-4FDB-A5BE-318327A09A56}</Project>

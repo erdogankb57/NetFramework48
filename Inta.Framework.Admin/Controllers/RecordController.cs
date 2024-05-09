@@ -15,7 +15,7 @@ using System.Web.Mvc;
 namespace Inta.Framework.Admin.Controllers
 {
     [AuthorizationCheck]
-    public class BannerController : Controller
+    public class RecordController : Controller
     {
         public ActionResult Index()
         {
@@ -30,12 +30,19 @@ namespace Inta.Framework.Admin.Controllers
             else
                 Parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Search.Name.ToString() });
 
-            Parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = request.Search.IsActive });
+            if (request.Search.IsActive)
+                Parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 1 });
+            else
+                Parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 0 });
 
+            if (request.Search.BannerTypeId == null)
+                Parameters.Add(new SqlParameter { ParameterName = "BannerTypeId", Value = DBNull.Value });
+            else
+                Parameters.Add(new SqlParameter { ParameterName = "BannerTypeId", Value = request.Search.BannerTypeId });
 
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
-            string sqlQuery = "Select * from Banner where (@Name is null or Name like '%'+@Name+'%') and IsActive=@IsActive order by " + request.OrderColumn + (request.OrderType == PagingDataListOrderType.Ascending ? " asc" : " desc");
-            var data = db.Find<Banner>(sqlQuery, System.Data.CommandType.Text, Parameters);
+            string sqlQuery = "Select * from Record where (@Name is null or Name like '%'+@Name+'%') and IsActive=@IsActive and (@BannerTypeId='' or BannerTypeId=@BannerTypeId) order by " + request.OrderColumn + (request.OrderType == PagingDataListOrderType.Ascending ? " asc" : " desc");
+            var data = db.Find<Record>(sqlQuery, System.Data.CommandType.Text, Parameters);
             int count = data?.Data?.ToList()?.Count ?? 0;
 
             var pagingData = data.Data.Skip((Convert.ToInt32(request.ActivePageNumber) - 1) * request.PageRowCount).Take(request.PageRowCount).ToList();
@@ -46,8 +53,8 @@ namespace Inta.Framework.Admin.Controllers
                 Id = s.Id,
                 Name = s.Name,
                 IsActive = s.IsActive ? "Aktif" : "Pasif",
-                Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/Banner/Add','True'," + s.Id.ToString() + ")\">Düzenle</a>",
-                Delete = "<a href='javascript:void(0)' onclick=\"$PagingDataList.DeleteRecordModal('PagingDataList','/Banner/Delete',SearchDataList," + s.Id.ToString() + ")\">Sil</a>"
+                Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/Record/Add','True'," + s.Id.ToString() + ")\">Düzenle</a>",
+                Delete = "<a href='javascript:void(0)' onclick=\"$PagingDataList.DeleteRecordModal('RecordList','/Record/Delete',SearchDataList," + s.Id.ToString() + ")\">Sil</a>"
             }).ToList();
 
 
@@ -68,7 +75,7 @@ namespace Inta.Framework.Admin.Controllers
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             foreach (var item in ids.Split(',').ToList())
             {
-                var result = db.ExecuteNoneQuery("Delete from Banner where id=" + item, System.Data.CommandType.Text);
+                var result = db.ExecuteNoneQuery("Delete from Record where id=" + item, System.Data.CommandType.Text);
             }
             return Json("OK", JsonRequestBehavior.AllowGet);
         }
@@ -79,7 +86,7 @@ namespace Inta.Framework.Admin.Controllers
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             foreach (var item in ids.Split(',').ToList())
             {
-                var result = db.ExecuteNoneQuery("Update Banner set IsActive=1 where id=" + item, System.Data.CommandType.Text);
+                var result = db.ExecuteNoneQuery("Update Record set IsActive=1 where id=" + item, System.Data.CommandType.Text);
             }
             return Json("OK", JsonRequestBehavior.AllowGet);
         }
@@ -90,7 +97,7 @@ namespace Inta.Framework.Admin.Controllers
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             foreach (var item in ids.Split(',').ToList())
             {
-                var result = db.ExecuteNoneQuery("Update Banner set IsActive=0 where id=" + item, System.Data.CommandType.Text);
+                var result = db.ExecuteNoneQuery("Update Record set IsActive=0 where id=" + item, System.Data.CommandType.Text);
             }
             return Json("OK", JsonRequestBehavior.AllowGet);
         }
@@ -103,10 +110,10 @@ namespace Inta.Framework.Admin.Controllers
             ViewBag.ImageFolder = System.Configuration.ConfigurationManager.AppSettings["ImageUpload"].ToString();
 
             if (id == 0)
-                return PartialView("Add", new Banner());
+                return PartialView("Add", new Record());
             else
             {
-                var model = db.Get<Banner>("select * from [Banner] where Id=@Id", System.Data.CommandType.Text, parameters);
+                var model = db.Get<Record>("select * from [Record] where Id=@Id", System.Data.CommandType.Text, parameters);
 
                 return PartialView("Add", model.Data);
             }
@@ -115,7 +122,7 @@ namespace Inta.Framework.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult Save(Banner request, HttpPostedFileBase FileImage)
+        public ActionResult Save(Record request, HttpPostedFileBase FileImage)
         {
             AuthenticationData authenticationData = new AuthenticationData();
             ReturnObject<Banner> result = new ReturnObject<Banner>();
@@ -128,7 +135,7 @@ namespace Inta.Framework.Admin.Controllers
 
                 string filepath = ConfigurationManager.AppSettings["ImageUpload"].ToString();
 
-                var bannerType = db.Get("Select * from BannerType where Id=" + request.BannerTypeId, System.Data.CommandType.Text);
+                var bannerType = db.Get("Select * from Record where Id=" + request.Id, System.Data.CommandType.Text);
                 if (bannerType != null && bannerType.Data != null)
                 {
                     imageSmallWidth = !string.IsNullOrEmpty(bannerType.Data["SmallImageWidth"].ToString()) ? Convert.ToInt32(bannerType.Data["SmallImageWidth"]) : 100;
@@ -175,9 +182,9 @@ namespace Inta.Framework.Admin.Controllers
 
             if (request.Id == 0)
             {
-                db.ExecuteNoneQuery("insert into [Banner](LanguageId,BannerTypeId,Name,Link,TargetId,ShortExplanation,OrderNumber,Image,RecordDate,IsActive) values(@LanguageId,@BannerTypeId,@Name,@Link,@TargetId,@ShortExplanation,@OrderNumber,@Image,@RecordDate,@IsActive)", System.Data.CommandType.Text, parameters);
+                db.ExecuteNoneQuery("insert into [Record](LanguageId,BannerTypeId,Name,Link,TargetId,ShortExplanation,OrderNumber,Image,RecordDate,IsActive) values(@LanguageId,@BannerTypeId,@Name,@Link,@TargetId,@ShortExplanation,@OrderNumber,@Image,@RecordDate,@IsActive)", System.Data.CommandType.Text, parameters);
 
-                return Json(new ReturnObject<Banner>
+                return Json(new ReturnObject<Record>
                 {
                     Data = request,
                     ResultType = MessageType.Success
@@ -187,7 +194,7 @@ namespace Inta.Framework.Admin.Controllers
             {
                 parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
 
-                db.ExecuteNoneQuery(@"Update [Banner] set 
+                db.ExecuteNoneQuery(@"Update [Record] set 
                 LanguageId=@LanguageId,
                 BannerTypeId=@BannerTypeId,
                 Name=@Name,
@@ -200,7 +207,7 @@ namespace Inta.Framework.Admin.Controllers
                 IsActive=@IsActive 
                 where Id=@Id", System.Data.CommandType.Text, parameters);
 
-                return Json(new ReturnObject<Banner>
+                return Json(new ReturnObject<Record>
                 {
                     Data = request,
                     ResultType = MessageType.Success

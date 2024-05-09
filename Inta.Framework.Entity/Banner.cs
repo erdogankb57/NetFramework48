@@ -1,7 +1,7 @@
 ﻿using Inta.Framework.Ado.Net;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Inta.Framework.Admin.Models
+namespace Inta.Framework.Entity
 {
     [Table("Banner")]
     public class Banner

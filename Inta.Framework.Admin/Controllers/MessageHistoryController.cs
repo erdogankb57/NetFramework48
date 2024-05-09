@@ -1,13 +1,13 @@
 ﻿using Inta.Framework.Admin.Models;
 using Inta.Framework.Ado.Net;
 using Inta.Framework.Contract;
+using Inta.Framework.Entity;
 using Inta.Framework.Web.Base;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Inta.Framework.Admin.Controllers
@@ -98,12 +98,18 @@ namespace Inta.Framework.Admin.Controllers
         }
         public ActionResult Add(int? id)
         {
-            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
-            List<SqlParameter> parameters = new List<SqlParameter>();
-            parameters.Add(new SqlParameter { ParameterName = "Id", Value = id });
+            if (id == 0)
+                return PartialView("Add", new MessageHistory { IsActive = true });
+            else
+            {
+                DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter { ParameterName = "Id", Value = id });
 
-            var model = db.Get<MessageHistory>("select * from [MessageHistory] where Id=@Id", System.Data.CommandType.Text, parameters);
-            return PartialView("Add", model.Data);
+                var model = db.Get<MessageHistory>("select * from [MessageHistory] where Id=@Id", System.Data.CommandType.Text, parameters);
+
+                return PartialView("Add", model.Data);
+            }
         }
 
         [HttpPost]

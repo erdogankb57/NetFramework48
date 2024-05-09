@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
-namespace Inta.Framework.Admin.Models
+namespace Inta.Framework.Entity
 {
 	[Table("BannerType")]
 	public class BannerType
