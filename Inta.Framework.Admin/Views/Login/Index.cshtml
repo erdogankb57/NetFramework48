@@ -76,9 +76,9 @@
                                         <div class="col-sm-12"><input type="password" name="Password" class="form-control" required="required" placeholder="Şifreniz" value="" /></div>
                                     </div>
                                 </div>
-                                @{ 
+                                @{
                                     Inta.Framework.Ado.Net.DBLayer dBLayer = new Inta.Framework.Ado.Net.DBLayer(System.Configuration.ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
-                                    var languageList = dBLayer.Get("Select * from Language where IsActive=1",System.Data.CommandType.Text).Data;
+                                    var languageList = dBLayer.Get("Select * from Language where IsActive=1", System.Data.CommandType.Text).Data;
                                 }
                                 @if (languageList != null)
                                 {
@@ -91,7 +91,7 @@
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-lg-12">
-                                                @(Html.SelectListFor("Select * from Language where IsActive=1", ObjectId: "LanguageId", ObjectName: "LanguageId", DisplayName:"Name",ValueName:"Id",SelectedValue:"1",DefaultText:"Seçiniz",DefaultValue:""))
+                                                @(Html.SelectListFor("Select * from Language where IsActive=1", ObjectId: "LanguageId", ObjectName: "LanguageId", DisplayName:"Name",ValueName:"Id",SelectedValue:"1",DefaultText:"Seçiniz",DefaultValue:"",IconName:null,IsRequired:true))
 
                                             </div>
                                         </div>

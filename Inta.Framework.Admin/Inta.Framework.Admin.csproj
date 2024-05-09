@@ -505,21 +505,21 @@
     <Content Include="Content\js\perfect-scrollbar.v0.5.2.js" />
     <Content Include="Content\js\popper.min.js" />
     <Content Include="Content\js\validation.js" />
-    <Content Include="Content\Uploads\EditorImages\1-klijp3uwtgae-q9xuc-pva-dfd110a6-1e93-4f22-bb44-8cce55175ed3.png" />
-    <Content Include="Content\Uploads\EditorImages\besiktas-logo-besiktas-amblem-besiktas-arma-77830a1d-41e8-483e-ae9e-10492aa268ee.png" />
-    <Content Include="Content\Uploads\EditorImages\images-2790239c-be28-428a-aeed-a7ff9a6b1624.png" />
-    <Content Include="Content\Uploads\EditorImages\images-c7966e83-9e1f-49ba-b537-65ad8b2b78ef.png" />
+    <Content Include="Content\Uploads\EditorImage\1-klijp3uwtgae-q9xuc-pva-dfd110a6-1e93-4f22-bb44-8cce55175ed3.png" />
+    <Content Include="Content\Uploads\EditorImage\besiktas-logo-besiktas-amblem-besiktas-arma-77830a1d-41e8-483e-ae9e-10492aa268ee.png" />
+    <Content Include="Content\Uploads\EditorImage\images-2790239c-be28-428a-aeed-a7ff9a6b1624.png" />
+    <Content Include="Content\Uploads\EditorImage\images-c7966e83-9e1f-49ba-b537-65ad8b2b78ef.png" />
     <Content Include="Content\Uploads\File\eeda9f00-6259-407d-8975-8da348832305.png" />
     <Content Include="Content\Uploads\File\f01f8b31-371b-4e68-b88d-f1f4fda99490.png" />
-    <Content Include="Content\Uploads\Images\besiktas-logo-besiktas-amblem-besiktas-arma-9690e576-45d4-421d-9466-4ae65dfd445a.png" />
-    <Content Include="Content\Uploads\Images\b_besiktas-logo-besiktas-amblem-besiktas-arma-9690e576-45d4-421d-9466-4ae65dfd445a.png" />
-    <Content Include="Content\Uploads\Images\b_images-faa2de41-9a40-45aa-8949-ae88596bdc1f.png" />
-    <Content Include="Content\Uploads\Images\b_win-20220712-15-14-24-pro-eb40ec51-de9b-446c-bad5-62dfe99b06cc.jpg" />
-    <Content Include="Content\Uploads\Images\images-faa2de41-9a40-45aa-8949-ae88596bdc1f.png" />
-    <Content Include="Content\Uploads\Images\k_besiktas-logo-besiktas-amblem-besiktas-arma-9690e576-45d4-421d-9466-4ae65dfd445a.png" />
-    <Content Include="Content\Uploads\Images\k_images-faa2de41-9a40-45aa-8949-ae88596bdc1f.png" />
-    <Content Include="Content\Uploads\Images\k_win-20220712-15-14-24-pro-eb40ec51-de9b-446c-bad5-62dfe99b06cc.jpg" />
-    <Content Include="Content\Uploads\Images\win-20220712-15-14-24-pro-eb40ec51-de9b-446c-bad5-62dfe99b06cc.jpg" />
+    <Content Include="Content\Uploads\Image\besiktas-logo-besiktas-amblem-besiktas-arma-9690e576-45d4-421d-9466-4ae65dfd445a.png" />
+    <Content Include="Content\Uploads\Image\b_besiktas-logo-besiktas-amblem-besiktas-arma-9690e576-45d4-421d-9466-4ae65dfd445a.png" />
+    <Content Include="Content\Uploads\Image\b_images-faa2de41-9a40-45aa-8949-ae88596bdc1f.png" />
+    <Content Include="Content\Uploads\Image\b_win-20220712-15-14-24-pro-eb40ec51-de9b-446c-bad5-62dfe99b06cc.jpg" />
+    <Content Include="Content\Uploads\Image\images-faa2de41-9a40-45aa-8949-ae88596bdc1f.png" />
+    <Content Include="Content\Uploads\Image\k_besiktas-logo-besiktas-amblem-besiktas-arma-9690e576-45d4-421d-9466-4ae65dfd445a.png" />
+    <Content Include="Content\Uploads\Image\k_images-faa2de41-9a40-45aa-8949-ae88596bdc1f.png" />
+    <Content Include="Content\Uploads\Image\k_win-20220712-15-14-24-pro-eb40ec51-de9b-446c-bad5-62dfe99b06cc.jpg" />
+    <Content Include="Content\Uploads\Image\win-20220712-15-14-24-pro-eb40ec51-de9b-446c-bad5-62dfe99b06cc.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -590,6 +590,10 @@
     <ProjectReference Include="..\Inta.Framework.Contract\Inta.Framework.Contract.csproj">
       <Project>{F5C4E264-B7B8-4BC2-B0C6-0A7A418D9167}</Project>
       <Name>Inta.Framework.Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Inta.Framework.Extension\Inta.Framework.Extension.csproj">
+      <Project>{AD5F7236-DBC3-4FDB-A5BE-318327A09A56}</Project>
+      <Name>Inta.Framework.Extension</Name>
     </ProjectReference>
     <ProjectReference Include="..\Inta.Framework.Web.Base\Inta.Framework.Web.Base.csproj">
       <Project>{c2415e55-8fe0-4716-8174-97cdab9646a5}</Project>

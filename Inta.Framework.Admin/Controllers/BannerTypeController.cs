@@ -108,15 +108,28 @@ namespace Inta.Framework.Admin.Controllers
         {
             ReturnObject<BannerType> result = new ReturnObject<BannerType>();
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
-            if (request.Id == 0)
-            {
-                List<SqlParameter> parameters = new List<SqlParameter>();
+            List<SqlParameter> parameters = new List<SqlParameter>();
+
+            if (string.IsNullOrEmpty(request.Name))
+                parameters.Add(new SqlParameter { ParameterName = "Name", Value = DBNull.Value });
+            else
                 parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Name });
-                parameters.Add(new SqlParameter { ParameterName = "SmallImageWidth", Value = request.SmallImageWidth });
-                parameters.Add(new SqlParameter { ParameterName = "BigImageWidth", Value = request.BigImageWidth });
-                parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = request.IsActive });
+
+            parameters.Add(new SqlParameter { ParameterName = "SmallImageWidth", Value = request.SmallImageWidth });
+            parameters.Add(new SqlParameter { ParameterName = "BigImageWidth", Value = request.BigImageWidth });
+            if (request.IsActive)
+                parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 1 });
+            else
+                parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 0 });
+
+            if (string.IsNullOrEmpty(request.Description))
+                parameters.Add(new SqlParameter { ParameterName = "Description", Value = DBNull.Value });
+            else
                 parameters.Add(new SqlParameter { ParameterName = "Description", Value = request.Description });
 
+
+            if (request.Id == 0)
+            {
                 db.ExecuteNoneQuery("insert into [BannerType](Name,SmallImageWidth,BigImageWidth,Description,IsActive) values(@Name,@SmallImageWidth,@BigImageWidth,@Description,@IsActive)", System.Data.CommandType.Text, parameters);
 
                 return Json(new ReturnObject<BannerType>
@@ -127,13 +140,10 @@ namespace Inta.Framework.Admin.Controllers
             }
             else
             {
-                List<SqlParameter> parameters = new List<SqlParameter>();
-                parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Name });
-                parameters.Add(new SqlParameter { ParameterName = "SmallImageWidth", Value = request.SmallImageWidth });
-                parameters.Add(new SqlParameter { ParameterName = "BigImageWidth", Value = request.BigImageWidth });
+
+
                 parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
-                parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = request.IsActive });
-                parameters.Add(new SqlParameter { ParameterName = "Description", Value = request.Description });
+
 
                 db.ExecuteNoneQuery("Update [BannerType] set Name=@Name,SmallImageWidth=@SmallImageWidth,BigImageWidth=@BigImageWidth,IsActive=@IsActive,Description=@Description where Id=@Id", System.Data.CommandType.Text, parameters);
 
