@@ -43,19 +43,15 @@
                     </div>
                 </div>
 
-
-
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-lg-3">
-                            <label for="exampleFormControlInput1">CheckBoxListFilter</label>
-                        </div><div class="col-lg-9">
-                            @(Html.CheckBoxListFilterFor("Select * from Banner",ObjectId:"Deneme",ObjectName:"CheckBoxListFilterTest",DisplayName:"Name",ValueName:"Id", SelectedValueItem:new List<string>(),PlaceHolder:"Filtre yazınız"))
+                @*<div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <label for="exampleFormControlInput1">CheckBoxListFilter</label>
+                            </div><div class="col-lg-9">
+                                @(Html.CheckBoxListFilterFor("Select * from Banner",ObjectId:"Deneme",ObjectName:"CheckBoxListFilterTest",DisplayName:"Name",ValueName:"Id", SelectedValueItem:new List<string>(),PlaceHolder:"Filtre yazınız"))
+                            </div>
                         </div>
-                    </div>
-                </div>
-
-
+                    </div>*@
 
                 <div class="form-group">
                     <div class="row">
@@ -132,7 +128,7 @@
                         <div class="col-lg-3">
                             <label for="exampleFormControlInput1">Açılış Tipi</label>
                         </div><div class="col-lg-9">
-                            @Html.DropDownListFor(m => m.TargetType, targetType, new { @class = "form-control" })
+                            @Html.DropDownListFor(m => m.TargetId, targetType, new { @class = "form-control" })
                         </div>
                     </div>
                 </div>
@@ -184,7 +180,7 @@
                         <div class="col-lg-3">
                             <label for="exampleFormControlInput1">Kısa Açıklama</label>
                         </div><div class="col-lg-9">
-                            <input type="file" name="Image" class="form-control" />
+                            <input type="file" name="ImageFile" class="form-control" />
                         </div>
                     </div>
 
@@ -208,6 +204,18 @@
                         </div>
                     }
                 </div>
+
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label for="exampleFormControlInput1">Aktif Mi</label>
+                        </div><div class="col-lg-9">
+                            @Html.CheckBoxFor(m => m.IsActive, new { @checked = "checked" })
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
 

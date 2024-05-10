@@ -122,6 +122,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\BannerController.cs" />
     <Compile Include="Controllers\BannerTypeController.cs" />
+    <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\ContactInformationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -590,6 +591,8 @@
     <Content Include="Views\MessageHistory\Add.cshtml" />
     <Content Include="Views\Record\Index.cshtml" />
     <Content Include="Views\Record\Add.cshtml" />
+    <Content Include="Views\Category\Index.cshtml" />
+    <Content Include="Views\Category\Add.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Inta.Framework.Ado.Net\Inta.Framework.Ado.Net.csproj">

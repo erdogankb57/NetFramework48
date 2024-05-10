@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Banner.cs" />
     <Compile Include="BannerType.cs" />
+    <Compile Include="Category.cs" />
     <Compile Include="ContactInformation.cs" />
     <Compile Include="MessageHistory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

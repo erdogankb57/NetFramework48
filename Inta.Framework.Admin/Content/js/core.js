@@ -370,6 +370,10 @@ var $PagingDataList = {
 
         var saveUrl = $("#" + ObjectId).attr("SaveUrl");
 
+        $("textarea.ckeditor").each(function () {
+            CKEDITOR.instances[$(this).attr("id")].updateElement();
+        });
+
         var formData = new FormData($('#saveForm')[0]);
         $.ajax({
             url: saveUrl,
@@ -577,7 +581,7 @@ var $RadioButtonList = {
                 txtValue = $(objList[i]).html();
 
                 if (txtValue.toLocaleLowerCase("tr-Tr").indexOf(filter) > -1) {
-                    $(objList[i]).parent("li").css("display", "block");
+                    $(objList[i]).parents("li").css("display", "block");
                 }
             }
             $(this).parents(".RadioButtonList").find('.RadioButtonListOpen ul').perfectScrollbar("update");
