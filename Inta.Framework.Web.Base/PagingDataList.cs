@@ -24,7 +24,10 @@ namespace Inta.Framework.Web.Base
         string CallBackFunction = "",
         int PagingRowCount = 0,
         string OrderColumn = null,
-        string OrderType = "asc"
+        string OrderType = "asc",
+        bool isActiveButton = true,
+        bool isPassiveButton = true
+
         )
         {
             StringBuilder shtml = new StringBuilder();
@@ -42,12 +45,18 @@ namespace Inta.Framework.Web.Base
             shtml.Append($"        <button type='button' id='deleteAllRecord' onclick=\"$PagingDataList.DeleteRecordModal('{ObjectId}','{DeleteUrl}',{CallBackFunction},0)\" class='deleteAllRecord btn btn-standart' data-toggle='modal'>");
             shtml.Append("            Seçilen kayıtları sil");
             shtml.Append("        </button>");
-            shtml.Append($"        <button type='button' id='activeAllRecord' onclick=\"$PagingDataList.ActiveRecordModal('{ObjectId}','{ActiveUrl}',{CallBackFunction},0)\" class='deleteAllRecord btn btn-standart' data-toggle='modal'>");
-            shtml.Append("            Seçilen kayıtları aktif yap");
-            shtml.Append("        </button>");
-            shtml.Append($"        <button type='button' id='passiveAllRecord' onclick=\"$PagingDataList.PassiveRecordModal('{ObjectId}','{PassiveUrl}',{CallBackFunction},0)\" class='deleteAllRecord btn btn-standart' data-toggle='modal'>");
-            shtml.Append("            Seçilen kayıtları pasif yap");
-            shtml.Append("        </button>");
+            if (isActiveButton)
+            {
+                shtml.Append($"        <button type='button' id='activeAllRecord' onclick=\"$PagingDataList.ActiveRecordModal('{ObjectId}','{ActiveUrl}',{CallBackFunction},0)\" class='deleteAllRecord btn btn-standart' data-toggle='modal'>");
+                shtml.Append("            Seçilen kayıtları aktif yap");
+                shtml.Append("        </button>");
+            }
+            if (isPassiveButton)
+            {
+                shtml.Append($"        <button type='button' id='passiveAllRecord' onclick=\"$PagingDataList.PassiveRecordModal('{ObjectId}','{PassiveUrl}',{CallBackFunction},0)\" class='deleteAllRecord btn btn-standart' data-toggle='modal'>");
+                shtml.Append("            Seçilen kayıtları pasif yap");
+                shtml.Append("        </button>");
+            }
             shtml.Append("    </div>");
             shtml.Append("</div>");
 

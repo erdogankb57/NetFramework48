@@ -1,0 +1,128 @@
+﻿@{
+    ViewBag.Title = "View";
+    ViewBag.PageName = "Banner";
+}
+
+<div class="form-content">
+    <div class="col-lg-12">
+        <form id="search">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-lg-2">
+                        Controller Adı
+                    </div>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" id="ControllerName" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-lg-2">
+                        Action Adı
+                    </div>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" id="ActionName" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="button" id="filterRecord" onclick="SearchDataList()" class="btn btn-standart" data-toggle="modal">
+                    Filtrele
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<br />
+<div class="listMessage">
+</div>
+
+<div class="form-content">
+
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="table-responsive">
+                @{
+                    List<PagingDataListColumn> col = new List<PagingDataListColumn>();
+                    col.Add(new PagingDataListColumn
+                    {
+                        Name = "Select",
+                        Text = "Seçiniz",
+                        Width = 30
+                    });
+                    col.Add(new PagingDataListColumn
+                    {
+                        Name = "Id",
+                        Text = "Id",
+                        Width = 100,
+                        Short = true
+
+                    });
+                    col.Add(new PagingDataListColumn
+                    {
+                        Name = "ControllerName",
+                        Text = "ControllerName",
+                        Short = true
+                    });
+
+                    col.Add(new PagingDataListColumn
+                    {
+                        Name = "ActionName",
+                        Text = "ActionName",
+                        Short = true
+                    });
+
+                    col.Add(new PagingDataListColumn
+                    {
+                        Name = "Edit",
+                        Text = "Düzenle",
+                        Width = 100
+
+                    });
+                    col.Add(new PagingDataListColumn
+                    {
+                        Name = "Delete",
+                        Text = "Sil",
+                        Width = 100
+
+                    });
+                }
+                @Html.PagingDataListFor(ObjectId: "PagingDataList", Header: col, Url: "/SystemAction/GetList", AddUrl: "/SystemAction/Add", isAddPopup: true, DeleteUrl: "/SystemAction/Delete", ActiveUrl: "/SystemAction/Active", PassiveUrl: "/SystemAction/Passive", SaveUrl: "/SystemAction/Save", CallBackFunction: "SearchDataList", PagingRowCount: 20, OrderColumn: "Id", isActiveButton: false, isPassiveButton: false)
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script type="text/javascript">
+        var SearchDataList = function () {
+            $(function () {
+                debugger;
+                var val = { ControllerName: null, ActionName: null };
+                if ($("#ControllerName").val() != "") {
+                    val["ControllerName"] = $("#ControllerName").val();
+                }
+
+                if ($("#ActionName").val() != "") {
+                    val["ActionName"] = $("#ActionName").val();
+                }
+
+                $PagingDataList.ReloadData("PagingDataList", val);
+
+            })
+        }
+        SearchDataList();
+        $("#saveForm").submit(function (e) {
+            debugger;
+            e.preventDefault();
+            $PagingDataList.Save("saveForm", "PagingDataList", SearchDataList);
+
+        });
+    </script>
+}

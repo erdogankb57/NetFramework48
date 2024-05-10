@@ -130,6 +130,7 @@
     <Compile Include="Controllers\RecordController.cs" />
     <Compile Include="Controllers\SEOIndexController.cs" />
     <Compile Include="Controllers\SharedController.cs" />
+    <Compile Include="Controllers\SystemActionController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Extension\SitemapHelper.cs" />
     <Compile Include="Global.asax.cs">
@@ -593,6 +594,8 @@
     <Content Include="Views\Record\Add.cshtml" />
     <Content Include="Views\Category\Index.cshtml" />
     <Content Include="Views\Category\Add.cshtml" />
+    <Content Include="Views\SystemAction\Index.cshtml" />
+    <Content Include="Views\SystemAction\Add.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Inta.Framework.Ado.Net\Inta.Framework.Ado.Net.csproj">
