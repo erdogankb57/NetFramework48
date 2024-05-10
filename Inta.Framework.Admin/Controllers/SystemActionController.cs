@@ -102,6 +102,7 @@ namespace Inta.Framework.Admin.Controllers
 
             List<SqlParameter> parameters = new List<SqlParameter>();
             
+            parameters.Add(new SqlParameter { ParameterName = "SystemMenuId", Value = request.SystemMenuId });
             if (!string.IsNullOrEmpty(request.ControllerName))
                 parameters.Add(new SqlParameter { ParameterName = "ControllerName", Value = request.ControllerName });
             else
@@ -120,7 +121,16 @@ namespace Inta.Framework.Admin.Controllers
 
             if (request.Id == 0)
             {
-                db.ExecuteNoneQuery("insert into [SystemAction](LanguageId,BannerTypeId,Name,Link,TargetId,ShortExplanation,OrderNumber,Image,RecordDate,IsActive) values(@LanguageId,@BannerTypeId,@Name,@Link,@TargetId,@ShortExplanation,@OrderNumber,@Image,@RecordDate,@IsActive)", System.Data.CommandType.Text, parameters);
+                db.ExecuteNoneQuery(@"insert into [SystemAction]
+                (SystemMenuId,
+                ControllerName,
+                ActionName,
+                Description) 
+                values(
+                @SystemMenuId,
+                @ControllerName,
+                @ActionName,
+                @Description)", System.Data.CommandType.Text, parameters);
 
                 return Json(new ReturnObject<SystemAction>
                 {
@@ -133,6 +143,7 @@ namespace Inta.Framework.Admin.Controllers
                 parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
 
                 db.ExecuteNoneQuery(@"Update [SystemAction] set 
+                SystemMenuId=@SystemMenuId,
                 ControllerName=@ControllerName,
                 ActionName=@ActionName,
                 Description=@Description
