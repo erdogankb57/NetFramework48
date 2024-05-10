@@ -36,7 +36,7 @@ namespace Inta.Framework.Admin.Controllers
             else
                 Parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 0 });
 
-            
+
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             string sqlQuery = "Select * from Category where (@Name is null or Name like '%'+@Name+'%') and IsActive=@IsActive order by " + request.OrderColumn + (request.OrderType == PagingDataListOrderType.Ascending ? " asc" : " desc");
             var data = db.Find<Category>(sqlQuery, System.Data.CommandType.Text, Parameters);
@@ -138,8 +138,64 @@ namespace Inta.Framework.Admin.Controllers
 
             List<SqlParameter> parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = authenticationData.LanguageId });
-           
+            parameters.Add(new SqlParameter { ParameterName = "CategoryId", Value = request.CategoryId });
 
+
+            if (!string.IsNullOrEmpty(request.Code))
+                parameters.Add(new SqlParameter { ParameterName = "Code", Value = request.Code });
+            else
+                parameters.Add(new SqlParameter { ParameterName = "Code", Value = DBNull.Value });
+
+
+            if (!string.IsNullOrEmpty(request.Name))
+                parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Name });
+            else
+                parameters.Add(new SqlParameter { ParameterName = "Name", Value = DBNull.Value });
+
+            if (!string.IsNullOrEmpty(request.CategoryUrl))
+                parameters.Add(new SqlParameter { ParameterName = "CategoryUrl", Value = request.CategoryUrl });
+            else
+                parameters.Add(new SqlParameter { ParameterName = "CategoryUrl", Value = DBNull.Value });
+
+            if (!string.IsNullOrEmpty(request.Title))
+                parameters.Add(new SqlParameter { ParameterName = "Title", Value = request.Title });
+            else
+                parameters.Add(new SqlParameter { ParameterName = "Title", Value = DBNull.Value });
+
+            if (!string.IsNullOrEmpty(request.MetaDecription))
+                parameters.Add(new SqlParameter { ParameterName = "MetaDecription", Value = request.MetaDecription });
+            else
+                parameters.Add(new SqlParameter { ParameterName = "MetaDecription", Value = DBNull.Value });
+
+            if (!string.IsNullOrEmpty(request.MetaKeywords))
+                parameters.Add(new SqlParameter { ParameterName = "MetaKeywords", Value = request.MetaKeywords });
+            else
+                parameters.Add(new SqlParameter { ParameterName = "MetaKeywords", Value = DBNull.Value });
+
+            if (!string.IsNullOrEmpty(request.ShortExplanation))
+                parameters.Add(new SqlParameter { ParameterName = "ShortExplanation", Value = request.ShortExplanation });
+            else
+                parameters.Add(new SqlParameter { ParameterName = "ShortExplanation", Value = DBNull.Value });
+
+            if (!string.IsNullOrEmpty(request.Image))
+                parameters.Add(new SqlParameter { ParameterName = "Image", Value = request.Image });
+            else
+                parameters.Add(new SqlParameter { ParameterName = "Image", Value = DBNull.Value });
+
+            if (!string.IsNullOrEmpty(request.ImageTag))
+                parameters.Add(new SqlParameter { ParameterName = "ImageTag", Value = request.ImageTag });
+            else
+                parameters.Add(new SqlParameter { ParameterName = "ImageTag", Value = DBNull.Value });
+
+            if (!string.IsNullOrEmpty(request.ImageTitle))
+                parameters.Add(new SqlParameter { ParameterName = "ImageTitle", Value = request.ImageTitle });
+            else
+                parameters.Add(new SqlParameter { ParameterName = "ImageTitle", Value = DBNull.Value });
+
+            if (!string.IsNullOrEmpty(request.Explanation))
+                parameters.Add(new SqlParameter { ParameterName = "Explanation", Value = request.Explanation });
+            else
+                parameters.Add(new SqlParameter { ParameterName = "Explanation", Value = DBNull.Value });
 
             parameters.Add(new SqlParameter { ParameterName = "OrderNumber", Value = request.OrderNumber });
             parameters.Add(new SqlParameter { ParameterName = "RecordDate", Value = DateTime.Now });
@@ -153,34 +209,38 @@ namespace Inta.Framework.Admin.Controllers
             if (request.Id == 0)
             {
                 db.ExecuteNoneQuery(@"
-                insert into Record(Name,
-                RecordUrl,
+                insert into Category(
+                LanguageId,
+                CategoryId,
+                Code,
+                Name,
+                CategoryUrl,
                 Title,
-                MetaDescription,
+                MetaDecription,
                 MetaKeywords,
-                Url,
-                ShortContent,
-                Link,
                 ShortExplanation,
-                Explanation,
                 Image,
-                OrderNumber,
-                RecordDate,
-                IsActive)
-                values(@Name,
-                @RecordUrl,
+                ImageTag,
+                ImageTitle,
+                Explanation,
+                OrderNumber
+                )
+                values(
+                @LanguageId,
+                @CategoryId,
+                @Code,
+                @Name,
+                @CategoryUrl,
                 @Title,
-                @MetaDescription,
+                @MetaDecription,
                 @MetaKeywords,
-                @Url,
-                @ShortContent,
-                @Link,
                 @ShortExplanation,
-                @Explanation,
                 @Image,
-                @OrderNumber,
-                @RecordDate,
-                @IsActive)
+                @ImageTag,
+                @ImageTitle,
+                @Explanation,
+                @OrderNumber
+                )
                 ", System.Data.CommandType.Text, parameters);
 
                 return Json(new ReturnObject<Category>
@@ -193,22 +253,21 @@ namespace Inta.Framework.Admin.Controllers
             {
                 parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
 
-                db.ExecuteNoneQuery(@"Update [Record] set 
-                TargetId=@TargetId,
+                db.ExecuteNoneQuery(@"Update [Category] set 
+                LanguageId=@LanguageId,
+                CategoryId=@CategoryId,
+                Code=@Code,
                 Name=@Name,
-                RecordUrl=@RecordUrl,
+                CategoryUrl=@CategoryUrl,
                 Title=@Title,
-                MetaDescription=@MetaDescription,
+                MetaDecription=@MetaDecription,
                 MetaKeywords=@MetaKeywords,
-                Url=@Url,
-                ShortContent=@ShortContent,
-                Link=@Link,
                 ShortExplanation=@ShortExplanation,
-                Explanation=@Explanation,
                 Image=@Image,
-                OrderNumber=@OrderNumber,
-                RecordDate=@RecordDate,
-                IsActive=@IsActive
+                ImageTag=@ImageTag,
+                ImageTitle=@ImageTitle,
+                Explanation=@Explanation,
+                OrderNumber=@OrderNumber
                 where Id=@Id", System.Data.CommandType.Text, parameters);
 
                 return Json(new ReturnObject<Category>

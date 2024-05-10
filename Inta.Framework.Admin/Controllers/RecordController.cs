@@ -136,6 +136,7 @@ namespace Inta.Framework.Admin.Controllers
                 int imageBigWidth = 500;
 
                 string filepath = ConfigurationManager.AppSettings["ImageUpload"].ToString();
+
                 request.Image = ImageManager.ImageUploadDoubleCopy(ImageFile, filepath, imageSmallWidth, imageBigWidth);
             }
 
