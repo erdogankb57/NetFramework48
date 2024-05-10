@@ -106,6 +106,7 @@ namespace Inta.Framework.Admin.Controllers
 
             ViewBag.ImageFolder = System.Configuration.ConfigurationManager.AppSettings["ImageUpload"].ToString();
 
+
             if (id == 0)
                 return PartialView("Add", new Category { IsActive = true });
             else
