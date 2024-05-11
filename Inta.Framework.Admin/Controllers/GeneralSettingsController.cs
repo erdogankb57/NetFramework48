@@ -19,7 +19,10 @@ namespace Inta.Framework.Admin.Controllers
         public ActionResult Index()
         {
             GeneralSettings model = new GeneralSettings();
-            return View(model);
+            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            var result = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
+            return View(result.Data);
         }
 
         [HttpPost]
@@ -86,14 +89,39 @@ namespace Inta.Framework.Admin.Controllers
             parameters.Add(new SqlParameter { ParameterName = "ContentImageBigWidth", Value = request.ContentImageBigWidth });
             parameters.Add(new SqlParameter { ParameterName = "ContentImageBigHeight", Value = request.ContentImageBigHeight });
 
-            if (request.Id == 0)
-            {
+            parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
 
-            }
-            else
-            {
 
-            }
+            db.ExecuteNoneQuery(@"
+            Update GeneralSettings
+            set
+            EmailIpAdress=@EmailIpAdress,
+            EmailAdress=@EmailAdress,
+            EmailPort=@EmailPort,
+            EmailPassword=@EmailPassword,
+            DomainName=@DomainName,
+            CdnUrl=@CdnUrl,
+            ImageUploadPath=@ImageUploadPath,
+            FileUploadPath=@FileUploadPath,
+            DeveloperName=@DeveloperName,
+            DeveloperEmail=@DeveloperEmail,
+            CategoryImageSmallWidth=@CategoryImageSmallWidth,
+            CategoryImageSmallHeight=@CategoryImageSmallHeight,
+            CategoryImageBigWidth=@CategoryImageBigWidth,
+            CategoryImageBigHeight=@CategoryImageBigHeight,
+            ContentImageSmallWidth=@ContentImageSmallWidth,
+            ContentImageSmallHeight=@ContentImageSmallHeight,
+            ContentImageBigWidth=@ContentImageBigWidth,
+            ContentImageBigHeight=@ContentImageBigHeight
+            where Id=@Id    
+            ", System.Data.CommandType.Text, parameters);
+
+            //return Json(new ReturnObject<GeneralSettings>
+            //{
+            //    Data = request,
+            //    ResultType = MessageType.Success
+            //});
+
 
             return Json(data);
         }
