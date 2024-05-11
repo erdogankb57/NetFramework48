@@ -56,6 +56,7 @@
     <Compile Include="StaticText.cs" />
     <Compile Include="SystemAction.cs" />
     <Compile Include="SystemMenu.cs" />
+    <Compile Include="SystemUser.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Inta.Framework.Ado.Net\Inta.Framework.Ado.Net.csproj">

@@ -135,6 +135,7 @@
     <Compile Include="Controllers\SharedController.cs" />
     <Compile Include="Controllers\StaticTextController.cs" />
     <Compile Include="Controllers\SystemActionController.cs" />
+    <Compile Include="Controllers\SystemUserController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Extension\SitemapHelper.cs" />
     <Compile Include="Global.asax.cs">
@@ -608,6 +609,8 @@
     <Content Include="Views\FirmVariables\Index.cshtml" />
     <Content Include="Views\FirmVariables\Add.cshtml" />
     <Content Include="Views\GeneralSettings\Index.cshtml" />
+    <Content Include="Views\SystemUser\Add.cshtml" />
+    <Content Include="Views\SystemUser\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Inta.Framework.Ado.Net\Inta.Framework.Ado.Net.csproj">
