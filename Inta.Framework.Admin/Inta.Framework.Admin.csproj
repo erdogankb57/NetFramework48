@@ -125,6 +125,7 @@
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\ContactInformationController.cs" />
     <Compile Include="Controllers\FirmVariablesController.cs" />
+    <Compile Include="Controllers\GeneralSettingsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MessageHistoryController.cs" />
@@ -499,6 +500,7 @@
     <Content Include="Content\images\user.jpg" />
     <Content Include="Content\js\autocomplete.js" />
     <Content Include="Content\js\chart.min.js" />
+    <Content Include="Content\js\controller\generalsettings.js" />
     <Content Include="Content\js\controller\login.js" />
     <Content Include="Content\js\feather.min.js" />
     <Content Include="Content\js\fontawesome.js" />
@@ -605,6 +607,7 @@
     <Content Include="Views\StaticText\Add.cshtml" />
     <Content Include="Views\FirmVariables\Index.cshtml" />
     <Content Include="Views\FirmVariables\Add.cshtml" />
+    <Content Include="Views\GeneralSettings\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Inta.Framework.Ado.Net\Inta.Framework.Ado.Net.csproj">
