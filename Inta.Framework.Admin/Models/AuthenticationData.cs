@@ -34,6 +34,17 @@ namespace Inta.Framework.Admin.Models
             }
         }
 
+        public string UserId
+        {
+            get
+            {
+                if (GetAuthenticationData.ContainsKey("userId"))
+                    return GetAuthenticationData["userId"].ToString();
+                else
+                    return "";
+            }
+        }
+
         public string Password
         {
             get

@@ -62,7 +62,7 @@ namespace Inta.Framework.Ado.Net
                 }
                 catch (Exception ex)
                 {
-                    connection.Dispose();
+                        connection.Dispose();
                     connection.Close();
                     return new ReturnErrorObject<bool> { Data = false, ResultType = MessageType.Error, Exception = ex };
                 }
