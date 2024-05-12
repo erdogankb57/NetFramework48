@@ -216,24 +216,37 @@ namespace Inta.Framework.Admin.Controllers
 
 
                 /*Action listesi güncellenir*/
+                List<SqlParameter> actionRoleParameters = new List<SqlParameter>();
+                actionRoleParameters.Add(new SqlParameter { ParameterName = "SystemRoleId", Value = request.Id });
                 var savedActionList = db.Find<SystemActionRole>(@"
-                Select * from SystemActionRole where SystemRoleId=" + request.Id
-                , System.Data.CommandType.Text);
+                Select * from SystemActionRole where SystemRoleId=@SystemRoleId"
+                , System.Data.CommandType.Text, actionRoleParameters);
                 foreach (var item in savedActionList.Data)
                 {
                     if (actions == null || !actions.Any(a => a == item.SystemActionId.ToString()))
-                        db.ExecuteNoneQuery(@"Delete SystemActionRole where Id=" + item.Id, System.Data.CommandType.Text);
+                    {
+                        List<SqlParameter> SystemActionRoleParameters = new List<SqlParameter>();
+                        SystemActionRoleParameters.Add(new SqlParameter { ParameterName = "Id", Value = item.Id });
+                        db.ExecuteNoneQuery(@"Delete SystemActionRole where Id=@Id", System.Data.CommandType.Text);
+                    }
                 }
 
                 if (actions != null)
                 {
                     foreach (var item in actions)
                     {
+                        List<SqlParameter> SystemActionRoleParameters = new List<SqlParameter>();
+                        SystemActionRoleParameters.Add(new SqlParameter { ParameterName = "SystemRoleId", Value = request.Id });
+                        SystemActionRoleParameters.Add(new SqlParameter { ParameterName = "SystemActionId", Value = item });
                         var actionRole = db.Find<SystemActionRole>(@"
-                        Select * from SystemActionRole where SystemRoleId=" + request.Id + " SystemActionId=" + item, System.Data.CommandType.Text);
+                        Select * from SystemActionRole where SystemRoleId=@SystemRoleId and SystemActionId=@SystemActionId", System.Data.CommandType.Text);
                         if (actionRole.Data == null)
                         {
-                            db.ExecuteNoneQuery("insert into SystemActionRole(SystemActionId,SystemRoleId) values(" + item + "," + request.Id + ")", System.Data.CommandType.Text);
+                            List<SqlParameter> SystemActionRoleInsertParameters = new List<SqlParameter>();
+                            SystemActionRoleInsertParameters.Add(new SqlParameter { ParameterName = "SystemActionId", Value = item });
+                            SystemActionRoleInsertParameters.Add(new SqlParameter { ParameterName = "SystemRoleId", Value = request.Id });
+
+                            db.ExecuteNoneQuery("insert into SystemActionRole(SystemActionId,SystemRoleId) values(SystemActionId,SystemRoleId))", System.Data.CommandType.Text, SystemActionRoleInsertParameters);
                         }
                     }
                 }
