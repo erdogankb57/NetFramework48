@@ -15,6 +15,23 @@
             @Html.HiddenFor(h => h.Id)
 
 
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <label for="exampleFormControlInput1">Banner Tipi</label>
+                    </div>
+                    <div class="col-lg-9">
+
+                        @{
+                            @Html.Raw(Html.SelectListFor("Select * from SystemRole", ObjectId: "SystemRoleId", ObjectName: "SystemRoleId", DisplayName: "Name", ValueName: "Id", SelectedValue: Model.SystemRoleId.ToString(), DefaultText: "Seçiniz", DefaultValue: ""));
+                        }
+
+                    </div>
+                </div>
+            </div>
+
+
             <div class="form-group">
                 <div class="row">
                     <div class="col-lg-3">

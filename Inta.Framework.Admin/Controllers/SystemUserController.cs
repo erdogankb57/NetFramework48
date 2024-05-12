@@ -134,6 +134,8 @@ namespace Inta.Framework.Admin.Controllers
 
             List<SqlParameter> parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = 0 });
+            parameters.Add(new SqlParameter { ParameterName = "SystemRoleId", Value = request.SystemRoleId });
+
 
             if (!string.IsNullOrEmpty(request.Name))
                 parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Name });
@@ -178,6 +180,7 @@ namespace Inta.Framework.Admin.Controllers
                 parameters.Add(new SqlParameter { ParameterName = "RecordDate", Value = DateTime.Now });
 
                 db.ExecuteNoneQuery(@"insert into [SystemUser](
+                SystemRoleId,
                 Name,
                 SurName,
                 UserName,
@@ -187,6 +190,7 @@ namespace Inta.Framework.Admin.Controllers
                 Address,
                 IsActive
                 ) values(
+                @SystemRoleId,
                 @Name,
                 @SurName,
                 @UserName,
@@ -208,6 +212,7 @@ namespace Inta.Framework.Admin.Controllers
                 parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
 
                 db.ExecuteNoneQuery(@"Update [SystemUser] set 
+                SystemRoleId=@SystemRoleId,
                 Name=@Name,
                 SurName=@SurName,
                 UserName=@UserName,

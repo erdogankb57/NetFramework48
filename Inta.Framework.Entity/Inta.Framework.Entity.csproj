@@ -55,7 +55,10 @@
     <Compile Include="SEOIndex.cs" />
     <Compile Include="StaticText.cs" />
     <Compile Include="SystemAction.cs" />
+    <Compile Include="SystemActionRole.cs" />
     <Compile Include="SystemMenu.cs" />
+    <Compile Include="SystemMenuRole.cs" />
+    <Compile Include="SystemRole.cs" />
     <Compile Include="SystemUser.cs" />
   </ItemGroup>
   <ItemGroup>
