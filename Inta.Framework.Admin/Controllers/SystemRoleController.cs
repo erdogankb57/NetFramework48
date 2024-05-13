@@ -227,7 +227,7 @@ namespace Inta.Framework.Admin.Controllers
                     {
                         List<SqlParameter> SystemActionRoleParameters = new List<SqlParameter>();
                         SystemActionRoleParameters.Add(new SqlParameter { ParameterName = "Id", Value = item.Id });
-                        db.ExecuteNoneQuery(@"Delete SystemActionRole where Id=@Id", System.Data.CommandType.Text);
+                        db.ExecuteNoneQuery(@"Delete SystemActionRole where Id=@Id", System.Data.CommandType.Text, SystemActionRoleParameters);
                     }
                 }
 
@@ -239,14 +239,14 @@ namespace Inta.Framework.Admin.Controllers
                         SystemActionRoleParameters.Add(new SqlParameter { ParameterName = "SystemRoleId", Value = request.Id });
                         SystemActionRoleParameters.Add(new SqlParameter { ParameterName = "SystemActionId", Value = item });
                         var actionRole = db.Find<SystemActionRole>(@"
-                        Select * from SystemActionRole where SystemRoleId=@SystemRoleId and SystemActionId=@SystemActionId", System.Data.CommandType.Text);
-                        if (actionRole.Data == null)
+                        Select * from SystemActionRole where SystemRoleId=@SystemRoleId and SystemActionId=@SystemActionId", System.Data.CommandType.Text, SystemActionRoleParameters);
+                        if (actionRole.Data.Count == 0)
                         {
                             List<SqlParameter> SystemActionRoleInsertParameters = new List<SqlParameter>();
                             SystemActionRoleInsertParameters.Add(new SqlParameter { ParameterName = "SystemActionId", Value = item });
                             SystemActionRoleInsertParameters.Add(new SqlParameter { ParameterName = "SystemRoleId", Value = request.Id });
 
-                            db.ExecuteNoneQuery("insert into SystemActionRole(SystemActionId,SystemRoleId) values(SystemActionId,SystemRoleId))", System.Data.CommandType.Text, SystemActionRoleInsertParameters);
+                            db.ExecuteNoneQuery("insert into SystemActionRole(SystemActionId,SystemRoleId) values(@SystemActionId,@SystemRoleId)", System.Data.CommandType.Text, SystemActionRoleInsertParameters);
                         }
                     }
                 }
