@@ -15,7 +15,7 @@ using System.Web.Mvc;
 namespace Inta.Framework.Admin.Controllers
 {
     [AuthorizationCheck]
-    public class RecordImageController : Controller
+    public class RecordFileController : Controller
     {
         public ActionResult Index(int? id)
         {
@@ -25,7 +25,7 @@ namespace Inta.Framework.Admin.Controllers
             return View();
         }
 
-        public ActionResult GetList(PagingDataListRequest<RecordImage> request)
+        public ActionResult GetList(PagingDataListRequest<RecordFile> request)
         {
             List<SqlParameter> Parameters = new List<SqlParameter>();
             if (string.IsNullOrEmpty(request.Search.Name))
@@ -37,8 +37,8 @@ namespace Inta.Framework.Admin.Controllers
 
 
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
-            string sqlQuery = "Select * from RecordImage where (@Name is null or Name like '%'+@Name+'%') and IsActive=@IsActive order by " + request.OrderColumn + (request.OrderType == PagingDataListOrderType.Ascending ? " asc" : " desc");
-            var data = db.Find<RecordImage>(sqlQuery, System.Data.CommandType.Text, Parameters);
+            string sqlQuery = "Select * from RecordFile where (@Name is null or Name like '%'+@Name+'%') and IsActive=@IsActive order by " + request.OrderColumn + (request.OrderType == PagingDataListOrderType.Ascending ? " asc" : " desc");
+            var data = db.Find<RecordFile>(sqlQuery, System.Data.CommandType.Text, Parameters);
             int count = data?.Data?.ToList()?.Count ?? 0;
 
             var pagingData = data.Data.Skip((Convert.ToInt32(request.ActivePageNumber) - 1) * request.PageRowCount).Take(request.PageRowCount).ToList();
@@ -49,8 +49,8 @@ namespace Inta.Framework.Admin.Controllers
                 Id = s.Id,
                 Name = s.Name,
                 IsActive = s.IsActive ? "Aktif" : "Pasif",
-                Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/RecordImage/Add','True'," + s.Id.ToString() + ")\">Düzenle</a>",
-                Delete = "<a href='javascript:void(0)' onclick=\"$PagingDataList.DeleteRecordModal('PagingDataList','/RecordImage/Delete',SearchDataList," + s.Id.ToString() + ")\">Sil</a>"
+                Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/RecordFile/Add','True'," + s.Id.ToString() + ")\">Düzenle</a>",
+                Delete = "<a href='javascript:void(0)' onclick=\"$PagingDataList.DeleteRecordModal('PagingDataList','/RecordFile/Delete',SearchDataList," + s.Id.ToString() + ")\">Sil</a>"
             }).ToList();
 
 
@@ -71,7 +71,7 @@ namespace Inta.Framework.Admin.Controllers
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             foreach (var item in ids.Split(',').ToList())
             {
-                var result = db.ExecuteNoneQuery("Delete from RecordImage where id=" + item, System.Data.CommandType.Text);
+                var result = db.ExecuteNoneQuery("Delete from RecordFile where id=" + item, System.Data.CommandType.Text);
             }
             return Json("OK", JsonRequestBehavior.AllowGet);
         }
@@ -82,7 +82,7 @@ namespace Inta.Framework.Admin.Controllers
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             foreach (var item in ids.Split(',').ToList())
             {
-                var result = db.ExecuteNoneQuery("Update RecordImage set IsActive=1 where id=" + item, System.Data.CommandType.Text);
+                var result = db.ExecuteNoneQuery("Update RecordFile set IsActive=1 where id=" + item, System.Data.CommandType.Text);
             }
             return Json("OK", JsonRequestBehavior.AllowGet);
         }
@@ -93,7 +93,7 @@ namespace Inta.Framework.Admin.Controllers
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             foreach (var item in ids.Split(',').ToList())
             {
-                var result = db.ExecuteNoneQuery("Update RecordImage set IsActive=0 where id=" + item, System.Data.CommandType.Text);
+                var result = db.ExecuteNoneQuery("Update RecordFile set IsActive=0 where id=" + item, System.Data.CommandType.Text);
             }
             return Json("OK", JsonRequestBehavior.AllowGet);
         }
@@ -106,10 +106,10 @@ namespace Inta.Framework.Admin.Controllers
             ViewBag.ImageFolder = System.Configuration.ConfigurationManager.AppSettings["ImageUpload"].ToString();
 
             if (id == 0)
-                return PartialView("Add", new RecordImage { IsActive = true });
+                return PartialView("Add", new RecordFile { IsActive = true });
             else
             {
-                var model = db.Get<RecordImage>("select * from [RecordImage] where Id=@Id", System.Data.CommandType.Text, parameters);
+                var model = db.Get<RecordFile>("select * from [RecordFile] where Id=@Id", System.Data.CommandType.Text, parameters);
 
                 return PartialView("Add", model.Data);
             }
@@ -118,17 +118,17 @@ namespace Inta.Framework.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult Save(RecordImage request, HttpPostedFileBase ImageName)
+        public ActionResult Save(RecordFile request, HttpPostedFileBase ImageName)
         {
             AuthenticationData authenticationData = new AuthenticationData();
-            ReturnObject<RecordImage> result = new ReturnObject<RecordImage>();
+            ReturnObject<RecordFile> result = new ReturnObject<RecordFile>();
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
 
             string filepath = ConfigurationManager.AppSettings["ImageUpload"].ToString();
 
             if (ImageName != null)
             {
-                request.ImageName = ImageManager.ImageUploadSingleCopy(ImageName, filepath);
+                request.FileName = ImageManager.ImageUploadSingleCopy(ImageName, filepath);
             }
 
             List<SqlParameter> parameters = new List<SqlParameter>();
@@ -148,17 +148,17 @@ namespace Inta.Framework.Admin.Controllers
             else
                 parameters.Add(new SqlParameter { ParameterName = "Explanation", Value = DBNull.Value });
 
-            if (!string.IsNullOrEmpty(request.ImageName))
+            if (!string.IsNullOrEmpty(request.FileName))
                 parameters.Add(new SqlParameter { ParameterName = "ImageName", Value = request.ImageName });
             else
                 parameters.Add(new SqlParameter { ParameterName = "ImageName", Value = DBNull.Value });
 
-            if (!string.IsNullOrEmpty(request.ImageTagName))
+            if (!string.IsNullOrEmpty(request.FileTagName))
                 parameters.Add(new SqlParameter { ParameterName = "ImageTagName", Value = request.ImageTagName });
             else
                 parameters.Add(new SqlParameter { ParameterName = "ImageTagName", Value = DBNull.Value });
 
-            if (!string.IsNullOrEmpty(request.ImageTitleName))
+            if (!string.IsNullOrEmpty(request.FileTitleName))
                 parameters.Add(new SqlParameter { ParameterName = "ImageTitleName", Value = request.ImageTitleName });
             else
                 parameters.Add(new SqlParameter { ParameterName = "ImageTitleName", Value = DBNull.Value });
@@ -176,7 +176,7 @@ namespace Inta.Framework.Admin.Controllers
             if (request.Id == 0)
             {
                 db.ExecuteNoneQuery(@"insert into 
-                RecordImage(
+                RecordFile(
                 Name,
                 ShortExplanation,
                 Explanation,
@@ -198,7 +198,7 @@ namespace Inta.Framework.Admin.Controllers
                 @OrderNumber,
                 @IsActive)", System.Data.CommandType.Text, parameters);
 
-                return Json(new ReturnObject<RecordImage>
+                return Json(new ReturnObject<RecordFile>
                 {
                     Data = request,
                     ResultType = MessageType.Success
@@ -208,7 +208,7 @@ namespace Inta.Framework.Admin.Controllers
             {
                 parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
 
-                db.ExecuteNoneQuery(@"Update [RecordImage] set 
+                db.ExecuteNoneQuery(@"Update [RecordFile] set 
                 Name=@Name,
                 ShortExplanation=@ShortExplanation,
                 Explanation=@Explanation,
@@ -221,7 +221,7 @@ namespace Inta.Framework.Admin.Controllers
                 IsActive=@IsActive
                 where Id=@Id", System.Data.CommandType.Text, parameters);
 
-                return Json(new ReturnObject<RecordImage>
+                return Json(new ReturnObject<RecordFile>
                 {
                     Data = request,
                     ResultType = MessageType.Success

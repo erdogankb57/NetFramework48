@@ -131,6 +131,7 @@
     <Compile Include="Controllers\MessageHistoryController.cs" />
     <Compile Include="Controllers\PageTypeController.cs" />
     <Compile Include="Controllers\RecordController.cs" />
+    <Compile Include="Controllers\RecordFileController.cs" />
     <Compile Include="Controllers\RecordImageController.cs" />
     <Compile Include="Controllers\SEOIndexController.cs" />
     <Compile Include="Controllers\SharedController.cs" />
@@ -617,6 +618,8 @@
     <Content Include="Views\SystemRole\Add.cshtml" />
     <Content Include="Views\RecordImage\Index.cshtml" />
     <Content Include="Views\RecordImage\Add.cshtml" />
+    <Content Include="Views\RecordFile\Index.cshtml" />
+    <Content Include="Views\RecordFile\Add.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Inta.Framework.Ado.Net\Inta.Framework.Ado.Net.csproj">

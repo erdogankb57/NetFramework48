@@ -52,6 +52,7 @@
     <Compile Include="PageType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Record.cs" />
+    <Compile Include="RecordFile.cs" />
     <Compile Include="RecordImage.cs" />
     <Compile Include="SEOIndex.cs" />
     <Compile Include="StaticText.cs" />
