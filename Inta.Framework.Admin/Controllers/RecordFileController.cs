@@ -118,7 +118,7 @@ namespace Inta.Framework.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult Save(RecordFile request, HttpPostedFileBase ImageName)
+        public ActionResult Save(RecordFile request, HttpPostedFileBase FileName)
         {
             AuthenticationData authenticationData = new AuthenticationData();
             ReturnObject<RecordFile> result = new ReturnObject<RecordFile>();
@@ -126,9 +126,9 @@ namespace Inta.Framework.Admin.Controllers
 
             string filepath = ConfigurationManager.AppSettings["ImageUpload"].ToString();
 
-            if (ImageName != null)
+            if (FileName != null)
             {
-                request.FileName = ImageManager.ImageUploadSingleCopy(ImageName, filepath);
+                request.FileName = ImageManager.ImageUploadSingleCopy(FileName, filepath);
             }
 
             List<SqlParameter> parameters = new List<SqlParameter>();
@@ -149,19 +149,19 @@ namespace Inta.Framework.Admin.Controllers
                 parameters.Add(new SqlParameter { ParameterName = "Explanation", Value = DBNull.Value });
 
             if (!string.IsNullOrEmpty(request.FileName))
-                parameters.Add(new SqlParameter { ParameterName = "ImageName", Value = request.ImageName });
+                parameters.Add(new SqlParameter { ParameterName = "FileName", Value = request.FileName });
             else
-                parameters.Add(new SqlParameter { ParameterName = "ImageName", Value = DBNull.Value });
+                parameters.Add(new SqlParameter { ParameterName = "FileName", Value = DBNull.Value });
 
             if (!string.IsNullOrEmpty(request.FileTagName))
-                parameters.Add(new SqlParameter { ParameterName = "ImageTagName", Value = request.ImageTagName });
+                parameters.Add(new SqlParameter { ParameterName = "FileTagName", Value = request.FileTagName });
             else
-                parameters.Add(new SqlParameter { ParameterName = "ImageTagName", Value = DBNull.Value });
+                parameters.Add(new SqlParameter { ParameterName = "FileTagName", Value = DBNull.Value });
 
             if (!string.IsNullOrEmpty(request.FileTitleName))
-                parameters.Add(new SqlParameter { ParameterName = "ImageTitleName", Value = request.ImageTitleName });
+                parameters.Add(new SqlParameter { ParameterName = "FileTitleName", Value = request.FileTitleName });
             else
-                parameters.Add(new SqlParameter { ParameterName = "ImageTitleName", Value = DBNull.Value });
+                parameters.Add(new SqlParameter { ParameterName = "FileTitleName", Value = DBNull.Value });
 
             parameters.Add(new SqlParameter { ParameterName = "TargetId", Value = request.TargetId });
             parameters.Add(new SqlParameter { ParameterName = "HomePageStatus", Value = request.HomePageStatus });
@@ -180,9 +180,9 @@ namespace Inta.Framework.Admin.Controllers
                 Name,
                 ShortExplanation,
                 Explanation,
-                ImageName,
-                ImageTagName,
-                ImageTitleName,
+                FileName,
+                FileTagName,
+                FileTitleName,
                 TargetId,
                 HomePageStatus,
                 OrderNumber,
@@ -190,9 +190,9 @@ namespace Inta.Framework.Admin.Controllers
                 @Name,
                 @ShortExplanation,
                 @Explanation,
-                @ImageName,
-                @ImageTagName,
-                @ImageTitleName,
+                @FileName,
+                @FileTagName,
+                @FileTitleName,
                 @TargetId,
                 @HomePageStatus,
                 @OrderNumber,

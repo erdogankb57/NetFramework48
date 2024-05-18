@@ -129,12 +129,14 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MessageHistoryController.cs" />
+    <Compile Include="Controllers\NoAuthorizationController.cs" />
     <Compile Include="Controllers\PageTypeController.cs" />
     <Compile Include="Controllers\RecordController.cs" />
     <Compile Include="Controllers\RecordFileController.cs" />
     <Compile Include="Controllers\RecordImageController.cs" />
     <Compile Include="Controllers\SEOIndexController.cs" />
     <Compile Include="Controllers\SharedController.cs" />
+    <Compile Include="Controllers\SiteController.cs" />
     <Compile Include="Controllers\StaticTextController.cs" />
     <Compile Include="Controllers\SystemActionController.cs" />
     <Compile Include="Controllers\SystemRoleController.cs" />
@@ -620,6 +622,8 @@
     <Content Include="Views\RecordImage\Add.cshtml" />
     <Content Include="Views\RecordFile\Index.cshtml" />
     <Content Include="Views\RecordFile\Add.cshtml" />
+    <Content Include="Views\Site\Index.cshtml" />
+    <Content Include="Views\NoAuthorization\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Inta.Framework.Ado.Net\Inta.Framework.Ado.Net.csproj">

@@ -172,7 +172,8 @@ namespace Inta.Framework.Admin.Controllers
             else
                 parameters.Add(new SqlParameter { ParameterName = "Address", Value = DBNull.Value });
 
-            parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 1 });
+            parameters.Add(new SqlParameter { ParameterName = "IsAdmin", Value = request.IsAdmin });
+            parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = request.IsActive });
 
 
             if (request.Id == 0)
@@ -188,6 +189,7 @@ namespace Inta.Framework.Admin.Controllers
                 Email,
                 Phone,
                 Address,
+                IsAdmin,
                 IsActive
                 ) values(
                 @SystemRoleId,
@@ -198,6 +200,7 @@ namespace Inta.Framework.Admin.Controllers
                 @Email,
                 @Phone,
                 @Address,
+                @IsAdmin,
                 @IsActive
                 )", System.Data.CommandType.Text, parameters);
 
@@ -220,6 +223,7 @@ namespace Inta.Framework.Admin.Controllers
                 Email=@Email,
                 Phone=@Phone,
                 Address=@Address,
+                IsAdmin=@IsAdmin,
                 IsActive=@IsActive                
                 where Id=@Id", System.Data.CommandType.Text, parameters);
 
