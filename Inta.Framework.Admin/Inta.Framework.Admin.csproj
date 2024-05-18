@@ -125,6 +125,8 @@
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\ContactInformationController.cs" />
     <Compile Include="Controllers\FirmVariablesController.cs" />
+    <Compile Include="Controllers\FormElementController.cs" />
+    <Compile Include="Controllers\FormGroupController.cs" />
     <Compile Include="Controllers\GeneralSettingsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -624,6 +626,10 @@
     <Content Include="Views\RecordFile\Add.cshtml" />
     <Content Include="Views\Site\Index.cshtml" />
     <Content Include="Views\NoAuthorization\Index.cshtml" />
+    <Content Include="Views\FormGroup\Index.cshtml" />
+    <Content Include="Views\FormGroup\Add.cshtml" />
+    <Content Include="Views\FormElement\Index.cshtml" />
+    <Content Include="Views\FormElement\Add.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Inta.Framework.Ado.Net\Inta.Framework.Ado.Net.csproj">

@@ -47,6 +47,8 @@
     <Compile Include="Category.cs" />
     <Compile Include="ContactInformation.cs" />
     <Compile Include="FirmVariables.cs" />
+    <Compile Include="FormElement.cs" />
+    <Compile Include="FormGroup.cs" />
     <Compile Include="GeneralSettings.cs" />
     <Compile Include="MessageHistory.cs" />
     <Compile Include="PageType.cs" />

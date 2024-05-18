@@ -1,0 +1,110 @@
+﻿@model FormElement
+
+@{
+
+    List<SelectListItem> formElementType = new List<SelectListItem>();
+    formElementType.Add(new SelectListItem { Text = "TextBox", Value = "1" });
+    formElementType.Add(new SelectListItem { Text = "TextArea", Value = "2" });
+    formElementType.Add(new SelectListItem { Text = "CheckBox", Value = "3" });
+    formElementType.Add(new SelectListItem { Text = "RadioButton", Value = "4" });
+    formElementType.Add(new SelectListItem { Text = "DropDown", Value = "5" });
+}
+
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+
+            <h5 class="modal-title" id="exampleModalLabel">Form Elemanı Ekle / Düzenle</h5>
+
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+
+        </div>
+        <div class="modal-body">
+            <div class="popupMessage"></div>
+            @Html.HiddenFor(h => h.Id)
+            @Html.HiddenFor(h => h.RecordDate)
+            @Html.HiddenFor(h => h.SystemUserId)
+            @Html.HiddenFor(h => h.LanguageId)
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <label for="exampleFormControlInput1">Form Grubu</label>
+                    </div><div class="col-lg-9">
+
+                        @{
+                            @Html.Raw(Html.SelectListFor("Select * from FormGroup", ObjectId: "FormGroupId", ObjectName: "FormGroupId", DisplayName: "Name", ValueName: "Id", SelectedValue: Model.FormGroupId.ToString(), DefaultText: "Seçiniz", DefaultValue: ""));
+                        }
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <label for="exampleFormControlInput1">Form Eleman Tipi</label>
+                    </div><div class="col-lg-9">
+                        @Html.DropDownListFor(m => m.ElementTypeId, formElementType.ToArray(), new { @class = "form-control", @required = "required" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <label for="exampleFormControlInput1">Adı</label>
+                    </div><div class="col-lg-9">
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @required = "required" })
+
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <label for="exampleFormControlInput1">Sıra Numarası</label>
+                    </div><div class="col-lg-9">
+                        @Html.TextBoxFor(m => m.OrderNumber, new { @class = "form-control", @required = "required", @numeric = "numeric", })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <label for="exampleFormControlInput1">Boş geçilebilir mi</label>
+                    </div>
+                    <div class="col-lg-9">
+                        <div class="form-check">
+                            @Html.CheckBoxFor(m => m.AllowNulls, new { @class = "form-check-input" })
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <label for="exampleFormControlInput1">Aktif mi</label>
+                    </div>
+                    <div class="col-lg-9">
+                        <div class="form-check">
+                            @Html.CheckBoxFor(m => m.IsActive, new { @class = "form-check-input" })
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-standart" data-dismiss="modal">Kapat</button>
+            <button type="submit" id="btnsubmit" class="btn btn-standart">Kaydet</button>
+        </div>
+    </div>
+</div>
