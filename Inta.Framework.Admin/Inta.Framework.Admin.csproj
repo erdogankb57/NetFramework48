@@ -126,6 +126,7 @@
     <Compile Include="Controllers\ContactInformationController.cs" />
     <Compile Include="Controllers\FirmVariablesController.cs" />
     <Compile Include="Controllers\FormElementController.cs" />
+    <Compile Include="Controllers\FormElementOptionsController.cs" />
     <Compile Include="Controllers\FormGroupController.cs" />
     <Compile Include="Controllers\GeneralSettingsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -630,6 +631,8 @@
     <Content Include="Views\FormGroup\Add.cshtml" />
     <Content Include="Views\FormElement\Index.cshtml" />
     <Content Include="Views\FormElement\Add.cshtml" />
+    <Content Include="Views\FormElementOptions\Index.cshtml" />
+    <Content Include="Views\FormElementOptions\Add.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Inta.Framework.Ado.Net\Inta.Framework.Ado.Net.csproj">

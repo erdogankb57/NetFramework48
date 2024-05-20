@@ -2,6 +2,7 @@
 using Inta.Framework.Ado.Net;
 using Inta.Framework.Contract;
 using Inta.Framework.Entity;
+using Inta.Framework.Extension;
 using Inta.Framework.Web.Base;
 using System;
 using System.Collections.Generic;
@@ -13,18 +14,20 @@ using System.Web.Mvc;
 
 namespace Inta.Framework.Admin.Controllers
 {
-
     [AuthorizationCheck]
-    public class FormElementController : Controller
+    public class FormElementOptionsController : Controller
     {
-        // GET: BannerType
-        public ActionResult Index()
+        public ActionResult Index(int? id)
         {
+            if (id.HasValue)
+                HttpContext.Session["RecordId"] = id ?? 0;
+
             return View();
         }
 
-        public ActionResult GetList(PagingDataListRequest<FormElement> request)
-        {  
+
+        public ActionResult GetList(PagingDataListRequest<FormElementOptions> request)
+        {
             List<SqlParameter> Parameters = new List<SqlParameter>();
             if (string.IsNullOrEmpty(request.Search.Name))
                 Parameters.Add(new SqlParameter { ParameterName = "Name", Value = DBNull.Value });
@@ -35,8 +38,8 @@ namespace Inta.Framework.Admin.Controllers
 
 
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
-            string sqlQuery = "Select * from FormElement where (@Name is null or Name like '%'+@Name+'%') and IsActive=@IsActive order by " + request.OrderColumn + (request.OrderType == PagingDataListOrderType.Ascending ? " asc" : " desc");
-            var data = db.Find<FormElement>(sqlQuery, System.Data.CommandType.Text, Parameters);
+            string sqlQuery = "Select * from FormElementOptions where (@Name is null or Name like '%'+@Name+'%') and IsActive=@IsActive order by " + request.OrderColumn + (request.OrderType == PagingDataListOrderType.Ascending ? " asc" : " desc");
+            var data = db.Find<FormElementOptions>(sqlQuery, System.Data.CommandType.Text, Parameters);
             int count = data?.Data?.ToList()?.Count ?? 0;
 
             var pagingData = data.Data.Skip((Convert.ToInt32(request.ActivePageNumber) - 1) * request.PageRowCount).Take(request.PageRowCount).ToList();
@@ -47,9 +50,8 @@ namespace Inta.Framework.Admin.Controllers
                 Id = s.Id,
                 Name = s.Name,
                 IsActive = s.IsActive ? "Aktif" : "Pasif",
-                ElementOptions = "<a href='/FormElementOptions/Index/" + s.Id.ToString() + "'\">Seçenek Ekle</a>",
                 Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/FormElementOptions/Add','True'," + s.Id.ToString() + ")\">Düzenle</a>",
-                Delete = "<a href='javascript:void(0)' onclick=\"$PagingDataList.DeleteRecordModal('BannerTypeList','/FormElementOptions/Delete',SearchDataList," + s.Id.ToString() + ")\">Sil</a>"
+                Delete = "<a href='javascript:void(0)' onclick=\"$PagingDataList.DeleteRecordModal('PagingDataList','/FormElementOptions/Delete',SearchDataList," + s.Id.ToString() + ")\">Sil</a>"
             }).ToList();
 
 
@@ -70,7 +72,7 @@ namespace Inta.Framework.Admin.Controllers
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             foreach (var item in ids.Split(',').ToList())
             {
-                var result = db.ExecuteNoneQuery("Delete from FormElement where id=" + item, System.Data.CommandType.Text);
+                var result = db.ExecuteNoneQuery("Delete from FormElementOptions where id=" + item, System.Data.CommandType.Text);
             }
             return Json("OK", JsonRequestBehavior.AllowGet);
         }
@@ -81,7 +83,7 @@ namespace Inta.Framework.Admin.Controllers
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             foreach (var item in ids.Split(',').ToList())
             {
-                var result = db.ExecuteNoneQuery("Update FormElement set IsActive=1 where id=" + item, System.Data.CommandType.Text);
+                var result = db.ExecuteNoneQuery("Update FormElementOptions set IsActive=1 where id=" + item, System.Data.CommandType.Text);
             }
             return Json("OK", JsonRequestBehavior.AllowGet);
         }
@@ -92,7 +94,7 @@ namespace Inta.Framework.Admin.Controllers
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             foreach (var item in ids.Split(',').ToList())
             {
-                var result = db.ExecuteNoneQuery("Update FormElement set IsActive=0 where id=" + item, System.Data.CommandType.Text);
+                var result = db.ExecuteNoneQuery("Update FormElementOptions set IsActive=0 where id=" + item, System.Data.CommandType.Text);
             }
             return Json("OK", JsonRequestBehavior.AllowGet);
         }
@@ -102,59 +104,54 @@ namespace Inta.Framework.Admin.Controllers
             List<SqlParameter> parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter { ParameterName = "Id", Value = id });
 
+            ViewBag.ImageFolder = System.Configuration.ConfigurationManager.AppSettings["ImageUpload"].ToString();
+
             if (id == 0)
-            {
-                return PartialView("Add", new FormElement { IsActive = true });
-            }
+                return PartialView("Add", new FormElementOptions { IsActive = true });
             else
             {
-                var model = db.Get<FormElement>("select * from [FormElement] where Id=@Id", System.Data.CommandType.Text, parameters);
+                var model = db.Get<FormElementOptions>("select * from [FormElementOptions] where Id=@Id", System.Data.CommandType.Text, parameters);
+
                 return PartialView("Add", model.Data);
             }
+
+
         }
 
         [HttpPost]
-        public ActionResult Save(FormElement request)
+        public ActionResult Save(FormElementOptions request, HttpPostedFileBase FileImage)
         {
-            ReturnObject<FormGroup> result = new ReturnObject<FormGroup>();
-            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
-            List<SqlParameter> parameters = new List<SqlParameter>();
             AuthenticationData authenticationData = new AuthenticationData();
+            ReturnObject<FormElementOptions> result = new ReturnObject<FormElementOptions>();
+            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
 
-            if (string.IsNullOrEmpty(request.Name))
-                parameters.Add(new SqlParameter { ParameterName = "FormGroupId", Value = DBNull.Value });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "FormGroupId", Value = request.FormGroupId });
 
-            if (string.IsNullOrEmpty(request.Name))
-                parameters.Add(new SqlParameter { ParameterName = "ElementTypeId", Value = DBNull.Value });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "ElementTypeId", Value = request.ElementTypeId });
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = authenticationData.LanguageId });
+            parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = authenticationData.UserId });
+            parameters.Add(new SqlParameter { ParameterName = "FormElementId", Value = request.FormElementId });
 
-            if (string.IsNullOrEmpty(request.Name))
-                parameters.Add(new SqlParameter { ParameterName = "Name", Value = DBNull.Value });
-            else
+            if (!string.IsNullOrEmpty(request.Name))
                 parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Name });
-
-            if (string.IsNullOrEmpty(request.Name))
-                parameters.Add(new SqlParameter { ParameterName = "OrderNumber", Value = DBNull.Value });
             else
-                parameters.Add(new SqlParameter { ParameterName = "OrderNumber", Value = request.OrderNumber });
+                parameters.Add(new SqlParameter { ParameterName = "Name", Value = DBNull.Value });
 
+            if (!string.IsNullOrEmpty(request.Value))
+                parameters.Add(new SqlParameter { ParameterName = "Value", Value = request.Value });
+            else
+                parameters.Add(new SqlParameter { ParameterName = "Value", Value = DBNull.Value });
+
+            parameters.Add(new SqlParameter { ParameterName = "OrderNumber", Value = request.OrderNumber });
+            parameters.Add(new SqlParameter { ParameterName = "IsSelected", Value = request.IsSelected });
             parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = request.IsActive });
-
-
-
 
             if (request.Id == 0)
             {
-                parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = authenticationData.UserId });
-                parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = authenticationData.LanguageId });
                 parameters.Add(new SqlParameter { ParameterName = "RecordDate", Value = DateTime.Now });
 
-                db.ExecuteNoneQuery("insert into [FormElement](SystemUserId,LanguageId,FormGroupId,ElementTypeId,Name,OrderNumber,RecordDate,IsActive) values(@SystemUserId,@LanguageId,@FormGroupId,@ElementTypeId,@Name,@OrderNumber,@RecordDate,@IsActive)", System.Data.CommandType.Text, parameters);
+                db.ExecuteNoneQuery("insert into [FormElementOptions](LanguageId,SystemUserId,FormElementId,Name,Value,OrderNumber,IsSelected,IsActive) values(@LanguageId,@SystemUserId,@FormElementId,@Name,@Value,@OrderNumber,@IsSelected,@IsActive)", System.Data.CommandType.Text, parameters);
 
-                return Json(new ReturnObject<FormElement>
+                return Json(new ReturnObject<FormElementOptions>
                 {
                     Data = request,
                     ResultType = MessageType.Success
@@ -162,14 +159,20 @@ namespace Inta.Framework.Admin.Controllers
             }
             else
             {
-
-
                 parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
 
+                db.ExecuteNoneQuery(@"Update [FormElementOptions] set 
+                LanguageId=@LanguageId,
+                SystemUserId=@SystemUserId,
+                FormElementId=@FormElementId,
+                Name=@Name,
+                Value=@Value,
+                OrderNumber=@OrderNumber,
+                IsSelected=@IsSelected,
+                IsActive=@IsActive,
+                where Id=@Id", System.Data.CommandType.Text, parameters);
 
-                db.ExecuteNoneQuery("Update [FormElement] set LanguageId=@LanguageId,FormGroupId=@FormGroupId,ElementTypeId=@ElementTypeId,Name=@Name,OrderNumber=@OrderNumber,IsActive=@IsActive where Id=@Id", System.Data.CommandType.Text, parameters);
-
-                return Json(new ReturnObject<FormElement>
+                return Json(new ReturnObject<FormElementOptions>
                 {
                     Data = request,
                     ResultType = MessageType.Success

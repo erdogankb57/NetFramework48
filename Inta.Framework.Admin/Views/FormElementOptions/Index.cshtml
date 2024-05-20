@@ -76,13 +76,6 @@
                         Text = "Durum",
                         Width = 100
 
-                    }); 
-                    col.Add(new PagingDataListColumn
-                    {
-                        Name = "ElementOptions",
-                        Text = "Seçenek Ekle",
-                        Width = 100
-
                     });
                     col.Add(new PagingDataListColumn
                     {
@@ -99,7 +92,7 @@
 
                     });
                 }
-                @Html.PagingDataListFor(ObjectId: "PagingDataList", Header: col, Url: "/FormElement/GetList", AddUrl: "/FormElement/Add", isAddPopup: true, DeleteUrl: "/FormElement/Delete", ActiveUrl: "/FormElement/Active", PassiveUrl: "/FormElement/Passive", SaveUrl: "/FormElement/Save", CallBackFunction: "SearchDataList", PagingRowCount: 20, OrderColumn: "Id")
+                @Html.PagingDataListFor(ObjectId: "PagingDataList", Header: col, Url: "/FormElementOptions/GetList", AddUrl: "/FormElementOptions/Add", isAddPopup: true, DeleteUrl: "/FormElementOptions/Delete", ActiveUrl: "/FormElementOptions/Active", PassiveUrl: "/FormElementOptions/Passive", SaveUrl: "/FormElementOptions/Save", CallBackFunction: "SearchDataList", PagingRowCount: 20, OrderColumn: "Id")
 
             </div>
         </div>
