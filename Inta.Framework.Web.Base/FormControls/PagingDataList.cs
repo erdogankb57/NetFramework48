@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace Inta.Framework.Web.Base
+namespace Inta.Framework.Web.Base.FormControls
 {
     public static class PagingDataList
     {

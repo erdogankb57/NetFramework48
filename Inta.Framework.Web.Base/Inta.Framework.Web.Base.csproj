@@ -37,6 +37,8 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
     </Reference>
@@ -63,11 +65,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CheckBoxListFilter.cs" />
-    <Compile Include="PagingDataList.cs" />
+    <Compile Include="Authorization\AuthenticationData.cs" />
+    <Compile Include="Authorization\AuthorizationCheck.cs" />
+    <Compile Include="Controllers\CategoryBaseController.cs" />
+    <Compile Include="FormControls\CheckBoxListFilter.cs" />
+    <Compile Include="FormControls\PagingDataList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RadioButtonList.cs" />
-    <Compile Include="SelectListFor.cs" />
+    <Compile Include="FormControls\RadioButtonList.cs" />
+    <Compile Include="FormControls\SelectListFor.cs" />
+    <Compile Include="FormControls\CategorySelectBox.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -80,6 +86,10 @@
     <ProjectReference Include="..\Inta.Framework.Contract\Inta.Framework.Contract.csproj">
       <Project>{F5C4E264-B7B8-4BC2-B0C6-0A7A418D9167}</Project>
       <Name>Inta.Framework.Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Inta.Framework.Entity\Inta.Framework.Entity.csproj">
+      <Project>{12D2FD96-B942-4F99-885A-2248849D1AD6}</Project>
+      <Name>Inta.Framework.Entity</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

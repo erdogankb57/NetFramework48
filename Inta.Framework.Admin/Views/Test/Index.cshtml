@@ -19,6 +19,14 @@
 
         <form action="/Home/Save" method="post">
             <div class="container">
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">CheckBox Filter</label>
+                    <div class="col-sm-10">
+                        @(Html.CategorySelectBoxFor(Id:6055,ObjectId:"CategoryTest", ObjectName: "CategoryTest",DisplayName:"Name",ValueName:"Id",DefaultText:"Lütfen kategori seçiniz", DefaultValue:""))
+                    </div>
+                </div>
+
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">CheckBox Filter</label>
                     <div class="col-sm-10">
@@ -44,32 +52,82 @@
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Data List</label>
                     <div class="col-sm-10">
+
+
                         @{
                             List<PagingDataListColumn> col = new List<PagingDataListColumn>();
                             col.Add(new PagingDataListColumn
                             {
-                                Name = "Id",
-                                Text = "Id"
+                                Name = "Select",
+                                Text = "Seçiniz",
+                                Width = 30
                             });
                             col.Add(new PagingDataListColumn
                             {
-                                Name = "IsActive",
-                                Text = "Aktif"
+                                Name = "Id",
+                                Text = "Id",
+                                Width = 100,
+                                Short = true
+
                             });
                             col.Add(new PagingDataListColumn
                             {
                                 Name = "Name",
-                                Text = "Ad"
+                                Text = "Ad",
+                                Short = true
+                            });
+
+                            col.Add(new PagingDataListColumn
+                            {
+                                Name = "IsActive",
+                                Text = "Durum",
+                                Width = 100
+
+                            });
+                            col.Add(new PagingDataListColumn
+                            {
+                                Name = "Edit",
+                                Text = "Düzenle",
+                                Width = 100
+
+                            });
+                            col.Add(new PagingDataListColumn
+                            {
+                                Name = "Delete",
+                                Text = "Sil",
+                                Width = 100
+
                             });
                         }
-                     @*   @Html.PagingDataListFor("PagingDataList", col, "/Test/TestDataList", "/BannerType/Add", "/BannerType/Add", "/BannerType/Add", "/BannerType/Add", 20, "Id")*@
+                        @Html.PagingDataListFor(ObjectId: "PagingDataList", Header: col, Url: "/Banner/GetList", AddUrl: "/Banner/Add", isAddPopup: true, DeleteUrl: "/Banner/Delete", ActiveUrl: "/Banner/Active", PassiveUrl: "/Banner/Passive", SaveUrl: "/Banner/Save", CallBackFunction: "SearchDataList", PagingRowCount: 20, OrderColumn: "Id")
 
-                        <script type="text/javascript">
-                            $(function () {
-                                var val = { Name: "a" };
-                                $PagingDataList.ReloadData("PagingDataList", val)
-                            })
-                        </script>
+                        @section scripts{
+                            <script type="text/javascript">
+                                var SearchDataList = function () {
+                                    $(function () {
+                                        debugger;
+                                        var val = { Name: null, IsActive: true };
+                                        if ($("#Name").val() != "") {
+                                            val["Name"] = $("#Name").val();
+                                        }
+                                        if ($("#IsActive").val() != "") {
+                                            val["IsActive"] = $("#IsActive").is(":checked");
+                                        }
+
+                                        $PagingDataList.ReloadData("PagingDataList", val);
+
+                                    })
+                                }
+                                SearchDataList();
+                                $("#saveForm").submit(function (e) {
+                                    debugger;
+                                    e.preventDefault();
+                                    $PagingDataList.Save("saveForm", "PagingDataList", SearchDataList);
+
+                                });
+                            </script>
+                        }
+
                     </div>
                 </div>
             </div>

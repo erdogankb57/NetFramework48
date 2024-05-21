@@ -3,10 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Web;
+using System.Text;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace Inta.Framework.Admin.Models
+namespace Inta.Framework.Web.Base.Authorization
 {
     public class AuthorizationCheck : ActionFilterAttribute, IResultFilter
     {

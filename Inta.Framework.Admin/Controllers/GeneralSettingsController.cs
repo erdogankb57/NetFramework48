@@ -1,13 +1,11 @@
-﻿using Inta.Framework.Admin.Models;
-using Inta.Framework.Ado.Net;
+﻿using Inta.Framework.Ado.Net;
 using Inta.Framework.Contract;
 using Inta.Framework.Entity;
+using Inta.Framework.Web.Base.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Inta.Framework.Admin.Controllers

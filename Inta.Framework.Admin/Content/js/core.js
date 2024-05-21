@@ -233,7 +233,7 @@ var $PagingDataList = {
                         filebrowserImageBrowseUrl: '/EditorImageUpload'
                     });
                 });
-
+                $TreeSelectBox.Init();
                 $CheckBoxListFilter.Init();
             },
             error: function (response) {
@@ -640,3 +640,18 @@ $(function () {
 })
 
 /*RadioButtonList*/
+
+
+/*CategorySelectBox*/
+$TreeSelectBox = {
+    Init: function () {
+        $(".TreeSelectBox select").click(function () {
+            alert();
+        })
+    }
+}
+
+$(function () {
+
+})
+/*CategorySelectBox*/
