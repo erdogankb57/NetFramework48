@@ -22,14 +22,16 @@ namespace Inta.Framework.Web.Base
         string DefaultText = null,
         string DefaultValue = null,
         string IconName = null,
-        bool IsRequired = false)
+        bool IsRequired = false,
+        bool IsDisabled = false
+            )
         {
             if (string.IsNullOrEmpty(DisplayName) || string.IsNullOrEmpty(ValueName))
                 return new MvcHtmlString("");
 
-  
+
             StringBuilder shtml = new StringBuilder();
-            shtml.Append($"<select type='select' name='{ObjectName}' id='{ObjectId}' DisplayName='{DisplayName}' ValueName='{ValueName}' DefaultText='{DefaultText}' DefaultValue='{DefaultValue}' class='selectList form-control shadow-none' {(IsRequired ? "required" : "")}>");
+            shtml.Append($"<select type='select' name='{ObjectName}' id='{ObjectId}' DisplayName='{DisplayName}' ValueName='{ValueName}' DefaultText='{DefaultText}' DefaultValue='{DefaultValue}' class='selectList form-control shadow-none' {(IsRequired ? "required" : "")} {(IsDisabled ? "disabled" : "")}>");
             shtml.Append($"<option value='{DefaultValue}' >{DefaultText}</option>");
 
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());

@@ -107,7 +107,7 @@ namespace Inta.Framework.Admin.Controllers
             ViewBag.ImageFolder = System.Configuration.ConfigurationManager.AppSettings["ImageUpload"].ToString();
 
             if (id == 0)
-                return PartialView("Add", new FormElementOptions { IsActive = true });
+                return PartialView("Add", new FormElementOptions { IsActive = true, FormElementId = HttpContext.Session["RecordId"] != null ? Convert.ToInt32(HttpContext.Session["RecordId"]) : 0 });
             else
             {
                 var model = db.Get<FormElementOptions>("select * from [FormElementOptions] where Id=@Id", System.Data.CommandType.Text, parameters);
@@ -169,7 +169,7 @@ namespace Inta.Framework.Admin.Controllers
                 Value=@Value,
                 OrderNumber=@OrderNumber,
                 IsSelected=@IsSelected,
-                IsActive=@IsActive,
+                IsActive=@IsActive
                 where Id=@Id", System.Data.CommandType.Text, parameters);
 
                 return Json(new ReturnObject<FormElementOptions>
