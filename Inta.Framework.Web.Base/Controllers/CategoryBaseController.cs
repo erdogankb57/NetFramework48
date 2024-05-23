@@ -27,12 +27,12 @@ namespace Inta.Framework.Web.Base.Controllers
             ReturnObject<string> result = new ReturnObject<string>();
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
 
-            int TopCategoryId = Convert.ToInt32(db.Get("Select * from Category where Id=" + Id, System.Data.CommandType.Text).Data["CategoryId"]);
+            //int TopCategoryId = Convert.ToInt32(db.Get("Select * from Category where Id=" + Id, System.Data.CommandType.Text).Data["CategoryId"]);
 
 
             StringBuilder shtml = new StringBuilder();
             shtml.Append("<ul>");
-            shtml.Append(GetSubCategory(TopCategoryId));
+            shtml.Append(GetSubCategory(Id));
             shtml.Append("</ul>");
 
             shtml.Append($"<select type='select' name='{ObjectName}' id='{ObjectId}' DisplayName='{DisplayName}' ValueName='{ValueName}' DefaultText='{DefaultText}' DefaultValue='{DefaultValue}' class='selectList shadow-none'>");
@@ -40,7 +40,7 @@ namespace Inta.Framework.Web.Base.Controllers
 
 
             List<SqlParameter> parameters = new List<SqlParameter>();
-            parameters.Add(new SqlParameter { ParameterName = "Id", Value = TopCategoryId });
+            parameters.Add(new SqlParameter { ParameterName = "Id", Value = Id });
             var returnObject = db.Find("Select * from Category where CategoryId=@Id", System.Data.CommandType.Text, parameters);
             if (returnObject != null)
             {

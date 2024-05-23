@@ -26,7 +26,6 @@
 
             @Html.HiddenFor(h => h.Id)
             @Html.HiddenFor(h => h.RecordDate)
-            @Html.HiddenFor(h => h.CategoryId)
             @Html.HiddenFor(h => h.LanguageId)
 
             <div class="container-fluid">
@@ -36,7 +35,7 @@
                         <div class="col-lg-3">
                             <label for="exampleFormControlInput1">Kategori Seçiniz</label>
                         </div><div class="col-lg-9">
-                            @(Html.CategorySelectBoxFor(Id:Model.CategoryId,ObjectId:"CategoryTest", ObjectName: "CategoryTest",DisplayName:"Name",ValueName:"Id",DefaultText:"Lütfen kategori seçiniz", DefaultValue:""))
+                            @(Html.CategorySelectBoxFor(Id:Model.CategoryId,ObjectId:"CategoryId", ObjectName: "CategoryId", DisplayName:"Name",ValueName:"Id",DefaultText:"Lütfen kategori seçiniz", DefaultValue:""))
                         </div>
                     </div>
                 </div>

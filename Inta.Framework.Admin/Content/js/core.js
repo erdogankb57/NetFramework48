@@ -25,7 +25,7 @@ var $PagingDataList = {
             url: Url,
             type: "POST",
             dataType: 'json',
-   /*         contentType: 'application/x-www-form-urlencoded; charset=UTF-8',*/
+            /*         contentType: 'application/x-www-form-urlencoded; charset=UTF-8',*/
             data: Data,
             success: function (response) {
                 var Count = 0;
@@ -645,17 +645,21 @@ $(function () {
 /*CategorySelectBox*/
 $TreeSelectBox = {
     Init: function () {
-        var Data = {
-            Id: 6055,
-            ObjectId: "",
-            ObjectName: "",
-            DisplayName: "Name",
-            ValueName: "Id",
-            DefaultValue: "",
-            DefaultText: ""
-        };
-
         $(document).on('change', $(".TreeSelectBox select"), function (el) {
+            if ($(el.target).val() == "") {
+                return;
+            }
+            console.log($(el.target));
+            var Data = {
+                Id: $(el.target).val(),
+                ObjectId: $(el.target).attr("ObjectId"),
+                ObjectName: $(el.target).attr("ObjectName"),
+                DisplayName: $(el.target).attr("DisplayName"),
+                ValueName: $(el.target).attr("ValueName"),
+                DefaultValue: $(el.target).attr("DefaultValue"),
+                DefaultText: $(el.target).attr("DefaultText")
+            };
+
             console.log($(el.target).val());
             $.ajax({
                 url: "/CategoryBase/GetCategory",
@@ -664,9 +668,41 @@ $TreeSelectBox = {
                 contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
                 data: Data,
                 success: function (response) {
-                    console.log(response);
-                    console.log($(el.target).parent("div").html());
                     $(el.target).parent("div").html(response.Data);
+                    $TreeSelectBox.Select();
+                },
+                error: function (response) {
+
+                }
+            });
+        });
+
+        $TreeSelectBox.Select();
+    }, Select: function () {
+
+        $(".TreeSelectBox ul li").click(function () {
+            var TreeSelectBox = $(this).parents(".TreeSelectBox");
+            var obj = $(TreeSelectBox).find("select");
+            var Data = {
+                //Id: $(obj).val(),
+                Id: 6053,
+                ObjectId: $(obj).attr("id"),
+                ObjectName: $(obj).attr("name"),
+                DisplayName: $(obj).attr("DisplayName"),
+                ValueName: $(obj).attr("ValueName"),
+                DefaultValue: $(obj).attr("DefaultValue"),
+                DefaultText: $(obj).attr("DefaultText")
+            };
+
+            $.ajax({
+                url: "/CategoryBase/GetCategory",
+                type: "POST",
+                dataType: 'json',
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                data: Data,
+                success: function (response) {
+                    console.log(response.Data);
+                    $(TreeSelectBox).html(response.Data);
                 },
                 error: function (response) {
 

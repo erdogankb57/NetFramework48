@@ -111,7 +111,7 @@ namespace Inta.Framework.Admin.Controllers
 
             ViewBag.ImageFolder = System.Configuration.ConfigurationManager.AppSettings["ImageUpload"].ToString();
 
-            if (id == 0)
+            if (id == null || id == 0)
                 return PartialView("Add", new Record { IsActive = true });
             else
             {
@@ -257,6 +257,7 @@ namespace Inta.Framework.Admin.Controllers
                 parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
 
                 db.ExecuteNoneQuery(@"Update [Record] set 
+                CategoryId=@CategoryId,
                 TargetId=@TargetId,
                 Name=@Name,
                 RecordUrl=@RecordUrl,
