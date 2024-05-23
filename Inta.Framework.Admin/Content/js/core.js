@@ -25,7 +25,7 @@ var $PagingDataList = {
             url: Url,
             type: "POST",
             dataType: 'json',
-            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+   /*         contentType: 'application/x-www-form-urlencoded; charset=UTF-8',*/
             data: Data,
             success: function (response) {
                 var Count = 0;
@@ -645,9 +645,34 @@ $(function () {
 /*CategorySelectBox*/
 $TreeSelectBox = {
     Init: function () {
-        $(".TreeSelectBox select").click(function () {
-            alert();
-        })
+        var Data = {
+            Id: 6055,
+            ObjectId: "",
+            ObjectName: "",
+            DisplayName: "Name",
+            ValueName: "Id",
+            DefaultValue: "",
+            DefaultText: ""
+        };
+
+        $(document).on('change', $(".TreeSelectBox select"), function (el) {
+            console.log($(el.target).val());
+            $.ajax({
+                url: "/CategoryBase/GetCategory",
+                type: "POST",
+                dataType: 'json',
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                data: Data,
+                success: function (response) {
+                    console.log(response);
+                    console.log($(el.target).parent("div").html());
+                    $(el.target).parent("div").html(response.Data);
+                },
+                error: function (response) {
+
+                }
+            });
+        });
     }
 }
 
