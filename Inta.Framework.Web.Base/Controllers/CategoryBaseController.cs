@@ -2,6 +2,7 @@
 using Inta.Framework.Contract;
 using Inta.Framework.Entity;
 using Inta.Framework.Web.Base.Authorization;
+using Inta.Framework.Web.Base.FormControls;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -32,7 +33,8 @@ namespace Inta.Framework.Web.Base.Controllers
 
             StringBuilder shtml = new StringBuilder();
             shtml.Append("<ul>");
-            shtml.Append(GetSubCategory(Id));
+            shtml.Append("<li id='0'>Başa dön</li>");
+            shtml.Append(CategorySelectBox.GetSubCategory(Id));
             shtml.Append("</ul>");
 
             shtml.Append($"<select type='select' name='{ObjectName}' id='{ObjectId}' DisplayName='{DisplayName}' ValueName='{ValueName}' DefaultText='{DefaultText}' DefaultValue='{DefaultValue}' class='selectList shadow-none'>");
@@ -60,27 +62,6 @@ namespace Inta.Framework.Web.Base.Controllers
             result.Data = shtml.ToString();
 
             return Json(result, JsonRequestBehavior.AllowGet);
-        }
-
-
-        private static string GetSubCategory(int Id)
-        {
-            StringBuilder shtml = new StringBuilder();
-
-            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
-            List<SqlParameter> parameters = new List<SqlParameter>();
-            parameters.Add(new SqlParameter { ParameterName = "Id", Value = Id });
-            var returnObject = db.Get<Category>("Select * from Category where Id=@Id", System.Data.CommandType.Text, parameters);
-            if (returnObject != null)
-            {
-                if (returnObject.Data.CategoryId != 0)
-                {
-                    shtml.Append(GetSubCategory(returnObject.Data.CategoryId));
-                }
-                shtml.Append($"<li>{returnObject.Data.Name}</li>");
-            }
-
-            return shtml.ToString();
         }
     }
 }

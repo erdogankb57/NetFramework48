@@ -40,13 +40,14 @@ namespace Inta.Framework.Web.Base.FormControls
             StringBuilder shtml = new StringBuilder();
             shtml.Append($"<div class='TreeSelectBox'>");
             shtml.Append("<ul>");
+            shtml.Append("<li id='0'>Başa dön</li>");
             shtml.Append(GetSubCategory(Id));
             shtml.Append("</ul>");
 
             shtml.Append($"<select type='select' name='{ObjectName}' id='{ObjectId}' DisplayName='{DisplayName}' ValueName='{ValueName}' DefaultText='{DefaultText}' DefaultValue='{DefaultValue}' class='selectList shadow-none'>");
             shtml.Append($"<option value='{DefaultValue}' >{DefaultText}</option>");
 
-           
+
             List<SqlParameter> parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter { ParameterName = "Id", Value = Id });
             var returnObject = db.Find("Select * from Category where CategoryId=@Id", System.Data.CommandType.Text, parameters);
@@ -71,7 +72,7 @@ namespace Inta.Framework.Web.Base.FormControls
             return new MvcHtmlString(shtml.ToString());
         }
 
-        private static string GetSubCategory(int Id)
+        public static string GetSubCategory(int Id)
         {
             StringBuilder shtml = new StringBuilder();
 
@@ -79,13 +80,13 @@ namespace Inta.Framework.Web.Base.FormControls
             List<SqlParameter> parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter { ParameterName = "Id", Value = Id });
             var returnObject = db.Get<Category>("Select * from Category where Id=@Id", System.Data.CommandType.Text, parameters);
-            if (returnObject != null)
+            if (returnObject != null && returnObject.Data != null)
             {
                 if (returnObject.Data.CategoryId != 0)
                 {
                     shtml.Append(GetSubCategory(returnObject.Data.CategoryId));
                 }
-                shtml.Append($"<li>{returnObject.Data.Name}</li>");
+                shtml.Append($"<li id='{returnObject.Data.Id}'>{returnObject.Data.Name}</li>");
             }
 
             return shtml.ToString();

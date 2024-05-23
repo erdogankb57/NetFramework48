@@ -366,6 +366,7 @@ select {
         margin: 0px 4px;
         font-size: 10px;
         position:relative;
+        cursor:pointer;
     }
 
         .TreeSelectBox ul li:before {

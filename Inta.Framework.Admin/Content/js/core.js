@@ -681,11 +681,12 @@ $TreeSelectBox = {
     }, Select: function () {
 
         $(".TreeSelectBox ul li").click(function () {
+            debugger;
             var TreeSelectBox = $(this).parents(".TreeSelectBox");
             var obj = $(TreeSelectBox).find("select");
             var Data = {
                 //Id: $(obj).val(),
-                Id: 6053,
+                Id: $(this).attr("id"),
                 ObjectId: $(obj).attr("id"),
                 ObjectName: $(obj).attr("name"),
                 DisplayName: $(obj).attr("DisplayName"),
@@ -703,6 +704,7 @@ $TreeSelectBox = {
                 success: function (response) {
                     console.log(response.Data);
                     $(TreeSelectBox).html(response.Data);
+                    $TreeSelectBox.Select();
                 },
                 error: function (response) {
 

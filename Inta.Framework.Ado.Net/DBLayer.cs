@@ -231,9 +231,10 @@ namespace Inta.Framework.Ado.Net
                     DataTable dt = new DataTable();
                     adapter.Fill(dt);
 
-                    TEntity result = new TEntity();
+                    TEntity result = null;
                     if (dt.Rows.Count > 0)
                     {
+                        result = new TEntity(); 
                         foreach (PropertyInfo item in result.GetType().GetProperties())
                         {
                             string columnName = item.Name;
