@@ -20,6 +20,7 @@ var $PagingDataList = {
 
         //Seçili olan checkboxlar alınır.
         $PagingDataList.SelectedRecord(ObjectId);
+        $TreeSelectBox.Init();
 
         $.ajax({
             url: Url,
@@ -400,6 +401,7 @@ var $PagingDataList = {
 
                 $("#" + formId).find("button[type='submit']").prop('disabled', false);
 
+                scroolTop(0, 300);
                 CallBack.call();
 
             }, error: function (data) {

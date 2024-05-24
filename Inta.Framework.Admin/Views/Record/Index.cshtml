@@ -12,9 +12,7 @@
                         Banner Tipi
                     </div>
                     <div class="col-lg-10">
-                        @{
-                            @Html.Raw(Html.SelectListFor("Select * from BannerType", ObjectId: "BannerTypeId", ObjectName: "BannerTypeId", DisplayName: "Name", ValueName: "Id", SelectedValue: "", DefaultText: "Seçiniz", DefaultValue: ""));
-                        }
+                        @(Html.CategorySelectBoxFor(Id:0,ObjectId:"CategoryId", ObjectName: "CategoryId", DisplayName:"Name",ValueName:"Id",DefaultText:"Lütfen kategori seçiniz", DefaultValue:""))
                     </div>
                 </div>
             </div>
@@ -135,15 +133,15 @@
         var SearchDataList = function () {
             $(function () {
                 debugger;
-                var val = { Name: null, IsActive: true, BannerTypeId: null };
+                var val = { Name: null, IsActive: true, CategoryId: null };
                 if ($("#Name").val() != "") {
                     val["Name"] = $("#Name").val();
                 }
                 if ($("#IsActive").val() != "") {
                     val["IsActive"] = $("#IsActive").is(":checked");
                 }
-                if ($("#BannerTypeId").val() != "") {
-                    val["BannerTypeId"] = $("#BannerTypeId").val();
+                if ($("#CategoryId").val() != "") {
+                    val["CategoryId"] = $("#CategoryId").val();
                 }
                 $PagingDataList.ReloadData("RecordList", val);
 
