@@ -216,7 +216,9 @@ namespace Inta.Framework.Admin.Controllers
             if (request.Id == 0)
             {
                 db.ExecuteNoneQuery(@"
-                insert into Record(Name,
+                insert into Record(
+                CategoryId,
+                Name,
                 RecordUrl,
                 Title,
                 MetaDescription,
@@ -230,7 +232,9 @@ namespace Inta.Framework.Admin.Controllers
                 OrderNumber,
                 RecordDate,
                 IsActive)
-                values(@Name,
+                values(
+                @CategoryId,
+                @Name,
                 @RecordUrl,
                 @Title,
                 @MetaDescription,

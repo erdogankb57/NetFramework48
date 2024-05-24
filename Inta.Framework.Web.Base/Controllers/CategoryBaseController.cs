@@ -32,12 +32,13 @@ namespace Inta.Framework.Web.Base.Controllers
 
 
             StringBuilder shtml = new StringBuilder();
+            shtml.Append($"<input type='hidden' name='{ObjectName}' id='{ObjectId}' value='{Id}'/>");
             shtml.Append("<ul>");
             shtml.Append("<li id='0'>Başa dön</li>");
             shtml.Append(CategorySelectBox.GetSubCategory(Id));
             shtml.Append("</ul>");
 
-            shtml.Append($"<select type='select' name='{ObjectName}' id='{ObjectId}' DisplayName='{DisplayName}' ValueName='{ValueName}' DefaultText='{DefaultText}' DefaultValue='{DefaultValue}' class='selectList shadow-none'>");
+            shtml.Append($"<select type='select' ObjectName='{ObjectName}' ObjectId='{ObjectId}' DisplayName='{DisplayName}' ValueName='{ValueName}' DefaultText='{DefaultText}' DefaultValue='{DefaultValue}' class='selectList shadow-none'>");
             shtml.Append($"<option value='{DefaultValue}' >{DefaultText}</option>");
 
 

@@ -646,6 +646,7 @@ $(function () {
 $TreeSelectBox = {
     Init: function () {
         $(document).on('change', $(".TreeSelectBox select"), function (el) {
+            debugger;
             if ($(el.target).val() == "") {
                 return;
             }
@@ -659,6 +660,8 @@ $TreeSelectBox = {
                 DefaultValue: $(el.target).attr("DefaultValue"),
                 DefaultText: $(el.target).attr("DefaultText")
             };
+
+            $(el.target).parent("div").find("input[type='hidden']").val($(el.target).val());
 
             console.log($(el.target).val());
             $.ajax({
@@ -687,8 +690,8 @@ $TreeSelectBox = {
             var Data = {
                 //Id: $(obj).val(),
                 Id: $(this).attr("id"),
-                ObjectId: $(obj).attr("id"),
-                ObjectName: $(obj).attr("name"),
+                ObjectId: $(obj).attr("ObjectId"),
+                ObjectName: $(obj).attr("ObjectName"),
                 DisplayName: $(obj).attr("DisplayName"),
                 ValueName: $(obj).attr("ValueName"),
                 DefaultValue: $(obj).attr("DefaultValue"),

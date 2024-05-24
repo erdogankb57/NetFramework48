@@ -1,15 +1,16 @@
-﻿body,html{
-    font-size:12px;
-    font-weight:normal;
-}
-label{
-    font-weight:normal;
+﻿body, html {
+    font-size: 12px;
+    font-weight: normal;
 }
 
-.form-control{
-    font-size:12px;
-    height:auto !important;
-    padding:6px 10px;
+label {
+    font-weight: normal;
+}
+
+.form-control {
+    font-size: 12px;
+    height: auto !important;
+    padding: 6px 10px;
 }
 
 table {
@@ -19,7 +20,7 @@ table {
 table, th, td {
     border: 1px solid #cfcfcf;
     border-collapse: collapse;
-    font-size:12px;
+    font-size: 12px;
 }
 
 th, td {
@@ -172,7 +173,7 @@ th, td {
             float: left;
             position: relative;
             margin: 5px 0;
-            overflow:hidden;
+            overflow: hidden;
         }
 
             .CheckBoxListFilter .CheckBoxListFilterOpen ul li {
@@ -182,7 +183,7 @@ th, td {
                 width: calc(100% - 10px);
                 padding: 3px 10px;
                 background: #FFFFFF;
-                font-size:12px;
+                font-size: 12px;
             }
 
                 .CheckBoxListFilter .CheckBoxListFilterOpen ul li:hover {
@@ -195,8 +196,8 @@ th, td {
 
                 .CheckBoxListFilter .CheckBoxListFilterOpen ul li label {
                     margin: 0 0 0 5px;
-                    font-size:12px;
-                    padding:0 15px;
+                    font-size: 12px;
+                    padding: 0 15px;
                 }
 
 
@@ -325,7 +326,7 @@ select {
         max-height: 135px;
         float: left;
         position: relative;
-        overflow-y:hidden;
+        overflow-y: hidden;
     }
 
         .RadioButtonList ul li {
@@ -355,8 +356,8 @@ select {
 
 
 /*CategorySelectBox*/
-.TreeSelectBox ul{
-    float:left;
+.TreeSelectBox ul {
+    float: left;
 }
 
     .TreeSelectBox ul li {
@@ -365,9 +366,14 @@ select {
         background: #DDDDDD;
         margin: 0px 4px;
         font-size: 10px;
-        position:relative;
-        cursor:pointer;
+        position: relative;
+        cursor: pointer;
     }
+
+        .TreeSelectBox ul li:hover {
+            background:#29293b;
+            color:#FFFFFF;
+        }
 
         .TreeSelectBox ul li:before {
             content: '';
@@ -380,8 +386,9 @@ select {
             right: -5px;
             transform: translateY(-50%) rotate(-45deg);
         }
-.TreeSelectBox select{
-    margin:0 0 0 4px;
+
+.TreeSelectBox select {
+    margin: 0 0 0 4px;
 }
 
 /*CategorySelectBox*/
