@@ -20,20 +20,9 @@
                 <div class="form-group">
                     <div class="row">
                         <div class="col-lg-3">
-                            <label for="exampleFormControlInput1">Kategori Seçiniz</label>
+                            <label for="exampleFormControlInput1">Kategori</label>
                         </div><div class="col-lg-9">
                             @(Html.CategorySelectBoxFor(Id:Model.CategoryId,ObjectId:"CategoryId", ObjectName: "CategoryId", DisplayName:"Name",ValueName:"Id",DefaultText:"Lütfen kategori seçiniz", DefaultValue:""))
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-lg-3">
-                            <label for="exampleFormControlInput1">Üst Kategori</label>
-                        </div>
-                        <div class="col-lg-9">
-                            <select id="Categorys" class="form-control">
-                            </select>
                         </div>
                     </div>
                 </div>

@@ -114,7 +114,7 @@ namespace Inta.Framework.Admin.Controllers
 
 
             if (id == 0)
-                return PartialView("Add", new Category { IsActive = true });
+                return PartialView("Add", new Category { IsActive = true, CategoryId = 0 });
             else
             {
                 var model = db.Get<Category>("select * from [Category] where Id=@Id", System.Data.CommandType.Text, parameters);
