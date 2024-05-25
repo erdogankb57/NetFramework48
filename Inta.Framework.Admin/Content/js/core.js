@@ -647,25 +647,26 @@ $(function () {
 /*CategorySelectBox*/
 $TreeSelectBox = {
     Init: function () {
-        $(document).on('change', $(".TreeSelectBox select"), function (el) {
+        $(".TreeSelectBox select").on("change", function () {
             debugger;
-            if ($(el.target).val() == "") {
+            var obj = $(this);
+            if ($(obj).val() == "") {
                 return;
             }
-            console.log($(el.target));
+            console.log($(obj));
             var Data = {
-                Id: $(el.target).val(),
-                ObjectId: $(el.target).attr("ObjectId"),
-                ObjectName: $(el.target).attr("ObjectName"),
-                DisplayName: $(el.target).attr("DisplayName"),
-                ValueName: $(el.target).attr("ValueName"),
-                DefaultValue: $(el.target).attr("DefaultValue"),
-                DefaultText: $(el.target).attr("DefaultText")
+                Id: $(obj).val(),
+                ObjectId: $(obj).attr("ObjectId"),
+                ObjectName: $(obj).attr("ObjectName"),
+                DisplayName: $(obj).attr("DisplayName"),
+                ValueName: $(obj).attr("ValueName"),
+                DefaultValue: $(obj).attr("DefaultValue"),
+                DefaultText: $(obj).attr("DefaultText")
             };
 
-            $(el.target).parent("div").find("input[type='hidden']").val($(el.target).val());
+            $(obj).parent("div").find("input[type='hidden']").val($(obj).val());
 
-            console.log($(el.target).val());
+            console.log($(obj).val());
             $.ajax({
                 url: "/CategoryBase/GetCategory",
                 type: "POST",
@@ -673,7 +674,7 @@ $TreeSelectBox = {
                 contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
                 data: Data,
                 success: function (response) {
-                    $(el.target).parent("div").html(response.Data);
+                    $(obj).parent("div").html(response.Data);
                     $TreeSelectBox.Select();
                 },
                 error: function (response) {
