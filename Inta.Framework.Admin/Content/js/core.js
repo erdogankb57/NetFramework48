@@ -21,6 +21,7 @@ var $PagingDataList = {
         //Seçili olan checkboxlar alınır.
         $PagingDataList.SelectedRecord(ObjectId);
         $TreeSelectBox.Init();
+        $TreeSelectBox.Select();
 
         $.ajax({
             url: Url,
@@ -235,6 +236,8 @@ var $PagingDataList = {
                     });
                 });
                 $TreeSelectBox.Init();
+                $TreeSelectBox.Select();
+
                 $CheckBoxListFilter.Init();
             },
             error: function (response) {
@@ -675,15 +678,15 @@ $TreeSelectBox = {
                 data: Data,
                 success: function (response) {
                     $(obj).parent("div").html(response.Data);
+                    $TreeSelectBox.Init();
                     $TreeSelectBox.Select();
+
                 },
                 error: function (response) {
 
                 }
             });
         });
-
-        $TreeSelectBox.Select();
     }, Select: function () {
 
         $(".TreeSelectBox ul li").click(function () {
@@ -710,6 +713,7 @@ $TreeSelectBox = {
                 success: function (response) {
                     console.log(response.Data);
                     $(TreeSelectBox).html(response.Data);
+                    $TreeSelectBox.Init();
                     $TreeSelectBox.Select();
                 },
                 error: function (response) {
