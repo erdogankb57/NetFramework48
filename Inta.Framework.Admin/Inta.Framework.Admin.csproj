@@ -521,6 +521,7 @@
     <Content Include="Content\js\perfect-scrollbar.v0.5.2.js" />
     <Content Include="Content\js\popper.min.js" />
     <Content Include="Content\js\validation.js" />
+    <Content Include="Content\Uploads\Image\gezinomi-logo.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -545,7 +546,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Content\Uploads\EditorImage\" />
     <Folder Include="Content\Uploads\File\" />
-    <Folder Include="Content\Uploads\Image\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
