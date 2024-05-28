@@ -128,7 +128,9 @@ namespace Inta.Framework.Admin.Controllers
 
             if (ImageName != null)
             {
-                request.ImageName = ImageManager.ImageUploadSingleCopy(ImageName, filepath);
+                int smallImageWidth = 100;
+                int bigImageWidth = 500;
+                request.ImageName = ImageManager.ImageUploadDoubleCopy(ImageName, filepath,smallImageWidth,bigImageWidth);
             }
 
             List<SqlParameter> parameters = new List<SqlParameter>();

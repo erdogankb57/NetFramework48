@@ -281,7 +281,8 @@ namespace Inta.Framework.Admin.Controllers
                 FormSendEmail=@FormSendEmail,
                 OrderNumber=@OrderNumber,
                 RecordDate=@RecordDate,
-                IsActive=@IsActive
+                IsActive=@IsActive,
+                Image=@Image
                 where Id=@Id", System.Data.CommandType.Text, parameters);
 
                 return Json(new ReturnObject<ContactInformation>

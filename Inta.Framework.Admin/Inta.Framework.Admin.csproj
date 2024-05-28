@@ -124,6 +124,7 @@
     <Compile Include="Controllers\BannerTypeController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\ContactInformationController.cs" />
+    <Compile Include="Controllers\EditorImageUploadController.cs" />
     <Compile Include="Controllers\ErrorPageController.cs" />
     <Compile Include="Controllers\FirmVariablesController.cs" />
     <Compile Include="Controllers\FormElementController.cs" />
@@ -508,6 +509,7 @@
     <Content Include="Content\images\user.jpg" />
     <Content Include="Content\js\autocomplete.js" />
     <Content Include="Content\js\chart.min.js" />
+    <Content Include="Content\js\controller\editorimageupload.js" />
     <Content Include="Content\js\controller\generalsettings.js" />
     <Content Include="Content\js\controller\login.js" />
     <Content Include="Content\js\feather.min.js" />
@@ -622,6 +624,7 @@
     <Content Include="Views\FormElementOptions\Index.cshtml" />
     <Content Include="Views\FormElementOptions\Add.cshtml" />
     <Content Include="Views\ErrorPage\Index.cshtml" />
+    <Content Include="Views\EditorImageUpload\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Inta.Framework.Ado.Net\Inta.Framework.Ado.Net.csproj">

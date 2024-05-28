@@ -103,7 +103,7 @@ namespace Inta.Framework.Admin.Controllers
             ViewBag.ImageFolder = System.Configuration.ConfigurationManager.AppSettings["ImageUpload"].ToString();
 
             if (id == 0)
-                return PartialView("Add", new Banner());
+                return PartialView("Add", new Banner { IsActive = true });
             else
             {
                 var model = db.Get<Banner>("select * from [Banner] where Id=@Id", System.Data.CommandType.Text, parameters);
@@ -131,8 +131,8 @@ namespace Inta.Framework.Admin.Controllers
                 var bannerType = db.Get("Select * from BannerType where Id=" + request.BannerTypeId, System.Data.CommandType.Text);
                 if (bannerType != null && bannerType.Data != null)
                 {
-                    imageSmallWidth = !string.IsNullOrEmpty(bannerType.Data["SmallImageWidth"].ToString()) ? Convert.ToInt32(bannerType.Data["SmallImageWidth"]) : 100;
-                    imageBigWidth = !string.IsNullOrEmpty(bannerType.Data["BigImageWidth"].ToString()) ? Convert.ToInt32(bannerType.Data["BigImageWidth"]) : 500;
+                    imageSmallWidth = !string.IsNullOrEmpty(bannerType.Data["SmallImageWidth"].ToString()) && bannerType.Data["SmallImageWidth"].ToString() != "0" ? Convert.ToInt32(bannerType.Data["SmallImageWidth"]) : 100;
+                    imageBigWidth = !string.IsNullOrEmpty(bannerType.Data["BigImageWidth"].ToString()) && bannerType.Data["BigImageWidth"].ToString() != "0" ? Convert.ToInt32(bannerType.Data["BigImageWidth"]) : 500;
                     request.Image = ImageManager.ImageUploadDoubleCopy(FileImage, filepath, imageSmallWidth, imageBigWidth);
                 }
 

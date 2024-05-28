@@ -388,8 +388,7 @@ var $PagingDataList = {
             processData: false,
             success: function (data) {
                 if (data.ResultType == 0) {
-                    if ($("#Id").val() == "")
-                        addRecordModal(null);
+                    $PagingDataList.AddRecordModal($("#" + ObjectId).attr("AddUrl"), $("#" + ObjectId).attr("AddUrl"), $("#Id").val());
 
                     $("#" + formId).find("button[type='submit']").prop('disabled', false);
 
