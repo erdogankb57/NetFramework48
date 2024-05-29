@@ -59,13 +59,13 @@ namespace Inta.Framework.Admin.Controllers
 
             List<FileInfo> imageList = new List<FileInfo>();
 
-            DirectoryInfo d = new DirectoryInfo(Directory.GetCurrentDirectory().ToString() + HttpContext.Server.MapPath(ConfigurationManager.AppSettings["FileUploadEditor"]));
+            DirectoryInfo d = new DirectoryInfo(HttpContext.Server.MapPath(ConfigurationManager.AppSettings["FileUploadEditor"]));
 
             string supportedExtensions = "*.jpg,*.gif,*.png,*.bmp,*.jpe,*.jpeg,*.wmf,*.emf,*.xbm,*.ico,*.eps,*.tif,*.tiff,*.g01,*.g02,*.g03,*.g04,*.g05,*.g06,*.g07,*.g08";
 
             var result = d.GetFiles("*.*", SearchOption.AllDirectories).Where(s => supportedExtensions.Contains(Path.GetExtension(s.FullName).ToLower())).OrderByDescending(f => f.LastWriteTime).Select(s => new { Name = s.Name, FullName = ConfigurationManager.AppSettings["FileUploadEditor"].ToString() + s.Name + "?d=" + Guid.NewGuid().ToString() }).ToList();
 
-            return Json(result);
+            return Json(result,JsonRequestBehavior.AllowGet);
         }
 
 
@@ -74,7 +74,7 @@ namespace Inta.Framework.Admin.Controllers
         {
             if (Image != null)
             {
-                string filePath = Directory.GetCurrentDirectory().ToString() + HttpContext.Server.MapPath(ConfigurationManager.AppSettings["FileUploadEditor"]);
+                string filePath = ConfigurationManager.AppSettings["FileUploadEditor"];
                 var imageResult = ImageManager.ImageUploadSingleCopy(Image, filePath);
             }
 

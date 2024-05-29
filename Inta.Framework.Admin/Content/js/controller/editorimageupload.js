@@ -83,8 +83,10 @@ var ListImageLoad = function () {
         url: "/EditorImageUpload/GetImageList",
         type: "GET",
         dataType: 'json',
-        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+        contentType: false,
+        processData: false,
         success: function (data) {
+            debugger;
             var img = "";
             for (var i = 0; i < data.length; i++) {
                 if (data[i].FullName == window.top.opener.CKEDITOR.dialog.getCurrent().preview.$.src.split(window.origin)[1]) {
