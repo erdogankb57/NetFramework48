@@ -652,9 +652,11 @@ $(function () {
 /*CategorySelectBox*/
 $TreeSelectBox = {
     Init: function () {
-        $(".TreeSelectBox select").on("change", function () {
+        $(".TreeSelectBox select").on("change", function (e) {
             debugger;
+            e.stopPropagation();
             var obj = $(this);
+            var parent = $(obj).parent("div");
             if ($(obj).val() == "") {
                 return;
             }
@@ -671,7 +673,7 @@ $TreeSelectBox = {
 
             $(obj).parent("div").find("input[type='hidden']").val($(obj).val());
 
-            console.log($(obj).val());
+            $(obj).parent("div").find("select").remove();
             $.ajax({
                 url: "/CategoryBase/GetCategory",
                 type: "POST",
@@ -679,10 +681,11 @@ $TreeSelectBox = {
                 contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
                 data: Data,
                 success: function (response) {
-                    $(obj).parent("div").html(response.Data);
+                    $(parent).html(response.Data);
+                }, complete: function () {
+                    debugger;
                     $TreeSelectBox.Init();
                     $TreeSelectBox.Select();
-
                 },
                 error: function (response) {
 
@@ -691,8 +694,9 @@ $TreeSelectBox = {
         });
     }, Select: function () {
 
-        $(".TreeSelectBox ul li").click(function () {
+        $(".TreeSelectBox ul li").click(function (e) {
             debugger;
+            e.stopPropagation();
             var TreeSelectBox = $(this).parents(".TreeSelectBox");
             var obj = $(TreeSelectBox).find("select");
             var Data = {
@@ -706,6 +710,7 @@ $TreeSelectBox = {
                 DefaultText: $(obj).attr("DefaultText")
             };
 
+            $(TreeSelectBox).html("Yükleniyor");
             $.ajax({
                 url: "/CategoryBase/GetCategory",
                 type: "POST",
@@ -715,6 +720,8 @@ $TreeSelectBox = {
                 success: function (response) {
                     console.log(response.Data);
                     $(TreeSelectBox).html(response.Data);
+                }, complete: function () {
+                    debugger;
                     $TreeSelectBox.Init();
                     $TreeSelectBox.Select();
                 },
