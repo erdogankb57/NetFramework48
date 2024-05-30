@@ -118,7 +118,7 @@ namespace Inta.Framework.Admin.Controllers
             else
             {
                 var model = db.Get<Category>("select * from [Category] where Id=@Id", System.Data.CommandType.Text, parameters);
-
+                
                 return PartialView("Add", model.Data);
             }
 

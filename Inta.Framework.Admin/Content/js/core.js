@@ -224,16 +224,19 @@ var $PagingDataList = {
                 $("#addRecordModal").html($.parseHTML(response));
                 $("#addRecordModal").modal('show');
 
+
                 $("textarea.ckeditor").each(function () {
                     var shortContentEditor = CKEDITOR.instances[$(this).attr("id")];
                     if (shortContentEditor) { shortContentEditor.destroy(true); }
                     CKEDITOR.replace($(this).attr("id"), {
                         enterMode: CKEDITOR.ENTER_BR,
-                        htmlEncodeOutput: true,
+                        htmlEncodeOutput: false,
                         height: 250,
                         filebrowserImageUploadUrl: '/Contents',//for uploading image
                         filebrowserImageBrowseUrl: '/EditorImageUpload'
                     });
+                    CKEDITOR.instances[$(this).attr("id")].setData($(this).val());
+     
                 });
                 $TreeSelectBox.Init();
                 $TreeSelectBox.Select();

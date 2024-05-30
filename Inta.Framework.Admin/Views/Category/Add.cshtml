@@ -198,7 +198,7 @@
                         <div class="col-lg-3">
                             <label for="exampleFormControlInput1">Kısa Açıklama</label>
                         </div><div class="col-lg-9">
-                            @Html.TextAreaFor(m => m.ShortExplanation, new { @class = "form-control ckeditor" })
+                            @Html.Raw(Html.TextAreaFor(m => m.ShortExplanation, new { @class = "form-control ckeditor" }))
 
                         </div>
                     </div>
@@ -208,7 +208,7 @@
                         <div class="col-lg-3">
                             <label for="exampleFormControlInput1">Açıklama</label>
                         </div><div class="col-lg-9">
-                            @Html.TextAreaFor(m => m.Explanation, new { @class = "form-control ckeditor" })
+                            @Html.Raw(Html.TextAreaFor(m => m.Explanation, new { @class = "form-control ckeditor" }))
                         </div>
                     </div>
                 </div>
