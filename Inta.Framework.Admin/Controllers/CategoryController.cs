@@ -284,5 +284,16 @@ namespace Inta.Framework.Admin.Controllers
                 });
             }
         }
+
+        [HttpPost]
+        public ActionResult DeleteImage(string id)
+        {
+            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter { ParameterName = "Id", Value = id });
+            var result = db.ExecuteNoneQuery("Update Category set Image='' where Id=@Id", System.Data.CommandType.Text, parameters);
+
+            return Json("OK", JsonRequestBehavior.AllowGet);
+        }
     }
 }
