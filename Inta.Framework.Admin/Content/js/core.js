@@ -727,3 +727,34 @@ $(function () {
 
 })
 /*CategorySelectBox*/
+
+$ImageFileUpload = {
+    Delete: function (id, ObjectId,ListObjectId) {
+        var onay = confirm("Resmi silmek istediğinizden emin misiniz?");
+        if (onay) {
+            var deleteUrl = $("#" + ObjectId).attr("DeleteUrl");
+            $.ajax({
+                url: deleteUrl,
+                type: "POST",
+                dataType: 'json',
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                data: { "id": id },
+                success: function (response) {
+                    debugger;
+                    $PagingDataList.AddRecordModal($("#" + ListObjectId).attr("AddUrl"), true, id);
+                    setTimeout(function () {
+                        showAlert(".popupMessage", "Resim silme işlemi başarıyla tamamlandı.", "success");
+                    }, 100);
+
+
+                    scroolTop(0, 300);
+                },
+                error: function (response) {
+                    setTimeout(function () {
+                        showAlert(".popupMessage", "Resim silme işlemi sırasında hata oluştu. Lütfen alanları kontrol ediniz.", "error");
+                    }, 100);
+                }
+            });
+        }
+    }
+}

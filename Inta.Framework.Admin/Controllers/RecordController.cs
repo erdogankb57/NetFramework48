@@ -103,6 +103,17 @@ namespace Inta.Framework.Admin.Controllers
             }
             return Json("OK", JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public ActionResult DeleteImage(string id)
+        {
+            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter { ParameterName = "Id", Value = id });
+            var result = db.ExecuteNoneQuery("Update Record set Image='' where Id=@Id", System.Data.CommandType.Text, parameters);
+
+            return Json("OK", JsonRequestBehavior.AllowGet);
+        }
         public ActionResult Add(int? id)
         {
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
@@ -200,8 +211,6 @@ namespace Inta.Framework.Admin.Controllers
 
             if (!string.IsNullOrEmpty(request.Image))
                 parameters.Add(new SqlParameter { ParameterName = "Image", Value = request.Image });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "Image", Value = DBNull.Value });
 
             parameters.Add(new SqlParameter { ParameterName = "OrderNumber", Value = request.OrderNumber });
 
@@ -260,7 +269,7 @@ namespace Inta.Framework.Admin.Controllers
             {
                 parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
 
-                db.ExecuteNoneQuery(@"Update [Record] set 
+                string query = @"Update [Record] set 
                 CategoryId=@CategoryId,
                 TargetId=@TargetId,
                 Name=@Name,
@@ -273,11 +282,17 @@ namespace Inta.Framework.Admin.Controllers
                 Link=@Link,
                 ShortExplanation=@ShortExplanation,
                 Explanation=@Explanation,
-                Image=@Image,
+                ";
+                if (!string.IsNullOrEmpty(request.Image))
+                    query += @"Image=@Image,";
+
+                query += @"
                 OrderNumber=@OrderNumber,
                 RecordDate=@RecordDate,
                 IsActive=@IsActive
-                where Id=@Id", System.Data.CommandType.Text, parameters);
+                where Id=@Id";
+
+                db.ExecuteNoneQuery(query, System.Data.CommandType.Text, parameters);
 
                 return Json(new ReturnObject<Record>
                 {

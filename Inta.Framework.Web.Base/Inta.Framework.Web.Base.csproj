@@ -69,6 +69,7 @@
     <Compile Include="Authorization\AuthorizationCheck.cs" />
     <Compile Include="Controllers\CategoryBaseController.cs" />
     <Compile Include="FormControls\CheckBoxListFilter.cs" />
+    <Compile Include="FormControls\ImageFileUpload.cs" />
     <Compile Include="FormControls\PagingDataList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FormControls\RadioButtonList.cs" />

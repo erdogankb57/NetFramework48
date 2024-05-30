@@ -164,7 +164,7 @@
                             <div id="dropDownLanguage">
 
                                 @{
-                                    string LanguageId = String.IsNullOrEmpty(ViewBag.LanguageId.ToString()) ? ViewBag.LanguageId : "0";
+                                    string LanguageId = !String.IsNullOrEmpty(ViewBag.LanguageId.ToString()) ? ViewBag.LanguageId : "0";
                                     @Html.Raw(Html.SelectListFor("Select * from Language", ObjectId: "SelectListLanguage", ObjectName: "SelectListLanguage", DisplayName: "Name", ValueName: "Id", SelectedValue: LanguageId, DefaultText: "Seçiniz", DefaultValue: ""));
                                 }
 

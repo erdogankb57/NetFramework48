@@ -49,7 +49,7 @@ namespace Inta.Framework.Admin.Controllers
             return Json(new
             {
                 ResultMessage = "OK",
-                ImageUrl = HttpContext.Server.MapPath(ConfigurationManager.AppSettings["FileUploadEditor"]).ToString() + imageName + "?d=" + guide.ToString()
+                ImageUrl = ConfigurationManager.AppSettings["FileUploadEditor"].ToString() + imageName + "?d=" + guide.ToString()
             });
         }
         public ActionResult GetImageList()
