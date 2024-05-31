@@ -990,3 +990,7 @@ a {
 .form-control:focus {
     background: #f0f3fc;
 }
+
+.noneValidate {
+    outline: none !important; box-shadow:none !important; border:solid 1px red;
+}

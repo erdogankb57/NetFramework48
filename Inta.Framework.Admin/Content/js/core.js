@@ -195,7 +195,9 @@ var $PagingDataList = {
         });
     },
     OrderBy: function () {
-        $("#PagingDataListTest thead tr th[Short='True']").click(function () {
+        debugger;
+        $(".PagingDataList table thead tr th[Short='True']").click(function () {
+            debugger;
             var table = $(this).parents("table");
             $(table).attr("ordercolumnn", $(this).attr("name"));
 
@@ -212,7 +214,8 @@ var $PagingDataList = {
     AddRecordModal: function (AddUrl, isAddPopup, id) {
         debugger;
         if (isAddPopup == 'False') {
-            location.href = AddUrl;
+            location.href = AddUrl + "/" + id;
+            return;
         }
         $.ajax({
             url: AddUrl,
@@ -236,7 +239,7 @@ var $PagingDataList = {
                         filebrowserImageBrowseUrl: '/EditorImageUpload'
                     });
                     CKEDITOR.instances[$(this).attr("id")].setData($(this).val());
-     
+
                 });
                 $TreeSelectBox.Init();
                 $TreeSelectBox.Select();
@@ -739,7 +742,7 @@ $(function () {
 /*CategorySelectBox*/
 
 $ImageFileUpload = {
-    Delete: function (id, ObjectId,ListObjectId) {
+    Delete: function (id, ObjectId, ListObjectId) {
         var onay = confirm("Resmi silmek istediğinizden emin misiniz?");
         if (onay) {
             var deleteUrl = $("#" + ObjectId).attr("DeleteUrl");

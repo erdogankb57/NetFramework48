@@ -20,6 +20,17 @@
             <div class="form-group">
                 <div class="row">
                     <div class="col-lg-2">
+                        Banner Adı
+                    </div>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" id="Name" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-lg-2">
                         Aktif Mi
                     </div>
                     <div class="col-lg-10">
@@ -107,14 +118,14 @@
             $(function () {
                 debugger;
                 var val = { Name: null, IsActive: true, CategoryId: null };
-                if ($("#Name").val() != "") {
-                    val["Name"] = $("#Name").val();
+                if ($("#search #Name").val() != "") {
+                    val["Name"] = $("#search #Name").val();
                 }
-                if ($("#IsActive").val() != "") {
-                    val["IsActive"] = $("#IsActive").is(":checked");
+                if ($("#search #IsActive").val() != "") {
+                    val["IsActive"] = $("#search #IsActive").is(":checked");
                 }
-                if ($("#CategoryId").val() != "") {
-                    val["CategoryId"] = $("#CategoryId").val();
+                if ($("#search #CategoryId").val() != "") {
+                    val["CategoryId"] = $("#search #CategoryId").val();
                 }
                 $PagingDataList.ReloadData("CategoryList", val);
 

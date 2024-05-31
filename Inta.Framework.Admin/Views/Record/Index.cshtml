@@ -134,14 +134,14 @@
             $(function () {
                 debugger;
                 var val = { Name: null, IsActive: true, CategoryId: null };
-                if ($("#Name").val() != "") {
-                    val["Name"] = $("#Name").val();
+                if ($("#search #Name").val() != "") {
+                    val["Name"] = $("#search #Name").val();
                 }
-                if ($("#IsActive").val() != "") {
-                    val["IsActive"] = $("#IsActive").is(":checked");
+                if ($("#search #IsActive").val() != "") {
+                    val["IsActive"] = $("#search #IsActive").is(":checked");
                 }
-                if ($("#CategoryId").val() != "") {
-                    val["CategoryId"] = $("#CategoryId").val();
+                if ($("#search #CategoryId").val() != "") {
+                    val["CategoryId"] = $("#search #CategoryId").val();
                 }
                 $PagingDataList.ReloadData("RecordList", val);
 

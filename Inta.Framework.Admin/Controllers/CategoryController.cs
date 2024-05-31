@@ -204,6 +204,11 @@ namespace Inta.Framework.Admin.Controllers
             else
                 parameters.Add(new SqlParameter { ParameterName = "Explanation", Value = DBNull.Value });
 
+            if (request.PageTypeId != null)
+                parameters.Add(new SqlParameter { ParameterName = "PageTypeId", Value = request.PageTypeId });
+            else
+                parameters.Add(new SqlParameter { ParameterName = "PageTypeId", Value = DBNull.Value });
+
             parameters.Add(new SqlParameter { ParameterName = "OrderNumber", Value = request.OrderNumber });
             parameters.Add(new SqlParameter { ParameterName = "RecordDate", Value = DateTime.Now });
 
@@ -218,6 +223,7 @@ namespace Inta.Framework.Admin.Controllers
                 db.ExecuteNoneQuery(@"
                 insert into Category(
                 LanguageId,
+                PageTypeId,
                 CategoryId,
                 Code,
                 Name,
@@ -234,6 +240,7 @@ namespace Inta.Framework.Admin.Controllers
                 )
                 values(
                 @LanguageId,
+                @PageTypeId,
                 @CategoryId,
                 @Code,
                 @Name,
@@ -262,6 +269,7 @@ namespace Inta.Framework.Admin.Controllers
 
                 db.ExecuteNoneQuery(@"Update [Category] set 
                 LanguageId=@LanguageId,
+                PageTypeId=@PageTypeId,
                 CategoryId=@CategoryId,
                 Code=@Code,
                 Name=@Name,

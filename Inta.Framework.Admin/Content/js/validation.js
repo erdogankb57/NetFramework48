@@ -27,11 +27,11 @@ jQuery.fn.extend({
                 var elem = $(this);
 
                 if (elem.attr("required") == "required" && elem.val() == "") {
-                    $(elem).css("border", "solid 1px #b24242"); $(this).focus();
+                    $(elem).css("border", "solid 1px #b24242 !important"); $(this).focus();
                     validateStatus = false;
                     $(this).addClass("noneValidate");
                 } else if (elem.attr("numeric") == "numeric" && $.isNumeric(elem.val()) == false) {
-                    elem.css("border", "solid 1px #b24242"); $(this).focus();
+                    elem.css("border", "solid 1px #b24242 !important"); $(this).focus();
                     $(this).addClass("noneValidate");
                     validateStatus = false;
 
@@ -47,11 +47,11 @@ jQuery.fn.extend({
                 var elem = $(this);
                 if ($(this).find("option[value!='']").length > 0) {
                     if (elem.attr("required") == "required" && elem.val() == "") {
-                        $(elem).css("border", "solid 1px #b24242"); $(this).focus();
+                        $(elem).css("border", "solid 1px #b24242 !important"); $(this).focus();
                         validateStatus = false;
                         $(this).addClass("noneValidate");
                     } else if (elem.attr("numeric") == "numeric" && $.isNumeric(elem.val()) == false) {
-                        elem.css("border", "solid 1px #b24242"); $(this).focus();
+                        elem.css("border", "solid 1px #b24242 !important"); $(this).focus();
                         $(this).addClass("noneValidate");
                         validateStatus = false;
 

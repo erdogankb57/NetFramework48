@@ -26,15 +26,15 @@
                         </div>
                     </div>
                 </div>
-                @*<div class="form-group">
-                        <div class="row">
-                            <div class="col-lg-3">
-                                <label for="exampleFormControlInput1">Sayfa Türü</label>
-                            </div><div class="col-lg-9">
-                                @Html.DropDownListFor(m => m.PageTypeId, pageTypes, new { @class = "form-control", @required = "required" })
-                            </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label for="exampleFormControlInput1">Sayfa Türü</label>
+                        </div><div class="col-lg-9">
+                            @Html.SelectListFor(query: "Select * from PageType where IsActive=1", ObjectId: "PageTypeId", ObjectName: "PageTypeId", DisplayName: "Name", ValueName: "Id", SelectedValue: (Model.PageTypeId != null ? Model.PageTypeId.ToString() : ""), DefaultText: "Seçiniz", DefaultValue: "", IconName: null, IsRequired: true, IsDisabled: false)
                         </div>
-                    </div>*@
+                    </div>
+                </div>
                 <div class="form-group">
                     <div class="row">
                         <div class="col-lg-3">

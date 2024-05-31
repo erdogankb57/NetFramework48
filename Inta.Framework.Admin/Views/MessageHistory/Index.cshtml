@@ -108,11 +108,11 @@
             $(function () {
                 debugger;
                 var val = { Name: null, IsActive: true };
-                if ($("#Subject").val() != "") {
-                    val["Subject"] = $("#Subject").val();
+                if ($("#search #Subject").val() != "") {
+                    val["Subject"] = $("#search #Subject").val();
                 }
-                if ($("#IsActive").val() != "") {
-                    val["IsActive"] = $("#IsActive").is(":checked");
+                if ($("#search #IsActive").val() != "") {
+                    val["IsActive"] = $("#search #IsActive").is(":checked");
                 }
 
                 $PagingDataList.ReloadData("MessageHistoryList", val);

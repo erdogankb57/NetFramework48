@@ -108,11 +108,11 @@
             $(function () {
                 debugger;
                 var val = { Name: null, IsActive: true };
-                if ($("#Name").val() != "") {
-                    val["Name"] = $("#Name").val();
+                if ($("#search #Name").val() != "") {
+                    val["Name"] = $("#search #Name").val();
                 }
-                if ($("#IsActive").val() != "") {
-                    val["IsActive"] = $("#IsActive").is(":checked");
+                if ($("#search #IsActive").val() != "") {
+                    val["IsActive"] = $("#search #IsActive").is(":checked");
                 }
 
                 $PagingDataList.ReloadData("ContactInformationList", val);
