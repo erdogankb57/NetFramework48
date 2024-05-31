@@ -128,8 +128,7 @@
                     val["CategoryId"] = $("#search #CategoryId").val();
                 }
                 $PagingDataList.ReloadData("CategoryList", val);
-
-            })
+            });
         }
 
         SearchDataList();
@@ -139,9 +138,6 @@
             $PagingDataList.Save("saveForm", "CategoryList", SearchDataList);
 
         });
-
-
-
     </script>
 
 
