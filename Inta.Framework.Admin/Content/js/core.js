@@ -211,7 +211,7 @@ var $PagingDataList = {
             $PagingDataList.ReloadData($(table).attr("id"), jsonData);
         })
     },
-    AddRecordModal: function (AddUrl, isAddPopup, id) {
+    AddRecordModal: function (AddUrl, isAddPopup, id, AddCallBackFunction) {
         debugger;
         if (isAddPopup == 'False') {
             location.href = AddUrl + "/" + id;
@@ -226,7 +226,6 @@ var $PagingDataList = {
                 debugger;
                 $("#addRecordModal").html($.parseHTML(response));
                 $("#addRecordModal").modal('show');
-
 
                 $("textarea.ckeditor").each(function () {
                     var shortContentEditor = CKEDITOR.instances[$(this).attr("id")];
@@ -245,6 +244,9 @@ var $PagingDataList = {
                 $TreeSelectBox.Select();
 
                 $CheckBoxListFilter.Init();
+            },
+            complete: function () {
+                AddCallBackFunction.call();
             },
             error: function (response) {
 

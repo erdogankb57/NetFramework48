@@ -26,8 +26,8 @@ namespace Inta.Framework.Web.Base.FormControls
         string OrderColumn = null,
         string OrderType = "asc",
         bool isActiveButton = true,
-        bool isPassiveButton = true
-
+        bool isPassiveButton = true,
+        string AddCallBackFunction = null
         )
         {
             StringBuilder shtml = new StringBuilder();
@@ -39,7 +39,7 @@ namespace Inta.Framework.Web.Base.FormControls
             shtml.Append("<div class='PagingDataTable'>");
             shtml.Append("<div class='col-lg-12'>");
             shtml.Append("    <div class='form-group'>");
-            shtml.Append($"        <button type = 'button' class='btn btn-standart' onclick=\"$PagingDataList.AddRecordModal('{AddUrl}','{isAddPopup}',0)\">");
+            shtml.Append($"        <button type = 'button' class='btn btn-standart' onclick=\"$PagingDataList.AddRecordModal('{AddUrl}','{isAddPopup}',0,{AddCallBackFunction})\">");
             shtml.Append("            Kayıt Ekle");
             shtml.Append("        </button>");
             shtml.Append($"        <button type='button' id='deleteAllRecord' onclick=\"$PagingDataList.DeleteRecordModal('{ObjectId}','{DeleteUrl}',{CallBackFunction},0)\" class='deleteAllRecord btn btn-standart' data-toggle='modal'>");
