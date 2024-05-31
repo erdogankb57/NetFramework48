@@ -128,6 +128,11 @@
                     val["CategoryId"] = $("#search #CategoryId").val();
                 }
                 $PagingDataList.ReloadData("CategoryList", val);
+
+                $TreeSelectBox.Init();
+                $TreeSelectBox.Select();
+                $CheckBoxListFilter.Init();
+
             });
         }
 
@@ -140,6 +145,11 @@
         });
 
         function AddCallBack() {
+            $TreeSelectBox.Init();
+            $TreeSelectBox.Select();
+
+            $CheckBoxListFilter.Init();
+
             $("#PageTypeId").change(function () {
                 $.ajax({
                     url: "/Category/GetPageType",

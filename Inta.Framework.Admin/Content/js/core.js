@@ -20,9 +20,7 @@ var $PagingDataList = {
 
         //Seçili olan checkboxlar alınır.
         $PagingDataList.SelectedRecord(ObjectId);
-        $TreeSelectBox.Init();
-        $TreeSelectBox.Select();
-
+ 
         $.ajax({
             url: Url,
             type: "POST",
@@ -240,10 +238,7 @@ var $PagingDataList = {
                     CKEDITOR.instances[$(this).attr("id")].setData($(this).val());
 
                 });
-                $TreeSelectBox.Init();
-                $TreeSelectBox.Select();
 
-                $CheckBoxListFilter.Init();
             },
             complete: function () {
                 AddCallBackFunction.call();

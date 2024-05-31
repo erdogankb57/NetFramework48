@@ -55,7 +55,7 @@ namespace Inta.Framework.Admin.Controllers
                 IsActive = s.IsActive ? "Aktif" : "Pasif",
                 RecordImage = "<a href='/RecordImage/Index/" + s.Id + "'>Resim Ekle</a>",
                 RecordFile = "<a href='/RecordFile/Index/" + s.Id + "'>Dosya Ekle</a>",
-                Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/Record/Add','True'," + s.Id.ToString() + ")\">Düzenle</a>",
+                Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/Record/Add','True'," + s.Id.ToString() + ",AddCallBack)\">Düzenle</a>",
                 Delete = "<a href='javascript:void(0)' onclick=\"$PagingDataList.DeleteRecordModal('RecordList','/Record/Delete',SearchDataList," + s.Id.ToString() + ")\">Sil</a>"
             }).ToList();
 
