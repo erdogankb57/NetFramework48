@@ -127,6 +127,7 @@
     <Compile Include="Controllers\EditorImageUploadController.cs" />
     <Compile Include="Controllers\ErrorPageController.cs" />
     <Compile Include="Controllers\FirmVariablesController.cs" />
+    <Compile Include="Controllers\ForgetPasswordController.cs" />
     <Compile Include="Controllers\FormElementController.cs" />
     <Compile Include="Controllers\FormElementOptionsController.cs" />
     <Compile Include="Controllers\FormGroupController.cs" />
@@ -625,6 +626,7 @@
     <Content Include="Views\FormElementOptions\Add.cshtml" />
     <Content Include="Views\ErrorPage\Index.cshtml" />
     <Content Include="Views\EditorImageUpload\Index.cshtml" />
+    <Content Include="Views\ForgetPassword\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Inta.Framework.Ado.Net\Inta.Framework.Ado.Net.csproj">
