@@ -303,5 +303,16 @@ namespace Inta.Framework.Admin.Controllers
 
             return Json("OK", JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public ActionResult GetPageType(string id)
+        {
+            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter { ParameterName = "Id", Value = id });
+            var result = db.Get<PageType>("select * from PageType where Id=@Id", System.Data.CommandType.Text, parameters);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
     }
 }
