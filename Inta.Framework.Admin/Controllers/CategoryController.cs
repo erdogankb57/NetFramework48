@@ -139,7 +139,7 @@ namespace Inta.Framework.Admin.Controllers
             {
                 int imageSmallWidth = 100;
                 int imageBigWidth = 500;
-                string filepath = HttpContext.Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"].ToString());
+                string filepath = "";
 
                 var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
                 if (generalSettings.Data != null)
@@ -245,7 +245,8 @@ namespace Inta.Framework.Admin.Controllers
                 ImageTag,
                 ImageTitle,
                 Explanation,
-                OrderNumber
+                OrderNumber,
+                IsActive
                 )
                 values(
                 @LanguageId,
@@ -262,7 +263,8 @@ namespace Inta.Framework.Admin.Controllers
                 @ImageTag,
                 @ImageTitle,
                 @Explanation,
-                @OrderNumber
+                @OrderNumber,
+                @IsActive
                 )
                 ", System.Data.CommandType.Text, parameters);
 

@@ -120,7 +120,10 @@ namespace Inta.Framework.Admin.Controllers
             List<SqlParameter> parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter { ParameterName = "Id", Value = id });
 
-            ViewBag.ImageFolder = System.Configuration.ConfigurationManager.AppSettings["ImageUpload"].ToString();
+
+            var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
+            if (generalSettings.Data != null)
+                ViewBag.ImageFolder = generalSettings.Data.ImageCdnUrl;
 
             if (id == null || id == 0)
                 return PartialView("Add", new Record { IsActive = true });
@@ -148,7 +151,15 @@ namespace Inta.Framework.Admin.Controllers
                 int imageSmallWidth = 100;
                 int imageBigWidth = 500;
 
-                string filepath = ConfigurationManager.AppSettings["ImageUpload"].ToString();
+                string filepath = "";
+
+                var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
+                if (generalSettings.Data != null)
+                {
+                    imageSmallWidth = generalSettings.Data.ContentImageSmallWidth;
+                    imageBigWidth = generalSettings.Data.ContentImageBigWidth;
+                    filepath = generalSettings.Data.ImageUploadPath;
+                }
 
                 request.Image = ImageManager.ImageUploadDoubleCopy(ImageFile, filepath, imageSmallWidth, imageBigWidth);
             }

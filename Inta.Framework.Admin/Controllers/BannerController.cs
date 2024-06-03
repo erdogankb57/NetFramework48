@@ -100,7 +100,9 @@ namespace Inta.Framework.Admin.Controllers
             List<SqlParameter> parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter { ParameterName = "Id", Value = id });
 
-            ViewBag.ImageFolder = System.Configuration.ConfigurationManager.AppSettings["ImageUpload"].ToString();
+            var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
+            if (generalSettings.Data != null)
+                ViewBag.ImageFolder = generalSettings.Data.ImageCdnUrl;
 
             if (id == 0)
                 return PartialView("Add", new Banner { IsActive = true });
@@ -126,11 +128,15 @@ namespace Inta.Framework.Admin.Controllers
                 int imageSmallWidth = 100;
                 int imageBigWidth = 500;
 
-                string filepath = ConfigurationManager.AppSettings["ImageUpload"].ToString();
+                string filepath = "";
 
                 var bannerType = db.Get("Select * from BannerType where Id=" + request.BannerTypeId, System.Data.CommandType.Text);
                 if (bannerType != null && bannerType.Data != null)
                 {
+                    var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
+                    if (generalSettings.Data != null)
+                        filepath = generalSettings.Data.ImageUploadPath;
+
                     imageSmallWidth = !string.IsNullOrEmpty(bannerType.Data["SmallImageWidth"].ToString()) && bannerType.Data["SmallImageWidth"].ToString() != "0" ? Convert.ToInt32(bannerType.Data["SmallImageWidth"]) : 100;
                     imageBigWidth = !string.IsNullOrEmpty(bannerType.Data["BigImageWidth"].ToString()) && bannerType.Data["BigImageWidth"].ToString() != "0" ? Convert.ToInt32(bannerType.Data["BigImageWidth"]) : 500;
                     request.Image = ImageManager.ImageUploadDoubleCopy(FileImage, filepath, imageSmallWidth, imageBigWidth);
