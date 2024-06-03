@@ -53,10 +53,15 @@ namespace Inta.Framework.Admin.Controllers
             else
                 parameters.Add(new SqlParameter { ParameterName = "DomainName", Value = request.DomainName });
 
-            if (string.IsNullOrEmpty(request.CdnUrl))
+            if (string.IsNullOrEmpty(request.ImageCdnUrl))
                 parameters.Add(new SqlParameter { ParameterName = "CdnUrl", Value = DBNull.Value });
             else
-                parameters.Add(new SqlParameter { ParameterName = "CdnUrl", Value = request.CdnUrl });
+                parameters.Add(new SqlParameter { ParameterName = "CdnUrl", Value = request.ImageCdnUrl });
+
+            if (string.IsNullOrEmpty(request.FileCdnUrl))
+                parameters.Add(new SqlParameter { ParameterName = "CdnUrl", Value = DBNull.Value });
+            else
+                parameters.Add(new SqlParameter { ParameterName = "CdnUrl", Value = request.FileCdnUrl });
 
             if (string.IsNullOrEmpty(request.ImageUploadPath))
                 parameters.Add(new SqlParameter { ParameterName = "ImageUploadPath", Value = DBNull.Value });

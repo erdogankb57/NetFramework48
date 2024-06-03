@@ -16,7 +16,7 @@ namespace Inta.Framework.Extension
 
             string ImageName = "";
             string extension = System.IO.Path.GetExtension(ImageFile.FileName.ToLower());
-            string imageFilePath = HttpContext.Current.Server.MapPath(filePath).ToString();
+            string imageFilePath = filePath;
 
             string random = ImageFile.FileName.Replace(extension, "") + "_" + Guid.NewGuid().ToString();
             random = TextUrlCharReplace(random);
@@ -66,7 +66,7 @@ namespace Inta.Framework.Extension
         {
             string ImageName = "";
             string extension = System.IO.Path.GetExtension(ImageFile.FileName.ToLower());
-            string imageFilePath = HttpContext.Current.Server.MapPath(filePath).ToString();
+            string imageFilePath = filePath;
 
             string random = ImageFile.FileName.Replace(extension, "") + "_" + Guid.NewGuid().ToString();
             random = TextUrlCharReplace(random);
@@ -104,7 +104,7 @@ namespace Inta.Framework.Extension
         {
             string ImageName = "";
             string extension = System.IO.Path.GetExtension(ImageFile.FileName.ToLower());
-            string imageFilePath = HttpContext.Current.Server.MapPath(filePath).ToString();
+            string imageFilePath = filePath;
 
             string random = ImageFile.FileName.Replace(extension, "") + "_" + Guid.NewGuid().ToString();
             random = TextUrlCharReplace(random);

@@ -23,7 +23,8 @@ namespace Inta.Framework.Entity
         public int EmailPort { get; set; }
         public string EmailPassword { get; set; }
         public string DomainName { get; set; }
-        public string CdnUrl { get; set; }
+        public string ImageCdnUrl { get; set; }
+        public string FileCdnUrl { get; set; }
         public string ImageUploadPath { get; set; }
         public string FileUploadPath { get; set; }
         public string DeveloperName { get; set; }

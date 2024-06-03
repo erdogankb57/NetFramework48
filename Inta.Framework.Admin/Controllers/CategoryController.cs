@@ -138,8 +138,16 @@ namespace Inta.Framework.Admin.Controllers
             {
                 int imageSmallWidth = 100;
                 int imageBigWidth = 500;
+                string filepath = HttpContext.Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"].ToString());
 
-                string filepath = ConfigurationManager.AppSettings["ImageUpload"].ToString();
+                var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
+                if (generalSettings.Data != null)
+                {
+                    imageSmallWidth = generalSettings.Data.CategoryImageSmallWidth;
+                    imageBigWidth = generalSettings.Data.CategoryImageBigWidth;
+                    filepath = generalSettings.Data.ImageUploadPath;
+                }
+
                 request.Image = ImageManager.ImageUploadDoubleCopy(ImageFile, filepath, imageSmallWidth, imageBigWidth);
             }
 
