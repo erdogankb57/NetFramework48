@@ -20,7 +20,7 @@ var $PagingDataList = {
 
         //Seçili olan checkboxlar alınır.
         $PagingDataList.SelectedRecord(ObjectId);
- 
+
         $.ajax({
             url: Url,
             type: "POST",
@@ -368,7 +368,7 @@ var $PagingDataList = {
             });
         }
     },
-    Save: function (formId, ObjectId, CallBack) {
+    Save: function (formId, ObjectId, CallBack, CallBack2 = null) {
         debugger;
         if ($("#" + formId).FormValidate() == false)
             return;
@@ -408,6 +408,9 @@ var $PagingDataList = {
 
                 scroolTop(0, 300);
                 CallBack.call();
+                if (CallBack2 != null) {
+                    CallBack2.call();
+                }
 
             }, error: function (data) {
                 setTimeout(function () {

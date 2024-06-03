@@ -107,16 +107,17 @@ namespace Inta.Framework.Admin.Controllers
         public ActionResult Add(int? id)
         {
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
-            List<SqlParameter> parameters = new List<SqlParameter>();
-            parameters.Add(new SqlParameter { ParameterName = "Id", Value = id });
 
-            ViewBag.ImageFolder = System.Configuration.ConfigurationManager.AppSettings["ImageUpload"].ToString();
-
+            var settings = db.Get<GeneralSettings>("select top 1 * from GeneralSettings", System.Data.CommandType.Text);
+            ViewBag.ImageFolder = settings.Data.ImageCdnUrl;
 
             if (id == 0 || id == null)
                 return PartialView("Add", new Category { IsActive = true, CategoryId = 0 });
             else
             {
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter { ParameterName = "Id", Value = id });
+
                 var model = db.Get<Category>("select * from [Category] where Id=@Id", System.Data.CommandType.Text, parameters);
 
                 return PartialView("Add", model.Data);

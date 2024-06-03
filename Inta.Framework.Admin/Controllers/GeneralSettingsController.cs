@@ -54,14 +54,14 @@ namespace Inta.Framework.Admin.Controllers
                 parameters.Add(new SqlParameter { ParameterName = "DomainName", Value = request.DomainName });
 
             if (string.IsNullOrEmpty(request.ImageCdnUrl))
-                parameters.Add(new SqlParameter { ParameterName = "CdnUrl", Value = DBNull.Value });
+                parameters.Add(new SqlParameter { ParameterName = "ImageCdnUrl", Value = DBNull.Value });
             else
-                parameters.Add(new SqlParameter { ParameterName = "CdnUrl", Value = request.ImageCdnUrl });
+                parameters.Add(new SqlParameter { ParameterName = "ImageCdnUrl", Value = request.ImageCdnUrl });
 
             if (string.IsNullOrEmpty(request.FileCdnUrl))
-                parameters.Add(new SqlParameter { ParameterName = "CdnUrl", Value = DBNull.Value });
+                parameters.Add(new SqlParameter { ParameterName = "FileCdnUrl", Value = DBNull.Value });
             else
-                parameters.Add(new SqlParameter { ParameterName = "CdnUrl", Value = request.FileCdnUrl });
+                parameters.Add(new SqlParameter { ParameterName = "FileCdnUrl", Value = request.FileCdnUrl });
 
             if (string.IsNullOrEmpty(request.ImageUploadPath))
                 parameters.Add(new SqlParameter { ParameterName = "ImageUploadPath", Value = DBNull.Value });
@@ -103,7 +103,8 @@ namespace Inta.Framework.Admin.Controllers
             EmailPort=@EmailPort,
             EmailPassword=@EmailPassword,
             DomainName=@DomainName,
-            CdnUrl=@CdnUrl,
+            ImageCdnUrl=@ImageCdnUrl,
+            FileCdnUrl=@FileCdnUrl,
             ImageUploadPath=@ImageUploadPath,
             FileUploadPath=@FileUploadPath,
             DeveloperName=@DeveloperName,
