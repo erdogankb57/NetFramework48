@@ -24,6 +24,7 @@ namespace Inta.Framework.Admin.Controllers
 
         public ActionResult GetList(PagingDataListRequest<Record> request)
         {
+            AuthenticationData authenticationData = new AuthenticationData();
             List<SqlParameter> Parameters = new List<SqlParameter>();
             if (string.IsNullOrEmpty(request.Search.Name))
                 Parameters.Add(new SqlParameter { ParameterName = "Name", Value = DBNull.Value });
@@ -40,8 +41,10 @@ namespace Inta.Framework.Admin.Controllers
             else
                 Parameters.Add(new SqlParameter { ParameterName = "CategoryId", Value = request.Search.CategoryId });
 
+            Parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = authenticationData.LanguageId });
+
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
-            string sqlQuery = "Select * from Record where (@Name is null or Name like '%'+@Name+'%') and IsActive=@IsActive and (@CategoryId is null or CategoryId=@CategoryId) order by " + request.OrderColumn + (request.OrderType == PagingDataListOrderType.Ascending ? " asc" : " desc");
+            string sqlQuery = "Select * from Record where (@Name is null or Name like '%'+@Name+'%') and LanguageId=@LanguageId and IsActive=@IsActive and (@CategoryId is null or CategoryId=@CategoryId) order by " + request.OrderColumn + (request.OrderType == PagingDataListOrderType.Ascending ? " asc" : " desc");
             var data = db.Find<Record>(sqlQuery, System.Data.CommandType.Text, Parameters);
             int count = data?.Data?.ToList()?.Count ?? 0;
 
@@ -241,7 +244,8 @@ namespace Inta.Framework.Admin.Controllers
                 {
                     db.ExecuteNoneQuery(@"
                 insert into Record(
-                TargetId
+                LanguageId,
+                TargetId,
                 CategoryId,
                 Name,
                 RecordUrl,
@@ -258,7 +262,8 @@ namespace Inta.Framework.Admin.Controllers
                 RecordDate,
                 IsActive)
                 values(
-                @TargetId
+                @LanguageId,
+                @TargetId,
                 @CategoryId,
                 @Name,
                 @RecordUrl,
@@ -287,6 +292,7 @@ namespace Inta.Framework.Admin.Controllers
                     parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
 
                     string query = @"Update [Record] set 
+                LanguageId=@LanguageId,
                 CategoryId=@CategoryId,
                 TargetId=@TargetId,
                 Name=@Name,

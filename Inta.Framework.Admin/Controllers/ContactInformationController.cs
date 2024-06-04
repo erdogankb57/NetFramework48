@@ -25,6 +25,7 @@ namespace Inta.Framework.Admin.Controllers
 
         public ActionResult GetList(PagingDataListRequest<ContactInformation> request)
         {
+            AuthenticationData authenticationData = new AuthenticationData();
             List<SqlParameter> Parameters = new List<SqlParameter>();
             if (string.IsNullOrEmpty(request.Search.Name))
                 Parameters.Add(new SqlParameter { ParameterName = "Name", Value = DBNull.Value });
@@ -32,10 +33,12 @@ namespace Inta.Framework.Admin.Controllers
                 Parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Search.Name.ToString() });
 
             Parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = request.Search.IsActive });
+            Parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = authenticationData.LanguageId });
+
 
 
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
-            string sqlQuery = "Select * from ContactInformation where (@Name is null or Name like '%'+@Name+'%') and IsActive=@IsActive order by " + request.OrderColumn + (request.OrderType == PagingDataListOrderType.Ascending ? " asc" : " desc");
+            string sqlQuery = "Select * from ContactInformation where (@Name is null or Name like '%'+@Name+'%') and LanguageId=@LanguageId and IsActive=@IsActive order by " + request.OrderColumn + (request.OrderType == PagingDataListOrderType.Ascending ? " asc" : " desc");
             var data = db.Find<ContactInformation>(sqlQuery, System.Data.CommandType.Text, Parameters);
             int count = data?.Data?.ToList()?.Count ?? 0;
 

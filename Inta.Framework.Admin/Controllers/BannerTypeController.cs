@@ -23,6 +23,7 @@ namespace Inta.Framework.Admin.Controllers
 
         public ActionResult GetList(PagingDataListRequest<BannerType> request)
         {
+            AuthenticationData authenticationData = new AuthenticationData();
             List<SqlParameter> Parameters = new List<SqlParameter>();
             if (string.IsNullOrEmpty(request.Search.Name))
                 Parameters.Add(new SqlParameter { ParameterName = "Name", Value = DBNull.Value });
@@ -30,10 +31,11 @@ namespace Inta.Framework.Admin.Controllers
                 Parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Search.Name.ToString() });
 
             Parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = request.Search.IsActive });
+            Parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = authenticationData.LanguageId });
 
 
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
-            string sqlQuery = "Select * from BannerType where (@Name is null or Name like '%'+@Name+'%') and IsActive=@IsActive order by " + request.OrderColumn + (request.OrderType == PagingDataListOrderType.Ascending ? " asc" : " desc");
+            string sqlQuery = "Select * from BannerType where (@Name is null or Name like '%'+@Name+'%') and LanguageId=@LanguageId and IsActive=@IsActive order by " + request.OrderColumn + (request.OrderType == PagingDataListOrderType.Ascending ? " asc" : " desc");
             var data = db.Find<BannerType>(sqlQuery, System.Data.CommandType.Text, Parameters);
             int count = data?.Data?.ToList()?.Count ?? 0;
 
@@ -109,6 +111,7 @@ namespace Inta.Framework.Admin.Controllers
             if (ModelState.IsValid)
             {
                 ReturnObject<BannerType> result = new ReturnObject<BannerType>();
+                AuthenticationData authenticationData = new AuthenticationData();
                 DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
                 List<SqlParameter> parameters = new List<SqlParameter>();
 
@@ -129,10 +132,13 @@ namespace Inta.Framework.Admin.Controllers
                 else
                     parameters.Add(new SqlParameter { ParameterName = "Description", Value = request.Description });
 
+                parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = authenticationData.LanguageId });
+
+
 
                 if (request.Id == 0)
                 {
-                    db.ExecuteNoneQuery("insert into [BannerType](Name,SmallImageWidth,BigImageWidth,Description,IsActive) values(@Name,@SmallImageWidth,@BigImageWidth,@Description,@IsActive)", System.Data.CommandType.Text, parameters);
+                    db.ExecuteNoneQuery("insert into [BannerType](LanguageId,Name,SmallImageWidth,BigImageWidth,Description,IsActive) values(@LanguageId,@Name,@SmallImageWidth,@BigImageWidth,@Description,@IsActive)", System.Data.CommandType.Text, parameters);
 
                     return Json(new ReturnObject<BannerType>
                     {
@@ -147,7 +153,7 @@ namespace Inta.Framework.Admin.Controllers
                     parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
 
 
-                    db.ExecuteNoneQuery("Update [BannerType] set Name=@Name,SmallImageWidth=@SmallImageWidth,BigImageWidth=@BigImageWidth,IsActive=@IsActive,Description=@Description where Id=@Id", System.Data.CommandType.Text, parameters);
+                    db.ExecuteNoneQuery("Update [BannerType] set LanguageId=@LanguageId,Name=@Name,SmallImageWidth=@SmallImageWidth,BigImageWidth=@BigImageWidth,IsActive=@IsActive,Description=@Description where Id=@Id", System.Data.CommandType.Text, parameters);
 
                     return Json(new ReturnObject<BannerType>
                     {
