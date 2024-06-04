@@ -115,58 +115,60 @@ namespace Inta.Framework.Admin.Controllers
         [HttpPost]
         public ActionResult Save(MessageHistory request)
         {
-            ReturnObject<MessageHistory> result = new ReturnObject<MessageHistory>();
-            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
-            List<SqlParameter> parameters = new List<SqlParameter>();
-
-            if (string.IsNullOrEmpty(request.ClientName))
-                parameters.Add(new SqlParameter { ParameterName = "ClientName", Value = DBNull.Value });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "ClientName", Value = request.ClientName });
-
-            if (string.IsNullOrEmpty(request.ClientSurname))
-                parameters.Add(new SqlParameter { ParameterName = "ClientSurname", Value = DBNull.Value });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "ClientSurname", Value = request.ClientSurname });
-
-            if (string.IsNullOrEmpty(request.Email))
-                parameters.Add(new SqlParameter { ParameterName = "Email", Value = DBNull.Value });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "Email", Value = request.Email });
-
-            if (string.IsNullOrEmpty(request.Subject))
-                parameters.Add(new SqlParameter { ParameterName = "Subject", Value = DBNull.Value });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "Subject", Value = request.Subject });
-
-            if (string.IsNullOrEmpty(request.Phone))
-                parameters.Add(new SqlParameter { ParameterName = "Phone", Value = DBNull.Value });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "Phone", Value = request.Phone });
-
-            if (string.IsNullOrEmpty(request.Phone))
-                parameters.Add(new SqlParameter { ParameterName = "Explanation", Value = DBNull.Value });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "Explanation", Value = request.Explanation });
-
-            if (request.IsActive)
-                parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 1 });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 0 });
-
-            if (request.IsRead)
-                parameters.Add(new SqlParameter { ParameterName = "IsRead", Value = 1 });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "IsRead", Value = 0 });
-
-
-
-
-            if (request.Id == 0)
+            if (ModelState.IsValid)
             {
-                parameters.Add(new SqlParameter { ParameterName = "RecordDate", Value = DateTime.Now });
+                ReturnObject<MessageHistory> result = new ReturnObject<MessageHistory>();
+                DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+                List<SqlParameter> parameters = new List<SqlParameter>();
 
-                db.ExecuteNoneQuery(@"insert into [MessageHistory](ClientName,
+                if (string.IsNullOrEmpty(request.ClientName))
+                    parameters.Add(new SqlParameter { ParameterName = "ClientName", Value = DBNull.Value });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "ClientName", Value = request.ClientName });
+
+                if (string.IsNullOrEmpty(request.ClientSurname))
+                    parameters.Add(new SqlParameter { ParameterName = "ClientSurname", Value = DBNull.Value });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "ClientSurname", Value = request.ClientSurname });
+
+                if (string.IsNullOrEmpty(request.Email))
+                    parameters.Add(new SqlParameter { ParameterName = "Email", Value = DBNull.Value });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "Email", Value = request.Email });
+
+                if (string.IsNullOrEmpty(request.Subject))
+                    parameters.Add(new SqlParameter { ParameterName = "Subject", Value = DBNull.Value });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "Subject", Value = request.Subject });
+
+                if (string.IsNullOrEmpty(request.Phone))
+                    parameters.Add(new SqlParameter { ParameterName = "Phone", Value = DBNull.Value });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "Phone", Value = request.Phone });
+
+                if (string.IsNullOrEmpty(request.Phone))
+                    parameters.Add(new SqlParameter { ParameterName = "Explanation", Value = DBNull.Value });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "Explanation", Value = request.Explanation });
+
+                if (request.IsActive)
+                    parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 1 });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 0 });
+
+                if (request.IsRead)
+                    parameters.Add(new SqlParameter { ParameterName = "IsRead", Value = 1 });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "IsRead", Value = 0 });
+
+
+
+
+                if (request.Id == 0)
+                {
+                    parameters.Add(new SqlParameter { ParameterName = "RecordDate", Value = DateTime.Now });
+
+                    db.ExecuteNoneQuery(@"insert into [MessageHistory](ClientName,
                 ClientSurname,
                 Email,
                 Subject,
@@ -184,19 +186,19 @@ namespace Inta.Framework.Admin.Controllers
                 @IsRead) 
                 ", System.Data.CommandType.Text, parameters);
 
-                return Json(new ReturnObject<MessageHistory>
+                    return Json(new ReturnObject<MessageHistory>
+                    {
+                        Data = request,
+                        ResultType = MessageType.Success
+                    });
+                }
+                else
                 {
-                    Data = request,
-                    ResultType = MessageType.Success
-                });
-            }
-            else
-            {
 
 
-                parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
+                    parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
 
-                db.ExecuteNoneQuery(@"Update [MessageHistory] set 
+                    db.ExecuteNoneQuery(@"Update [MessageHistory] set 
                 ClientName=@ClientName,
                 ClientSurname=@ClientSurname,
                 Email=@Email,
@@ -207,10 +209,20 @@ namespace Inta.Framework.Admin.Controllers
                 IsRead=@IsRead
                 where Id=@Id", System.Data.CommandType.Text, parameters);
 
+                    return Json(new ReturnObject<MessageHistory>
+                    {
+                        Data = request,
+                        ResultType = MessageType.Success
+                    });
+                }
+            }
+            else
+            {
                 return Json(new ReturnObject<MessageHistory>
                 {
                     Data = request,
-                    ResultType = MessageType.Success
+                    ResultType = MessageType.Error,
+                    Validation = ModelState.ToList().Where(v => v.Value.Errors.Any()).Select(s => new { Key = s.Key, Error = s.Value.Errors })
                 });
             }
         }

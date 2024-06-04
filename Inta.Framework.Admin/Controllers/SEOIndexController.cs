@@ -115,42 +115,44 @@ namespace Inta.Framework.Admin.Controllers
         [HttpPost]
         public ActionResult Save(SEOIndex request)
         {
-            ReturnObject<SEOIndex> result = new ReturnObject<SEOIndex>();
-            AuthenticationData authenticationData = new AuthenticationData();
-            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
-            List<SqlParameter> parameters = new List<SqlParameter>();
-
-            if (string.IsNullOrEmpty(request.Name))
-                parameters.Add(new SqlParameter { ParameterName = "Name", Value = DBNull.Value });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Name });
-
-            if (string.IsNullOrEmpty(request.Url))
-                parameters.Add(new SqlParameter { ParameterName = "Url", Value = DBNull.Value });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "Url", Value = request.Url });
-
-            if (string.IsNullOrEmpty(request.RedirectUrl))
-                parameters.Add(new SqlParameter { ParameterName = "RedirectUrl", Value = DBNull.Value });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "RedirectUrl", Value = request.RedirectUrl });
-
-            if (request.IsActive)
-                parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 1 });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 0 });
-
-            parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = authenticationData.LanguageId });
-            parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = authenticationData.UserId });
-
-
-
-
-            if (request.Id == 0)
+            if (ModelState.IsValid)
             {
-                parameters.Add(new SqlParameter { ParameterName = "RecordDate", Value = DateTime.Now });
+                ReturnObject<SEOIndex> result = new ReturnObject<SEOIndex>();
+                AuthenticationData authenticationData = new AuthenticationData();
+                DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+                List<SqlParameter> parameters = new List<SqlParameter>();
 
-                db.ExecuteNoneQuery(@"insert into [SEOIndex](
+                if (string.IsNullOrEmpty(request.Name))
+                    parameters.Add(new SqlParameter { ParameterName = "Name", Value = DBNull.Value });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Name });
+
+                if (string.IsNullOrEmpty(request.Url))
+                    parameters.Add(new SqlParameter { ParameterName = "Url", Value = DBNull.Value });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "Url", Value = request.Url });
+
+                if (string.IsNullOrEmpty(request.RedirectUrl))
+                    parameters.Add(new SqlParameter { ParameterName = "RedirectUrl", Value = DBNull.Value });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "RedirectUrl", Value = request.RedirectUrl });
+
+                if (request.IsActive)
+                    parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 1 });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 0 });
+
+                parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = authenticationData.LanguageId });
+                parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = authenticationData.UserId });
+
+
+
+
+                if (request.Id == 0)
+                {
+                    parameters.Add(new SqlParameter { ParameterName = "RecordDate", Value = DateTime.Now });
+
+                    db.ExecuteNoneQuery(@"insert into [SEOIndex](
                 SystemUserId,
                 LanguageId,
                 Name,
@@ -167,19 +169,19 @@ namespace Inta.Framework.Admin.Controllers
                 @RecordDate,
                 @IsActive)", System.Data.CommandType.Text, parameters);
 
-                return Json(new ReturnObject<SEOIndex>
+                    return Json(new ReturnObject<SEOIndex>
+                    {
+                        Data = request,
+                        ResultType = MessageType.Success
+                    });
+                }
+                else
                 {
-                    Data = request,
-                    ResultType = MessageType.Success
-                });
-            }
-            else
-            {
 
 
-                parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
+                    parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
 
-                db.ExecuteNoneQuery(@"Update [SEOIndex] set 
+                    db.ExecuteNoneQuery(@"Update [SEOIndex] set 
                 LanguageId=@LanguageId,
                 Name=@Name,
                 Url=@Url,
@@ -187,10 +189,20 @@ namespace Inta.Framework.Admin.Controllers
                 IsActive=@IsActive
                 where Id=@Id", System.Data.CommandType.Text, parameters);
 
+                    return Json(new ReturnObject<SEOIndex>
+                    {
+                        Data = request,
+                        ResultType = MessageType.Success
+                    });
+                }
+            }
+            else
+            {
                 return Json(new ReturnObject<SEOIndex>
                 {
                     Data = request,
-                    ResultType = MessageType.Success
+                    ResultType = MessageType.Error,
+                    Validation = ModelState.ToList().Where(v => v.Value.Errors.Any()).Select(s => new { Key = s.Key, Error = s.Value.Errors })
                 });
             }
         }
