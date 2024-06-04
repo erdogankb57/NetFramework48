@@ -133,12 +133,13 @@ namespace Inta.Framework.Admin.Controllers
                     parameters.Add(new SqlParameter { ParameterName = "Description", Value = request.Description });
 
                 parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = authenticationData.LanguageId });
+                parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = authenticationData.UserId });
 
 
 
                 if (request.Id == 0)
                 {
-                    db.ExecuteNoneQuery("insert into [BannerType](LanguageId,Name,SmallImageWidth,BigImageWidth,Description,IsActive) values(@LanguageId,@Name,@SmallImageWidth,@BigImageWidth,@Description,@IsActive)", System.Data.CommandType.Text, parameters);
+                    db.ExecuteNoneQuery("insert into [BannerType](SystemUserId,LanguageId,Name,SmallImageWidth,BigImageWidth,Description,IsActive) values(@SystemUserId,@LanguageId,@Name,@SmallImageWidth,@BigImageWidth,@Description,@IsActive)", System.Data.CommandType.Text, parameters);
 
                     return Json(new ReturnObject<BannerType>
                     {

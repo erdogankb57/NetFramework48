@@ -230,11 +230,15 @@ namespace Inta.Framework.Admin.Controllers
                 else
                     parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 0 });
 
+                parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = authenticationData.UserId });
+
+
 
                 if (request.Id == 0)
                 {
                     db.ExecuteNoneQuery(@"
                 insert into Category(
+                SystemUserId,
                 LanguageId,
                 PageTypeId,
                 CategoryId,
@@ -253,6 +257,7 @@ namespace Inta.Framework.Admin.Controllers
                 IsActive
                 )
                 values(
+                @SystemUserId,
                 @LanguageId,
                 @PageTypeId,
                 @CategoryId,

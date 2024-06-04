@@ -160,6 +160,8 @@ namespace Inta.Framework.Admin.Controllers
                 parameters.Add(new SqlParameter { ParameterName = "IsRead", Value = 0 });
 
 
+
+
             if (request.Id == 0)
             {
                 parameters.Add(new SqlParameter { ParameterName = "RecordDate", Value = DateTime.Now });

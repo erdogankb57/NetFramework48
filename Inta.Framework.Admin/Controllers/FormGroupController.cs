@@ -115,6 +115,7 @@ namespace Inta.Framework.Admin.Controllers
         public ActionResult Save(FormGroup request)
         {
             ReturnObject<FormGroup> result = new ReturnObject<FormGroup>();
+            AuthenticationData authenticationData = new AuthenticationData();
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             List<SqlParameter> parameters = new List<SqlParameter>();
 
@@ -130,6 +131,8 @@ namespace Inta.Framework.Admin.Controllers
 
             parameters.Add(new SqlParameter { ParameterName = "OrderNumber", Value = request.OrderNumber });
             parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = request.IsActive });
+            parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = authenticationData.UserId });
+
 
 
 
@@ -137,7 +140,7 @@ namespace Inta.Framework.Admin.Controllers
             {
                 parameters.Add(new SqlParameter { ParameterName = "RecordDate", Value = DateTime.Now });
 
-                db.ExecuteNoneQuery("insert into [FormGroup](Name,Explanation,OrderNumber,RecordDate,IsActive) values(@Name,@Explanation,@OrderNumber,@RecordDate,@IsActive)", System.Data.CommandType.Text, parameters);
+                db.ExecuteNoneQuery("insert into [FormGroup](SystemUserId,Name,Explanation,OrderNumber,RecordDate,IsActive) values(@SystemUserId,@Name,@Explanation,@OrderNumber,@RecordDate,@IsActive)", System.Data.CommandType.Text, parameters);
 
                 return Json(new ReturnObject<FormGroup>
                 {

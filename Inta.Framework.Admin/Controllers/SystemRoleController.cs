@@ -160,6 +160,9 @@ namespace Inta.Framework.Admin.Controllers
             SystemRoleParameter.Add(new SqlParameter { ParameterName = "RecordDate", Value = DateTime.Now });
             SystemRoleParameter.Add(new SqlParameter { ParameterName = "IsActive", Value = request.IsActive });
 
+            SystemRoleParameter.Add(new SqlParameter { ParameterName = "SystemUserId", Value = authenticationData.UserId });
+
+
             if (request.Id == 0)
             {
                 object roleId = db.ExecuteScalar(@"

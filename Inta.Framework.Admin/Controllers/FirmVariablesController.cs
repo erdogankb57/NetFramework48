@@ -142,12 +142,16 @@ namespace Inta.Framework.Admin.Controllers
             parameters.Add(new SqlParameter { ParameterName = "OrderNumber", Value = request.OrderNumber });
             parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 1 });
 
+            parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = authenticationData.UserId });
+
+
 
             if (request.Id == 0)
             {
                 parameters.Add(new SqlParameter { ParameterName = "RecordDate", Value = DateTime.Now });
 
                 db.ExecuteNoneQuery(@"insert into [FirmVariables](
+                SystemUserId,
                 LanguageId,
                 Name,
                 Value,
@@ -156,6 +160,7 @@ namespace Inta.Framework.Admin.Controllers
                 RecordDate,
                 IsActive
                 ) values(
+                @SystemUserId,
                 @LanguageId,
                 @Name,
                 @Value,

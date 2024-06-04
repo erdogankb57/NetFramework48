@@ -172,11 +172,15 @@ namespace Inta.Framework.Admin.Controllers
             else
                 parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 0 });
 
+            parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = authenticationData.UserId });
+
+
 
             if (request.Id == 0)
             {
                 db.ExecuteNoneQuery(@"insert into 
                 RecordFile(
+                SystemUserId,
                 Name,
                 ShortExplanation,
                 Explanation,
@@ -187,6 +191,7 @@ namespace Inta.Framework.Admin.Controllers
                 HomePageStatus,
                 OrderNumber,
                 IsActive) values(
+                @SystemUserId,
                 @Name,
                 @ShortExplanation,
                 @Explanation,

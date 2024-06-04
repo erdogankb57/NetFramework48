@@ -149,13 +149,18 @@ namespace Inta.Framework.Admin.Controllers
             parameters.Add(new SqlParameter { ParameterName = "IsPagingEnabled", Value = request.IsPagingEnabled });
             parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = request.IsActive });
 
+            parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = authenticationData.UserId });
+
+
 
             if (request.Id == 0)
             {
                 parameters.Add(new SqlParameter { ParameterName = "RecordDate", Value = DateTime.Now });
 
                 db.ExecuteNoneQuery(@"insert into [PageType]
-                (Code,
+                (
+                SystemUserId,
+                Code,
                 Name,
                 ControllerName,
                 ActionName,
@@ -168,7 +173,9 @@ namespace Inta.Framework.Admin.Controllers
                 IsPagingEnabled,
                 IsActive) 
                 values
-                (@Code,
+                (
+                @SystemUserId,
+                @Code,
                 @Name,
                 @ControllerName,
                 @ActionName,

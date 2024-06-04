@@ -121,7 +121,7 @@ namespace Inta.Framework.Admin.Controllers
 
 
             List<SqlParameter> parameters = new List<SqlParameter>();
-            parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = 0 });
+            parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = authenticationData.UserId });
 
             if (!string.IsNullOrEmpty(request.Name))
                 parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Name });

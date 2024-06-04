@@ -118,15 +118,21 @@ namespace Inta.Framework.Admin.Controllers
             else
                 parameters.Add(new SqlParameter { ParameterName = "Description", Value = DBNull.Value });
 
+            parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = authenticationData.UserId });
+
+
 
             if (request.Id == 0)
             {
                 db.ExecuteNoneQuery(@"insert into [SystemAction]
-                (SystemMenuId,
+                (
+                SystemUserId,
+                SystemMenuId,
                 ControllerName,
                 ActionName,
                 Description) 
                 values(
+                @SystemUserId,
                 @SystemMenuId,
                 @ControllerName,
                 @ActionName,

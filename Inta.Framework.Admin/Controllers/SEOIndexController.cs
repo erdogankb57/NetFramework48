@@ -23,6 +23,7 @@ namespace Inta.Framework.Admin.Controllers
 
         public ActionResult GetList(PagingDataListRequest<SEOIndex> request)
         {
+            AuthenticationData authenticationData = new AuthenticationData();
             List<SqlParameter> Parameters = new List<SqlParameter>();
             if (string.IsNullOrEmpty(request.Search.Name))
                 Parameters.Add(new SqlParameter { ParameterName = "Name", Value = DBNull.Value });
@@ -31,9 +32,12 @@ namespace Inta.Framework.Admin.Controllers
 
             Parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = request.Search.IsActive });
 
+            Parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = authenticationData.LanguageId });
+
+
 
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
-            string sqlQuery = "Select * from SEOIndex where (@Name is null or Name like '%'+@Name+'%') and IsActive=@IsActive order by " + request.OrderColumn + (request.OrderType == PagingDataListOrderType.Ascending ? " asc" : " desc");
+            string sqlQuery = "Select * from SEOIndex where (@Name is null or Name like '%'+@Name+'%') and LanguageId=@LanguageId and IsActive=@IsActive order by " + request.OrderColumn + (request.OrderType == PagingDataListOrderType.Ascending ? " asc" : " desc");
             var data = db.Find<SEOIndex>(sqlQuery, System.Data.CommandType.Text, Parameters);
             int count = data?.Data?.ToList()?.Count ?? 0;
 
@@ -112,6 +116,7 @@ namespace Inta.Framework.Admin.Controllers
         public ActionResult Save(SEOIndex request)
         {
             ReturnObject<SEOIndex> result = new ReturnObject<SEOIndex>();
+            AuthenticationData authenticationData = new AuthenticationData();
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             List<SqlParameter> parameters = new List<SqlParameter>();
 
@@ -135,17 +140,28 @@ namespace Inta.Framework.Admin.Controllers
             else
                 parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 0 });
 
+            parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = authenticationData.LanguageId });
+            parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = authenticationData.UserId });
+
+
+
 
             if (request.Id == 0)
             {
                 parameters.Add(new SqlParameter { ParameterName = "RecordDate", Value = DateTime.Now });
 
-                db.ExecuteNoneQuery(@"insert into [SEOIndex](Name,
+                db.ExecuteNoneQuery(@"insert into [SEOIndex](
+                SystemUserId,
+                LanguageId,
+                Name,
                 Url,
                 RedirectUrl,
                 RecordDate,
                 IsActive) 
-                values(@Name,
+                values(
+                @SystemUserId,
+                @LanguageId,
+                @Name,
                 @Url,
                 @RedirectUrl,
                 @RecordDate,
@@ -164,6 +180,7 @@ namespace Inta.Framework.Admin.Controllers
                 parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
 
                 db.ExecuteNoneQuery(@"Update [SEOIndex] set 
+                LanguageId=@LanguageId,
                 Name=@Name,
                 Url=@Url,
                 RedirectUrl=@RedirectUrl,

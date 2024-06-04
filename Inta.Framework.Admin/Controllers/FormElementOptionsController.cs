@@ -162,7 +162,6 @@ namespace Inta.Framework.Admin.Controllers
 
                 db.ExecuteNoneQuery(@"Update [FormElementOptions] set 
                 LanguageId=@LanguageId,
-                SystemUserId=@SystemUserId,
                 FormElementId=@FormElementId,
                 Name=@Name,
                 Value=@Value,

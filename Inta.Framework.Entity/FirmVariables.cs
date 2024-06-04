@@ -7,21 +7,22 @@ using System.Threading.Tasks;
 
 namespace Inta.Framework.Entity
 {
-	[Table("FirmVariables")]
-	public class FirmVariables
-	{
-		public FirmVariables()
-		{
-		}
+    [Table("FirmVariables")]
+    public class FirmVariables
+    {
+        public FirmVariables()
+        {
+        }
 
 
-		public int Id { get; set; }
-		public int LanguageId { get; set; }
-		public string Name { get; set; }
-		public string Value { get; set; }
-		public string Description { get; set; }
-		public int OrderNumber { get; set; }
-		public DateTime RecordDate { get; set; }
-		public bool IsActive { get; set; }
-	}
+        public int Id { get; set; }
+        public int SystemUserId { get; set; }
+        public int LanguageId { get; set; }
+        public string Name { get; set; }
+        public string Value { get; set; }
+        public string Description { get; set; }
+        public int OrderNumber { get; set; }
+        public DateTime RecordDate { get; set; }
+        public bool IsActive { get; set; }
+    }
 }
