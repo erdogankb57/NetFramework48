@@ -209,7 +209,7 @@ var $PagingDataList = {
             $PagingDataList.ReloadData($(table).attr("id"), jsonData);
         })
     },
-    AddRecordModal: function (AddUrl, isAddPopup, id, AddCallBackFunction) {
+    AddRecordModal: function (AddUrl, isAddPopup, id, AddCallBackFunction = null) {
         debugger;
         if (isAddPopup == 'False') {
             location.href = AddUrl + "/" + id;
@@ -241,7 +241,9 @@ var $PagingDataList = {
 
             },
             complete: function () {
-                AddCallBackFunction.call();
+                if (AddCallBackFunction != null) {
+                    AddCallBackFunction.call();
+                }
             },
             error: function (response) {
 
@@ -745,7 +747,7 @@ $ImageFileUpload = {
     Delete: function (id, ObjectId, ListObjectId) {
         var onay = confirm("Resmi silmek istediğinizden emin misiniz?");
         if (onay) {
-            var deleteUrl = $("#" + ObjectId).attr("DeleteUrl");
+            var deleteUrl = $("input[type='file'][id='" + ObjectId +"']").attr("DeleteUrl");
             $.ajax({
                 url: deleteUrl,
                 type: "POST",

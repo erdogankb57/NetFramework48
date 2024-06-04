@@ -103,7 +103,8 @@ namespace Inta.Framework.Admin.Controllers
             List<SqlParameter> parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter { ParameterName = "Id", Value = id });
 
-            ViewBag.ImageFolder = System.Configuration.ConfigurationManager.AppSettings["ImageUpload"].ToString();
+            var settings = db.Get<GeneralSettings>("select top 1 * from GeneralSettings", System.Data.CommandType.Text);
+            ViewBag.ImageFolder = settings.Data.ImageCdnUrl;
 
             if (id == 0)
                 return PartialView("Add", new RecordImage { IsActive = true });
@@ -124,13 +125,22 @@ namespace Inta.Framework.Admin.Controllers
             ReturnObject<RecordImage> result = new ReturnObject<RecordImage>();
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
 
-            string filepath = ConfigurationManager.AppSettings["ImageUpload"].ToString();
+            string filepath = "";
 
             if (ImageName != null)
             {
-                int smallImageWidth = 100;
-                int bigImageWidth = 500;
-                request.ImageName = ImageManager.ImageUploadDoubleCopy(ImageName, filepath,smallImageWidth,bigImageWidth);
+                int imageSmallWidth = 100;
+                int imageBigWidth = 500;
+
+                var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
+                if (generalSettings.Data != null)
+                {
+                    imageSmallWidth = generalSettings.Data.GalleryImageSmallWidth;
+                    imageBigWidth = generalSettings.Data.GalleryImageBigWidth;
+                    filepath = generalSettings.Data.ImageUploadPath;
+                }
+
+                request.ImageName = ImageManager.ImageUploadDoubleCopy(ImageName, filepath, imageSmallWidth, imageBigWidth);
             }
 
             List<SqlParameter> parameters = new List<SqlParameter>();
@@ -229,6 +239,18 @@ namespace Inta.Framework.Admin.Controllers
                     ResultType = MessageType.Success
                 });
             }
+        }
+
+
+        [HttpPost]
+        public ActionResult DeleteImage(string id)
+        {
+            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter { ParameterName = "Id", Value = id });
+            var result = db.ExecuteNoneQuery("Update RecordImage set ImageName='' where Id=@Id", System.Data.CommandType.Text, parameters);
+
+            return Json("OK", JsonRequestBehavior.AllowGet);
         }
     }
 }

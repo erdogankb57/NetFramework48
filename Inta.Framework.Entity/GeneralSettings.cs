@@ -38,5 +38,12 @@ namespace Inta.Framework.Entity
         public int ContentImageBigWidth { get; set; }
         public int ContentImageBigHeight { get; set; }
 
+        public int GalleryImageSmallWidth { get; set; }
+        public int GalleryImageSmallHeight { get; set; }
+        public int GalleryImageBigWidth { get; set; }
+        public int GalleryImageBigHeight { get; set; }
+
+
+
     }
 }

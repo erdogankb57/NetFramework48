@@ -92,6 +92,12 @@ namespace Inta.Framework.Admin.Controllers
             parameters.Add(new SqlParameter { ParameterName = "ContentImageBigWidth", Value = request.ContentImageBigWidth });
             parameters.Add(new SqlParameter { ParameterName = "ContentImageBigHeight", Value = request.ContentImageBigHeight });
 
+            parameters.Add(new SqlParameter { ParameterName = "GalleryImageSmallWidth", Value = request.GalleryImageSmallWidth });
+            parameters.Add(new SqlParameter { ParameterName = "GalleryImageSmallHeight", Value = request.GalleryImageSmallHeight });
+            parameters.Add(new SqlParameter { ParameterName = "GalleryImageBigWidth", Value = request.GalleryImageBigWidth });
+            parameters.Add(new SqlParameter { ParameterName = "GalleryImageBigHeight", Value = request.GalleryImageBigHeight });
+
+
             parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
 
 
@@ -116,7 +122,11 @@ namespace Inta.Framework.Admin.Controllers
             ContentImageSmallWidth=@ContentImageSmallWidth,
             ContentImageSmallHeight=@ContentImageSmallHeight,
             ContentImageBigWidth=@ContentImageBigWidth,
-            ContentImageBigHeight=@ContentImageBigHeight
+            ContentImageBigHeight=@ContentImageBigHeight,
+            GalleryImageSmallWidth=@GalleryImageSmallWidth,
+            GalleryImageSmallHeight=@GalleryImageSmallHeight,
+            GalleryImageBigWidth=@GalleryImageBigWidth,
+            GalleryImageBigHeight=@GalleryImageBigHeight
             where Id=@Id    
             ", System.Data.CommandType.Text, parameters);
 
