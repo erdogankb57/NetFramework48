@@ -32,7 +32,7 @@
                     <div class="col-lg-9">
 
                         @{
-                            @Html.Raw(Html.SelectListFor("Select * from BannerType", ObjectId: "BannerTypeId", ObjectName: "BannerTypeId", DisplayName: "Name", ValueName: "Id", SelectedValue: Model.BannerTypeId.ToString(), DefaultText: "Seçiniz", DefaultValue: "", IsRequired: true));
+                            @Html.Raw(Html.SelectListFor("Select * from BannerType", ObjectId: "BannerTypeId", ObjectName: "BannerTypeId", DisplayName: "Name", ValueName: "Id", SelectedValue: Model.BannerTypeId.ToString(), DefaultText: "Seçiniz", DefaultValue: "", IsRequired: false));
                         }
 
                     </div>
@@ -44,8 +44,7 @@
                     <div class="col-lg-3">
                         <label for="exampleFormControlInput1">Banner Adı</label>
                     </div><div class="col-lg-9">
-                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @required = "required" })
-
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
                     </div>
                 </div>
             </div>

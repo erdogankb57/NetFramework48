@@ -3,7 +3,7 @@
     Layout = null;
     List<SelectListItem> categoryTree = (List<SelectListItem>)ViewBag.categoryTree;
     List<SelectListItem> targetType = new List<SelectListItem>();
-    targetType.Add(new SelectListItem { Text = "Seçiniz", Value = "" });
+    targetType.Add(new SelectListItem { Text = "Seçiniz", Value = "0" });
     targetType.Add(new SelectListItem { Text = "Aynı sayfa", Value = "1" });
     targetType.Add(new SelectListItem { Text = "Farklı sayfa", Value = "2" });
     string imageFolder = ViewBag.ImageFolder;
@@ -13,7 +13,7 @@
     <div class="modal-content">
         <div class="modal-header">
 
-            <h5 class="modal-title" id="exampleModalLabel">Banner Ekle / Düzenle</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Kayıt Ekle / Düzenle</h5>
 
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -46,7 +46,7 @@
                         <div class="col-lg-3">
                             <label for="exampleFormControlInput1">İçerik Adı</label>
                         </div><div class="col-lg-9">
-                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @required = "required" })
+                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
                         </div>
                     </div>
                 </div>

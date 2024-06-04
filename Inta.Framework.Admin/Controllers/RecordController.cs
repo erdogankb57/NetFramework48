@@ -142,101 +142,106 @@ namespace Inta.Framework.Admin.Controllers
         [ValidateInput(false)]//Ckeditor data alınamadığı için eklendi.
         public ActionResult Save(Record request, HttpPostedFileBase ImageFile)
         {
-            AuthenticationData authenticationData = new AuthenticationData();
-            ReturnObject<Banner> result = new ReturnObject<Banner>();
-            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
-
-            if (ImageFile != null)
+            if (ModelState.IsValid)
             {
-                int imageSmallWidth = 100;
-                int imageBigWidth = 500;
+                AuthenticationData authenticationData = new AuthenticationData();
+                ReturnObject<Banner> result = new ReturnObject<Banner>();
+                DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
 
-                string filepath = "";
-
-                var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
-                if (generalSettings.Data != null)
+                if (ImageFile != null)
                 {
-                    imageSmallWidth = generalSettings.Data.ContentImageSmallWidth;
-                    imageBigWidth = generalSettings.Data.ContentImageBigWidth;
-                    filepath = generalSettings.Data.ImageUploadPath;
+                    int imageSmallWidth = 100;
+                    int imageBigWidth = 500;
+
+                    string filepath = "";
+
+                    var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
+                    if (generalSettings.Data != null)
+                    {
+                        imageSmallWidth = generalSettings.Data.ContentImageSmallWidth;
+                        imageBigWidth = generalSettings.Data.ContentImageBigWidth;
+                        filepath = generalSettings.Data.ImageUploadPath;
+                    }
+
+                    request.Image = ImageManager.ImageUploadDoubleCopy(ImageFile, filepath, imageSmallWidth, imageBigWidth);
                 }
 
-                request.Image = ImageManager.ImageUploadDoubleCopy(ImageFile, filepath, imageSmallWidth, imageBigWidth);
-            }
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = authenticationData.LanguageId });
+                parameters.Add(new SqlParameter { ParameterName = "BannerTypeId", Value = request.BannerTypeId });
+                parameters.Add(new SqlParameter { ParameterName = "TargetId", Value = request.TargetId });
+                parameters.Add(new SqlParameter { ParameterName = "CategoryId", Value = request.CategoryId });
 
-            List<SqlParameter> parameters = new List<SqlParameter>();
-            parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = authenticationData.LanguageId });
-            parameters.Add(new SqlParameter { ParameterName = "BannerTypeId", Value = request.BannerTypeId });
-            parameters.Add(new SqlParameter { ParameterName = "TargetId", Value = request.TargetId });
-            parameters.Add(new SqlParameter { ParameterName = "CategoryId", Value = request.CategoryId });
+                if (!string.IsNullOrEmpty(request.Name))
+                    parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Name });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "Name", Value = DBNull.Value });
 
-            if (!string.IsNullOrEmpty(request.Name))
-                parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Name });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "Name", Value = DBNull.Value });
+                if (!string.IsNullOrEmpty(request.RecordUrl))
+                    parameters.Add(new SqlParameter { ParameterName = "RecordUrl", Value = request.RecordUrl });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "RecordUrl", Value = DBNull.Value });
 
-            if (!string.IsNullOrEmpty(request.RecordUrl))
-                parameters.Add(new SqlParameter { ParameterName = "RecordUrl", Value = request.RecordUrl });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "RecordUrl", Value = DBNull.Value });
+                if (!string.IsNullOrEmpty(request.Title))
+                    parameters.Add(new SqlParameter { ParameterName = "Title", Value = request.Title });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "Title", Value = DBNull.Value });
 
-            if (!string.IsNullOrEmpty(request.Title))
-                parameters.Add(new SqlParameter { ParameterName = "Title", Value = request.Title });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "Title", Value = DBNull.Value });
+                if (!string.IsNullOrEmpty(request.MetaDescription))
+                    parameters.Add(new SqlParameter { ParameterName = "MetaDescription", Value = request.MetaDescription });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "MetaDescription", Value = DBNull.Value });
 
-            if (!string.IsNullOrEmpty(request.MetaDescription))
-                parameters.Add(new SqlParameter { ParameterName = "MetaDescription", Value = request.MetaDescription });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "MetaDescription", Value = DBNull.Value });
+                if (!string.IsNullOrEmpty(request.MetaKeywords))
+                    parameters.Add(new SqlParameter { ParameterName = "MetaKeywords", Value = request.MetaKeywords });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "MetaKeywords", Value = DBNull.Value });
 
-            if (!string.IsNullOrEmpty(request.MetaKeywords))
-                parameters.Add(new SqlParameter { ParameterName = "MetaKeywords", Value = request.MetaKeywords });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "MetaKeywords", Value = DBNull.Value });
+                if (!string.IsNullOrEmpty(request.Url))
+                    parameters.Add(new SqlParameter { ParameterName = "Url", Value = request.Url });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "Url", Value = DBNull.Value });
 
-            if (!string.IsNullOrEmpty(request.Url))
-                parameters.Add(new SqlParameter { ParameterName = "Url", Value = request.Url });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "Url", Value = DBNull.Value });
+                if (!string.IsNullOrEmpty(request.ShortContent))
+                    parameters.Add(new SqlParameter { ParameterName = "ShortContent", Value = request.ShortContent });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "ShortContent", Value = DBNull.Value });
 
-            if (!string.IsNullOrEmpty(request.ShortContent))
-                parameters.Add(new SqlParameter { ParameterName = "ShortContent", Value = request.ShortContent });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "ShortContent", Value = DBNull.Value });
+                if (!string.IsNullOrEmpty(request.Link))
+                    parameters.Add(new SqlParameter { ParameterName = "Link", Value = request.Link });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "Link", Value = DBNull.Value });
 
-            if (!string.IsNullOrEmpty(request.Link))
-                parameters.Add(new SqlParameter { ParameterName = "Link", Value = request.Link });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "Link", Value = DBNull.Value });
+                if (!string.IsNullOrEmpty(request.ShortExplanation))
+                    parameters.Add(new SqlParameter { ParameterName = "ShortExplanation", Value = request.ShortExplanation });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "ShortExplanation", Value = DBNull.Value });
 
-            if (!string.IsNullOrEmpty(request.ShortExplanation))
-                parameters.Add(new SqlParameter { ParameterName = "ShortExplanation", Value = request.ShortExplanation });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "ShortExplanation", Value = DBNull.Value });
+                if (!string.IsNullOrEmpty(request.Explanation))
+                    parameters.Add(new SqlParameter { ParameterName = "Explanation", Value = request.Explanation });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "Explanation", Value = DBNull.Value });
 
-            if (!string.IsNullOrEmpty(request.Explanation))
-                parameters.Add(new SqlParameter { ParameterName = "Explanation", Value = request.Explanation });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "Explanation", Value = DBNull.Value });
+                if (!string.IsNullOrEmpty(request.Image))
+                    parameters.Add(new SqlParameter { ParameterName = "Image", Value = request.Image });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "Image", Value = DBNull.Value});
 
-            if (!string.IsNullOrEmpty(request.Image))
-                parameters.Add(new SqlParameter { ParameterName = "Image", Value = request.Image });
+                parameters.Add(new SqlParameter { ParameterName = "OrderNumber", Value = request.OrderNumber });
 
-            parameters.Add(new SqlParameter { ParameterName = "OrderNumber", Value = request.OrderNumber });
+                parameters.Add(new SqlParameter { ParameterName = "RecordDate", Value = DateTime.Now });
 
-            parameters.Add(new SqlParameter { ParameterName = "RecordDate", Value = DateTime.Now });
-
-            if (request.IsActive)
-                parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 1 });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 0 });
+                if (request.IsActive)
+                    parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 1 });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 0 });
 
 
-            if (request.Id == 0)
-            {
-                db.ExecuteNoneQuery(@"
+                if (request.Id == 0)
+                {
+                    db.ExecuteNoneQuery(@"
                 insert into Record(
+                TargetId
                 CategoryId,
                 Name,
                 RecordUrl,
@@ -253,6 +258,7 @@ namespace Inta.Framework.Admin.Controllers
                 RecordDate,
                 IsActive)
                 values(
+                @TargetId
                 @CategoryId,
                 @Name,
                 @RecordUrl,
@@ -270,17 +276,17 @@ namespace Inta.Framework.Admin.Controllers
                 @IsActive)
                 ", System.Data.CommandType.Text, parameters);
 
-                return Json(new ReturnObject<Record>
+                    return Json(new ReturnObject<Record>
+                    {
+                        Data = request,
+                        ResultType = MessageType.Success
+                    });
+                }
+                else
                 {
-                    Data = request,
-                    ResultType = MessageType.Success
-                });
-            }
-            else
-            {
-                parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
+                    parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
 
-                string query = @"Update [Record] set 
+                    string query = @"Update [Record] set 
                 CategoryId=@CategoryId,
                 TargetId=@TargetId,
                 Name=@Name,
@@ -294,21 +300,35 @@ namespace Inta.Framework.Admin.Controllers
                 ShortExplanation=@ShortExplanation,
                 Explanation=@Explanation,
                 ";
-                if (!string.IsNullOrEmpty(request.Image))
-                    query += @"Image=@Image,";
+                    if (!string.IsNullOrEmpty(request.Image))
+                        query += @"Image=@Image,";
 
-                query += @"
+                    query += @"
                 OrderNumber=@OrderNumber,
                 RecordDate=@RecordDate,
                 IsActive=@IsActive
                 where Id=@Id";
 
-                db.ExecuteNoneQuery(query, System.Data.CommandType.Text, parameters);
+                    db.ExecuteNoneQuery(query, System.Data.CommandType.Text, parameters);
 
+                    return Json(new ReturnObject<Record>
+                    {
+                        Data = request,
+                        ResultType = MessageType.Success
+                    });
+                }
+            }
+            else
+            {
                 return Json(new ReturnObject<Record>
                 {
                     Data = request,
-                    ResultType = MessageType.Success
+                    ResultType = MessageType.Error,
+                    Validation = ModelState.ToList().Where(v => v.Value.Errors.Any()).Select(s => new
+                    {
+                        Key = s.Key,
+                        Error = s.Value.Errors
+                    })
                 });
             }
         }

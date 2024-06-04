@@ -106,51 +106,63 @@ namespace Inta.Framework.Admin.Controllers
         [HttpPost]
         public ActionResult Save(BannerType request)
         {
-            ReturnObject<BannerType> result = new ReturnObject<BannerType>();
-            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
-            List<SqlParameter> parameters = new List<SqlParameter>();
-
-            if (string.IsNullOrEmpty(request.Name))
-                parameters.Add(new SqlParameter { ParameterName = "Name", Value = DBNull.Value });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Name });
-
-            parameters.Add(new SqlParameter { ParameterName = "SmallImageWidth", Value = request.SmallImageWidth });
-            parameters.Add(new SqlParameter { ParameterName = "BigImageWidth", Value = request.BigImageWidth });
-            if (request.IsActive)
-                parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 1 });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 0 });
-
-            if (string.IsNullOrEmpty(request.Description))
-                parameters.Add(new SqlParameter { ParameterName = "Description", Value = DBNull.Value });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "Description", Value = request.Description });
-
-
-            if (request.Id == 0)
+            if (ModelState.IsValid)
             {
-                db.ExecuteNoneQuery("insert into [BannerType](Name,SmallImageWidth,BigImageWidth,Description,IsActive) values(@Name,@SmallImageWidth,@BigImageWidth,@Description,@IsActive)", System.Data.CommandType.Text, parameters);
+                ReturnObject<BannerType> result = new ReturnObject<BannerType>();
+                DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+                List<SqlParameter> parameters = new List<SqlParameter>();
 
-                return Json(new ReturnObject<BannerType>
+                if (string.IsNullOrEmpty(request.Name))
+                    parameters.Add(new SqlParameter { ParameterName = "Name", Value = DBNull.Value });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Name });
+
+                parameters.Add(new SqlParameter { ParameterName = "SmallImageWidth", Value = request.SmallImageWidth });
+                parameters.Add(new SqlParameter { ParameterName = "BigImageWidth", Value = request.BigImageWidth });
+                if (request.IsActive)
+                    parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 1 });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 0 });
+
+                if (string.IsNullOrEmpty(request.Description))
+                    parameters.Add(new SqlParameter { ParameterName = "Description", Value = DBNull.Value });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "Description", Value = request.Description });
+
+
+                if (request.Id == 0)
                 {
-                    Data = request,
-                    ResultType = MessageType.Success
-                });
+                    db.ExecuteNoneQuery("insert into [BannerType](Name,SmallImageWidth,BigImageWidth,Description,IsActive) values(@Name,@SmallImageWidth,@BigImageWidth,@Description,@IsActive)", System.Data.CommandType.Text, parameters);
+
+                    return Json(new ReturnObject<BannerType>
+                    {
+                        Data = request,
+                        ResultType = MessageType.Success
+                    });
+                }
+                else
+                {
+
+
+                    parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
+
+
+                    db.ExecuteNoneQuery("Update [BannerType] set Name=@Name,SmallImageWidth=@SmallImageWidth,BigImageWidth=@BigImageWidth,IsActive=@IsActive,Description=@Description where Id=@Id", System.Data.CommandType.Text, parameters);
+
+                    return Json(new ReturnObject<BannerType>
+                    {
+                        Data = request,
+                        ResultType = MessageType.Success
+                    });
+                }
             }
             else
             {
-
-
-                parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
-
-
-                db.ExecuteNoneQuery("Update [BannerType] set Name=@Name,SmallImageWidth=@SmallImageWidth,BigImageWidth=@BigImageWidth,IsActive=@IsActive,Description=@Description where Id=@Id", System.Data.CommandType.Text, parameters);
-
                 return Json(new ReturnObject<BannerType>
                 {
                     Data = request,
-                    ResultType = MessageType.Success
+                    ResultType = MessageType.Error,
+                    Validation = ModelState.ToList().Where(v => v.Value.Errors.Any()).Select(s => new { Key = s.Key, Error = s.Value.Errors })
                 });
             }
         }

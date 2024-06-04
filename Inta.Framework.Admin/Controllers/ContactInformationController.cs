@@ -23,7 +23,7 @@ namespace Inta.Framework.Admin.Controllers
             return View();
         }
 
-        public ActionResult GetList(PagingDataListRequest<Banner> request)
+        public ActionResult GetList(PagingDataListRequest<ContactInformation> request)
         {
             List<SqlParameter> Parameters = new List<SqlParameter>();
             if (string.IsNullOrEmpty(request.Search.Name))
@@ -118,105 +118,109 @@ namespace Inta.Framework.Admin.Controllers
         [HttpPost]
         public ActionResult Save(ContactInformation request, HttpPostedFileBase FileImage)
         {
-            AuthenticationData authenticationData = new AuthenticationData();
-            ReturnObject<ContactInformation> result = new ReturnObject<ContactInformation>();
-            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
-
-
-            if (FileImage != null)
+            if (ModelState.IsValid)
             {
+                AuthenticationData authenticationData = new AuthenticationData();
+                ReturnObject<ContactInformation> result = new ReturnObject<ContactInformation>();
+                DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
 
-                string filepath = ConfigurationManager.AppSettings["ImageUpload"].ToString();
+                string filepath = "";
+                if (FileImage != null)
+                {
 
-                request.Image = ImageManager.ImageUploadDoubleCopy(FileImage, filepath, 100, 500);
+                    var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
+                    if (generalSettings.Data != null)
+                        filepath = generalSettings.Data.ImageUploadPath;
 
-            }
+                    request.Image = ImageManager.ImageUploadDoubleCopy(FileImage, filepath, 100, 500);
 
-            List<SqlParameter> parameters = new List<SqlParameter>();
+                }
 
-            parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = authenticationData.LanguageId });
+                List<SqlParameter> parameters = new List<SqlParameter>();
 
-            if (!string.IsNullOrEmpty(request.Name))
-                parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Name });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "Name", Value = DBNull.Value });
+                parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = authenticationData.LanguageId });
 
-            if (!string.IsNullOrEmpty(request.Email))
-                parameters.Add(new SqlParameter { ParameterName = "Email", Value = request.Email });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "Email", Value = DBNull.Value });
+                if (!string.IsNullOrEmpty(request.Name))
+                    parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Name });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "Name", Value = DBNull.Value });
 
-            if (!string.IsNullOrEmpty(request.Phone))
-                parameters.Add(new SqlParameter { ParameterName = "Phone", Value = request.Phone });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "Phone", Value = DBNull.Value });
+                if (!string.IsNullOrEmpty(request.Email))
+                    parameters.Add(new SqlParameter { ParameterName = "Email", Value = request.Email });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "Email", Value = DBNull.Value });
 
-            if (!string.IsNullOrEmpty(request.Gsm))
-                parameters.Add(new SqlParameter { ParameterName = "Gsm", Value = request.Gsm });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "Gsm", Value = DBNull.Value });
+                if (!string.IsNullOrEmpty(request.Phone))
+                    parameters.Add(new SqlParameter { ParameterName = "Phone", Value = request.Phone });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "Phone", Value = DBNull.Value });
 
-            if (!string.IsNullOrEmpty(request.Fax))
-                parameters.Add(new SqlParameter { ParameterName = "Fax", Value = request.Fax });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "Fax", Value = DBNull.Value });
+                if (!string.IsNullOrEmpty(request.Gsm))
+                    parameters.Add(new SqlParameter { ParameterName = "Gsm", Value = request.Gsm });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "Gsm", Value = DBNull.Value });
 
-            if (!string.IsNullOrEmpty(request.Adress))
-                parameters.Add(new SqlParameter { ParameterName = "Adress", Value = request.Adress });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "Adress", Value = DBNull.Value });
+                if (!string.IsNullOrEmpty(request.Fax))
+                    parameters.Add(new SqlParameter { ParameterName = "Fax", Value = request.Fax });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "Fax", Value = DBNull.Value });
 
-            if (!string.IsNullOrEmpty(request.Explanation))
-                parameters.Add(new SqlParameter { ParameterName = "Explanation", Value = request.Explanation });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "Explanation", Value = DBNull.Value });
+                if (!string.IsNullOrEmpty(request.Adress))
+                    parameters.Add(new SqlParameter { ParameterName = "Adress", Value = request.Adress });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "Adress", Value = DBNull.Value });
 
-            if (!string.IsNullOrEmpty(request.GoogleMapFrame))
-                parameters.Add(new SqlParameter { ParameterName = "GoogleMapFrame", Value = request.GoogleMapFrame });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "GoogleMapFrame", Value = DBNull.Value });
+                if (!string.IsNullOrEmpty(request.Explanation))
+                    parameters.Add(new SqlParameter { ParameterName = "Explanation", Value = request.Explanation });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "Explanation", Value = DBNull.Value });
 
-            if (!string.IsNullOrEmpty(request.GoogleMapLink))
-                parameters.Add(new SqlParameter { ParameterName = "GoogleMapLink", Value = request.GoogleMapLink });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "GoogleMapLink", Value = DBNull.Value });
+                if (!string.IsNullOrEmpty(request.GoogleMapFrame))
+                    parameters.Add(new SqlParameter { ParameterName = "GoogleMapFrame", Value = request.GoogleMapFrame });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "GoogleMapFrame", Value = DBNull.Value });
 
-            if (!string.IsNullOrEmpty(request.GoogleMapX))
-                parameters.Add(new SqlParameter { ParameterName = "GoogleMapX", Value = request.GoogleMapX });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "GoogleMapX", Value = DBNull.Value });
+                if (!string.IsNullOrEmpty(request.GoogleMapLink))
+                    parameters.Add(new SqlParameter { ParameterName = "GoogleMapLink", Value = request.GoogleMapLink });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "GoogleMapLink", Value = DBNull.Value });
 
-            if (!string.IsNullOrEmpty(request.GoogleMapY))
-                parameters.Add(new SqlParameter { ParameterName = "GoogleMapY", Value = request.GoogleMapY });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "GoogleMapY", Value = DBNull.Value });
+                if (!string.IsNullOrEmpty(request.GoogleMapX))
+                    parameters.Add(new SqlParameter { ParameterName = "GoogleMapX", Value = request.GoogleMapX });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "GoogleMapX", Value = DBNull.Value });
 
-            if (!string.IsNullOrEmpty(request.QrCode))
-                parameters.Add(new SqlParameter { ParameterName = "QrCode", Value = request.QrCode });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "QrCode", Value = DBNull.Value });
+                if (!string.IsNullOrEmpty(request.GoogleMapY))
+                    parameters.Add(new SqlParameter { ParameterName = "GoogleMapY", Value = request.GoogleMapY });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "GoogleMapY", Value = DBNull.Value });
 
-            if (!string.IsNullOrEmpty(request.FormSendEmail))
-                parameters.Add(new SqlParameter { ParameterName = "FormSendEmail", Value = request.FormSendEmail });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "FormSendEmail", Value = DBNull.Value });
+                if (!string.IsNullOrEmpty(request.QrCode))
+                    parameters.Add(new SqlParameter { ParameterName = "QrCode", Value = request.QrCode });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "QrCode", Value = DBNull.Value });
 
-            parameters.Add(new SqlParameter { ParameterName = "OrderNumber", Value = request.OrderNumber });
-            parameters.Add(new SqlParameter { ParameterName = "RecordDate", Value = DateTime.Now });
+                if (!string.IsNullOrEmpty(request.FormSendEmail))
+                    parameters.Add(new SqlParameter { ParameterName = "FormSendEmail", Value = request.FormSendEmail });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "FormSendEmail", Value = DBNull.Value });
 
-            if (!string.IsNullOrEmpty(request.Image))
-                parameters.Add(new SqlParameter { ParameterName = "Image", Value = request.Image });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "Image", Value = DBNull.Value });
+                parameters.Add(new SqlParameter { ParameterName = "OrderNumber", Value = request.OrderNumber });
+                parameters.Add(new SqlParameter { ParameterName = "RecordDate", Value = DateTime.Now });
 
-            if (request.IsActive)
-                parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 1 });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 0 });
+                if (!string.IsNullOrEmpty(request.Image))
+                    parameters.Add(new SqlParameter { ParameterName = "Image", Value = request.Image });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "Image", Value = DBNull.Value });
 
-            if (request.Id == 0)
-            {
-                db.ExecuteNoneQuery(@"insert into 
+                if (request.IsActive)
+                    parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 1 });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 0 });
+
+                if (request.Id == 0)
+                {
+                    db.ExecuteNoneQuery(@"insert into 
                 [ContactInformation](LanguageId,
                 Name,
                 Email,
@@ -254,17 +258,17 @@ namespace Inta.Framework.Admin.Controllers
                 @Image,
                 @IsActive)", System.Data.CommandType.Text, parameters);
 
-                return Json(new ReturnObject<ContactInformation>
+                    return Json(new ReturnObject<ContactInformation>
+                    {
+                        Data = request,
+                        ResultType = MessageType.Success
+                    });
+                }
+                else
                 {
-                    Data = request,
-                    ResultType = MessageType.Success
-                });
-            }
-            else
-            {
-                parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
+                    parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
 
-                db.ExecuteNoneQuery(@"Update [ContactInformation] set 
+                    db.ExecuteNoneQuery(@"Update [ContactInformation] set 
                 LanguageId=@LanguageId,
                 Name=@Name,
                 Email=@Email,
@@ -285,10 +289,20 @@ namespace Inta.Framework.Admin.Controllers
                 Image=@Image
                 where Id=@Id", System.Data.CommandType.Text, parameters);
 
+                    return Json(new ReturnObject<ContactInformation>
+                    {
+                        Data = request,
+                        ResultType = MessageType.Success
+                    });
+                }
+            }
+            else
+            {
                 return Json(new ReturnObject<ContactInformation>
                 {
                     Data = request,
-                    ResultType = MessageType.Success
+                    ResultType = MessageType.Error,
+                    Validation = ModelState.ToList().Where(v => v.Value.Errors.Any()).Select(s => new { Key = s.Key, Error = s.Value.Errors })
                 });
             }
         }

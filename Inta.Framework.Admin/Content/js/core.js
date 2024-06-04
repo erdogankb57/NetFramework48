@@ -377,6 +377,9 @@ var $PagingDataList = {
 
         $("#" + formId).find("button[type='submit']").prop('disabled', true);
 
+        //Hata mesajları post edilmeden önce temizlenir.
+        $("#saveForm").find(".error").remove();
+
         var saveUrl = $("#" + ObjectId).attr("SaveUrl");
 
         $("textarea.ckeditor").each(function () {
@@ -392,6 +395,9 @@ var $PagingDataList = {
             contentType: false,
             processData: false,
             success: function (data) {
+
+                $("#" + formId).find("button[type='submit']").prop('disabled', false);
+
                 if (data.ResultType == 0) {
                     $PagingDataList.AddRecordModal($("#" + ObjectId).attr("AddUrl"), $("#" + ObjectId).attr("AddUrl"), $("#Id").val());
 
@@ -401,12 +407,27 @@ var $PagingDataList = {
                         showAlert(".popupMessage", "Kayıt işlemi başarıyla tamamlandı.", "success");
                     }, 100);
                 }
-                else
-                    setTimeout(function () {
-                        showAlert(".popupMessage", "Kayıt işlemi sırasında hata oluştu. Lütfen alanları kontrol ediniz.", "error");
-                    }, 100);
+                else {
 
-                $("#" + formId).find("button[type='submit']").prop('disabled', false);
+                    //Hata mesajı var ise hataları gösterir
+                    if (data.Validation != null) {
+                        if (data.Validation.length > 0) {
+                            for (var i = 0; i < data.Validation.length; i++) {
+                                var item = data.Validation[i];
+                                var key = item.Key;
+                                console.log(key);
+                                for (var j = 0; j < item.Error.length; j++) {
+                                    var ErrorMessage = item.Error[j].ErrorMessage;
+                                    $("#saveForm #" + key).parent("div").append("<div class='error text-danger'>" + ErrorMessage + "</div>");
+                                }
+                            }
+                        }
+                    } else {
+                        setTimeout(function () {
+                            showAlert(".popupMessage", "Kayıt işlemi sırasında hata oluştu. Lütfen alanları kontrol ediniz.", "error");
+                        }, 100);
+                    }
+                }
 
                 scroolTop(0, 300);
                 CallBack.call();
@@ -747,7 +768,7 @@ $ImageFileUpload = {
     Delete: function (id, ObjectId, ListObjectId) {
         var onay = confirm("Resmi silmek istediğinizden emin misiniz?");
         if (onay) {
-            var deleteUrl = $("input[type='file'][id='" + ObjectId +"']").attr("DeleteUrl");
+            var deleteUrl = $("input[type='file'][id='" + ObjectId + "']").attr("DeleteUrl");
             $.ajax({
                 url: deleteUrl,
                 type: "POST",

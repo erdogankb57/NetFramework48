@@ -1,6 +1,7 @@
 ﻿using Inta.Framework.Ado.Net;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
@@ -18,11 +19,15 @@ namespace Inta.Framework.Entity
 		public int Id { get; set; }
 		public int SystemUserId { get; set; }
 		public int LanguageId { get; set; }
+		[Required(ErrorMessage = "Lütfen boş geçmeyiniz")]
 		public string Name { get; set; }
+		[Required(ErrorMessage = "Lütfen boş geçmeyiniz")]
 		public string Email { get; set; }
+		[Required(ErrorMessage = "Lütfen boş geçmeyiniz")]
 		public string Phone { get; set; }
 		public string Gsm { get; set; }
 		public string Fax { get; set; }
+		[Required(ErrorMessage = "Lütfen boş geçmeyiniz")]
 		public string Adress { get; set; }
 		public string Explanation { get; set; }
 		public string GoogleMapFrame { get; set; }

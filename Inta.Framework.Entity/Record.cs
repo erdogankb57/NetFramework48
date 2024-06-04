@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,7 +18,11 @@ namespace Inta.Framework.Entity
         public int LanguageId { get; set; }
         public int BannerTypeId { get; set; }
         public int CategoryId { get; set; }
+
+        [Range(1, 100, ErrorMessage = "Lütfen açılış tipini seçiniz")]
         public int TargetId { get; set; }
+
+        [Required(ErrorMessage = "Lütfen boş geçmeyiniz")]
         public string Name { get; set; }
         public string RecordUrl { get; set; }
         public string Title { get; set; }

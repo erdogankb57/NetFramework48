@@ -119,81 +119,83 @@ namespace Inta.Framework.Admin.Controllers
         [HttpPost]
         public ActionResult Save(Banner request, HttpPostedFileBase FileImage)
         {
-            AuthenticationData authenticationData = new AuthenticationData();
-            ReturnObject<Banner> result = new ReturnObject<Banner>();
-            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
-
-            if (FileImage != null)
+            if (ModelState.IsValid)
             {
-                int imageSmallWidth = 100;
-                int imageBigWidth = 500;
+                AuthenticationData authenticationData = new AuthenticationData();
+                ReturnObject<Banner> result = new ReturnObject<Banner>();
+                DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
 
-                string filepath = "";
-
-                var bannerType = db.Get("Select * from BannerType where Id=" + request.BannerTypeId, System.Data.CommandType.Text);
-                if (bannerType != null && bannerType.Data != null)
+                if (FileImage != null)
                 {
-                    var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
-                    if (generalSettings.Data != null)
-                        filepath = generalSettings.Data.ImageUploadPath;
+                    int imageSmallWidth = 100;
+                    int imageBigWidth = 500;
 
-                    imageSmallWidth = !string.IsNullOrEmpty(bannerType.Data["SmallImageWidth"].ToString()) && bannerType.Data["SmallImageWidth"].ToString() != "0" ? Convert.ToInt32(bannerType.Data["SmallImageWidth"]) : 100;
-                    imageBigWidth = !string.IsNullOrEmpty(bannerType.Data["BigImageWidth"].ToString()) && bannerType.Data["BigImageWidth"].ToString() != "0" ? Convert.ToInt32(bannerType.Data["BigImageWidth"]) : 500;
-                    request.Image = ImageManager.ImageUploadDoubleCopy(FileImage, filepath, imageSmallWidth, imageBigWidth);
+                    string filepath = "";
+
+                    var bannerType = db.Get("Select * from BannerType where Id=" + request.BannerTypeId, System.Data.CommandType.Text);
+                    if (bannerType != null && bannerType.Data != null)
+                    {
+                        var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
+                        if (generalSettings.Data != null)
+                            filepath = generalSettings.Data.ImageUploadPath;
+
+                        imageSmallWidth = !string.IsNullOrEmpty(bannerType.Data["SmallImageWidth"].ToString()) && bannerType.Data["SmallImageWidth"].ToString() != "0" ? Convert.ToInt32(bannerType.Data["SmallImageWidth"]) : 100;
+                        imageBigWidth = !string.IsNullOrEmpty(bannerType.Data["BigImageWidth"].ToString()) && bannerType.Data["BigImageWidth"].ToString() != "0" ? Convert.ToInt32(bannerType.Data["BigImageWidth"]) : 500;
+                        request.Image = ImageManager.ImageUploadDoubleCopy(FileImage, filepath, imageSmallWidth, imageBigWidth);
+                    }
+
                 }
 
-            }
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = authenticationData.LanguageId });
+                parameters.Add(new SqlParameter { ParameterName = "BannerTypeId", Value = request.BannerTypeId });
+                if (!string.IsNullOrEmpty(request.Name))
+                    parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Name });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "Name", Value = DBNull.Value });
 
-            List<SqlParameter> parameters = new List<SqlParameter>();
-            parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = authenticationData.LanguageId });
-            parameters.Add(new SqlParameter { ParameterName = "BannerTypeId", Value = request.BannerTypeId });
-            if (!string.IsNullOrEmpty(request.Name))
-                parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Name });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "Name", Value = DBNull.Value });
+                if (!string.IsNullOrEmpty(request.Link))
+                    parameters.Add(new SqlParameter { ParameterName = "Link", Value = request.Link });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "Link", Value = DBNull.Value });
 
-            if (!string.IsNullOrEmpty(request.Link))
-                parameters.Add(new SqlParameter { ParameterName = "Link", Value = request.Link });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "Link", Value = DBNull.Value });
+                parameters.Add(new SqlParameter { ParameterName = "TargetId", Value = request.TargetId });
 
-            parameters.Add(new SqlParameter { ParameterName = "TargetId", Value = request.TargetId });
+                if (!string.IsNullOrEmpty(request.ShortExplanation))
+                    parameters.Add(new SqlParameter { ParameterName = "ShortExplanation", Value = request.ShortExplanation });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "ShortExplanation", Value = DBNull.Value });
 
-            if (!string.IsNullOrEmpty(request.ShortExplanation))
-                parameters.Add(new SqlParameter { ParameterName = "ShortExplanation", Value = request.ShortExplanation });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "ShortExplanation", Value = DBNull.Value });
+                parameters.Add(new SqlParameter { ParameterName = "OrderNumber", Value = request.OrderNumber });
 
-            parameters.Add(new SqlParameter { ParameterName = "OrderNumber", Value = request.OrderNumber });
+                if (!string.IsNullOrEmpty(request.Image))
+                    parameters.Add(new SqlParameter { ParameterName = "Image", Value = request.Image });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "Image", Value = DBNull.Value });
 
-            if (!string.IsNullOrEmpty(request.Image))
-                parameters.Add(new SqlParameter { ParameterName = "Image", Value = request.Image });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "Image", Value = DBNull.Value });
+                parameters.Add(new SqlParameter { ParameterName = "RecordDate", Value = DateTime.Now });
 
-            parameters.Add(new SqlParameter { ParameterName = "RecordDate", Value = DateTime.Now });
-
-            if (request.IsActive)
-                parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 1 });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 0 });
+                if (request.IsActive)
+                    parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 1 });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 0 });
 
 
-            if (request.Id == 0)
-            {
-                db.ExecuteNoneQuery("insert into [Banner](LanguageId,BannerTypeId,Name,Link,TargetId,ShortExplanation,OrderNumber,Image,RecordDate,IsActive) values(@LanguageId,@BannerTypeId,@Name,@Link,@TargetId,@ShortExplanation,@OrderNumber,@Image,@RecordDate,@IsActive)", System.Data.CommandType.Text, parameters);
-
-                return Json(new ReturnObject<Banner>
+                if (request.Id == 0)
                 {
-                    Data = request,
-                    ResultType = MessageType.Success
-                });
-            }
-            else
-            {
-                parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
+                    db.ExecuteNoneQuery("insert into [Banner](LanguageId,BannerTypeId,Name,Link,TargetId,ShortExplanation,OrderNumber,Image,RecordDate,IsActive) values(@LanguageId,@BannerTypeId,@Name,@Link,@TargetId,@ShortExplanation,@OrderNumber,@Image,@RecordDate,@IsActive)", System.Data.CommandType.Text, parameters);
 
-                db.ExecuteNoneQuery(@"Update [Banner] set 
+                    return Json(new ReturnObject<Banner>
+                    {
+                        Data = request,
+                        ResultType = MessageType.Success
+                    });
+                }
+                else
+                {
+                    parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
+
+                    db.ExecuteNoneQuery(@"Update [Banner] set 
                 LanguageId=@LanguageId,
                 BannerTypeId=@BannerTypeId,
                 Name=@Name,
@@ -206,12 +208,23 @@ namespace Inta.Framework.Admin.Controllers
                 IsActive=@IsActive 
                 where Id=@Id", System.Data.CommandType.Text, parameters);
 
+                    return Json(new ReturnObject<Banner>
+                    {
+                        Data = request,
+                        ResultType = MessageType.Success
+                    });
+                }
+            }
+            else
+            {
                 return Json(new ReturnObject<Banner>
                 {
                     Data = request,
-                    ResultType = MessageType.Success
+                    ResultType = MessageType.Error,
+                    Validation = ModelState.ToList().Where(v => v.Value.Errors.Any()).Select(s => new { Key = s.Key, Error = s.Value.Errors })
                 });
             }
+
         }
 
 

@@ -16,6 +16,7 @@ namespace Inta.Framework.Contract
         public string ResultMessage { get; set; }
         public MessageType ResultType { get; set; }
         public string ErrorMessage { get; set; }
+        public object Validation { get; set; }
     }
 
     public class ReturnErrorObject<T> : ReturnObject<T>
