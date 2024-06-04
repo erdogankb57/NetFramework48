@@ -78,6 +78,25 @@ namespace Inta.Framework.Web.Base.Authorization
             }
         }
 
+        public void SetLangugageId(string id)
+        {
+            if (HttpContext.Current.Session["AuthData"] != null)
+            {
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+
+                var authKey = serializer.Deserialize<Dictionary<string, string>>(HttpContext.Current.Session["AuthData"].ToString());
+                if (authKey.ContainsKey("languageId"))
+                {
+                    authKey["languageId"] = id.ToString();
+
+                    var authData = serializer.Serialize(authKey);
+
+                    HttpContext.Current.Session["AuthData"] = authData;
+                }
+
+            }
+        }
+
         private Dictionary<string, string> GetAuthenticationData
         {
             get

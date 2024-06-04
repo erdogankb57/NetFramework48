@@ -219,24 +219,28 @@
 
     <script>
         $(document).ready(function () {
-            // Handle click on checkbox to set state of "Select all" control
-            $('#dataTable tbody').on('change', 'input[type="checkbox"]', function () {
 
-                // If checkbox is not checked
-                if (!this.checked) {
-                    $(this).parent("td").parent("tr").removeClass('selected');
+            $("#dropDownLanguage #SelectListLanguage").change(function () {
+                $.ajax({
+                    url: "/Shared/SelectLanguage",
+                    type: "POST",
+                    dataType: 'json',
+                    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                    data: {
+                        id: $(this).val()
+                    },
+                    success: function (response) {
+                        debugger;
+                        if (response.ResultType == 0) {
+                            location.reload();
+                        }
+                    },
+                    error: function (response) {
 
-                    var el = $('#example-select-all').get(0);
-                    // If "Select all" control is checked and has 'indeterminate' property
-                    if (el && el.checked && ('indeterminate' in el)) {
-                        // Set visual state of "Select all" control
-                        // as 'indeterminate'
-                        el.indeterminate = true;
                     }
-                } else {
-                    $(this).parent("td").parent("tr").addClass('selected');
-                }
+                });
             });
+
 
         });
     </script>
