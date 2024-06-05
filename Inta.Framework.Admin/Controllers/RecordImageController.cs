@@ -1,4 +1,5 @@
-﻿using Inta.Framework.Ado.Net;
+﻿using Inta.Framework.Admin.Models;
+using Inta.Framework.Ado.Net;
 using Inta.Framework.Contract;
 using Inta.Framework.Entity;
 using Inta.Framework.Extension;
@@ -25,7 +26,7 @@ namespace Inta.Framework.Admin.Controllers
             return View();
         }
 
-        public ActionResult GetList(PagingDataListRequest<RecordImage> request)
+        public ActionResult GetList(PagingDataListRequest<RecordImageSearch> request)
         {
             List<SqlParameter> Parameters = new List<SqlParameter>();
             if (string.IsNullOrEmpty(request.Search.Name))

@@ -1,4 +1,5 @@
-﻿using Inta.Framework.Ado.Net;
+﻿using Inta.Framework.Admin.Models;
+using Inta.Framework.Ado.Net;
 using Inta.Framework.Contract;
 using Inta.Framework.Entity;
 using Inta.Framework.Web.Base.Authorization;
@@ -21,7 +22,7 @@ namespace Inta.Framework.Admin.Controllers
             return View();
         }
 
-        public ActionResult GetList(PagingDataListRequest<BannerType> request)
+        public ActionResult GetList(PagingDataListRequest<BannerTypeSearch> request)
         {
             AuthenticationData authenticationData = new AuthenticationData();
             List<SqlParameter> Parameters = new List<SqlParameter>();

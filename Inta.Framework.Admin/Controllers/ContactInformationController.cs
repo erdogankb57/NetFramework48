@@ -1,4 +1,5 @@
-﻿using Inta.Framework.Ado.Net;
+﻿using Inta.Framework.Admin.Models;
+using Inta.Framework.Ado.Net;
 using Inta.Framework.Contract;
 using Inta.Framework.Entity;
 using Inta.Framework.Extension;
@@ -23,7 +24,7 @@ namespace Inta.Framework.Admin.Controllers
             return View();
         }
 
-        public ActionResult GetList(PagingDataListRequest<ContactInformation> request)
+        public ActionResult GetList(PagingDataListRequest<ContactInformationSearch> request)
         {
             AuthenticationData authenticationData = new AuthenticationData();
             List<SqlParameter> Parameters = new List<SqlParameter>();

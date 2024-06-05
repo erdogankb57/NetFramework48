@@ -152,6 +152,24 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\BannerSearch.cs" />
+    <Compile Include="Models\BannerTypeSearch.cs" />
+    <Compile Include="Models\CategorySearch.cs" />
+    <Compile Include="Models\ContactInformationSearch.cs" />
+    <Compile Include="Models\FirmVariablesSearch.cs" />
+    <Compile Include="Models\FormElementOptionsSearch.cs" />
+    <Compile Include="Models\FormElementSearch.cs" />
+    <Compile Include="Models\FormGroupSearch.cs" />
+    <Compile Include="Models\MessageHistorySearch.cs" />
+    <Compile Include="Models\PageTypeSearch.cs" />
+    <Compile Include="Models\RecordFileSearch.cs" />
+    <Compile Include="Models\RecordImageSearch.cs" />
+    <Compile Include="Models\RecordSearch.cs" />
+    <Compile Include="Models\SEOIndexSearch.cs" />
+    <Compile Include="Models\StaticTextSearch.cs" />
+    <Compile Include="Models\SystemActionSearch.cs" />
+    <Compile Include="Models\SystemRoleSearch.cs" />
+    <Compile Include="Models\SystemUserSearch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -549,7 +567,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Content\Uploads\EditorImage\" />
     <Folder Include="Content\Uploads\File\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
