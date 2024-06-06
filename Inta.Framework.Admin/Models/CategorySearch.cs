@@ -9,6 +9,6 @@ namespace Inta.Framework.Admin.Models
     {
         public string Name { get; set; }
         public int CategoryId { get; set; }
-        public bool IsActive { get; set; }
+        public int IsActive { get; set; }
     }
 }

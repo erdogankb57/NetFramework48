@@ -8,6 +8,6 @@ namespace Inta.Framework.Admin.Models
     public class ContactInformationSearch
     {
         public string Name { get; set; }
-        public bool IsActive { get; set; }
+        public int IsActive { get; set; }
     }
 }

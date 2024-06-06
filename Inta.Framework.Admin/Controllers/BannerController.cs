@@ -32,13 +32,18 @@ namespace Inta.Framework.Admin.Controllers
             else
                 Parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Search.Name.ToString() });
 
-            Parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = request.Search.IsActive });
+
+            if (request.Search.IsActive == -1)
+                Parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = DBNull.Value });
+            else
+                Parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = request.Search.IsActive });
+
             Parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = authenticationData.LanguageId });
 
 
 
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
-            string sqlQuery = "Select * from Banner where (@Name is null or Name like '%'+@Name+'%') and IsActive=@IsActive and LanguageId=@LanguageId order by " + request.OrderColumn + (request.OrderType == PagingDataListOrderType.Ascending ? " asc" : " desc");
+            string sqlQuery = "Select * from Banner where (@Name is null or Name like '%'+@Name+'%') and (@IsActive is null or IsActive=@IsActive) and LanguageId=@LanguageId order by " + request.OrderColumn + (request.OrderType == PagingDataListOrderType.Ascending ? " asc" : " desc");
             var data = db.Find<Banner>(sqlQuery, System.Data.CommandType.Text, Parameters);
             int count = data?.Data?.ToList()?.Count ?? 0;
 

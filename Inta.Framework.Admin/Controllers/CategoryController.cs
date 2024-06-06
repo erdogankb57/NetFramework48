@@ -33,10 +33,10 @@ namespace Inta.Framework.Admin.Controllers
             else
                 Parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Search.Name.ToString() });
 
-            if (request.Search.IsActive)
-                Parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 1 });
+            if (request.Search.IsActive == -1)
+                Parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = DBNull.Value });
             else
-                Parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 0 });
+                Parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = request.Search.IsActive });
 
             if (request.Search.CategoryId == null)
                 Parameters.Add(new SqlParameter { ParameterName = "CategoryId", Value = DBNull.Value });
@@ -47,7 +47,7 @@ namespace Inta.Framework.Admin.Controllers
 
 
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
-            string sqlQuery = "Select * from Category where (@CategoryId is null or CategoryId=@CategoryId) and LanguageId=@LanguageId and (@Name is null or Name like '%'+@Name+'%') and IsActive=@IsActive order by " + request.OrderColumn + (request.OrderType == PagingDataListOrderType.Ascending ? " asc" : " desc");
+            string sqlQuery = "Select * from Category where (@CategoryId is null or CategoryId=@CategoryId) and LanguageId=@LanguageId and (@Name is null or Name like '%'+@Name+'%') and  (@IsActive is null or IsActive=@IsActive) order by " + request.OrderColumn + (request.OrderType == PagingDataListOrderType.Ascending ? " asc" : " desc");
             var data = db.Find<Category>(sqlQuery, System.Data.CommandType.Text, Parameters);
             int count = data?.Data?.ToList()?.Count ?? 0;
 

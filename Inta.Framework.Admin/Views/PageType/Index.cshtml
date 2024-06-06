@@ -23,8 +23,14 @@
                         Aktif Mi
                     </div>
                     <div class="col-lg-10">
-                        <input type="checkbox" id="IsActive" checked />
-                        <label for="IsActive">Evet</label>
+                        @{
+                            List<SelectListItem> selectListItems = new List<SelectListItem>();
+                            selectListItems.Add(new SelectListItem { Text = "Tümü", Value = "-1" });
+                            selectListItems.Add(new SelectListItem { Text = "Aktif", Value = "1" });
+                            selectListItems.Add(new SelectListItem { Text = "Pasif", Value = "0" });
+
+                            @Html.DropDownList("IsActive", selectListItems, new { @class = "form-control" });
+                        }
                     </div>
                 </div>
             </div>
@@ -103,7 +109,7 @@
                     val["Name"] = $("#search #Name").val();
                 }
                 if ($("#search #IsActive").val() != "") {
-                    val["IsActive"] = $("#search #IsActive").is(":checked");
+                    val["IsActive"] = $("#search #IsActive").val();
                 }
 
                 $PagingDataList.ReloadData("PageTypeList", val);

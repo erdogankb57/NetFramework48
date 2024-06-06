@@ -8,6 +8,6 @@ namespace Inta.Framework.Admin.Models
     public class SEOIndexSearch
     {
         public string Name { get; set; }
-        public bool IsActive { get; set; }
+        public int IsActive { get; set; }
     }
 }

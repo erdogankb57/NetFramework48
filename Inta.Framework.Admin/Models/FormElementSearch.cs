@@ -7,7 +7,7 @@ namespace Inta.Framework.Admin.Models
 {
     public class FormElementSearch
     {
-        public bool IsActive { get; set; }
+        public int IsActive { get; set; }
         public string Name { get; set; }
     }
 }

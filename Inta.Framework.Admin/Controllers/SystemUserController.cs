@@ -39,11 +39,15 @@ namespace Inta.Framework.Admin.Controllers
             else
                 Parameters.Add(new SqlParameter { ParameterName = "UserName", Value = request.Search.UserName.ToString() });
 
-            Parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = request.Search.IsActive });
+            if (request.Search.IsActive == -1)
+                Parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = DBNull.Value });
+            else
+                Parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = request.Search.IsActive });
+
 
 
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
-            string sqlQuery = "Select * from SystemUser where (@Name is null or Name like '%'+@Name+'%') and IsActive=@IsActive order by " + request.OrderColumn + (request.OrderType == PagingDataListOrderType.Ascending ? " asc" : " desc");
+            string sqlQuery = "Select * from SystemUser where (@Name is null or Name like '%'+@Name+'%') and (@IsActive is null or IsActive=@IsActive) order by " + request.OrderColumn + (request.OrderType == PagingDataListOrderType.Ascending ? " asc" : " desc");
             var data = db.Find<SystemUser>(sqlQuery, System.Data.CommandType.Text, Parameters);
             int count = data?.Data?.ToList()?.Count ?? 0;
 
