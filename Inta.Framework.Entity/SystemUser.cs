@@ -25,7 +25,11 @@ namespace Inta.Framework.Entity
 		[Required(ErrorMessage = "Lütfen boş geçmeyiniz")]
 		public string SurName { get; set; }
 
-		[Required(ErrorMessage = "Lütfen boş geçmeyiniz")] public string UserName { get; set; }
+		[Required(ErrorMessage = "Lütfen boş geçmeyiniz")] 
+		public string UserName { get; set; }
+
+
+		[Required(ErrorMessage = "Lütfen boş geçmeyiniz")]
 		public string Password { get; set; }
 
 		[Required(ErrorMessage = "Lütfen boş geçmeyiniz")]
