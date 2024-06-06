@@ -120,6 +120,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BannerController.cs" />
     <Compile Include="Controllers\BannerTypeController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
@@ -528,6 +529,7 @@
     <Content Include="Content\images\user.jpg" />
     <Content Include="Content\js\autocomplete.js" />
     <Content Include="Content\js\chart.min.js" />
+    <Content Include="Content\js\controller\account.js" />
     <Content Include="Content\js\controller\editorimageupload.js" />
     <Content Include="Content\js\controller\generalsettings.js" />
     <Content Include="Content\js\controller\login.js" />
@@ -644,6 +646,7 @@
     <Content Include="Views\ErrorPage\Index.cshtml" />
     <Content Include="Views\EditorImageUpload\Index.cshtml" />
     <Content Include="Views\ForgetPassword\Index.cshtml" />
+    <Content Include="Views\Account\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Inta.Framework.Ado.Net\Inta.Framework.Ado.Net.csproj">
