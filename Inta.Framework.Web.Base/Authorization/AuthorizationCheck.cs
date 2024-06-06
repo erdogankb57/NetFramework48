@@ -22,7 +22,11 @@ namespace Inta.Framework.Web.Base.Authorization
             DBLayer dbLayer = new DBLayer(System.Configuration.ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             if (_authenticationData?.HasSession ?? false)
             {
-                var user = dbLayer.Get("Select * from SystemUser where UserName='" + _authenticationData.UserName + "' and Password='" + _authenticationData.Password + "' and IsActive=1", System.Data.CommandType.Text);
+                List<SqlParameter> userParameters = new List<SqlParameter>();
+                userParameters.Add(new SqlParameter { ParameterName = "UserName", Value = _authenticationData.UserName });
+                userParameters.Add(new SqlParameter { ParameterName = "Password", Value = _authenticationData.Password });
+
+                var user = dbLayer.Get("Select * from SystemUser where UserName=@UserName and Password=@Password and IsActive=1", System.Data.CommandType.Text, userParameters);
                 if (user?.Data != null)
                 {
                     if (controller != null)
@@ -31,8 +35,9 @@ namespace Inta.Framework.Web.Base.Authorization
                         controller.ViewBag.UserName = user.Data["Name"] + " " + user.Data["SurName"];
                         controller.ViewBag.SystemUserId = user.Data["Id"];
                     }
-
-                    var userRole = dbLayer.Get("Select * from SystemRole where Id=" + user.Data["SystemRoleId"].ToString(), System.Data.CommandType.Text);
+                    List<SqlParameter> userRoleParameters = new List<SqlParameter>();
+                    userRoleParameters.Add(new SqlParameter { ParameterName = "Id", Value = user.Data["SystemRoleId"].ToString() });
+                    var userRole = dbLayer.Get("Select * from SystemRole where Id=@Id", System.Data.CommandType.Text, userRoleParameters);
                     if (controller != null && userRole?.Data != null)
                         controller.ViewBag.RoleName = userRole.Data["Name"];
 
@@ -59,7 +64,7 @@ namespace Inta.Framework.Web.Base.Authorization
                         parameters);
 
                     //Yapılan istek ajax isteği değilse yetkilendirme kontrolü yapılır.
-                    if (!Convert.ToBoolean(user.Data["IsAdmin"]) && context != null && context.HttpContext.Request.Headers["x-requested-with"] != "XMLHttpRequest" && activeRoleAction.Data == null)
+                    if (controller.RouteData.Values["controller"].ToString() != "Account" && !Convert.ToBoolean(user.Data["IsAdmin"]) && context != null && context.HttpContext.Request.Headers["x-requested-with"] != "XMLHttpRequest" && activeRoleAction.Data == null)
                     {
                         context.Result = new RedirectResult("/NoAuthorization");
                         return;

@@ -62,7 +62,7 @@ namespace Inta.Framework.Ado.Net
                 }
                 catch (Exception ex)
                 {
-                        connection.Dispose();
+                    connection.Dispose();
                     connection.Close();
                     return new ReturnErrorObject<bool> { Data = false, ResultType = MessageType.Error, Exception = ex };
                 }
@@ -234,7 +234,7 @@ namespace Inta.Framework.Ado.Net
                     TEntity result = null;
                     if (dt.Rows.Count > 0)
                     {
-                        result = new TEntity(); 
+                        result = new TEntity();
                         foreach (PropertyInfo item in result.GetType().GetProperties())
                         {
                             string columnName = item.Name;
@@ -295,7 +295,7 @@ namespace Inta.Framework.Ado.Net
                     cmd.Dispose();
                     connection.Dispose();
                     connection.Close();
-                    return new ReturnObject<DataRow> { Data = dt.Rows[0], ResultType = MessageType.Success };
+                    return new ReturnObject<DataRow> { Data = dt.Rows.Count > 0 ? dt.Rows[0] : null, ResultType = MessageType.Success };
 
                 }
                 catch (Exception ex)

@@ -45,7 +45,7 @@
                 <div class="col-lg-2">
                     <label for="exampleFormControlInput1">Şifre</label>
                 </div><div class="col-lg-4">
-                    @Html.TextBoxFor(m => m.Password, new { @class = "form-control"})
+                    @Html.TextBoxFor(m => m.Password, new { @class = "form-control" })
                 </div>
             </div>
         </div>
@@ -73,9 +73,19 @@
                 <div class="col-lg-2">
                     <label for="exampleFormControlInput1">Aktif mi</label>
                 </div>
-                <div class="col-lg-10">
+                <div class="col-lg-4">
                     <div class="form-check">
-                        @Html.CheckBoxFor(m => m.IsActive, new { @class = "form-check-input" })
+                        @Html.CheckBoxFor(m => m.IsActive, new { @class = "form-check-input", @disabled = "disabled" })
+                        <label for="IsActive">Evet</label>
+                    </div>
+                </div>
+
+                <div class="col-lg-2">
+                    <label for="exampleFormControlInput1">Admin mi</label>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-check">
+                        @Html.CheckBoxFor(m => m.IsAdmin, new { @class = "form-check-input", @disabled = "disabled" })
                         <label for="IsActive">Evet</label>
                     </div>
                 </div>
