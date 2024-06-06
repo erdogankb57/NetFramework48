@@ -137,9 +137,8 @@
                 if ($("#search #Name").val() != "") {
                     val["Name"] = $("#search #Name").val();
                 }
-                if ($("#search #IsActive").val() != "") {
-                    val["IsActive"] = $("#search #IsActive").is(":checked");
-                }
+                val["IsActive"] = $("#search #IsActive").is(":checked");
+
                 if ($("#search #CategoryId").val() != "") {
                     val["CategoryId"] = $("#search #CategoryId").val();
                 }

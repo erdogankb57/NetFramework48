@@ -7,7 +7,7 @@ namespace Inta.Framework.Admin.Models
 {
     public class RecordFileSearch
     {
-        public string Name { get; internal set; }
-        public bool IsActive { get; internal set; }
+        public string Name { get; set; }
+        public bool IsActive { get; set; }
     }
 }

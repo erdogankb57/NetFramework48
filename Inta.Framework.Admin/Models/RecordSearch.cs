@@ -7,8 +7,8 @@ namespace Inta.Framework.Admin.Models
 {
     public class RecordSearch
     {
-        public string Name { get; internal set; }
-        public bool IsActive { get; internal set; }
-        public int CategoryId { get; internal set; }
+        public string Name { get; set; }
+        public bool IsActive { get; set; }
+        public int CategoryId { get; set; }
     }
 }
