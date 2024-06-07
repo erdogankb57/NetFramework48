@@ -98,7 +98,7 @@
 
                     });
                 }
-                @Html.PagingDataListFor(ObjectId: "PagingDataList", Header: col, Url: "/Banner/GetList", AddUrl: "/Banner/Add", isAddPopup: true, DeleteUrl: "/Banner/Delete", ActiveUrl: "/Banner/Active", PassiveUrl: "/Banner/Passive", SaveUrl: "/Banner/Save", CallBackFunction: "SearchDataList", PagingRowCount: 20, OrderColumn: "Id")
+                @Html.PagingDataListFor(ObjectId: "PagingDataList", Header: col, Url: "/Banner/GetList", AddUrl: "/Banner/Add", isAddPopup: false, DeleteUrl: "/Banner/Delete", ActiveUrl: "/Banner/Active", PassiveUrl: "/Banner/Passive", SaveUrl: "/Banner/Save", CallBackFunction: "SearchDataList", PagingRowCount: 20, OrderColumn: "Id")
 
             </div>
         </div>

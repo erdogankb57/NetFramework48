@@ -647,6 +647,7 @@
     <Content Include="Views\EditorImageUpload\Index.cshtml" />
     <Content Include="Views\ForgetPassword\Index.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\Banner\Popup_Add.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Inta.Framework.Ado.Net\Inta.Framework.Ado.Net.csproj">

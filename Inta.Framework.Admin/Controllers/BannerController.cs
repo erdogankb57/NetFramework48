@@ -55,7 +55,7 @@ namespace Inta.Framework.Admin.Controllers
                 Id = s.Id,
                 Name = s.Name,
                 IsActive = s.IsActive ? "Aktif" : "Pasif",
-                Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/Banner/Add','True'," + s.Id.ToString() + ")\">Düzenle</a>",
+                Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/Banner/Add','False'," + s.Id.ToString() + ")\">Düzenle</a>",
                 Delete = "<a href='javascript:void(0)' onclick=\"$PagingDataList.DeleteRecordModal('PagingDataList','/Banner/Delete',SearchDataList," + s.Id.ToString() + ")\">Sil</a>"
             }).ToList();
 
@@ -113,13 +113,13 @@ namespace Inta.Framework.Admin.Controllers
             if (generalSettings.Data != null)
                 ViewBag.ImageFolder = generalSettings.Data.ImageCdnUrl;
 
-            if (id == 0)
-                return PartialView("Add", new Banner { IsActive = true });
+            if (id ==null || id == 0)
+                return View("Add", new Banner { IsActive = true });
             else
             {
                 var model = db.Get<Banner>("select * from [Banner] where Id=@Id", System.Data.CommandType.Text, parameters);
 
-                return PartialView("Add", model.Data);
+                return View("Add", model.Data);
             }
 
 
