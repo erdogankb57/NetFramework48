@@ -48,9 +48,6 @@ namespace Inta.Framework.Web.Base.FormControls
                                     <div class='image-delete'>
                                         <button type='button' class='btn btn-standart' onclick=""$ImageFileUpload.Delete({Id},'{ObjectId}','{ListObjectId}')"">Resmi sil</button>
                                     </div>
-                                    <div class='small-image-crop'>
-                                        <button type='button' class='btn btn-standart' onclick=""$ImageFileUpload.SmallCrop({Id},'{ObjectId}','{ListObjectId}')"">Küçük Resmi Cropla</button>
-                                    </div>
                                 </div>");
             }
             shtml.Append("  </div>");
