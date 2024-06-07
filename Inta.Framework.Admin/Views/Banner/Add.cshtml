@@ -13,7 +13,7 @@
     <div class="popupMessage"></div>
 
     <form id="saveForm" method="post" novalidate>
-
+        @Html.HiddenFor(m => m.Id)
         <div class="form-group">
             <div class="row">
                 <div class="col-lg-3">
@@ -94,7 +94,7 @@
                 <div class="col-lg-3">
                     <label for="exampleFormControlInput1">Resim</label>
                 </div><div class="col-lg-9">
-                    @Html.ImageFileUploadFor(Id: Model.Id, ObjectId: "FileImage", ObjectName: "FileImage", Image: Model.Image, DeleteUrl: "/Banner/DeleteImage", ListObjectId: "PagingDataList", isBigImage: false)
+                    @Html.ImageFileUploadFor(Id: Model.Id, ObjectId: "Image", ObjectName: "Image", Image: Model.Image, DeleteUrl: "/Banner/DeleteImage", ListObjectId: "PagingDataList", isBigImage: false)
                 </div>
             </div>
         </div>
@@ -106,63 +106,6 @@
 
 <script type="text/javascript">
     $(function () {
-        $("#saveForm").submit(function (e) {
-            e.preventDefault();
-
-            $("#saveForm .error").remove();
-
-
-
-            var formData = new FormData($('#saveForm')[0]);
-            $.ajax({
-                url: "/Banner/Save",
-                type: "POST",
-                data: formData,
-                dataType: 'json',
-                contentType: false,
-                processData: false,
-                success: function (data) {
-
-                    if (data.ResultType == 0) {
-                        $("#saveForm").find("button[type='submit']").prop('disabled', false);
-
-                        setTimeout(function () {
-                            showAlert(".popupMessage", "Kayıt işlemi başarıyla tamamlandı.", "success");
-                        }, 100);
-                    }
-                    else {
-                        //Hata mesajı var ise hataları gösterir
-                        if (data.Validation != null) {
-                            if (data.Validation.length > 0) {
-                                for (var i = 0; i < data.Validation.length; i++) {
-                                    var item = data.Validation[i];
-                                    var key = item.Key;
-                                    console.log(key);
-                                    for (var j = 0; j < item.Error.length; j++) {
-                                        var ErrorMessage = item.Error[j].ErrorMessage;
-                                        $("#saveForm #" + key).parent("div").append("<div class='error text-danger'>" + ErrorMessage + "</div>");
-                                    }
-                                }
-                            }
-                        } else {
-                            setTimeout(function () {
-                                showAlert(".popupMessage", "Kayıt işlemi sırasında hata oluştu. Lütfen alanları kontrol ediniz.", "error");
-                            }, 100);
-                        }
-                    }
-
-
-                    $("#saveForm").find("button[type='submit']").prop('disabled', false);
-
-
-                }, error: function (data) {
-                    setTimeout(function () {
-                        showAlert(".popupMessage", "Kayıt işlemi sırasında hata oluştu. Lütfen alanları kontrol ediniz.", "error");
-                    }, 100);
-                }
-            });
-        });
-
-
+        $Form.Save("saveForm");
     });
 </script>

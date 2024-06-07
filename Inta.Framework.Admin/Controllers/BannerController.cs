@@ -113,7 +113,7 @@ namespace Inta.Framework.Admin.Controllers
             if (generalSettings.Data != null)
                 ViewBag.ImageFolder = generalSettings.Data.ImageCdnUrl;
 
-            if (id ==null || id == 0)
+            if (id == null || id == 0)
                 return View("Add", new Banner { IsActive = true });
             else
             {
@@ -126,15 +126,16 @@ namespace Inta.Framework.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult Save(Banner request, HttpPostedFileBase FileImage)
+        public ActionResult Save(Banner request, HttpPostedFileBase Image)
         {
             if (ModelState.IsValid)
             {
                 AuthenticationData authenticationData = new AuthenticationData();
                 ReturnObject<Banner> result = new ReturnObject<Banner>();
                 DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+                var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
 
-                if (FileImage != null)
+                if (Image != null)
                 {
                     int imageSmallWidth = 100;
                     int imageBigWidth = 500;
@@ -144,13 +145,12 @@ namespace Inta.Framework.Admin.Controllers
                     var bannerType = db.Get("Select * from BannerType where Id=" + request.BannerTypeId, System.Data.CommandType.Text);
                     if (bannerType != null && bannerType.Data != null)
                     {
-                        var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
                         if (generalSettings.Data != null)
                             filepath = generalSettings.Data.ImageUploadPath;
 
                         imageSmallWidth = !string.IsNullOrEmpty(bannerType.Data["SmallImageWidth"].ToString()) && bannerType.Data["SmallImageWidth"].ToString() != "0" ? Convert.ToInt32(bannerType.Data["SmallImageWidth"]) : 100;
                         imageBigWidth = !string.IsNullOrEmpty(bannerType.Data["BigImageWidth"].ToString()) && bannerType.Data["BigImageWidth"].ToString() != "0" ? Convert.ToInt32(bannerType.Data["BigImageWidth"]) : 500;
-                        request.Image = ImageManager.ImageUploadDoubleCopy(FileImage, filepath, imageSmallWidth, imageBigWidth);
+                        request.Image = ImageManager.ImageUploadDoubleCopy(Image, filepath, imageSmallWidth, imageBigWidth);
                     }
 
                 }
@@ -191,14 +191,16 @@ namespace Inta.Framework.Admin.Controllers
 
                 parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = authenticationData.UserId });
 
+                string redirectUrl = null;
                 if (request.Id == 0)
                 {
-                    db.ExecuteNoneQuery("insert into [Banner](SystemUserId,LanguageId,BannerTypeId,Name,Link,TargetId,ShortExplanation,OrderNumber,Image,RecordDate,IsActive) values(@SystemUserId,@LanguageId,@BannerTypeId,@Name,@Link,@TargetId,@ShortExplanation,@OrderNumber,@Image,@RecordDate,@IsActive)", System.Data.CommandType.Text, parameters);
+                    var inserted = db.ExecuteScalar("insert into [Banner](SystemUserId,LanguageId,BannerTypeId,Name,Link,TargetId,ShortExplanation,OrderNumber,Image,RecordDate,IsActive) values(@SystemUserId,@LanguageId,@BannerTypeId,@Name,@Link,@TargetId,@ShortExplanation,@OrderNumber,@Image,@RecordDate,@IsActive); SELECT SCOPE_IDENTITY()", System.Data.CommandType.Text, parameters);
 
                     return Json(new ReturnObject<Banner>
                     {
                         Data = request,
-                        ResultType = MessageType.Success
+                        ResultType = MessageType.Success,
+                        RedirectUrl = "/Banner/Index"
                     });
                 }
                 else
@@ -217,11 +219,11 @@ namespace Inta.Framework.Admin.Controllers
                 RecordDate=@RecordDate,
                 IsActive=@IsActive 
                 where Id=@Id", System.Data.CommandType.Text, parameters);
-
                     return Json(new ReturnObject<Banner>
                     {
                         Data = request,
-                        ResultType = MessageType.Success
+                        ResultType = MessageType.Success,
+                        RedirectUrl = "/Banner/Index"
                     });
                 }
             }

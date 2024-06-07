@@ -794,3 +794,82 @@ $ImageFileUpload = {
         }
     }
 }
+
+$Form = {
+    Save: function (formId) {
+        $("#" + formId).submit(function (e) {
+            e.preventDefault();
+
+            $("#" + formId + " .error").remove();
+
+
+
+            var formData = new FormData($('#' + formId)[0]);
+            $.ajax({
+                url: "/Banner/Save",
+                type: "POST",
+                data: formData,
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    debugger;
+                    if (data.ResultType == 0) {
+                        $("#" + formId).find("button[type='submit']").prop('disabled', false);
+                        if (data.RedirectUrl != null) {
+                            location.href = data.RedirectUrl;
+                        }
+
+                        //var keys = Object.keys(data.Data);
+                        //for (var i = 0; i < keys.length; i++) {
+                        //    var key = keys[i];
+                        //    var val = data.Data[keys[i]];
+
+                        //    if ($("#" + key).attr("type") == "file") {
+                        //        $("#" + key).val("");
+                        //        $("#" + key).parents(".imagePanel").find(".ImagePreview").attr("src", val);
+                        //        $("#" + key).parents(".imagePanel").find(".image").show();
+                        //    } else {
+                        //        $("#" + key).val(val);
+                        //    }
+                        //}
+
+                        setTimeout(function () {
+                            showAlert(".popupMessage", "Kayıt işlemi başarıyla tamamlandı.", "success");
+                        }, 100);
+                    }
+                    else {
+                        //Hata mesajı var ise hataları gösterir
+                        if (data.Validation != null) {
+                            if (data.Validation.length > 0) {
+                                for (var i = 0; i < data.Validation.length; i++) {
+                                    var item = data.Validation[i];
+                                    var key = item.Key;
+                                    console.log(key);
+                                    for (var j = 0; j < item.Error.length; j++) {
+                                        var ErrorMessage = item.Error[j].ErrorMessage;
+                                        $("#saveForm #" + key).parent("div").append("<div class='error text-danger'>" + ErrorMessage + "</div>");
+                                    }
+                                }
+                            }
+                        } else {
+                            setTimeout(function () {
+                                showAlert(".popupMessage", "Kayıt işlemi sırasında hata oluştu. Lütfen alanları kontrol ediniz.", "error");
+                            }, 100);
+                        }
+                    }
+
+
+                    $("#" + formId).find("button[type='submit']").prop('disabled', false);
+
+
+                }, error: function (data) {
+                    setTimeout(function () {
+                        showAlert(".popupMessage", "Kayıt işlemi sırasında hata oluştu. Lütfen alanları kontrol ediniz.", "error");
+                    }, 100);
+                }
+            });
+        });
+
+    }
+}

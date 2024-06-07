@@ -38,18 +38,17 @@ namespace Inta.Framework.Web.Base.FormControls
                                     <input type='file' id='{ObjectId}' name='{ObjectName}' DeleteUrl='{DeleteUrl}' class='form-control' />
                                 </div>");
 
-            if (!string.IsNullOrEmpty(Image))
-            {
-                shtml.Append($@"
-                           <div class='image'>
+
+            shtml.Append($@"
+                           <div class='image' style='{(string.IsNullOrEmpty(Image) ? "display:none" : "display:block")}'>
                                     <div class='small-image-content'>
-                                        <a id='ImageLink' href='{ConfigurationManager.AppSettings["ImageUpload"] + (isBigImage ? "b_" : "k_") + Image}' data-fancybox data-caption=''><img id='Image' src='{ConfigurationManager.AppSettings["ImageUpload"] + "k_" + Image}' width='100' height='100' style='border:solid 1px #000000' /></a>
+                                        <a id='ImageLink' href='{ConfigurationManager.AppSettings["ImageUpload"] + (isBigImage ? "b_" : "k_") + Image}' data-fancybox data-caption=''><img class='ImagePreview' src='{ConfigurationManager.AppSettings["ImageUpload"] + "k_" + Image}' width='100' height='100' style='border:solid 1px #000000' /></a>
                                     </div>
                                     <div class='image-delete'>
                                         <button type='button' class='btn btn-standart' onclick=""$ImageFileUpload.Delete({Id},'{ObjectId}','{ListObjectId}')"">Resmi sil</button>
                                     </div>
                                 </div>");
-            }
+
             shtml.Append("  </div>");
 
             return new MvcHtmlString(shtml.ToString());
