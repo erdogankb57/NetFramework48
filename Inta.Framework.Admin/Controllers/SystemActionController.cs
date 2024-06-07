@@ -97,35 +97,37 @@ namespace Inta.Framework.Admin.Controllers
         [HttpPost]
         public ActionResult Save(SystemAction request, HttpPostedFileBase FileImage)
         {
-            AuthenticationData authenticationData = new AuthenticationData();
-            ReturnObject<SystemAction> result = new ReturnObject<SystemAction>();
-            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
-
-            List<SqlParameter> parameters = new List<SqlParameter>();
-            
-            parameters.Add(new SqlParameter { ParameterName = "SystemMenuId", Value = request.SystemMenuId });
-            if (!string.IsNullOrEmpty(request.ControllerName))
-                parameters.Add(new SqlParameter { ParameterName = "ControllerName", Value = request.ControllerName });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "ControllerName", Value = DBNull.Value });
-
-            if (!string.IsNullOrEmpty(request.ActionName))
-                parameters.Add(new SqlParameter { ParameterName = "ActionName", Value = request.ActionName });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "ActionName", Value = DBNull.Value });
-
-            if (!string.IsNullOrEmpty(request.Description))
-                parameters.Add(new SqlParameter { ParameterName = "Description", Value = request.Description });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "Description", Value = DBNull.Value });
-
-            parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = authenticationData.UserId });
-
-
-
-            if (request.Id == 0)
+            if (ModelState.IsValid)
             {
-                db.ExecuteNoneQuery(@"insert into [SystemAction]
+                AuthenticationData authenticationData = new AuthenticationData();
+                ReturnObject<SystemAction> result = new ReturnObject<SystemAction>();
+                DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+
+                List<SqlParameter> parameters = new List<SqlParameter>();
+
+                parameters.Add(new SqlParameter { ParameterName = "SystemMenuId", Value = request.SystemMenuId });
+                if (!string.IsNullOrEmpty(request.ControllerName))
+                    parameters.Add(new SqlParameter { ParameterName = "ControllerName", Value = request.ControllerName });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "ControllerName", Value = DBNull.Value });
+
+                if (!string.IsNullOrEmpty(request.ActionName))
+                    parameters.Add(new SqlParameter { ParameterName = "ActionName", Value = request.ActionName });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "ActionName", Value = DBNull.Value });
+
+                if (!string.IsNullOrEmpty(request.Description))
+                    parameters.Add(new SqlParameter { ParameterName = "Description", Value = request.Description });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "Description", Value = DBNull.Value });
+
+                parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = authenticationData.UserId });
+
+
+
+                if (request.Id == 0)
+                {
+                    db.ExecuteNoneQuery(@"insert into [SystemAction]
                 (
                 SystemUserId,
                 SystemMenuId,
@@ -139,27 +141,37 @@ namespace Inta.Framework.Admin.Controllers
                 @ActionName,
                 @Description)", System.Data.CommandType.Text, parameters);
 
-                return Json(new ReturnObject<SystemAction>
+                    return Json(new ReturnObject<SystemAction>
+                    {
+                        Data = request,
+                        ResultType = MessageType.Success
+                    });
+                }
+                else
                 {
-                    Data = request,
-                    ResultType = MessageType.Success
-                });
-            }
-            else
-            {
-                parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
+                    parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
 
-                db.ExecuteNoneQuery(@"Update [SystemAction] set 
+                    db.ExecuteNoneQuery(@"Update [SystemAction] set 
                 SystemMenuId=@SystemMenuId,
                 ControllerName=@ControllerName,
                 ActionName=@ActionName,
                 Description=@Description
                 where Id=@Id", System.Data.CommandType.Text, parameters);
 
+                    return Json(new ReturnObject<SystemAction>
+                    {
+                        Data = request,
+                        ResultType = MessageType.Success
+                    });
+                }
+            }
+            else
+            {
                 return Json(new ReturnObject<SystemAction>
                 {
                     Data = request,
-                    ResultType = MessageType.Success
+                    ResultType = MessageType.Error,
+                    Validation = ModelState.ToList().Where(v => v.Value.Errors.Any()).Select(s => new { Key = s.Key, Error = s.Value.Errors })
                 });
             }
         }

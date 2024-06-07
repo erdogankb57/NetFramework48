@@ -119,33 +119,36 @@ namespace Inta.Framework.Admin.Controllers
         [HttpPost]
         public ActionResult Save(StaticText request)
         {
-            AuthenticationData authenticationData = new AuthenticationData();
-            ReturnObject<StaticText> result = new ReturnObject<StaticText>();
-            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
-
-
-            List<SqlParameter> parameters = new List<SqlParameter>();
-            parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = authenticationData.UserId });
-
-            if (!string.IsNullOrEmpty(request.Name))
-                parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Name });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "Name", Value = DBNull.Value });
-
-            if (!string.IsNullOrEmpty(request.Explanation))
-                parameters.Add(new SqlParameter { ParameterName = "Explanation", Value = request.Explanation });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "Explanation", Value = DBNull.Value });
-
-            parameters.Add(new SqlParameter { ParameterName = "OrderNumber", Value = request.OrderNumber });
-            parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 1 });
-
-
-            if (request.Id == 0)
+            if (ModelState.IsValid)
             {
-                parameters.Add(new SqlParameter { ParameterName = "RecordDate", Value = DateTime.Now });
 
-                db.ExecuteNoneQuery(@"insert into [StaticText](
+                AuthenticationData authenticationData = new AuthenticationData();
+                ReturnObject<StaticText> result = new ReturnObject<StaticText>();
+                DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+
+
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = authenticationData.UserId });
+
+                if (!string.IsNullOrEmpty(request.Name))
+                    parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Name });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "Name", Value = DBNull.Value });
+
+                if (!string.IsNullOrEmpty(request.Explanation))
+                    parameters.Add(new SqlParameter { ParameterName = "Explanation", Value = request.Explanation });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "Explanation", Value = DBNull.Value });
+
+                parameters.Add(new SqlParameter { ParameterName = "OrderNumber", Value = request.OrderNumber });
+                parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 1 });
+
+
+                if (request.Id == 0)
+                {
+                    parameters.Add(new SqlParameter { ParameterName = "RecordDate", Value = DateTime.Now });
+
+                    db.ExecuteNoneQuery(@"insert into [StaticText](
                 SystemUserId,
                 Name,
                 Explanation,
@@ -161,27 +164,37 @@ namespace Inta.Framework.Admin.Controllers
                 @IsActive
                 )", System.Data.CommandType.Text, parameters);
 
-                return Json(new ReturnObject<StaticText>
+                    return Json(new ReturnObject<StaticText>
+                    {
+                        Data = request,
+                        ResultType = MessageType.Success
+                    });
+                }
+                else
                 {
-                    Data = request,
-                    ResultType = MessageType.Success
-                });
-            }
-            else
-            {
-                parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
+                    parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
 
-                db.ExecuteNoneQuery(@"Update [StaticText] set 
+                    db.ExecuteNoneQuery(@"Update [StaticText] set 
                 Name=@Name,
                 Explanation=@Explanation,
                 OrderNumber=@OrderNumber,
                 IsActive=@IsActive
                 where Id=@Id", System.Data.CommandType.Text, parameters);
 
+                    return Json(new ReturnObject<StaticText>
+                    {
+                        Data = request,
+                        ResultType = MessageType.Success
+                    });
+                }
+            }
+            else
+            {
                 return Json(new ReturnObject<StaticText>
                 {
                     Data = request,
-                    ResultType = MessageType.Success
+                    ResultType = MessageType.Error,
+                    Validation = ModelState.ToList().Where(v => v.Value.Errors.Any()).Select(s => new { Key = s.Key, Error = s.Value.Errors })
                 });
             }
         }

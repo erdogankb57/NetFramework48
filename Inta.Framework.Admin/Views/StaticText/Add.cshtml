@@ -20,7 +20,7 @@
                     <div class="col-lg-3">
                         <label for="exampleFormControlInput1">Text</label>
                     </div><div class="col-lg-9">
-                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @required = "required" })
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
 
                     </div>
                 </div>
@@ -39,7 +39,7 @@
                     <div class="col-lg-3">
                         <label for="exampleFormControlInput1">Sıra Numarası</label>
                     </div><div class="col-lg-9">
-                        @Html.TextBoxFor(m => m.OrderNumber, new { @class = "form-control", @required = "required", @numeric = "numeric", })
+                        @Html.TextBoxFor(m => m.OrderNumber, new { @class = "form-control", @numeric = "numeric", })
                     </div>
                 </div>
             </div>

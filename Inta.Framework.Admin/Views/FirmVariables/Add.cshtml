@@ -3,7 +3,7 @@
     <div class="modal-content">
         <div class="modal-header">
 
-            <h5 class="modal-title" id="exampleModalLabel">Banner Ekle / Düzenle</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Firma Değişkeni Ekle / Düzenle</h5>
 
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -20,7 +20,7 @@
                     <div class="col-lg-3">
                         <label for="exampleFormControlInput1">Text</label>
                     </div><div class="col-lg-9">
-                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @required = "required" })
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
 
                     </div>
                 </div>
@@ -48,7 +48,7 @@
                     <div class="col-lg-3">
                         <label for="exampleFormControlInput1">Sıra Numarası</label>
                     </div><div class="col-lg-9">
-                        @Html.TextBoxFor(m => m.OrderNumber, new { @class = "form-control", @required = "required", @numeric = "numeric", })
+                        @Html.TextBoxFor(m => m.OrderNumber, new { @class = "form-control", @numeric = "numeric", })
                     </div>
                 </div>
             </div>

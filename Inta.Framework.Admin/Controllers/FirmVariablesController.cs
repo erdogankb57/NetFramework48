@@ -120,41 +120,44 @@ namespace Inta.Framework.Admin.Controllers
         [HttpPost]
         public ActionResult Save(FirmVariables request)
         {
-            AuthenticationData authenticationData = new AuthenticationData();
-            ReturnObject<FirmVariables> result = new ReturnObject<FirmVariables>();
-            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
-
-
-            List<SqlParameter> parameters = new List<SqlParameter>();
-            parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = authenticationData.LanguageId });
-
-            if (!string.IsNullOrEmpty(request.Name))
-                parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Name });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "Name", Value = DBNull.Value });
-
-            if (!string.IsNullOrEmpty(request.Value))
-                parameters.Add(new SqlParameter { ParameterName = "Value", Value = request.Value});
-            else
-                parameters.Add(new SqlParameter { ParameterName = "Value", Value = DBNull.Value });
-
-            if (!string.IsNullOrEmpty(request.Description))
-                parameters.Add(new SqlParameter { ParameterName = "Description", Value = request.Description });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "Description", Value = DBNull.Value });
-
-            parameters.Add(new SqlParameter { ParameterName = "OrderNumber", Value = request.OrderNumber });
-            parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 1 });
-
-            parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = authenticationData.UserId });
-
-
-
-            if (request.Id == 0)
+            if (ModelState.IsValid)
             {
-                parameters.Add(new SqlParameter { ParameterName = "RecordDate", Value = DateTime.Now });
 
-                db.ExecuteNoneQuery(@"insert into [FirmVariables](
+                AuthenticationData authenticationData = new AuthenticationData();
+                ReturnObject<FirmVariables> result = new ReturnObject<FirmVariables>();
+                DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+
+
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = authenticationData.LanguageId });
+
+                if (!string.IsNullOrEmpty(request.Name))
+                    parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Name });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "Name", Value = DBNull.Value });
+
+                if (!string.IsNullOrEmpty(request.Value))
+                    parameters.Add(new SqlParameter { ParameterName = "Value", Value = request.Value });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "Value", Value = DBNull.Value });
+
+                if (!string.IsNullOrEmpty(request.Description))
+                    parameters.Add(new SqlParameter { ParameterName = "Description", Value = request.Description });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "Description", Value = DBNull.Value });
+
+                parameters.Add(new SqlParameter { ParameterName = "OrderNumber", Value = request.OrderNumber });
+                parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 1 });
+
+                parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = authenticationData.UserId });
+
+
+
+                if (request.Id == 0)
+                {
+                    parameters.Add(new SqlParameter { ParameterName = "RecordDate", Value = DateTime.Now });
+
+                    db.ExecuteNoneQuery(@"insert into [FirmVariables](
                 SystemUserId,
                 LanguageId,
                 Name,
@@ -174,17 +177,17 @@ namespace Inta.Framework.Admin.Controllers
                 @IsActive
                 )", System.Data.CommandType.Text, parameters);
 
-                return Json(new ReturnObject<FirmVariables>
+                    return Json(new ReturnObject<FirmVariables>
+                    {
+                        Data = request,
+                        ResultType = MessageType.Success
+                    });
+                }
+                else
                 {
-                    Data = request,
-                    ResultType = MessageType.Success
-                });
-            }
-            else
-            {
-                parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
+                    parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
 
-                db.ExecuteNoneQuery(@"Update [FirmVariables] set 
+                    db.ExecuteNoneQuery(@"Update [FirmVariables] set 
                 Name=@Name,
                 Value=@Value,
                 Description=@Description,
@@ -192,10 +195,20 @@ namespace Inta.Framework.Admin.Controllers
                 IsActive=@IsActive,
                 where Id=@Id", System.Data.CommandType.Text, parameters);
 
+                    return Json(new ReturnObject<FirmVariables>
+                    {
+                        Data = request,
+                        ResultType = MessageType.Success
+                    });
+                }
+            }
+            else
+            {
                 return Json(new ReturnObject<FirmVariables>
                 {
                     Data = request,
-                    ResultType = MessageType.Success
+                    ResultType = MessageType.Error,
+                    Validation = ModelState.ToList().Where(v => v.Value.Errors.Any()).Select(s => new { Key = s.Key, Error = s.Value.Errors })
                 });
             }
         }

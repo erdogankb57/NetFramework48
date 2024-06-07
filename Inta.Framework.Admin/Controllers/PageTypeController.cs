@@ -114,54 +114,57 @@ namespace Inta.Framework.Admin.Controllers
         [HttpPost]
         public ActionResult Save(PageType request, HttpPostedFileBase FileImage)
         {
-            AuthenticationData authenticationData = new AuthenticationData();
-            ReturnObject<PageType> result = new ReturnObject<PageType>();
-            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
-
-            List<SqlParameter> parameters = new List<SqlParameter>();
-
-            if (!string.IsNullOrEmpty(request.Code))
-                parameters.Add(new SqlParameter { ParameterName = "Code", Value = request.Code });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "Code", Value = DBNull.Value });
-
-            if (!string.IsNullOrEmpty(request.Name))
-                parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Name });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "Name", Value = DBNull.Value });
-
-            if (!string.IsNullOrEmpty(request.ControllerName))
-                parameters.Add(new SqlParameter { ParameterName = "ControllerName", Value = request.ControllerName });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "ControllerName", Value = DBNull.Value });
-
-            if (!string.IsNullOrEmpty(request.ActionName))
-                parameters.Add(new SqlParameter { ParameterName = "ActionName", Value = request.ActionName });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "ActionName", Value = DBNull.Value });
-
-            if (!string.IsNullOrEmpty(request.ViewName))
-                parameters.Add(new SqlParameter { ParameterName = "ViewName", Value = request.ViewName });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "ViewName", Value = DBNull.Value });
-
-            parameters.Add(new SqlParameter { ParameterName = "IsExplanationEnabled", Value = request.IsExplanationEnabled });
-            parameters.Add(new SqlParameter { ParameterName = "IsShortExplanationEnabled", Value = request.IsShortExplanationEnabled });
-            parameters.Add(new SqlParameter { ParameterName = "CanContentBeAdded", Value = request.CanContentBeAdded });
-            parameters.Add(new SqlParameter { ParameterName = "IsMenuFirstRecord", Value = request.IsMenuFirstRecord });
-            parameters.Add(new SqlParameter { ParameterName = "IsMenuFirstCategory", Value = request.IsMenuFirstCategory });
-            parameters.Add(new SqlParameter { ParameterName = "IsPagingEnabled", Value = request.IsPagingEnabled });
-            parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = request.IsActive });
-
-            parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = authenticationData.UserId });
-
-
-
-            if (request.Id == 0)
+            if (ModelState.IsValid)
             {
-                parameters.Add(new SqlParameter { ParameterName = "RecordDate", Value = DateTime.Now });
 
-                db.ExecuteNoneQuery(@"insert into [PageType]
+                AuthenticationData authenticationData = new AuthenticationData();
+                ReturnObject<PageType> result = new ReturnObject<PageType>();
+                DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+
+                List<SqlParameter> parameters = new List<SqlParameter>();
+
+                if (!string.IsNullOrEmpty(request.Code))
+                    parameters.Add(new SqlParameter { ParameterName = "Code", Value = request.Code });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "Code", Value = DBNull.Value });
+
+                if (!string.IsNullOrEmpty(request.Name))
+                    parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Name });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "Name", Value = DBNull.Value });
+
+                if (!string.IsNullOrEmpty(request.ControllerName))
+                    parameters.Add(new SqlParameter { ParameterName = "ControllerName", Value = request.ControllerName });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "ControllerName", Value = DBNull.Value });
+
+                if (!string.IsNullOrEmpty(request.ActionName))
+                    parameters.Add(new SqlParameter { ParameterName = "ActionName", Value = request.ActionName });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "ActionName", Value = DBNull.Value });
+
+                if (!string.IsNullOrEmpty(request.ViewName))
+                    parameters.Add(new SqlParameter { ParameterName = "ViewName", Value = request.ViewName });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "ViewName", Value = DBNull.Value });
+
+                parameters.Add(new SqlParameter { ParameterName = "IsExplanationEnabled", Value = request.IsExplanationEnabled });
+                parameters.Add(new SqlParameter { ParameterName = "IsShortExplanationEnabled", Value = request.IsShortExplanationEnabled });
+                parameters.Add(new SqlParameter { ParameterName = "CanContentBeAdded", Value = request.CanContentBeAdded });
+                parameters.Add(new SqlParameter { ParameterName = "IsMenuFirstRecord", Value = request.IsMenuFirstRecord });
+                parameters.Add(new SqlParameter { ParameterName = "IsMenuFirstCategory", Value = request.IsMenuFirstCategory });
+                parameters.Add(new SqlParameter { ParameterName = "IsPagingEnabled", Value = request.IsPagingEnabled });
+                parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = request.IsActive });
+
+                parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = authenticationData.UserId });
+
+
+
+                if (request.Id == 0)
+                {
+                    parameters.Add(new SqlParameter { ParameterName = "RecordDate", Value = DateTime.Now });
+
+                    db.ExecuteNoneQuery(@"insert into [PageType]
                 (
                 SystemUserId,
                 Code,
@@ -192,17 +195,17 @@ namespace Inta.Framework.Admin.Controllers
                 @IsPagingEnabled,
                 @IsActive) ", System.Data.CommandType.Text, parameters);
 
-                return Json(new ReturnObject<PageType>
+                    return Json(new ReturnObject<PageType>
+                    {
+                        Data = request,
+                        ResultType = MessageType.Success
+                    });
+                }
+                else
                 {
-                    Data = request,
-                    ResultType = MessageType.Success
-                });
-            }
-            else
-            {
-                parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
+                    parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
 
-                db.ExecuteNoneQuery(@"Update [PageType] set 
+                    db.ExecuteNoneQuery(@"Update [PageType] set 
                 Code=@Code,
                 Name=@Name,
                 ControllerName=@ControllerName,
@@ -217,10 +220,20 @@ namespace Inta.Framework.Admin.Controllers
                 IsActive=@IsActive
                 where Id=@Id", System.Data.CommandType.Text, parameters);
 
+                    return Json(new ReturnObject<PageType>
+                    {
+                        Data = request,
+                        ResultType = MessageType.Success
+                    });
+                }
+            }
+            else
+            {
                 return Json(new ReturnObject<PageType>
                 {
                     Data = request,
-                    ResultType = MessageType.Success
+                    ResultType = MessageType.Error,
+                    Validation = ModelState.ToList().Where(v => v.Value.Errors.Any()).Select(s => new { Key = s.Key, Error = s.Value.Errors })
                 });
             }
         }
