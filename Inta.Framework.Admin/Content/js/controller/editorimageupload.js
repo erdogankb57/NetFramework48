@@ -41,13 +41,13 @@ var ResizeImage = function () {
 
 }
 
-var CropImage = function () {
+var CropImage = function (id) {
     var w = CropCoordinat.w;
     var h = CropCoordinat.h;
     var x = CropCoordinat.x;
     var y = CropCoordinat.y;
 
-    var splitImageUrl = $("#imagePreview").attr("src").split("/");
+    var splitImageUrl = $("#" + id).attr("src").split("/");
 
     $.ajax({
         url: "/EditorImageUpload/CropImage",

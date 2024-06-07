@@ -792,5 +792,8 @@ $ImageFileUpload = {
                 }
             });
         }
+    },
+    SmallCrop: function (id, ObjectId, ListObjectId) {
+        alert();
     }
 }

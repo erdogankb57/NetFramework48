@@ -19,7 +19,8 @@ namespace Inta.Framework.Web.Base.FormControls
         string ObjectName = null,
         string Image = null,
         string DeleteUrl = null,
-        string ListObjectId= null
+        string ListObjectId = null,
+        bool isBigImage = true
         )
         {
             if (ObjectId is null)
@@ -42,15 +43,17 @@ namespace Inta.Framework.Web.Base.FormControls
                 shtml.Append($@"
                            <div class='image'>
                                     <div class='small-image-content'>
-                                        <a id='ImageLink' href='{ConfigurationManager.AppSettings["ImageUpload"] + "b_" + Image}' data-fancybox data-caption=''><img id='Image' src='{ConfigurationManager.AppSettings["ImageUpload"] + "k_" + Image}' width='100' height='100' style='border:solid 1px #000000' /></a>
+                                        <a id='ImageLink' href='{ConfigurationManager.AppSettings["ImageUpload"] + (isBigImage ? "b_" : "k_") + Image}' data-fancybox data-caption=''><img id='Image' src='{ConfigurationManager.AppSettings["ImageUpload"] + "k_" + Image}' width='100' height='100' style='border:solid 1px #000000' /></a>
                                     </div>
                                     <div class='image-delete'>
                                         <button type='button' class='btn btn-standart' onclick=""$ImageFileUpload.Delete({Id},'{ObjectId}','{ListObjectId}')"">Resmi sil</button>
                                     </div>
+                                    <div class='small-image-crop'>
+                                        <button type='button' class='btn btn-standart' onclick=""$ImageFileUpload.SmallCrop({Id},'{ObjectId}','{ListObjectId}')"">Küçük Resmi Cropla</button>
+                                    </div>
                                 </div>");
             }
             shtml.Append("  </div>");
-
 
             return new MvcHtmlString(shtml.ToString());
         }

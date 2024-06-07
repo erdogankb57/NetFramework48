@@ -83,6 +83,17 @@ namespace Inta.Framework.Admin.Controllers
             else
                 parameters.Add(new SqlParameter { ParameterName = "DeveloperEmail", Value = request.DeveloperEmail });
 
+            if (string.IsNullOrEmpty(request.EditorImageUploadCdn))
+                parameters.Add(new SqlParameter { ParameterName = "EditorImageUploadCdn", Value = DBNull.Value });
+            else
+                parameters.Add(new SqlParameter { ParameterName = "EditorImageUploadCdn", Value = request.EditorImageUploadCdn });
+
+            if (string.IsNullOrEmpty(request.EditorImageUploadPath))
+                parameters.Add(new SqlParameter { ParameterName = "EditorImageUploadPath", Value = DBNull.Value });
+            else
+                parameters.Add(new SqlParameter { ParameterName = "EditorImageUploadPath", Value = request.EditorImageUploadPath });
+
+
             parameters.Add(new SqlParameter { ParameterName = "CategoryImageSmallWidth", Value = request.CategoryImageSmallWidth });
             parameters.Add(new SqlParameter { ParameterName = "CategoryImageSmallHeight", Value = request.CategoryImageSmallHeight });
             parameters.Add(new SqlParameter { ParameterName = "CategoryImageBigWidth", Value = request.CategoryImageBigWidth });
@@ -126,7 +137,9 @@ namespace Inta.Framework.Admin.Controllers
             GalleryImageSmallWidth=@GalleryImageSmallWidth,
             GalleryImageSmallHeight=@GalleryImageSmallHeight,
             GalleryImageBigWidth=@GalleryImageBigWidth,
-            GalleryImageBigHeight=@GalleryImageBigHeight
+            GalleryImageBigHeight=@GalleryImageBigHeight,
+            EditorImageUploadCdn=@EditorImageUploadCdn,
+            EditorImageUploadPath=@EditorImageUploadPath
             where Id=@Id    
             ", System.Data.CommandType.Text, parameters);
 

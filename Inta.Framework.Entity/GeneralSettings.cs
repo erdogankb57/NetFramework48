@@ -27,6 +27,8 @@ namespace Inta.Framework.Entity
         public string FileCdnUrl { get; set; }
         public string ImageUploadPath { get; set; }
         public string FileUploadPath { get; set; }
+        public string EditorImageUploadCdn { get; set; }
+        public string EditorImageUploadPath { get; set; }
         public string DeveloperName { get; set; }
         public string DeveloperEmail { get; set; }
         public int CategoryImageSmallWidth { get; set; }

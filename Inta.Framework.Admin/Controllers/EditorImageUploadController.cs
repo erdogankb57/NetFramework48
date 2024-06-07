@@ -1,4 +1,6 @@
-﻿using Inta.Framework.Extension;
+﻿using Inta.Framework.Ado.Net;
+using Inta.Framework.Entity;
+using Inta.Framework.Extension;
 using Inta.Framework.Web.Base.Authorization;
 using System;
 using System.Collections.Generic;
@@ -24,7 +26,13 @@ namespace Inta.Framework.Admin.Controllers
         }
         public ActionResult CropImage(string imageName, int width, int height, int x, int y)
         {
-            string imageUrl = HttpContext.Server.MapPath(ConfigurationManager.AppSettings["FileUploadEditor"]);
+            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+            string imageUrl = "";
+            var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
+            if (generalSettings.Data != null)
+                imageUrl = generalSettings.Data.EditorImageUploadPath;
+
+            //string imageUrl = HttpContext.Server.MapPath(ConfigurationManager.AppSettings["FileUploadEditor"]);
 
             // Create a new image at the cropped size
             Bitmap cropped = new Bitmap(width, height);
@@ -49,7 +57,7 @@ namespace Inta.Framework.Admin.Controllers
             return Json(new
             {
                 ResultMessage = "OK",
-                ImageUrl = ConfigurationManager.AppSettings["FileUploadEditor"].ToString() + imageName + "?d=" + guide.ToString()
+                ImageUrl = generalSettings.Data.EditorImageUploadCdn + imageName + "?d=" + guide.ToString()
             });
         }
         public ActionResult GetImageList()
@@ -65,7 +73,7 @@ namespace Inta.Framework.Admin.Controllers
 
             var result = d.GetFiles("*.*", SearchOption.AllDirectories).Where(s => supportedExtensions.Contains(Path.GetExtension(s.FullName).ToLower())).OrderByDescending(f => f.LastWriteTime).Select(s => new { Name = s.Name, FullName = ConfigurationManager.AppSettings["FileUploadEditor"].ToString() + s.Name + "?d=" + Guid.NewGuid().ToString() }).ToList();
 
-            return Json(result,JsonRequestBehavior.AllowGet);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
 
@@ -74,7 +82,12 @@ namespace Inta.Framework.Admin.Controllers
         {
             if (Image != null)
             {
-                string filePath = ConfigurationManager.AppSettings["FileUploadEditor"];
+                DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+                string filePath = "";
+                var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
+                if (generalSettings.Data != null)
+                    filePath = generalSettings.Data.EditorImageUploadPath;
+
                 var imageResult = ImageManager.ImageUploadSingleCopy(Image, filePath);
             }
 
