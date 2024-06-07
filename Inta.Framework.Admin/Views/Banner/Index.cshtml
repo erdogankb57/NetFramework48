@@ -31,6 +31,7 @@
 
                             @Html.DropDownList("IsActive", selectListItems, new { @class = "form-control" });
                         }
+
                     </div>
                 </div>
             </div>
@@ -98,7 +99,7 @@
 
                     });
                 }
-                @Html.PagingDataListFor(ObjectId: "PagingDataList", Header: col, Url: "/Banner/GetList", AddUrl: "/Banner/Add", isAddPopup: false, DeleteUrl: "/Banner/Delete", ActiveUrl: "/Banner/Active", PassiveUrl: "/Banner/Passive", SaveUrl: "/Banner/Save", CallBackFunction: "SearchDataList", PagingRowCount: 20, OrderColumn: "Id")
+                @Html.PagingDataListAndSaveFor(ObjectId: "PagingDataList", Header: col, Url: "/Banner/GetList", AddUrl: "/Banner/Add", isAddPopup: false, DeleteUrl: "/Banner/Delete", ActiveUrl: "/Banner/Active", PassiveUrl: "/Banner/Passive", SaveUrl: "/Banner/Save", CallBackFunction: "SearchDataList", PagingRowCount: 20, OrderColumn: "Id")
 
             </div>
         </div>
@@ -130,6 +131,12 @@
             $PagingDataList.Save("saveForm", "PagingDataList", SearchDataList);
 
         });
+        @{
+            if (Request["Message"]!= null)
+            {
+                @Html.Raw("showAlert('.listMessage', '"+ Request["Message"] + "', 'success');");
+            }
+        }
     </script>
 }
 

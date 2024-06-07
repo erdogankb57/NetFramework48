@@ -92,7 +92,7 @@
 
                     });
                 }
-                @Html.PagingDataListFor(ObjectId: "PagingDataList", Header: col, Url: "/SystemRole/GetList", AddUrl: "/SystemRole/Add", isAddPopup: true, DeleteUrl: "/SystemRole/Delete", ActiveUrl: "/SystemRole/Active", PassiveUrl: "/SystemRole/Passive", SaveUrl: "/SystemRole/Save", CallBackFunction: "SearchDataList", PagingRowCount: 20, OrderColumn: "Id")
+                @Html.PagingDataListAndSaveFor(ObjectId: "PagingDataList", Header: col, Url: "/SystemRole/GetList", AddUrl: "/SystemRole/Add", isAddPopup: true, DeleteUrl: "/SystemRole/Delete", ActiveUrl: "/SystemRole/Active", PassiveUrl: "/SystemRole/Passive", SaveUrl: "/SystemRole/Save", CallBackFunction: "SearchDataList", PagingRowCount: 20, OrderColumn: "Id")
 
             </div>
         </div>

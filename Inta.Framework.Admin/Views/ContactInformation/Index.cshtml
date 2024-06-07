@@ -100,7 +100,7 @@
 
                     });
                 }
-                @Html.PagingDataListFor(ObjectId: "ContactInformationList", Header: col, Url: "/ContactInformation/GetList", AddUrl: "/ContactInformation/Add", isAddPopup: true, DeleteUrl: "/ContactInformation/Delete", ActiveUrl: "/ContactInformation/Active", PassiveUrl: "/ContactInformation/Passive", SaveUrl: "/ContactInformation/Save", CallBackFunction: "SearchDataList", PagingRowCount: 20, OrderColumn: "Id")
+                @Html.PagingDataListAndSaveFor(ObjectId: "ContactInformationList", Header: col, Url: "/ContactInformation/GetList", AddUrl: "/ContactInformation/Add", isAddPopup: true, DeleteUrl: "/ContactInformation/Delete", ActiveUrl: "/ContactInformation/Active", PassiveUrl: "/ContactInformation/Passive", SaveUrl: "/ContactInformation/Save", CallBackFunction: "SearchDataList", PagingRowCount: 20, OrderColumn: "Id")
 
             </div>
         </div>

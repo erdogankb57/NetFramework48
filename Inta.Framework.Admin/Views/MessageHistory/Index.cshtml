@@ -100,7 +100,7 @@
 
                     });
                 }
-                @Html.PagingDataListFor(ObjectId: "MessageHistoryList", Header: col, Url: "/MessageHistory/GetList", AddUrl: "/MessageHistory/Add", isAddPopup: true, DeleteUrl: "/MessageHistory/Delete", ActiveUrl: "/MessageHistory/Active", PassiveUrl: "/MessageHistory/Passive", SaveUrl: "/MessageHistory/Save", CallBackFunction: "SearchDataList", PagingRowCount: 20, OrderColumn: "Id")
+                @Html.PagingDataListAndSaveFor(ObjectId: "MessageHistoryList", Header: col, Url: "/MessageHistory/GetList", AddUrl: "/MessageHistory/Add", isAddPopup: true, DeleteUrl: "/MessageHistory/Delete", ActiveUrl: "/MessageHistory/Active", PassiveUrl: "/MessageHistory/Passive", SaveUrl: "/MessageHistory/Save", CallBackFunction: "SearchDataList", PagingRowCount: 20, OrderColumn: "Id")
 
             </div>
         </div>

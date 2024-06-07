@@ -104,7 +104,7 @@
 
                     });
                 }
-                @Html.PagingDataListFor(ObjectId: "PagingDataList", Header: col, Url: "/StaticText/GetList", AddUrl: "/StaticText/Add", isAddPopup: true, DeleteUrl: "/StaticText/Delete", ActiveUrl: "/StaticText/Active", PassiveUrl: "/StaticText/Passive", SaveUrl: "/StaticText/Save", CallBackFunction: "SearchDataList", PagingRowCount: 20, OrderColumn: "Id")
+                @Html.PagingDataListAndSaveFor(ObjectId: "PagingDataList", Header: col, Url: "/StaticText/GetList", AddUrl: "/StaticText/Add", isAddPopup: true, DeleteUrl: "/StaticText/Delete", ActiveUrl: "/StaticText/Active", PassiveUrl: "/StaticText/Passive", SaveUrl: "/StaticText/Save", CallBackFunction: "SearchDataList", PagingRowCount: 20, OrderColumn: "Id")
 
             </div>
         </div>

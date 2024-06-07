@@ -110,7 +110,7 @@
 
                     });
                 }
-                @Html.PagingDataListFor(ObjectId: "CategoryList", Header: col, Url: "/Category/GetList", AddUrl: "/Category/Add", isAddPopup: true, DeleteUrl: "/Category/Delete", ActiveUrl: "/Category/Active", PassiveUrl: "/Category/Passive", SaveUrl: "/Category/Save", CallBackFunction: "SearchDataList", PagingRowCount: 20, OrderColumn: "Id", AddCallBackFunction: "AddCallBack")
+                @Html.PagingDataListAndSaveFor(ObjectId: "CategoryList", Header: col, Url: "/Category/GetList", AddUrl: "/Category/Add", isAddPopup: true, DeleteUrl: "/Category/Delete", ActiveUrl: "/Category/Active", PassiveUrl: "/Category/Passive", SaveUrl: "/Category/Save", CallBackFunction: "SearchDataList", PagingRowCount: 20, OrderColumn: "Id", AddCallBackFunction: "AddCallBack")
 
             </div>
         </div>

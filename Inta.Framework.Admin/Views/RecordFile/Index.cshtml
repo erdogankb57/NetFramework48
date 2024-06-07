@@ -99,7 +99,7 @@
 
                     });
                 }
-                @Html.PagingDataListFor(ObjectId: "PagingDataList", Header: col, Url: "/RecordFile/GetList", AddUrl: "/RecordFile/Add/", isAddPopup: true, DeleteUrl: "/RecordFile/Delete", ActiveUrl: "/RecordFile/Active", PassiveUrl: "/RecordFile/Passive", SaveUrl: "/RecordFile/Save", CallBackFunction: "SearchDataList", PagingRowCount: 20, OrderColumn: "Id")
+                @Html.PagingDataListAndSaveFor(ObjectId: "PagingDataList", Header: col, Url: "/RecordFile/GetList", AddUrl: "/RecordFile/Add/", isAddPopup: true, DeleteUrl: "/RecordFile/Delete", ActiveUrl: "/RecordFile/Active", PassiveUrl: "/RecordFile/Passive", SaveUrl: "/RecordFile/Save", CallBackFunction: "SearchDataList", PagingRowCount: 20, OrderColumn: "Id")
 
             </div>
         </div>

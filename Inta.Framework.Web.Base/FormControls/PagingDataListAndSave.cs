@@ -7,10 +7,10 @@ using System.Web.Mvc;
 
 namespace Inta.Framework.Web.Base.FormControls
 {
-    public static class PagingDataList
+    public static class PagingDataListAndSave
     {
 
-        public static MvcHtmlString PagingDataListFor(
+        public static MvcHtmlString PagingDataListAndSaveFor(
         this HtmlHelper content,
         string ObjectId = null,
         List<PagingDataListColumn> Header = null,
