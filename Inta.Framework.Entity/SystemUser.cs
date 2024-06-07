@@ -18,29 +18,29 @@ namespace Inta.Framework.Entity
 		public int Id { get; set; }
 		public int SystemUserId { get; set; }
 
-		[Required(ErrorMessage = "Lütfen boş geçmeyiniz")]
+		[Required(ErrorMessage = "Bu alanı doldurmanız gerekmektedir.")]
 		public int SystemRoleId { get; set; }
 
-		[Required(ErrorMessage = "Lütfen boş geçmeyiniz")]
+		[Required(ErrorMessage = "Bu alanı doldurmanız gerekmektedir.")]
 		public string Name { get; set; }
 
-		[Required(ErrorMessage = "Lütfen boş geçmeyiniz")]
+		[Required(ErrorMessage = "Bu alanı doldurmanız gerekmektedir.")]
 		public string SurName { get; set; }
 
-		[Required(ErrorMessage = "Lütfen boş geçmeyiniz")] 
+		[Required(ErrorMessage = "Bu alanı doldurmanız gerekmektedir.")] 
 		public string UserName { get; set; }
 
 
-		[Required(ErrorMessage = "Lütfen boş geçmeyiniz")]
+		[Required(ErrorMessage = "Bu alanı doldurmanız gerekmektedir.")]
 		public string Password { get; set; }
 
-		[Required(ErrorMessage = "Lütfen boş geçmeyiniz")]
+		[Required(ErrorMessage = "Bu alanı doldurmanız gerekmektedir.")]
 		public string Email { get; set; }
 
-		[Required(ErrorMessage = "Lütfen boş geçmeyiniz")]
+		[Required(ErrorMessage = "Bu alanı doldurmanız gerekmektedir.")]
 		public string Phone { get; set; }
 
-		[Required(ErrorMessage = "Lütfen boş geçmeyiniz")]
+		[Required(ErrorMessage = "Bu alanı doldurmanız gerekmektedir.")]
 		public string Address { get; set; }
 		public DateTime RecordDate { get; set; }
 		public bool IsActive { get; set; }

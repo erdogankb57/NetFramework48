@@ -19,15 +19,15 @@ namespace Inta.Framework.Entity
 		public int Id { get; set; }
 		public int SystemUserId { get; set; }
 		public int LanguageId { get; set; }
-		[Required(ErrorMessage = "Lütfen boş geçmeyiniz")]
+		[Required(ErrorMessage = "Bu alanı doldurmanız gerekmektedir.")]
 		public string Name { get; set; }
-		[Required(ErrorMessage = "Lütfen boş geçmeyiniz")]
+		[Required(ErrorMessage = "Bu alanı doldurmanız gerekmektedir.")]
 		public string Email { get; set; }
-		[Required(ErrorMessage = "Lütfen boş geçmeyiniz")]
+		[Required(ErrorMessage = "Bu alanı doldurmanız gerekmektedir.")]
 		public string Phone { get; set; }
 		public string Gsm { get; set; }
 		public string Fax { get; set; }
-		[Required(ErrorMessage = "Lütfen boş geçmeyiniz")]
+		[Required(ErrorMessage = "Bu alanı doldurmanız gerekmektedir.")]
 		public string Adress { get; set; }
 		public string Explanation { get; set; }
 		public string GoogleMapFrame { get; set; }

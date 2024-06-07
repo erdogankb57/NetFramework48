@@ -25,19 +25,19 @@ namespace Inta.Framework.Entity
 		public int LanguageId { get; set; }
 		
 		[DatabaseColumn(Name = "Name")]
-		[Required(ErrorMessage = "Lütfen boş geçmeyiniz")]
+		[Required(ErrorMessage = "Bu alanı doldurmanız gerekmektedir.")]
 		public string Name { get; set; }
 		
 		[DatabaseColumn(Name = "Description")]
 		public string Description { get; set; }
 		
 		[DatabaseColumn(Name = "SmallImageWidth")]
-		[Required(ErrorMessage = "Lütfen boş geçmeyiniz")]
+		[Required(ErrorMessage = "Bu alanı doldurmanız gerekmektedir.")]
 		[Range(100, 2000, ErrorMessage = "Lütfen 100 ile 2000 arasında bir değer giriniz.")]
 		public int SmallImageWidth { get; set; }
 		
 		[DatabaseColumn(Name = "BigImageWidth")]
-		[Required(ErrorMessage = "Lütfen boş geçmeyiniz")]
+		[Required(ErrorMessage = "Bu alanı doldurmanız gerekmektedir.")]
 		[Range(100, 2000, ErrorMessage = "Lütfen 100 ile 2000 arasında bir değer giriniz.")]
 		public int BigImageWidth { get; set; }
 		

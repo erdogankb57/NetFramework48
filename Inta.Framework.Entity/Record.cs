@@ -22,7 +22,7 @@ namespace Inta.Framework.Entity
         [Range(1, 100, ErrorMessage = "Lütfen açılış tipini seçiniz")]
         public int TargetId { get; set; }
 
-        [Required(ErrorMessage = "Lütfen boş geçmeyiniz")]
+        [Required(ErrorMessage = "Bu alanı doldurmanız gerekmektedir.")]
         public string Name { get; set; }
         public string RecordUrl { get; set; }
         public string Title { get; set; }

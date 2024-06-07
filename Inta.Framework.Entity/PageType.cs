@@ -18,19 +18,19 @@ namespace Inta.Framework.Entity
 		public int Id { get; set; }
 		public int SystemUserId { get; set; }
 
-		[Required(ErrorMessage = "Lütfen boş geçmeyiniz")]
+		[Required(ErrorMessage = "Bu alanı doldurmanız gerekmektedir.")]
 		public string Code { get; set; }
 
-		[Required(ErrorMessage = "Lütfen boş geçmeyiniz")]
+		[Required(ErrorMessage = "Bu alanı doldurmanız gerekmektedir.")]
 		public string Name { get; set; }
 
-		[Required(ErrorMessage = "Lütfen boş geçmeyiniz")]
+		[Required(ErrorMessage = "Bu alanı doldurmanız gerekmektedir.")]
 		public string ControllerName { get; set; }
 
-		[Required(ErrorMessage = "Lütfen boş geçmeyiniz")]
+		[Required(ErrorMessage = "Bu alanı doldurmanız gerekmektedir.")]
 		public string ActionName { get; set; }
 
-		[Required(ErrorMessage = "Lütfen boş geçmeyiniz")]
+		[Required(ErrorMessage = "Bu alanı doldurmanız gerekmektedir.")]
 		public string ViewName { get; set; }
 		public bool IsExplanationEnabled { get; set; }
 		public bool IsShortExplanationEnabled { get; set; }

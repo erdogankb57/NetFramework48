@@ -17,10 +17,10 @@ namespace Inta.Framework.Entity
 
 		public int Id { get; set; }
 
-		[Required(ErrorMessage = "Lütfen boş geçmeyiniz")]
+		[Required(ErrorMessage = "Bu alanı doldurmanız gerekmektedir.")]
 		public string Name { get; set; }
 
-		[Required(ErrorMessage = "Lütfen boş geçmeyiniz")]
+		[Required(ErrorMessage = "Bu alanı doldurmanız gerekmektedir.")]
 		public string Explanation { get; set; }
 		public DateTime RecordDate { get; set; }
 		public bool IsActive { get; set; }
