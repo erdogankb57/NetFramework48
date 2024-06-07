@@ -17,6 +17,8 @@ namespace Inta.Framework.Entity
 
 		public int Id { get; set; }
 		public int SystemUserId { get; set; }
+
+		[Required(ErrorMessage = "Lütfen boş geçmeyiniz")]
 		public int SystemRoleId { get; set; }
 
 		[Required(ErrorMessage = "Lütfen boş geçmeyiniz")]

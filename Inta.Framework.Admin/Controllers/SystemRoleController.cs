@@ -146,72 +146,74 @@ namespace Inta.Framework.Admin.Controllers
         [HttpPost]
         public ActionResult Save(SystemRole request, List<string> actions, List<string> menuList)
         {
-            AuthenticationData authenticationData = new AuthenticationData();
-            ReturnObject<SystemRole> result = new ReturnObject<SystemRole>();
-            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
-
-            List<SqlParameter> SystemRoleParameter = new List<SqlParameter>();
-            if (string.IsNullOrEmpty(request.Name))
-                SystemRoleParameter.Add(new SqlParameter { ParameterName = "Name", Value = DBNull.Value });
-            else
-                SystemRoleParameter.Add(new SqlParameter { ParameterName = "Name", Value = request.Name });
-
-            if (string.IsNullOrEmpty(request.Explanation))
-                SystemRoleParameter.Add(new SqlParameter { ParameterName = "Explanation", Value = DBNull.Value });
-            else
-                SystemRoleParameter.Add(new SqlParameter { ParameterName = "Explanation", Value = request.Explanation });
-
-            SystemRoleParameter.Add(new SqlParameter { ParameterName = "RecordDate", Value = DateTime.Now });
-            SystemRoleParameter.Add(new SqlParameter { ParameterName = "IsActive", Value = request.IsActive });
-
-            SystemRoleParameter.Add(new SqlParameter { ParameterName = "SystemUserId", Value = authenticationData.UserId });
-
-
-            if (request.Id == 0)
+            if (ModelState.IsValid)
             {
-                object roleId = db.ExecuteScalar(@"
+                AuthenticationData authenticationData = new AuthenticationData();
+                ReturnObject<SystemRole> result = new ReturnObject<SystemRole>();
+                DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+
+                List<SqlParameter> SystemRoleParameter = new List<SqlParameter>();
+                if (string.IsNullOrEmpty(request.Name))
+                    SystemRoleParameter.Add(new SqlParameter { ParameterName = "Name", Value = DBNull.Value });
+                else
+                    SystemRoleParameter.Add(new SqlParameter { ParameterName = "Name", Value = request.Name });
+
+                if (string.IsNullOrEmpty(request.Explanation))
+                    SystemRoleParameter.Add(new SqlParameter { ParameterName = "Explanation", Value = DBNull.Value });
+                else
+                    SystemRoleParameter.Add(new SqlParameter { ParameterName = "Explanation", Value = request.Explanation });
+
+                SystemRoleParameter.Add(new SqlParameter { ParameterName = "RecordDate", Value = DateTime.Now });
+                SystemRoleParameter.Add(new SqlParameter { ParameterName = "IsActive", Value = request.IsActive });
+
+                SystemRoleParameter.Add(new SqlParameter { ParameterName = "SystemUserId", Value = authenticationData.UserId });
+
+
+                if (request.Id == 0)
+                {
+                    object roleId = db.ExecuteScalar(@"
                     insert into SystemRole(Name,Explanation,RecordDate,IsActive)
                     values(@Name,@Explanation,@RecordDate,@IsActive);select RoleId = SCOPE_IDENTITY();
                     ", System.Data.CommandType.Text, SystemRoleParameter).Data;
 
-                foreach (var item in actions)
-                {
+                    foreach (var item in actions)
+                    {
 
-                    List<SqlParameter> actionRoleParameter = new List<SqlParameter>();
-                    actionRoleParameter.Add(new SqlParameter { ParameterName = "SystemActionId", Value = item });
-                    actionRoleParameter.Add(new SqlParameter { ParameterName = "SystemRoleId", Value = roleId });
+                        List<SqlParameter> actionRoleParameter = new List<SqlParameter>();
+                        actionRoleParameter.Add(new SqlParameter { ParameterName = "SystemActionId", Value = item });
+                        actionRoleParameter.Add(new SqlParameter { ParameterName = "SystemRoleId", Value = roleId });
 
-                    db.ExecuteNoneQuery(@"
+                        db.ExecuteNoneQuery(@"
                     insert into SystemActionRole(SystemActionId,SystemRoleId)
                     values(@SystemActionId,@SystemRoleId)
                     ", System.Data.CommandType.Text, actionRoleParameter);
-                }
+                    }
 
 
-                foreach (var item in menuList)
-                {
-                    List<SqlParameter> menuRoleParameter = new List<SqlParameter>();
-                    menuRoleParameter.Add(new SqlParameter { ParameterName = "SystemMenuId", Value = item });
-                    menuRoleParameter.Add(new SqlParameter { ParameterName = "SystemRoleId", Value = roleId });
+                    foreach (var item in menuList)
+                    {
+                        List<SqlParameter> menuRoleParameter = new List<SqlParameter>();
+                        menuRoleParameter.Add(new SqlParameter { ParameterName = "SystemMenuId", Value = item });
+                        menuRoleParameter.Add(new SqlParameter { ParameterName = "SystemRoleId", Value = roleId });
 
-                    db.ExecuteNoneQuery(@"
+                        db.ExecuteNoneQuery(@"
                     insert into SystemMenuRole(SystemMenuId,SystemRoleId)
                     values(@SystemMenuId,@SystemRoleId)
                     ", System.Data.CommandType.Text, menuRoleParameter);
+                    }
+
+
+                    return Json(new ReturnObject<SystemRole>
+                    {
+                        Data = request,
+                        ResultType = MessageType.Success
+                    });
                 }
-
-
-                return Json(new ReturnObject<SystemRole>
+                else
                 {
-                    Data = request,
-                    ResultType = MessageType.Success
-                });
-            }
-            else
-            {
-                SystemRoleParameter.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
+                    SystemRoleParameter.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
 
-                db.ExecuteNoneQuery(@"
+                    db.ExecuteNoneQuery(@"
                 Update SystemRole set
                 Name=@Name,
                 Explanation=@Explanation,
@@ -221,69 +223,79 @@ namespace Inta.Framework.Admin.Controllers
                 ", System.Data.CommandType.Text, SystemRoleParameter);
 
 
-                /*Action listesi güncellenir*/
-                List<SqlParameter> actionRoleParameters = new List<SqlParameter>();
-                actionRoleParameters.Add(new SqlParameter { ParameterName = "SystemRoleId", Value = request.Id });
-                var savedActionList = db.Find<SystemActionRole>(@"
+                    /*Action listesi güncellenir*/
+                    List<SqlParameter> actionRoleParameters = new List<SqlParameter>();
+                    actionRoleParameters.Add(new SqlParameter { ParameterName = "SystemRoleId", Value = request.Id });
+                    var savedActionList = db.Find<SystemActionRole>(@"
                 Select * from SystemActionRole where SystemRoleId=@SystemRoleId"
-                , System.Data.CommandType.Text, actionRoleParameters);
-                foreach (var item in savedActionList.Data)
-                {
-                    if (actions == null || !actions.Any(a => a == item.SystemActionId.ToString()))
+                    , System.Data.CommandType.Text, actionRoleParameters);
+                    foreach (var item in savedActionList.Data)
                     {
-                        List<SqlParameter> SystemActionRoleParameters = new List<SqlParameter>();
-                        SystemActionRoleParameters.Add(new SqlParameter { ParameterName = "Id", Value = item.Id });
-                        db.ExecuteNoneQuery(@"Delete SystemActionRole where Id=@Id", System.Data.CommandType.Text, SystemActionRoleParameters);
+                        if (actions == null || !actions.Any(a => a == item.SystemActionId.ToString()))
+                        {
+                            List<SqlParameter> SystemActionRoleParameters = new List<SqlParameter>();
+                            SystemActionRoleParameters.Add(new SqlParameter { ParameterName = "Id", Value = item.Id });
+                            db.ExecuteNoneQuery(@"Delete SystemActionRole where Id=@Id", System.Data.CommandType.Text, SystemActionRoleParameters);
+                        }
                     }
-                }
 
-                if (actions != null)
-                {
-                    foreach (var item in actions)
+                    if (actions != null)
                     {
-                        List<SqlParameter> SystemActionRoleParameters = new List<SqlParameter>();
-                        SystemActionRoleParameters.Add(new SqlParameter { ParameterName = "SystemRoleId", Value = request.Id });
-                        SystemActionRoleParameters.Add(new SqlParameter { ParameterName = "SystemActionId", Value = item });
-                        var actionRole = db.Find<SystemActionRole>(@"
+                        foreach (var item in actions)
+                        {
+                            List<SqlParameter> SystemActionRoleParameters = new List<SqlParameter>();
+                            SystemActionRoleParameters.Add(new SqlParameter { ParameterName = "SystemRoleId", Value = request.Id });
+                            SystemActionRoleParameters.Add(new SqlParameter { ParameterName = "SystemActionId", Value = item });
+                            var actionRole = db.Find<SystemActionRole>(@"
                         Select * from SystemActionRole where SystemRoleId=@SystemRoleId and SystemActionId=@SystemActionId", System.Data.CommandType.Text, SystemActionRoleParameters);
-                        if (actionRole.Data.Count == 0)
-                        {
-                            List<SqlParameter> SystemActionRoleInsertParameters = new List<SqlParameter>();
-                            SystemActionRoleInsertParameters.Add(new SqlParameter { ParameterName = "SystemActionId", Value = item });
-                            SystemActionRoleInsertParameters.Add(new SqlParameter { ParameterName = "SystemRoleId", Value = request.Id });
+                            if (actionRole.Data.Count == 0)
+                            {
+                                List<SqlParameter> SystemActionRoleInsertParameters = new List<SqlParameter>();
+                                SystemActionRoleInsertParameters.Add(new SqlParameter { ParameterName = "SystemActionId", Value = item });
+                                SystemActionRoleInsertParameters.Add(new SqlParameter { ParameterName = "SystemRoleId", Value = request.Id });
 
-                            db.ExecuteNoneQuery("insert into SystemActionRole(SystemActionId,SystemRoleId) values(@SystemActionId,@SystemRoleId)", System.Data.CommandType.Text, SystemActionRoleInsertParameters);
+                                db.ExecuteNoneQuery("insert into SystemActionRole(SystemActionId,SystemRoleId) values(@SystemActionId,@SystemRoleId)", System.Data.CommandType.Text, SystemActionRoleInsertParameters);
+                            }
                         }
                     }
-                }
-                /*Action listesi güncellenir*/
+                    /*Action listesi güncellenir*/
 
-                /*Menu listesi güncellenir*/
-                var savedMenuList = db.Find<SystemMenuRole>(@"
+                    /*Menu listesi güncellenir*/
+                    var savedMenuList = db.Find<SystemMenuRole>(@"
                 Select * from SystemMenuRole where SystemRoleId=" + request.Id, System.Data.CommandType.Text);
-                foreach (var item in savedMenuList.Data)
-                {
-                    if (menuList == null || !menuList.Any(a => a == item.SystemMenuId.ToString()))
-                        db.ExecuteNoneQuery("Delete SystemMenuRole where Id=" + item.Id, System.Data.CommandType.Text);
-                }
-
-                if (menuList != null)
-                {
-                    foreach (var item in menuList)
+                    foreach (var item in savedMenuList.Data)
                     {
-                        var menuRole = db.Find<SystemMenuRole>("Select * from SystemMenuRole where SystemRoleId=" + request.Id + " SystemMenuId=" + item, System.Data.CommandType.Text);
-                        if (menuRole.Data == null)
+                        if (menuList == null || !menuList.Any(a => a == item.SystemMenuId.ToString()))
+                            db.ExecuteNoneQuery("Delete SystemMenuRole where Id=" + item.Id, System.Data.CommandType.Text);
+                    }
+
+                    if (menuList != null)
+                    {
+                        foreach (var item in menuList)
                         {
-                            db.ExecuteNoneQuery("insert into SystemMenuRole(SystemMenuId,SystemRoleId) values(" + item + "," + request.Id + ")", System.Data.CommandType.Text);
+                            var menuRole = db.Find<SystemMenuRole>("Select * from SystemMenuRole where SystemRoleId=" + request.Id + " SystemMenuId=" + item, System.Data.CommandType.Text);
+                            if (menuRole.Data == null)
+                            {
+                                db.ExecuteNoneQuery("insert into SystemMenuRole(SystemMenuId,SystemRoleId) values(" + item + "," + request.Id + ")", System.Data.CommandType.Text);
+                            }
                         }
                     }
-                }
-                /*Menu listesi güncellenir*/
+                    /*Menu listesi güncellenir*/
 
+                    return Json(new ReturnObject<SystemRole>
+                    {
+                        Data = request,
+                        ResultType = MessageType.Success
+                    });
+                }
+            }
+            else
+            {
                 return Json(new ReturnObject<SystemRole>
                 {
                     Data = request,
-                    ResultType = MessageType.Success
+                    ResultType = MessageType.Error,
+                    Validation = ModelState.ToList().Where(v => v.Value.Errors.Any()).Select(s => new { Key = s.Key, Error = s.Value.Errors })
                 });
             }
         }

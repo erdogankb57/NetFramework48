@@ -131,60 +131,63 @@ namespace Inta.Framework.Admin.Controllers
         [HttpPost]
         public ActionResult Save(SystemUser request)
         {
-            AuthenticationData authenticationData = new AuthenticationData();
-            ReturnObject<SystemUser> result = new ReturnObject<SystemUser>();
-            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
-
-
-            List<SqlParameter> parameters = new List<SqlParameter>();
-            parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = 0 });
-            parameters.Add(new SqlParameter { ParameterName = "SystemRoleId", Value = request.SystemRoleId });
-
-
-            if (!string.IsNullOrEmpty(request.Name))
-                parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Name });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "Name", Value = DBNull.Value });
-
-            if (!string.IsNullOrEmpty(request.Name))
-                parameters.Add(new SqlParameter { ParameterName = "SurName", Value = request.SurName });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "SurName", Value = DBNull.Value });
-
-            if (!string.IsNullOrEmpty(request.UserName))
-                parameters.Add(new SqlParameter { ParameterName = "UserName", Value = request.UserName });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "UserName", Value = DBNull.Value });
-
-            if (!string.IsNullOrEmpty(request.Password))
-                parameters.Add(new SqlParameter { ParameterName = "Password", Value = request.Password });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "Password", Value = DBNull.Value });
-
-            if (!string.IsNullOrEmpty(request.Email))
-                parameters.Add(new SqlParameter { ParameterName = "Email", Value = request.Email });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "Email", Value = DBNull.Value });
-
-            if (!string.IsNullOrEmpty(request.Phone))
-                parameters.Add(new SqlParameter { ParameterName = "Phone", Value = request.Phone });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "Phone", Value = DBNull.Value });
-
-            if (!string.IsNullOrEmpty(request.Address))
-                parameters.Add(new SqlParameter { ParameterName = "Address", Value = request.Address });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "Address", Value = DBNull.Value });
-
-            parameters.Add(new SqlParameter { ParameterName = "IsAdmin", Value = request.IsAdmin });
-            parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = request.IsActive });
-
-
-            if (request.Id == 0)
+            if (ModelState.IsValid)
             {
-                parameters.Add(new SqlParameter { ParameterName = "RecordDate", Value = DateTime.Now });
 
-                db.ExecuteNoneQuery(@"insert into [SystemUser](
+                AuthenticationData authenticationData = new AuthenticationData();
+                ReturnObject<SystemUser> result = new ReturnObject<SystemUser>();
+                DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+
+
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = 0 });
+                parameters.Add(new SqlParameter { ParameterName = "SystemRoleId", Value = request.SystemRoleId });
+
+
+                if (!string.IsNullOrEmpty(request.Name))
+                    parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Name });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "Name", Value = DBNull.Value });
+
+                if (!string.IsNullOrEmpty(request.Name))
+                    parameters.Add(new SqlParameter { ParameterName = "SurName", Value = request.SurName });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "SurName", Value = DBNull.Value });
+
+                if (!string.IsNullOrEmpty(request.UserName))
+                    parameters.Add(new SqlParameter { ParameterName = "UserName", Value = request.UserName });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "UserName", Value = DBNull.Value });
+
+                if (!string.IsNullOrEmpty(request.Password))
+                    parameters.Add(new SqlParameter { ParameterName = "Password", Value = request.Password });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "Password", Value = DBNull.Value });
+
+                if (!string.IsNullOrEmpty(request.Email))
+                    parameters.Add(new SqlParameter { ParameterName = "Email", Value = request.Email });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "Email", Value = DBNull.Value });
+
+                if (!string.IsNullOrEmpty(request.Phone))
+                    parameters.Add(new SqlParameter { ParameterName = "Phone", Value = request.Phone });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "Phone", Value = DBNull.Value });
+
+                if (!string.IsNullOrEmpty(request.Address))
+                    parameters.Add(new SqlParameter { ParameterName = "Address", Value = request.Address });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "Address", Value = DBNull.Value });
+
+                parameters.Add(new SqlParameter { ParameterName = "IsAdmin", Value = request.IsAdmin });
+                parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = request.IsActive });
+
+
+                if (request.Id == 0)
+                {
+                    parameters.Add(new SqlParameter { ParameterName = "RecordDate", Value = DateTime.Now });
+
+                    db.ExecuteNoneQuery(@"insert into [SystemUser](
                 SystemRoleId,
                 Name,
                 SurName,
@@ -208,17 +211,17 @@ namespace Inta.Framework.Admin.Controllers
                 @IsActive
                 )", System.Data.CommandType.Text, parameters);
 
-                return Json(new ReturnObject<SystemUser>
+                    return Json(new ReturnObject<SystemUser>
+                    {
+                        Data = request,
+                        ResultType = MessageType.Success
+                    });
+                }
+                else
                 {
-                    Data = request,
-                    ResultType = MessageType.Success
-                });
-            }
-            else
-            {
-                parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
+                    parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
 
-                db.ExecuteNoneQuery(@"Update [SystemUser] set 
+                    db.ExecuteNoneQuery(@"Update [SystemUser] set 
                 SystemRoleId=@SystemRoleId,
                 Name=@Name,
                 SurName=@SurName,
@@ -231,12 +234,25 @@ namespace Inta.Framework.Admin.Controllers
                 IsActive=@IsActive                
                 where Id=@Id", System.Data.CommandType.Text, parameters);
 
+                    return Json(new ReturnObject<SystemUser>
+                    {
+                        Data = request,
+                        ResultType = MessageType.Success
+                    });
+                }
+            }
+
+            else
+            {
                 return Json(new ReturnObject<SystemUser>
                 {
                     Data = request,
-                    ResultType = MessageType.Success
+                    ResultType = MessageType.Error,
+                    Validation = ModelState.ToList().Where(v => v.Value.Errors.Any()).Select(s => new { Key = s.Key, Error = s.Value.Errors })
                 });
             }
         }
+
+
     }
 }

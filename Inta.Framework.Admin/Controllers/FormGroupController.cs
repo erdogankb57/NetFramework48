@@ -118,53 +118,65 @@ namespace Inta.Framework.Admin.Controllers
         [HttpPost]
         public ActionResult Save(FormGroup request)
         {
-            ReturnObject<FormGroup> result = new ReturnObject<FormGroup>();
-            AuthenticationData authenticationData = new AuthenticationData();
-            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
-            List<SqlParameter> parameters = new List<SqlParameter>();
-
-            if (string.IsNullOrEmpty(request.Name))
-                parameters.Add(new SqlParameter { ParameterName = "Name", Value = DBNull.Value });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Name });
-
-            if (string.IsNullOrEmpty(request.Explanation))
-                parameters.Add(new SqlParameter { ParameterName = "Explanation", Value = DBNull.Value });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "Explanation", Value = request.Explanation });
-
-            parameters.Add(new SqlParameter { ParameterName = "OrderNumber", Value = request.OrderNumber });
-            parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = request.IsActive });
-            parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = authenticationData.UserId });
-
-
-
-
-            if (request.Id == 0)
+            if (ModelState.IsValid)
             {
-                parameters.Add(new SqlParameter { ParameterName = "RecordDate", Value = DateTime.Now });
+                ReturnObject<FormGroup> result = new ReturnObject<FormGroup>();
+                AuthenticationData authenticationData = new AuthenticationData();
+                DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+                List<SqlParameter> parameters = new List<SqlParameter>();
 
-                db.ExecuteNoneQuery("insert into [FormGroup](SystemUserId,Name,Explanation,OrderNumber,RecordDate,IsActive) values(@SystemUserId,@Name,@Explanation,@OrderNumber,@RecordDate,@IsActive)", System.Data.CommandType.Text, parameters);
+                if (string.IsNullOrEmpty(request.Name))
+                    parameters.Add(new SqlParameter { ParameterName = "Name", Value = DBNull.Value });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Name });
 
-                return Json(new ReturnObject<FormGroup>
+                if (string.IsNullOrEmpty(request.Explanation))
+                    parameters.Add(new SqlParameter { ParameterName = "Explanation", Value = DBNull.Value });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "Explanation", Value = request.Explanation });
+
+                parameters.Add(new SqlParameter { ParameterName = "OrderNumber", Value = request.OrderNumber });
+                parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = request.IsActive });
+                parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = authenticationData.UserId });
+
+
+
+
+                if (request.Id == 0)
                 {
-                    Data = request,
-                    ResultType = MessageType.Success
-                });
+                    parameters.Add(new SqlParameter { ParameterName = "RecordDate", Value = DateTime.Now });
+
+                    db.ExecuteNoneQuery("insert into [FormGroup](SystemUserId,Name,Explanation,OrderNumber,RecordDate,IsActive) values(@SystemUserId,@Name,@Explanation,@OrderNumber,@RecordDate,@IsActive)", System.Data.CommandType.Text, parameters);
+
+                    return Json(new ReturnObject<FormGroup>
+                    {
+                        Data = request,
+                        ResultType = MessageType.Success
+                    });
+                }
+                else
+                {
+
+
+                    parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
+
+
+                    db.ExecuteNoneQuery("Update [FormGroup] set Name=@Name,Explanation=@Explanation,OrderNumber=@OrderNumber,IsActive=@IsActive where Id=@Id", System.Data.CommandType.Text, parameters);
+
+                    return Json(new ReturnObject<FormGroup>
+                    {
+                        Data = request,
+                        ResultType = MessageType.Success
+                    });
+                }
             }
             else
             {
-
-
-                parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
-
-
-                db.ExecuteNoneQuery("Update [FormGroup] set Name=@Name,Explanation=@Explanation,OrderNumber=@OrderNumber,IsActive=@IsActive where Id=@Id", System.Data.CommandType.Text, parameters);
-
                 return Json(new ReturnObject<FormGroup>
                 {
                     Data = request,
-                    ResultType = MessageType.Success
+                    ResultType = MessageType.Error,
+                    Validation = ModelState.ToList().Where(v => v.Value.Errors.Any()).Select(s => new { Key = s.Key, Error = s.Value.Errors })
                 });
             }
         }

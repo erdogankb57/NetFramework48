@@ -3,8 +3,7 @@
     $("#saveForm").submit(function (e) {
         e.preventDefault();
 
-        if ($(this).FormValidate() == false)
-            return;
+        $("#saveForm .error").remove();
 
         var formData = new FormData($('#saveForm')[0]);
         $.ajax({

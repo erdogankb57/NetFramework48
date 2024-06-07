@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -19,8 +20,13 @@ namespace Inta.Framework.Entity
         public int LanguageId { get; set; }
         public int CategoryId { get; set; }
 
+        [Required(ErrorMessage = "Lütfen boş geçmeyiniz")]
         public int FormGroupId { get; set; }
+
+        [Required(ErrorMessage = "Lütfen boş geçmeyiniz")]
         public string Name { get; set; }
+
+        [Required(ErrorMessage = "Lütfen boş geçmeyiniz")]
         public int ElementTypeId { get; set; }
         public bool AllowNulls { get; set; }
         public int OrderNumber { get; set; }

@@ -24,7 +24,7 @@ namespace Inta.Framework.Admin.Controllers
         }
 
         public ActionResult GetList(PagingDataListRequest<FormElementSearch> request)
-        {  
+        {
             List<SqlParameter> Parameters = new List<SqlParameter>();
             if (string.IsNullOrEmpty(request.Search.Name))
                 Parameters.Add(new SqlParameter { ParameterName = "Name", Value = DBNull.Value });
@@ -118,63 +118,75 @@ namespace Inta.Framework.Admin.Controllers
         [HttpPost]
         public ActionResult Save(FormElement request)
         {
-            ReturnObject<FormGroup> result = new ReturnObject<FormGroup>();
-            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
-            List<SqlParameter> parameters = new List<SqlParameter>();
-            AuthenticationData authenticationData = new AuthenticationData();
-
-            if (string.IsNullOrEmpty(request.Name))
-                parameters.Add(new SqlParameter { ParameterName = "FormGroupId", Value = DBNull.Value });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "FormGroupId", Value = request.FormGroupId });
-
-            if (string.IsNullOrEmpty(request.Name))
-                parameters.Add(new SqlParameter { ParameterName = "ElementTypeId", Value = DBNull.Value });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "ElementTypeId", Value = request.ElementTypeId });
-
-            if (string.IsNullOrEmpty(request.Name))
-                parameters.Add(new SqlParameter { ParameterName = "Name", Value = DBNull.Value });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Name });
-
-            if (string.IsNullOrEmpty(request.Name))
-                parameters.Add(new SqlParameter { ParameterName = "OrderNumber", Value = DBNull.Value });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "OrderNumber", Value = request.OrderNumber });
-
-            parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = request.IsActive });
-
-
-
-
-            if (request.Id == 0)
+            if (ModelState.IsValid)
             {
-                parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = authenticationData.UserId });
-                parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = authenticationData.LanguageId });
-                parameters.Add(new SqlParameter { ParameterName = "RecordDate", Value = DateTime.Now });
+                ReturnObject<FormGroup> result = new ReturnObject<FormGroup>();
+                DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                AuthenticationData authenticationData = new AuthenticationData();
 
-                db.ExecuteNoneQuery("insert into [FormElement](SystemUserId,LanguageId,FormGroupId,ElementTypeId,Name,OrderNumber,RecordDate,IsActive) values(@SystemUserId,@LanguageId,@FormGroupId,@ElementTypeId,@Name,@OrderNumber,@RecordDate,@IsActive)", System.Data.CommandType.Text, parameters);
+                if (string.IsNullOrEmpty(request.Name))
+                    parameters.Add(new SqlParameter { ParameterName = "FormGroupId", Value = DBNull.Value });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "FormGroupId", Value = request.FormGroupId });
 
-                return Json(new ReturnObject<FormElement>
+                if (string.IsNullOrEmpty(request.Name))
+                    parameters.Add(new SqlParameter { ParameterName = "ElementTypeId", Value = DBNull.Value });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "ElementTypeId", Value = request.ElementTypeId });
+
+                if (string.IsNullOrEmpty(request.Name))
+                    parameters.Add(new SqlParameter { ParameterName = "Name", Value = DBNull.Value });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Name });
+
+                if (string.IsNullOrEmpty(request.Name))
+                    parameters.Add(new SqlParameter { ParameterName = "OrderNumber", Value = DBNull.Value });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "OrderNumber", Value = request.OrderNumber });
+
+                parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = request.IsActive });
+
+
+
+
+                if (request.Id == 0)
                 {
-                    Data = request,
-                    ResultType = MessageType.Success
-                });
+                    parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = authenticationData.UserId });
+                    parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = authenticationData.LanguageId });
+                    parameters.Add(new SqlParameter { ParameterName = "RecordDate", Value = DateTime.Now });
+
+                    db.ExecuteNoneQuery("insert into [FormElement](SystemUserId,LanguageId,FormGroupId,ElementTypeId,Name,OrderNumber,RecordDate,IsActive) values(@SystemUserId,@LanguageId,@FormGroupId,@ElementTypeId,@Name,@OrderNumber,@RecordDate,@IsActive)", System.Data.CommandType.Text, parameters);
+
+                    return Json(new ReturnObject<FormElement>
+                    {
+                        Data = request,
+                        ResultType = MessageType.Success
+                    });
+                }
+                else
+                {
+
+
+                    parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
+
+
+                    db.ExecuteNoneQuery("Update [FormElement] set LanguageId=@LanguageId,FormGroupId=@FormGroupId,ElementTypeId=@ElementTypeId,Name=@Name,OrderNumber=@OrderNumber,IsActive=@IsActive where Id=@Id", System.Data.CommandType.Text, parameters);
+
+                    return Json(new ReturnObject<FormElement>
+                    {
+                        Data = request,
+                        ResultType = MessageType.Success
+                    });
+                }
             }
             else
             {
-
-
-                parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
-
-
-                db.ExecuteNoneQuery("Update [FormElement] set LanguageId=@LanguageId,FormGroupId=@FormGroupId,ElementTypeId=@ElementTypeId,Name=@Name,OrderNumber=@OrderNumber,IsActive=@IsActive where Id=@Id", System.Data.CommandType.Text, parameters);
-
                 return Json(new ReturnObject<FormElement>
                 {
                     Data = request,
-                    ResultType = MessageType.Success
+                    ResultType = MessageType.Error,
+                    Validation = ModelState.ToList().Where(v => v.Value.Errors.Any()).Select(s => new { Key = s.Key, Error = s.Value.Errors })
                 });
             }
         }
