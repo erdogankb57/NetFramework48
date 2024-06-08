@@ -47,7 +47,17 @@ namespace Inta.Framework.Web.Base.FormControls
                                     <div class='image-delete'>
                                         <button type='button' class='btn btn-standart' onclick=""$ImageFileUpload.Delete({Id},'{ObjectId}','{ListObjectId}')"">Resmi sil</button>
                                     </div>
-                                </div>");
+                                    ");
+
+            if (!string.IsNullOrEmpty(Image))
+            {
+                shtml.Append($@"
+                                    <div class='image-delete'>
+                                        <a class='btn btn-standart' href='/ImageCrop/Index?ImageName={Image}'>Küçük resmi cropla</a>
+                                    </div>");
+            }
+            
+            shtml.Append($@"        </div>");
 
             shtml.Append("  </div>");
 
