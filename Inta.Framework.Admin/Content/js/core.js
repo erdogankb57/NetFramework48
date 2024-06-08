@@ -796,13 +796,31 @@ $ImageFileUpload = {
 }
 
 $Form = {
+    //Validation: function (formId) {
+    //    $("#" + formId + " input").each(function () {
+    //        debugger;
+    //        if ($(this).attr("data-val-required") != null && $(this).val() == "") {
+    //            $(this).parent("div").append("<div class='error text-danger'>" + $(this).attr("data-val-required") + "</div>");
+    //            return;
+    //        } else {
+    //            $(this).parent("div").find(".error").remove();
+    //        }
+    //    });
+    //},
+    Init: function (formId) {
+ 
+    },
     Save: function (formId) {
+        $("#" + formId + " input, #" + formId + " select").change(function () {
+            $Form.Validation(formId);
+        });
+
         $("#" + formId).submit(function (e) {
             e.preventDefault();
 
             $("#" + formId + " .error").remove();
 
-
+            //$Form.Validation(formId);
 
             var formData = new FormData($('#' + formId)[0]);
             $.ajax({

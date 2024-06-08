@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -177,7 +178,7 @@ namespace Inta.Framework.Admin.Controllers
 
                 parameters.Add(new SqlParameter { ParameterName = "OrderNumber", Value = request.OrderNumber });
 
-                if (!string.IsNullOrEmpty(request.Image))
+                if (Image != null)
                     parameters.Add(new SqlParameter { ParameterName = "Image", Value = request.Image });
                 else
                     parameters.Add(new SqlParameter { ParameterName = "Image", Value = DBNull.Value });
@@ -207,18 +208,28 @@ namespace Inta.Framework.Admin.Controllers
                 {
                     parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
 
-                    db.ExecuteNoneQuery(@"Update [Banner] set 
-                LanguageId=@LanguageId,
-                BannerTypeId=@BannerTypeId,
-                Name=@Name,
-                Link=@Link,
-                TargetId=@TargetId,
-                ShortExplanation=@ShortExplanation,
-                OrderNumber=@OrderNumber,
-                Image=@Image,
-                RecordDate=@RecordDate,
-                IsActive=@IsActive 
-                where Id=@Id", System.Data.CommandType.Text, parameters);
+                    StringBuilder shtml = new StringBuilder();
+
+                    shtml.Append(@"Update [Banner] set 
+                    LanguageId=@LanguageId,
+                    BannerTypeId=@BannerTypeId,
+                    Name=@Name,
+                    Link=@Link,
+                    TargetId=@TargetId,
+                    ShortExplanation=@ShortExplanation,
+                    OrderNumber=@OrderNumber,");
+
+                    if (Image != null)
+                    {
+                        shtml.Append("Image=@Image,");
+                    }
+
+                    shtml.Append(@"RecordDate=@RecordDate,
+                    IsActive=@IsActive 
+                    where Id=@Id");
+
+
+                    db.ExecuteNoneQuery(shtml.ToString(), System.Data.CommandType.Text, parameters);
                     return Json(new ReturnObject<Banner>
                     {
                         Data = request,

@@ -1,0 +1,87 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+<link href="@Url.Content("~/Content/css/image-crop.css")" rel="stylesheet" />
+
+<div class="form-content">
+    <div class="popupMessage"></div>
+
+    <form id="saveForm" method="post" novalidate>
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-group" id="jcrop">
+                        <img id="imagePreview" src="~/Content/images/login_bg.jpg" width="500" alt="Lütfen bir resim seçiniz." />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="modal-footer">
+            <button type="submit" id="btnsubmit" class="btn btn-standart">Kaydet</button>
+        </div>
+    </form>
+</div>
+
+
+@section scripts{
+
+}
+
+<script src="@Url.Content("~/Content/js/jquery.Jcrop.min.js")"></script>
+
+
+
+<script>
+
+    var CropCoordinat;
+
+    var ResizeImage = function () {
+        var imageWidth = 700;
+        var imageHeight = 700;
+
+        const img = new Image();
+        img.onload = function () {
+            imageWidth = this.width;
+            imageHeight = this.height;
+
+            var boxWidth = imageWidth / 1.5;
+            var oranDurumu = true;
+            var boxHeight = boxWidth * imageHeight / imageWidth;
+            if (oranDurumu == false) {
+                boxHeight = boxWidth;
+            }
+            var x = imageWidth / 2 - boxWidth / 2;
+            var y = imageHeight / 2 - boxHeight / 2;
+            var x1 = x + boxWidth;
+            var y1 = y + boxHeight;
+
+            $("#imagePreview").Jcrop({
+                aspectRatio: oranDurumu ? imageWidth / imageHeight : false,
+                setSelect: [x, y, x1, y1],
+                allowSelect: true,
+                allowMove: true,
+                allowResize: true,
+                fixedSupport: true,
+                //boxWidth: boxWidth,
+                //boxHeight: boxHeight,
+                boxWidth: imageWidth,
+                boxHeight: imageHeight,
+                trueSize: [imageWidth, imageHeight],
+                onSelect: function (c) {
+                    CropCoordinat = c;
+                }
+            });
+        }
+        img.src = $("#imagePreview").attr("src");
+
+    }
+
+    $(function () {
+        ResizeImage();
+    });
+</script>

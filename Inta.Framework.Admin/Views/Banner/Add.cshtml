@@ -22,7 +22,7 @@
                 <div class="col-lg-9">
 
                     @{
-                        @Html.Raw(Html.SelectListFor("Select * from BannerType", ObjectId: "BannerTypeId", ObjectName: "BannerTypeId", DisplayName: "Name", ValueName: "Id", SelectedValue: Model.BannerTypeId.ToString(), DefaultText: "Seçiniz", DefaultValue: "", IsRequired: false));
+                        @Html.Raw(Html.SelectListFor("Select * from BannerType", ObjectId: "BannerTypeId", ObjectName: "BannerTypeId", DisplayName: "Name", ValueName: "Id", SelectedValue: Model.BannerTypeId.ToString(), DefaultText: "Seçiniz", DefaultValue: "", RequiredMessage: "Bu alanı doldurmanız gerekmektedir.", IsRequired: true));
                     }
 
                 </div>
@@ -106,6 +106,8 @@
 
 <script type="text/javascript">
     $(function () {
+        $Form.Init("saveForm");
         $Form.Save("saveForm");
+
     });
 </script>

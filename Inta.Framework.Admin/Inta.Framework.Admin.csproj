@@ -134,6 +134,7 @@
     <Compile Include="Controllers\FormGroupController.cs" />
     <Compile Include="Controllers\GeneralSettingsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ImageCropController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MessageHistoryController.cs" />
     <Compile Include="Controllers\NoAuthorizationController.cs" />
@@ -648,6 +649,7 @@
     <Content Include="Views\ForgetPassword\Index.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Banner\Popup_Add.cshtml" />
+    <Content Include="Views\ImageCrop\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Inta.Framework.Ado.Net\Inta.Framework.Ado.Net.csproj">
