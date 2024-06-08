@@ -16,7 +16,9 @@ namespace Inta.Framework.Admin.Controllers
             var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
 
 
-            ViewBag.Image = generalSettings.Data.ImageCdnUrl + "b_" + Request["ImageName"];
+            ViewBag.Image = generalSettings.Data.ImageCdnUrl + Request["Dimension"] + Request["ImageName"];
+            ViewBag.Width = Request["width"];
+            ViewBag.Height = Request["height"];
             return View();
         }
     }

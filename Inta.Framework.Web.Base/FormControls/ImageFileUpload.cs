@@ -53,7 +53,12 @@ namespace Inta.Framework.Web.Base.FormControls
             {
                 shtml.Append($@"
                                     <div class='image-delete'>
-                                        <a class='btn btn-standart' href='/ImageCrop/Index?ImageName={Image}'>Küçük resmi cropla</a>
+                                        <a class='btn btn-standart' href='/ImageCrop/Index?ImageName={Image}&Dimension=b_&width=200&height=100'>Küçük resmi cropla</a>
+                                    </div>");
+
+                shtml.Append($@"
+                                    <div class='image-delete'>
+                                        <a class='btn btn-standart' href='/ImageCrop/Index?ImageName={Image}&Dimension=b_&width=500&height=100'>Büyük resmi cropla</a>
                                     </div>");
             }
             

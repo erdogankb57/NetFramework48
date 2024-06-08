@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="form-group" id="jcrop">
-                        <img id="imagePreview" src="@(ViewBag.Image)" width="500" alt="Lütfen bir resim seçiniz." />
+                        <img id="imagePreview" src="@(ViewBag.Image)" alt="Lütfen bir resim seçiniz." />
                     </div>
                 </div>
             </div>
@@ -41,27 +41,32 @@
     var CropCoordinat;
 
     var ResizeImage = function (width, height) {
-        var imageWidth = width;
-        var imageHeight = height;
+        var boxWidth = width;
+        var boxHeight = height;
+
 
         const img = new Image();
         img.onload = function () {
-            //imageWidth = this.width;
-            //imageHeight = this.height;
+            trueWidth = this.width;
+            trueHeight = this.height;
 
-            var boxWidth = imageWidth / 1.5;
+            var imageWidth = trueWidth;
+            var imageHeight = trueHeight;
+
+            $("#imagePreview img").attr("width", this.width);
+            $("#imagePreview img").attr("height", this.height);
+
+
+
             var oranDurumu = true;
-            var boxHeight = boxWidth * imageHeight / imageWidth;
-            if (oranDurumu == false) {
-                boxHeight = boxWidth;
-            }
             var x = imageWidth / 2 - boxWidth / 2;
             var y = imageHeight / 2 - boxHeight / 2;
             var x1 = x + boxWidth;
             var y1 = y + boxHeight;
 
+
             $("#imagePreview").Jcrop({
-                aspectRatio: oranDurumu ? imageWidth / imageHeight : false,
+                aspectRatio: oranDurumu ? boxWidth / boxHeight : false,
                 setSelect: [x, y, x1, y1],
                 allowSelect: false,
                 allowMove: true,
@@ -71,7 +76,7 @@
                 //boxHeight: boxHeight,
                 boxWidth: imageWidth,
                 boxHeight: imageHeight,
-                trueSize: [imageWidth, imageHeight],
+                trueSize: [trueWidth, trueHeight],
                 onSelect: function (c) {
                     CropCoordinat = c;
                 }
@@ -82,6 +87,6 @@
     }
 
     $(function () {
-        ResizeImage(500,500);
+        ResizeImage(@ViewBag.Width,@ViewBag.Height);
     });
 </script>
