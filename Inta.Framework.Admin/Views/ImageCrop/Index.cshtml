@@ -40,14 +40,14 @@
 
     var CropCoordinat;
 
-    var ResizeImage = function () {
-        var imageWidth = 700;
-        var imageHeight = 700;
+    var ResizeImage = function (width, height) {
+        var imageWidth = width;
+        var imageHeight = height;
 
         const img = new Image();
         img.onload = function () {
-            imageWidth = this.width;
-            imageHeight = this.height;
+            //imageWidth = this.width;
+            //imageHeight = this.height;
 
             var boxWidth = imageWidth / 1.5;
             var oranDurumu = true;
@@ -63,10 +63,10 @@
             $("#imagePreview").Jcrop({
                 aspectRatio: oranDurumu ? imageWidth / imageHeight : false,
                 setSelect: [x, y, x1, y1],
-                allowSelect: true,
+                allowSelect: false,
                 allowMove: true,
                 allowResize: true,
-                fixedSupport: true,
+                fixedSupport: false,
                 //boxWidth: boxWidth,
                 //boxHeight: boxHeight,
                 boxWidth: imageWidth,
@@ -82,6 +82,6 @@
     }
 
     $(function () {
-        ResizeImage();
+        ResizeImage(500,500);
     });
 </script>
