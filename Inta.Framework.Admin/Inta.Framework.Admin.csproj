@@ -533,6 +533,7 @@
     <Content Include="Content\js\controller\account.js" />
     <Content Include="Content\js\controller\editorimageupload.js" />
     <Content Include="Content\js\controller\generalsettings.js" />
+    <Content Include="Content\js\controller\imagecrop.js" />
     <Content Include="Content\js\controller\login.js" />
     <Content Include="Content\js\feather.min.js" />
     <Content Include="Content\js\fontawesome.js" />
