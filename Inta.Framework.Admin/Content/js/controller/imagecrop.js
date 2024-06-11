@@ -66,7 +66,7 @@ var CropImage = function (id) {
     $.ajax({
         url: "/ImageCrop/CropImage",
         type: "POST",
-        data: { "imageName": splitImageUrl[splitImageUrl.length - 1].split("?")[0], "width": w, "height": h, "x": x, "y": y },
+        data: { "imageName": splitImageUrl[splitImageUrl.length - 1].split("?")[0], "width": parseInt(w), "height": parseInt(h), "x": parseInt(x), "y": parseInt(y) },
         dataType: 'json',
         contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
         success: function (data) {

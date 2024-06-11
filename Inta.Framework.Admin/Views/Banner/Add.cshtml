@@ -94,7 +94,7 @@
                 <div class="col-lg-3">
                     <label for="exampleFormControlInput1">Resim</label>
                 </div><div class="col-lg-9">
-                    @Html.ImageFileUploadFor(Id: Model.Id, ObjectId: "Image", ObjectName: "Image", Image: Model.Image, DeleteUrl: "/Banner/DeleteImage", ListObjectId: "PagingDataList", isBigImage: true)
+                    @Html.ImageFileUploadFor(Id: Model.Id, ObjectId: "Image", ObjectName: "Image", Image: Model.Image, DeleteUrl: "/Banner/DeleteImage", ListObjectId: "PagingDataList", isBigImage: true, smallImageCropWidth: 200, smallImageCropHeight: 100, bigImageCropWidth: 500, bigImageCropHeight: 200)
                 </div>
             </div>
         </div>

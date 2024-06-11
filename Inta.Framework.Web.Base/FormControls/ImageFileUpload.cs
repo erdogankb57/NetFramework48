@@ -20,7 +20,11 @@ namespace Inta.Framework.Web.Base.FormControls
         string Image = null,
         string DeleteUrl = null,
         string ListObjectId = null,
-        bool isBigImage = true
+        bool isBigImage = true,
+        int smallImageCropWidth = 0,
+        int smallImageCropHeight = 0,
+        int bigImageCropWidth = 0,
+        int bigImageCropHeight = 0
         )
         {
             if (ObjectId is null)
@@ -53,15 +57,15 @@ namespace Inta.Framework.Web.Base.FormControls
             {
                 shtml.Append($@"
                                     <div class='image-delete'>
-                                        <a class='btn btn-standart' href='/ImageCrop/Index?ImageName={Image}&Dimension=b_&width=200&height=100'>Küçük resmi cropla</a>
+                                        <a class='btn btn-standart' href='/ImageCrop/Index?ImageName={Image}&Dimension=k_&width={smallImageCropWidth}&height={smallImageCropHeight}'>Küçük resmi cropla</a>
                                     </div>");
 
                 shtml.Append($@"
                                     <div class='image-delete'>
-                                        <a class='btn btn-standart' href='/ImageCrop/Index?ImageName={Image}&Dimension=b_&width=500&height=100'>Büyük resmi cropla</a>
+                                        <a class='btn btn-standart' href='/ImageCrop/Index?ImageName={Image}&Dimension=b_&width={bigImageCropWidth}&height={bigImageCropHeight}'>Büyük resmi cropla</a>
                                     </div>");
             }
-            
+
             shtml.Append($@"        </div>");
 
             shtml.Append("  </div>");
