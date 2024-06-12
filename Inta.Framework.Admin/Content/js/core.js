@@ -811,9 +811,9 @@ $Form = {
  
     },
     Save: function (formId,formPostUrl) {
-        $("#" + formId + " input, #" + formId + " select").change(function () {
-            $Form.Validation(formId);
-        });
+        //$("#" + formId + " input, #" + formId + " select").change(function () {
+        //    $Form.Validation(formId);
+        //});
 
         $("#" + formId).submit(function (e) {
             e.preventDefault();

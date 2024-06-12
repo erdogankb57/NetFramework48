@@ -110,7 +110,7 @@
 
                     });
                 }
-                @Html.PagingDataListAndSaveFor(ObjectId: "CategoryList", Header: col, Url: "/Category/GetList", AddUrl: "/Category/Add", isAddPopup: true, DeleteUrl: "/Category/Delete", ActiveUrl: "/Category/Active", PassiveUrl: "/Category/Passive", SaveUrl: "/Category/Save", CallBackFunction: "SearchDataList", PagingRowCount: 20, OrderColumn: "Id", AddCallBackFunction: "AddCallBack")
+                @Html.PagingDataListAndSaveFor(ObjectId: "CategoryList", Header: col, Url: "/Category/GetList", AddUrl: "/Category/Add", isAddPopup: false, DeleteUrl: "/Category/Delete", ActiveUrl: "/Category/Active", PassiveUrl: "/Category/Passive", SaveUrl: "/Category/Save", CallBackFunction: "SearchDataList", PagingRowCount: 20, OrderColumn: "Id", AddCallBackFunction: "AddCallBack")
 
             </div>
         </div>
@@ -156,33 +156,7 @@
 
             $CheckBoxListFilter.Init();
 
-            $("#PageTypeId").change(function () {
-                $.ajax({
-                    url: "/Category/GetPageType",
-                    type: "POST",
-                    dataType: 'json',
-                    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-                    data: { "id": $(this).val() },
-                    success: function (response) {
-                        debugger;
-                        if (response.Data.IsExplanationEnabled) {
-                            $("#explanationPanel").show();
-                        } else {
-                            $("#explanationPanel").hide();
-                        }
-
-                        if (response.Data.IsShortExplanationEnabled) {
-                            $("#shortExplanationPanel").show();
-                        } else {
-                            $("#shortExplanationPanel").hide();
-                        }
-                    },
-                    error: function (response) {
-
-                    }
-                });
-            });
-            $("#PageTypeId").change();
+            
 
         }
 

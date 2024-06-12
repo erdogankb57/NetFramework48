@@ -1,0 +1,223 @@
+﻿@model Inta.Framework.Entity.Category
+
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+
+            <h5 class="modal-title" id="exampleModalLabel">Kategori Ekle / Düzenle</h5>
+
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+
+        </div>
+        <div class="modal-body">
+            <div class="popupMessage"></div>
+            @Html.HiddenFor(m => m.Id)
+
+            <div class="container-fluid">
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label for="exampleFormControlInput1">Kategori</label>
+                        </div><div class="col-lg-9">
+                            @(Html.CategorySelectBoxFor(Id:Model.CategoryId,ObjectId:"CategoryId", ObjectName: "CategoryId", DisplayName:"Name",ValueName:"Id",DefaultText:"Lütfen kategori seçiniz", DefaultValue:""))
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label for="exampleFormControlInput1">Sayfa Türü</label>
+                        </div><div class="col-lg-9">
+                            @Html.SelectListFor(query: "Select * from PageType where IsActive=1", ObjectId: "PageTypeId", ObjectName: "PageTypeId", DisplayName: "Name", ValueName: "Id", SelectedValue: (Model.PageTypeId != null ? Model.PageTypeId.ToString() : ""), DefaultText: "Seçiniz", DefaultValue: "", IconName: null, IsRequired: false, IsDisabled: false)
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label for="exampleFormControlInput1">Kategori Adı</label>
+                        </div><div class="col-lg-9">
+                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control"})
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label for="exampleFormControlInput1">Kategori Url</label>
+                        </div><div class="col-lg-9">
+                            @Html.TextBoxFor(m => m.CategoryUrl, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label for="exampleFormControlInput1">Kategori Link</label>
+                        </div><div class="col-lg-9">
+                            @Html.TextBoxFor(m => m.CategoryLink, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label for="exampleFormControlInput1">Kategori Kodu</label>
+                        </div><div class="col-lg-9">
+                            @Html.TextBoxFor(m => m.Code, new { @class = "form-control" })
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label for="exampleFormControlInput1">Kategori Başlık</label>
+                        </div><div class="col-lg-9">
+                            @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label for="exampleFormControlInput1">Kategori Meta Description</label>
+                        </div><div class="col-lg-9">
+                            @Html.TextBoxFor(m => m.MetaDecription, new { @class = "form-control" })
+
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label for="exampleFormControlInput1">Kategori Meta Keywords</label>
+                        </div><div class="col-lg-9">
+                            @Html.TextBoxFor(m => m.MetaKeywords, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                @*<div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <label for="exampleFormControlInput1">Form Grubu</label>
+                            </div><div class="col-lg-9">
+                                @Html.DropDownListFor(m => m.FormGroupId, formGroup.ToArray(), new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>*@
+                <div id="categoryImagePanel">
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <label for="exampleFormControlInput1">Resim</label>
+                            </div><div class="col-lg-9">
+                                @Html.ImageFileUploadFor(Id: Model.Id, ObjectId: "ImageFile", ObjectName: "ImageFile", Image: Model.Image, DeleteUrl: "/Category/DeleteImage", ListObjectId: "CategoryList")
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label for="exampleFormControlInput1">Resim Tag</label>
+                        </div><div class="col-lg-9">
+                            @Html.TextBoxFor(m => m.ImageTag, new { @class = "form-control" })
+
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label for="exampleFormControlInput1">Resim Başlık</label>
+                        </div><div class="col-lg-9">
+                            @Html.TextBoxFor(m => m.ImageTitle, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label for="exampleFormControlInput1">Sıra Numarası</label>
+                        </div><div class="col-lg-9">
+                            @Html.TextBoxFor(m => m.OrderNumber, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">
+                            <label for="exampleFormControlInput1">Kategori Silinebilir mi</label>
+                        </div>
+                        <div class="col-lg-9  col-md-6 col-sm-6 col-xs-6">
+                            <div class="form-check">
+                                @Html.CheckBoxFor(m => m.CanBeDeleted, new { @class = "form-check-input" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">
+                            <label for="exampleFormControlInput1">Alt Kategori Eklenebilir mi</label>
+                        </div><div class="col-lg-9  col-md-6 col-sm-6 col-xs-6">
+                            <div class="form-check">
+                                @Html.CheckBoxFor(m => m.CanSubCategoryBeAdded, new { @class = "form-check-input" })
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">
+                            <label for="exampleFormControlInput1">Aktif mi</label>
+                        </div><div class="col-lg-9  col-md-6 col-sm-6 col-xs-6">
+                            <div class="form-check">
+
+                                @Html.CheckBoxFor(m => m.IsActive, new { @class = "form-check-input" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" id="shortExplanationPanel">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label for="exampleFormControlInput1">Kısa Açıklama</label>
+                        </div><div class="col-lg-9">
+                            @Html.Raw(Html.TextAreaFor(m => m.ShortExplanation, new { @class = "form-control ckeditor" }))
+
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" id="explanationPanel">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label for="exampleFormControlInput1">Açıklama</label>
+                        </div><div class="col-lg-9">
+                            @Html.Raw(Html.TextAreaFor(m => m.Explanation, new { @class = "form-control ckeditor" }))
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-standart" data-dismiss="modal">Kapat</button>
+            <button type="submit" id="btnsubmit" class="btn btn-standart">Kaydet</button>
+        </div>
+    </div>
+</div>
