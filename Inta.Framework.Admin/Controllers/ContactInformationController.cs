@@ -55,7 +55,7 @@ namespace Inta.Framework.Admin.Controllers
                 Id = s.Id,
                 Name = s.Name,
                 IsActive = s.IsActive ? "Aktif" : "Pasif",
-                Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/ContactInformation/Add','True'," + s.Id.ToString() + ")\">Düzenle</a>",
+                Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/ContactInformation/Add','False'," + s.Id.ToString() + ")\">Düzenle</a>",
                 Delete = "<a href='javascript:void(0)' onclick=\"$PagingDataList.DeleteRecordModal('ContactInformationList','/ContactInformation/Delete',SearchDataList," + s.Id.ToString() + ")\">Sil</a>"
             }).ToList();
 
@@ -276,7 +276,8 @@ namespace Inta.Framework.Admin.Controllers
                     return Json(new ReturnObject<ContactInformation>
                     {
                         Data = request,
-                        ResultType = MessageType.Success
+                        ResultType = MessageType.Success,
+                        RedirectUrl = "/ContactInformation/Index?Message=Kayıt ekleme işlemi başarıyla tamamlandı"
                     });
                 }
                 else
@@ -307,7 +308,8 @@ namespace Inta.Framework.Admin.Controllers
                     return Json(new ReturnObject<ContactInformation>
                     {
                         Data = request,
-                        ResultType = MessageType.Success
+                        ResultType = MessageType.Success,
+                        RedirectUrl = "/ContactInformation/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı"
                     });
                 }
             }

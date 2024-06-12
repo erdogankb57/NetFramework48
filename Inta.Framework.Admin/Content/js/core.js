@@ -810,7 +810,7 @@ $Form = {
     Init: function (formId) {
  
     },
-    Save: function (formId) {
+    Save: function (formId,formPostUrl) {
         $("#" + formId + " input, #" + formId + " select").change(function () {
             $Form.Validation(formId);
         });
@@ -824,7 +824,7 @@ $Form = {
 
             var formData = new FormData($('#' + formId)[0]);
             $.ajax({
-                url: "/Banner/Save",
+                url: formPostUrl,
                 type: "POST",
                 data: formData,
                 dataType: 'json',
