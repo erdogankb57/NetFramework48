@@ -120,6 +120,14 @@ namespace Inta.Framework.Admin.Controllers
             {
                 var model = db.Get<Banner>("select * from [Banner] where Id=@Id", System.Data.CommandType.Text, parameters);
 
+                var bannerType = db.Get("Select * from BannerType where Id=" + model.Data.BannerTypeId, System.Data.CommandType.Text);
+                if (bannerType != null && bannerType.Data != null)
+                {
+
+                    ViewBag.ImageSmallWidth = !string.IsNullOrEmpty(bannerType.Data["SmallImageWidth"].ToString()) && bannerType.Data["SmallImageWidth"].ToString() != "0" ? Convert.ToInt32(bannerType.Data["SmallImageWidth"]) : 100;
+                    ViewBag.ImageBigWidth = !string.IsNullOrEmpty(bannerType.Data["BigImageWidth"].ToString()) && bannerType.Data["BigImageWidth"].ToString() != "0" ? Convert.ToInt32(bannerType.Data["BigImageWidth"]) : 500;
+                }
+
                 return View("Add", model.Data);
             }
 

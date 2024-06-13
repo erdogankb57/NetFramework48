@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -26,7 +27,7 @@ namespace Inta.Framework.Admin.Controllers
 
         public ActionResult GetList(PagingDataListRequest<CategorySearch> request)
         {
-            AuthenticationData authenticationData = new AuthenticationData(); 
+            AuthenticationData authenticationData = new AuthenticationData();
             List<SqlParameter> Parameters = new List<SqlParameter>();
             if (string.IsNullOrEmpty(request.Search.Name))
                 Parameters.Add(new SqlParameter { ParameterName = "Name", Value = DBNull.Value });
@@ -237,7 +238,8 @@ namespace Inta.Framework.Admin.Controllers
 
                 if (request.Id == 0)
                 {
-                    db.ExecuteNoneQuery(@"
+                    StringBuilder shtml = new StringBuilder();
+                    shtml.Append(@"
                 insert into Category(
                 SystemUserId,
                 LanguageId,
@@ -249,9 +251,11 @@ namespace Inta.Framework.Admin.Controllers
                 Title,
                 MetaDecription,
                 MetaKeywords,
-                ShortExplanation,
-                Image,
-                ImageTag,
+                ShortExplanation,");
+
+                    if (ImageFile != null)
+                        shtml.Append("Image,");
+                    shtml.Append(@"ImageTag,
                 ImageTitle,
                 Explanation,
                 OrderNumber,
@@ -268,15 +272,17 @@ namespace Inta.Framework.Admin.Controllers
                 @Title,
                 @MetaDecription,
                 @MetaKeywords,
-                @ShortExplanation,
-                @Image,
-                @ImageTag,
+                @ShortExplanation,");
+                    if (ImageFile != null)
+                        shtml.Append("@Image,");
+                    shtml.Append(@"@ImageTag,
                 @ImageTitle,
                 @Explanation,
                 @OrderNumber,
                 @IsActive
                 )
-                ", System.Data.CommandType.Text, parameters);
+                ");
+                    db.ExecuteNoneQuery(shtml.ToString(), System.Data.CommandType.Text, parameters);
 
                     return Json(new ReturnObject<Category>
                     {
@@ -289,7 +295,8 @@ namespace Inta.Framework.Admin.Controllers
                 {
                     parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
 
-                    db.ExecuteNoneQuery(@"Update [Category] set 
+                    StringBuilder shtml = new StringBuilder();
+                    shtml.Append(@"Update [Category] set 
                 LanguageId=@LanguageId,
                 PageTypeId=@PageTypeId,
                 CategoryId=@CategoryId,
@@ -299,13 +306,16 @@ namespace Inta.Framework.Admin.Controllers
                 Title=@Title,
                 MetaDecription=@MetaDecription,
                 MetaKeywords=@MetaKeywords,
-                ShortExplanation=@ShortExplanation,
-                Image=@Image,
-                ImageTag=@ImageTag,
+                ShortExplanation=@ShortExplanation,");
+                    if (ImageFile != null)
+                        shtml.Append("Image=@Image,");
+
+                    shtml.Append(@"ImageTag=@ImageTag,
                 ImageTitle=@ImageTitle,
                 Explanation=@Explanation,
                 OrderNumber=@OrderNumber
-                where Id=@Id", System.Data.CommandType.Text, parameters);
+                where Id=@Id");
+                    db.ExecuteNoneQuery(shtml.ToString(), System.Data.CommandType.Text, parameters);
 
                     return Json(new ReturnObject<Category>
                     {
