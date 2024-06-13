@@ -124,6 +124,13 @@ namespace Inta.Framework.Admin.Controllers
 
                 var model = db.Get<Category>("select * from [Category] where Id=@Id", System.Data.CommandType.Text, parameters);
 
+                var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
+                if (generalSettings.Data != null)
+                {
+                    ViewBag.ImageSmallWidth = generalSettings.Data.CategoryImageSmallWidth;
+                    ViewBag.ImageBigWidth = generalSettings.Data.CategoryImageBigWidth;
+                }
+
                 return PartialView("Add", model.Data);
             }
 
