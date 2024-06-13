@@ -852,9 +852,9 @@ $Form = {
                         //    }
                         //}
 
-                        setTimeout(function () {
-                            showAlert(".popupMessage", "Kayıt işlemi başarıyla tamamlandı.", "success");
-                        }, 100);
+                        //setTimeout(function () {
+                        //    showAlert(".popupMessage", "Kayıt işlemi başarıyla tamamlandı.", "success");
+                        //}, 100);
                     }
                     else {
                         //Hata mesajı var ise hataları gösterir

@@ -59,7 +59,7 @@ namespace Inta.Framework.Admin.Controllers
                 IsActive = s.IsActive ? "Aktif" : "Pasif",
                 RecordImage = "<a href='/RecordImage/Index/" + s.Id + "'>Resim Ekle</a>",
                 RecordFile = "<a href='/RecordFile/Index/" + s.Id + "'>Dosya Ekle</a>",
-                Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/Record/Add','True'," + s.Id.ToString() + ",AddCallBack)\">Düzenle</a>",
+                Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/Record/Add','False'," + s.Id.ToString() + ",AddCallBack)\">Düzenle</a>",
                 Delete = "<a href='javascript:void(0)' onclick=\"$PagingDataList.DeleteRecordModal('RecordList','/Record/Delete',SearchDataList," + s.Id.ToString() + ")\">Sil</a>"
             }).ToList();
 
@@ -290,6 +290,7 @@ namespace Inta.Framework.Admin.Controllers
                     return Json(new ReturnObject<Record>
                     {
                         Data = request,
+                        RedirectUrl = "/Record/Index?Message=Kayıt ekleme işlemi başarıyla tamamlandı",
                         ResultType = MessageType.Success
                     });
                 }
@@ -326,7 +327,8 @@ namespace Inta.Framework.Admin.Controllers
                     return Json(new ReturnObject<Record>
                     {
                         Data = request,
-                        ResultType = MessageType.Success
+                        ResultType = MessageType.Success,
+                        RedirectUrl = "/Record/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı"
                     });
                 }
             }

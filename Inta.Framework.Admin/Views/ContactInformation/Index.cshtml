@@ -132,5 +132,12 @@
             $PagingDataList.Save("saveForm", "ContactInformationList", SearchDataList);
 
         });
+
+                @{
+            if (Request["Message"]!= null)
+            {
+                @Html.Raw("showAlert('.listMessage', '"+ Request["Message"] + "', 'success');");
+            }
+        }
     </script>
 }

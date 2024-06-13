@@ -156,11 +156,19 @@
 
             $CheckBoxListFilter.Init();
 
-            
+
 
         }
 
+        @{
+            if (Request["Message"]!= null)
+            {
+                @Html.Raw("showAlert('.listMessage', '"+ Request["Message"] + "', 'success');");
+            }
+        }
     </script>
+
+
 
 
 }
