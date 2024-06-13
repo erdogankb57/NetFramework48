@@ -777,7 +777,12 @@ $ImageFileUpload = {
                 data: { "id": id },
                 success: function (response) {
                     debugger;
-                    $PagingDataList.AddRecordModal($("#" + ListObjectId).attr("AddUrl"), true, id);
+                    if ($("#" + ListObjectId).attr("AddUrl") != undefined) {
+                        $PagingDataList.AddRecordModal($("#" + ListObjectId).attr("AddUrl"), true, id);
+                    } else {
+                        location.reload();
+                    }
+                    
                     setTimeout(function () {
                         showAlert(".popupMessage", "Resim silme işlemi başarıyla tamamlandı.", "success");
                     }, 100);

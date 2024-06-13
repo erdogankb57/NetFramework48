@@ -55,7 +55,7 @@ var ResizeImage = function (width, height) {
 
 }
 
-var CropImage = function (id) {
+var CropImage = function (id, saveUrl) {
     var w = CropCoordinat.w;
     var h = CropCoordinat.h;
     var x = CropCoordinat.x;
@@ -78,6 +78,10 @@ var CropImage = function (id) {
                 setTimeout(function () {
                     showAlert(".popupMessage", "Resim başarıyla croplandı.", "success");
                 }, 100);
+
+                if (saveUrl != null) {
+                    location.href = saveUrl;
+                }
             }
 
         }, error: function (data) {

@@ -205,11 +205,14 @@ namespace Inta.Framework.Admin.Controllers
                 {
                     var inserted = db.ExecuteScalar("insert into [Banner](SystemUserId,LanguageId,BannerTypeId,Name,Link,TargetId,ShortExplanation,OrderNumber,Image,RecordDate,IsActive) values(@SystemUserId,@LanguageId,@BannerTypeId,@Name,@Link,@TargetId,@ShortExplanation,@OrderNumber,@Image,@RecordDate,@IsActive); SELECT SCOPE_IDENTITY()", System.Data.CommandType.Text, parameters);
 
+                    var banner = db.Get<Banner>("Select * from Banner where Id=" + inserted.Data, System.Data.CommandType.Text);
+                    var bannerType = db.Get<BannerType>("Select * from BannerType where Id=" + Convert.ToInt32(banner.Data.BannerTypeId), System.Data.CommandType.Text);
+
                     return Json(new ReturnObject<Banner>
                     {
                         Data = request,
                         ResultType = MessageType.Success,
-                        RedirectUrl = "/Banner/Index?Message=Kayıt ekleme işlemi başarıyla tamamlandı"
+                        RedirectUrl = $"/ImageCrop/Index?ImageName={banner.Data.Image}&Dimension=b_&width={bannerType.Data.BigImageWidth}&height={bannerType.Data.BigImageWidth}&SaveUrl=/Banner/Index?Message=Kayıt ekleme işlemi başarıyla tamamlandı"
                     });
                 }
                 else
@@ -238,11 +241,16 @@ namespace Inta.Framework.Admin.Controllers
 
 
                     db.ExecuteNoneQuery(shtml.ToString(), System.Data.CommandType.Text, parameters);
+
+                    var banner = db.Get<Banner>("Select * from Banner where Id=" + Convert.ToInt32(request.Id), System.Data.CommandType.Text);
+                    var bannerType = db.Get<BannerType>("Select * from BannerType where Id=" + Convert.ToInt32(banner.Data.BannerTypeId), System.Data.CommandType.Text);
+
+
                     return Json(new ReturnObject<Banner>
                     {
                         Data = request,
                         ResultType = MessageType.Success,
-                        RedirectUrl = "/Banner/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı"
+                        RedirectUrl = $"/ImageCrop/Index?ImageName={banner.Data.Image}&Dimension=b_&width={bannerType.Data.BigImageWidth}&height={bannerType.Data.BigImageWidth}&SaveUrl=/Banner/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı"
                     });
                 }
             }

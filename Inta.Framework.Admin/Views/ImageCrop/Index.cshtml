@@ -10,10 +10,10 @@
         string width = ViewBag.Width;
         string height = ViewBag.Height;
 
-        @Html.Hidden("Width", width.ToString());
+        @Html.Hidden("Width", (width ?? "0").ToString());
     }
     @{
-        @Html.Hidden("Height", height.ToString());
+        @Html.Hidden("Height", (height ?? "0").ToString());
     }
 
 
@@ -30,9 +30,10 @@
 
 
     <div class="modal-footer">
-        <a onclick="history.back()" class="btn btn-standart">Geri dön</a>
         <button type="submit" id="btnsubmit" class="btn btn-standart" onclick="">Başa dön</button>
-        <button type="submit" id="btnsubmit" class="btn btn-standart" onclick="CropImage('imagePreview')">Kaydet</button>
+        <button type="submit" id="btnsubmit" class="btn btn-standart" onclick="CropImage('imagePreview',null)">Cropla</button>
+        <button type="submit" id="btnsubmit" class="btn btn-standart" onclick="CropImage('imagePreview', '@Request["SaveUrl"]')">Cropla ve Bitir</button>
+
     </div>
 </div>
 
