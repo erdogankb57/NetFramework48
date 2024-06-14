@@ -287,15 +287,18 @@ namespace Inta.Framework.Admin.Controllers
                 @Explanation,
                 @OrderNumber,
                 @IsActive
-                )
+                ); SELECT SCOPE_IDENTITY()
                 ");
-                    db.ExecuteNoneQuery(shtml.ToString(), System.Data.CommandType.Text, parameters);
+                    var inserted = db.ExecuteScalar(shtml.ToString(), System.Data.CommandType.Text, parameters);
+
+                    var category = db.Get<Category>("Select * from Category where Id=" + inserted.Data, System.Data.CommandType.Text);
+
 
                     return Json(new ReturnObject<Category>
                     {
                         Data = request,
                         ResultType = MessageType.Success,
-                        RedirectUrl = "/Category/Index?Message=Kayıt ekleme işlemi başarıyla tamamlandı"
+                        RedirectUrl = $"/ImageCrop/Index?ImageName={category.Data.Image}&Dimension=b_&width={1000}&height={1000}&SaveUrl=/Category/Index?Message=Kayıt ekleme işlemi başarıyla tamamlandı"
                     });
                 }
                 else
@@ -324,11 +327,14 @@ namespace Inta.Framework.Admin.Controllers
                 where Id=@Id");
                     db.ExecuteNoneQuery(shtml.ToString(), System.Data.CommandType.Text, parameters);
 
+                    var category = db.Get<Category>("Select * from Category where Id=" + Convert.ToInt32(request.Id), System.Data.CommandType.Text);
+
                     return Json(new ReturnObject<Category>
                     {
                         Data = request,
                         ResultType = MessageType.Success,
-                        RedirectUrl = "/Category/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı",
+                        RedirectUrl = $"/ImageCrop/Index?ImageName={category.Data.Image}&Dimension=b_&width={1000}&height={1000}&SaveUrl=/Category/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı"
+
                     });
                 }
             }
