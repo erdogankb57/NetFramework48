@@ -2,8 +2,8 @@
 var CropCoordinat;
 
 var ResizeImage = function (width, height) {
-    var boxWidth = width * 0.5;
-    var boxHeight = height * 0.5;
+    var boxWidth = width;
+    var boxHeight = height;
 
 
     const img = new Image();
@@ -11,9 +11,19 @@ var ResizeImage = function (width, height) {
         trueWidth = this.width;
         trueHeight = this.height;
 
+        var imageWidth = trueWidth;
+        var imageHeight = trueHeight;
 
-        var imageWidth = trueWidth*0.5;
-        var imageHeight = trueHeight*0.5;
+
+        //Resim 800px genişliğe göre ayarlanır.
+        if (trueWidth > 800) {
+            var sizeRatio = 800 / trueWidth;
+
+            boxWidth = width * sizeRatio;
+            boxHeight = height * sizeRatio;
+            imageWidth = trueWidth * sizeRatio;
+            imageHeight = trueHeight * sizeRatio;
+        }
 
         //if (imageWidth >= 800) {
         //    imageWidth = 800;
