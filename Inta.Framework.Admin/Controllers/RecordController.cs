@@ -290,7 +290,10 @@ namespace Inta.Framework.Admin.Controllers
                     return Json(new ReturnObject<Record>
                     {
                         Data = request,
-                        RedirectUrl = "/Record/Index?Message=Kayıt ekleme işlemi başarıyla tamamlandı",
+                        RedirectUrl = ImageFile != null 
+                        ? $"/ImageCrop/Index?ImageName={request.Image}&Dimension=b_&width={500}&height={100}&SaveUrl=/Record/Index?Message=Kayıt ekleme işlemi başarıyla tamamlandı" 
+                        : "/Record/Index?Message=Kayıt ekleme işlemi başarıyla tamamlandı",
+
                         ResultType = MessageType.Success
                     });
                 }
@@ -328,7 +331,7 @@ namespace Inta.Framework.Admin.Controllers
                     {
                         Data = request,
                         ResultType = MessageType.Success,
-                        RedirectUrl = "/Record/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı"
+                        RedirectUrl = ImageFile != null ? $"/ImageCrop/Index?ImageName={request.Image}&Dimension=b_&width={500}&height={100}&SaveUrl=/Record/Index?Message=Kayıt ekleme güncelleme başarıyla tamamlandı" : "/Record/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı"
                     });
                 }
             }

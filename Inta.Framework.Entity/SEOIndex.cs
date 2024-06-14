@@ -19,13 +19,13 @@ namespace Inta.Framework.Entity
         public int SystemUserId { get; set; }
         public int LanguageId { get; set; }
 
-        [Required(ErrorMessage = "Bu alanı doldurmanız gerekmektedir.")]
+        [Required(ErrorMessage = "Bu alan boş geçilemez.")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "Bu alanı doldurmanız gerekmektedir.")]
+        [Required(ErrorMessage = "Bu alan boş geçilemez.")]
         public string Url { get; set; }
 
-        [Required(ErrorMessage = "Bu alanı doldurmanız gerekmektedir.")]
+        [Required(ErrorMessage = "Bu alan boş geçilemez.")]
         public string RedirectUrl { get; set; }
         public DateTime RecordDate { get; set; }
         public bool IsActive { get; set; }

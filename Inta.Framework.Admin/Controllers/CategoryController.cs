@@ -298,7 +298,8 @@ namespace Inta.Framework.Admin.Controllers
                     {
                         Data = request,
                         ResultType = MessageType.Success,
-                        RedirectUrl = $"/ImageCrop/Index?ImageName={category.Data.Image}&Dimension=b_&width={1000}&height={1000}&SaveUrl=/Category/Index?Message=Kayıt ekleme işlemi başarıyla tamamlandı"
+                        RedirectUrl = ImageFile != null ? $"/ImageCrop/Index?ImageName={category.Data.Image}&Dimension=b_&width={500}&height={100}&SaveUrl=/ContactInformation/Index?Message=Kayıt ekleme işlemi başarıyla tamamlandı" : "/Category/Index?Message=Kayıt ekleme işlemi başarıyla tamamlandı"
+
                     });
                 }
                 else
@@ -333,7 +334,7 @@ namespace Inta.Framework.Admin.Controllers
                     {
                         Data = request,
                         ResultType = MessageType.Success,
-                        RedirectUrl = $"/ImageCrop/Index?ImageName={category.Data.Image}&Dimension=b_&width={1000}&height={1000}&SaveUrl=/Category/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı"
+                        RedirectUrl = ImageFile != null ? $"/ImageCrop/Index?ImageName={category.Data.Image}&Dimension=b_&width={500}&height={100}&SaveUrl=/ContactInformation/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı" : "/Category/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı"
 
                     });
                 }

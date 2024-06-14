@@ -22,7 +22,7 @@
                 <div class="col-lg-9">
 
                     @{
-                        @Html.Raw(Html.SelectListFor("Select * from BannerType", ObjectId: "BannerTypeId", ObjectName: "BannerTypeId", DisplayName: "Name", ValueName: "Id", SelectedValue: Model.BannerTypeId.ToString(), DefaultText: "Seçiniz", DefaultValue: "", RequiredMessage: "Bu alanı doldurmanız gerekmektedir.", IsRequired: true));
+                        @Html.Raw(Html.SelectListFor("Select * from BannerType", ObjectId: "BannerTypeId", ObjectName: "BannerTypeId", DisplayName: "Name", ValueName: "Id", SelectedValue: Model.BannerTypeId.ToString(), DefaultText: "Seçiniz", DefaultValue: "", RequiredMessage: "Bu alan boş geçilemez.", IsRequired: true));
                     }
 
                 </div>

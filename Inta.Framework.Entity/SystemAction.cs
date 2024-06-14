@@ -18,13 +18,13 @@ namespace Inta.Framework.Entity
 
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Bu alanı doldurmanız gerekmektedir.")]
+        [Required(ErrorMessage = "Bu alan boş geçilemez.")]
         public int SystemMenuId { get; set; }
-        [Required(ErrorMessage = "Bu alanı doldurmanız gerekmektedir.")]
+        [Required(ErrorMessage = "Bu alan boş geçilemez.")]
         public string ControllerName { get; set; }
-        [Required(ErrorMessage = "Bu alanı doldurmanız gerekmektedir.")]
+        [Required(ErrorMessage = "Bu alan boş geçilemez.")]
         public string ActionName { get; set; }
-        [Required(ErrorMessage = "Bu alanı doldurmanız gerekmektedir.")]
+        [Required(ErrorMessage = "Bu alan boş geçilemez.")]
         public string Description { get; set; }
     }
 }

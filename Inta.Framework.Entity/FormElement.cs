@@ -20,13 +20,13 @@ namespace Inta.Framework.Entity
         public int LanguageId { get; set; }
         public int CategoryId { get; set; }
 
-        [Required(ErrorMessage = "Bu alanı doldurmanız gerekmektedir.")]
+        [Required(ErrorMessage = "Bu alan boş geçilemez.")]
         public int FormGroupId { get; set; }
 
-        [Required(ErrorMessage = "Bu alanı doldurmanız gerekmektedir.")]
+        [Required(ErrorMessage = "Bu alan boş geçilemez.")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "Bu alanı doldurmanız gerekmektedir.")]
+        [Required(ErrorMessage = "Bu alan boş geçilemez.")]
         public int ElementTypeId { get; set; }
         public bool AllowNulls { get; set; }
         public int OrderNumber { get; set; }

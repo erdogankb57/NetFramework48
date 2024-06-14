@@ -18,14 +18,14 @@ namespace Inta.Framework.Entity
         public string ClientName { get; set; }
         public string ClientSurname { get; set; }
 
-        [Required(ErrorMessage = "Bu alanı doldurmanız gerekmektedir.")]
+        [Required(ErrorMessage = "Bu alan boş geçilemez.")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Bu alanı doldurmanız gerekmektedir.")]
+        [Required(ErrorMessage = "Bu alan boş geçilemez.")]
         public string Subject { get; set; }
         public string Phone { get; set; }
 
-        [Required(ErrorMessage = "Bu alanı doldurmanız gerekmektedir.")]
+        [Required(ErrorMessage = "Bu alan boş geçilemez.")]
         public string Explanation { get; set; }
         public bool IsActive { get; set; }
         public bool IsRead { get; set; }

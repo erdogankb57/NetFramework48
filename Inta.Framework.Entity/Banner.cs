@@ -22,11 +22,11 @@ namespace Inta.Framework.Entity
         public int LanguageId { get; set; }
 
         [DatabaseColumn(Name = "BannerTypeId")]
-        [Required(ErrorMessage = "Bu alanı doldurmanız gerekmektedir.")]
+        [Required(ErrorMessage = "Bu alan boş geçilemez.")]
         public int BannerTypeId { get; set; }
 
         [DatabaseColumn(Name = "Name")]
-        [Required(ErrorMessage = "Bu alanı doldurmanız gerekmektedir.")]
+        [Required(ErrorMessage = "Bu alan boş geçilemez.")]
         public string Name { get; set; }
 
         [DatabaseColumn(Name = "Link")]

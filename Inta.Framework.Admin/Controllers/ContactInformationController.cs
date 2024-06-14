@@ -273,11 +273,13 @@ namespace Inta.Framework.Admin.Controllers
                 @Image,
                 @IsActive)", System.Data.CommandType.Text, parameters);
 
+
+
                     return Json(new ReturnObject<ContactInformation>
                     {
                         Data = request,
                         ResultType = MessageType.Success,
-                        RedirectUrl = "/ContactInformation/Index?Message=Kayıt ekleme işlemi başarıyla tamamlandı"
+                        RedirectUrl = FileImage != null ? $"/ImageCrop/Index?ImageName={request.Image}&Dimension=b_&width={500}&height={100}&SaveUrl=/ContactInformation/Index?Message=Kayıt ekleme işlemi başarıyla tamamlandı" : "/ContactInformation/Index?Message=Kayıt ekleme işlemi başarıyla tamamlandı"
                     });
                 }
                 else
@@ -309,7 +311,7 @@ namespace Inta.Framework.Admin.Controllers
                     {
                         Data = request,
                         ResultType = MessageType.Success,
-                        RedirectUrl = "/ContactInformation/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı"
+                        RedirectUrl = FileImage != null ? $"/ImageCrop/Index?ImageName={request.Image}&Dimension=b_&width={500}&height={100}&SaveUrl=/ContactInformation/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı" : "/ContactInformation/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı"
                     });
                 }
             }

@@ -21,13 +21,13 @@ namespace Inta.Framework.Entity
         public int LanguageId { get; set; }
 
 
-        [Required(ErrorMessage = "Bu alanı doldurmanız gerekmektedir.")]
+        [Required(ErrorMessage = "Bu alan boş geçilemez.")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "Bu alanı doldurmanız gerekmektedir.")]
+        [Required(ErrorMessage = "Bu alan boş geçilemez.")]
         public string Value { get; set; }
 
-        [Required(ErrorMessage = "Bu alanı doldurmanız gerekmektedir.")]
+        [Required(ErrorMessage = "Bu alan boş geçilemez.")]
         public string Description { get; set; }
         public int OrderNumber { get; set; }
         public DateTime RecordDate { get; set; }

@@ -19,9 +19,9 @@ namespace Inta.Framework.Entity
         public int SystemUserId { get; set; }
         public int LanguageId { get; set; }
 
-        [Required(ErrorMessage = "Bu alanı doldurmanız gerekmektedir.")]
+        [Required(ErrorMessage = "Bu alan boş geçilemez.")]
         public string Name { get; set; }
-        [Required(ErrorMessage = "Bu alanı doldurmanız gerekmektedir.")]
+        [Required(ErrorMessage = "Bu alan boş geçilemez.")]
         public string Explanation { get; set; }
         public int OrderNumber { get; set; }
         public DateTime RecordDate { get; set; }
