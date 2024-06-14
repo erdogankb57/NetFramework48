@@ -2,8 +2,8 @@
 var CropCoordinat;
 
 var ResizeImage = function (width, height) {
-    var boxWidth = width;
-    var boxHeight = height;
+    var boxWidth = width * 0.5;
+    var boxHeight = height * 0.5;
 
 
     const img = new Image();
@@ -11,8 +11,15 @@ var ResizeImage = function (width, height) {
         trueWidth = this.width;
         trueHeight = this.height;
 
-        var imageWidth = trueWidth;
-        var imageHeight = trueHeight;
+
+        var imageWidth = trueWidth*0.5;
+        var imageHeight = trueHeight*0.5;
+
+        //if (imageWidth >= 800) {
+        //    imageWidth = 800;
+        //    imageHeight = imageWidth * this.height / this.width;
+        //}
+
 
         $("#imagePreview img").attr("width", this.width);
         $("#imagePreview img").attr("height", this.height);
@@ -30,8 +37,8 @@ var ResizeImage = function (width, height) {
 
         var x = imageWidth / 2 - boxWidth / 2;
         var y = imageHeight / 2 - boxHeight / 2;
-        var x1 = x + boxWidth;
-        var y1 = y + boxHeight;
+        var x1 = x + width;
+        var y1 = y + height;
 
 
         $("#imagePreview").Jcrop({
