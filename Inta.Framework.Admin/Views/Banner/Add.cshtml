@@ -1,5 +1,9 @@
 ﻿@model Inta.Framework.Entity.Banner
 @{
+    Response.Cache.SetCacheability(HttpCacheability.NoCache);
+    Response.Cache.SetNoStore();
+    Response.Cache.SetExpires(DateTime.MinValue);
+
     Layout = "~/Views/Shared/_Layout.cshtml";
     List<SelectListItem> targets = new List<SelectListItem>();
     targets.Add(new SelectListItem { Text = "Seçiniz", Value = "" });

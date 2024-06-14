@@ -21,8 +21,6 @@ namespace Inta.Framework.Entity
         public string Name { get; set; }
         [Column("Explanation")]
         public string Explanation { get; set; }
-        [Column("Link")]
-        public string Link { get; set; }
         [Column("ControllerName")]
         public string ControllerName { get; set; }
         [Column("ActionName")]

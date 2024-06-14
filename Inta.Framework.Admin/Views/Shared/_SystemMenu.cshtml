@@ -13,13 +13,13 @@
 
     <li menu-id="@item.Id">
 
-        <a class="item @(active ? "active" : "")" item-id="@item.Id" href="@item.Link"><i class="@item.MenuIcon" style="font-size: 18px;"></i> @item.Name</a>
+        <a class="item @(active ? "active" : "")" item-id="@item.Id" href="@(item.ControllerName == "#" ? "#" : "/" + item.ControllerName+"/"+item.ActionName)"><i class="@item.MenuIcon" style="font-size: 18px;"></i> @item.Name</a>
         <ul class="nav-menu-sub @(active ? "active" : "")">
 
 
             @foreach (var menu in altMenu.Data)
             {
-                <li><a href="@menu.Link"><i class="@menu.MenuIcon" style="font-size: 18px;"></i>@menu.Name </a></li>
+                <li><a href='@(menu.ControllerName == "#" ? "#" : "/" + menu.ControllerName+"/"+menu.ActionName)'><i class="@menu.MenuIcon" style="font-size: 18px;"></i>@menu.Name </a></li>
             }
 
         </ul>

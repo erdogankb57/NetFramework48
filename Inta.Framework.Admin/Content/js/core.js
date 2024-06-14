@@ -875,6 +875,9 @@ $Form = {
                                     }
                                 }
                             }
+
+
+                            scroolTop(0, 300);
                         } else {
                             setTimeout(function () {
                                 showAlert(".popupMessage", "Kayıt işlemi sırasında hata oluştu. Lütfen alanları kontrol ediniz.", "error");

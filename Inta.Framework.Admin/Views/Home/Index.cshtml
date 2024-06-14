@@ -12,7 +12,7 @@
         @for (int i = 0; i < menu.Rows.Count; i++)
         {
             <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                <a href="@menu.Rows[i]["Link"]" class="item">
+                <a href="@(menu.Rows[i]["ControllerName"] == "#" ? "#" : "/" + menu.Rows[i]["ControllerName"] + "/" +menu.Rows[i]["ActionName"])" class="item">
                     <span class="icon">
                         <i class="@menu.Rows[i]["MenuIcon"]" style="font-size: 20px;" aria-hidden="true"></i>
                     </span>
