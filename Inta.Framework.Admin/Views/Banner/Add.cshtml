@@ -98,7 +98,7 @@
                         int ImageSmallWidth = Convert.ToInt32(ViewBag.ImageSmallWidth);
                         int ImageBigWidth = Convert.ToInt32(ViewBag.ImageBigWidth);
 
-                        @Html.ImageFileUploadFor(Id: Model.Id, ObjectId: "Image", ObjectName: "Image", Image: Model.Image, DeleteUrl: "/Banner/DeleteImage", ListObjectId: "PagingDataList", isBigImage: true, smallImageCropWidth: ImageSmallWidth, smallImageCropHeight: ImageSmallWidth, bigImageCropWidth: ImageBigWidth, bigImageCropHeight: ImageBigWidth);
+                        @Html.ImageFileUploadFor(Id: Model.Id, ObjectId: "Image", ObjectName: "Image", Image: Model.Image, DeleteUrl: "/Banner/DeleteImage", ListObjectId: "PagingDataList", isBigImage: true, smallImageCropWidth: ImageSmallWidth, smallImageCropHeight: ImageSmallWidth, bigImageCropWidth: ImageBigWidth, bigImageCropHeight: ImageBigWidth,SaveUrl: "/Banner/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı");
                             }
                 </div>
             </div>
