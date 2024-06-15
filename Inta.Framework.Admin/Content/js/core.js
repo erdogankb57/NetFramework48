@@ -840,6 +840,7 @@ $Form = {
                     if (data.ResultType == 0) {
                         $("#" + formId).find("button[type='submit']").prop('disabled', false);
                         if (data.RedirectUrl != null) {
+                            $('#' + formId)[0].reset();
                             location.href = data.RedirectUrl;
                         }
 
