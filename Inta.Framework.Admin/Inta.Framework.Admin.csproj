@@ -498,7 +498,6 @@
     <Content Include="Content\ckeditor\skins\moono-lisa\images\spinner.gif" />
     <Content Include="Content\ckeditor\styles.js" />
     <Content Include="Content\ckeditor\vendor\promise.js" />
-    <Content Include="Content\css\core.css" />
     <Content Include="Content\css\assets\brand\bootstrap-outline.svg" />
     <Content Include="Content\css\assets\brand\bootstrap-solid.svg" />
     <Content Include="Content\css\assets\dashboard.js" />

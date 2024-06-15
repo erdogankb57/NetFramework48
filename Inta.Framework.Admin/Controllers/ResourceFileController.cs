@@ -16,13 +16,24 @@ namespace Inta.Framework.Admin.Controllers
             var names = asm.GetManifestResourceNames();
             if (names.Any(a => a == file))
             {
-                var stream = asm.GetManifestResourceStream(names[0]);
+                var stream = asm.GetManifestResourceStream(file);
                 return File(stream, "application/x-javascript");
             }
             else
                 return HttpNotFound();
-
-            
         }
+       public ActionResult GetCssFile(string file)
+        {
+            var asm = System.Reflection.Assembly.Load("Inta.Framework.Web.Base");
+            var names = asm.GetManifestResourceNames();
+            if (names.Any(a => a == file))
+            {
+                var stream = asm.GetManifestResourceStream(file);
+                return File(stream, "text/css");
+            }
+            else
+                return HttpNotFound();
+        }
+
     }
 }

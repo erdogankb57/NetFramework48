@@ -96,5 +96,8 @@
   <ItemGroup>
     <EmbeddedResource Include="Content\js\core.js" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\css\core.css" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
