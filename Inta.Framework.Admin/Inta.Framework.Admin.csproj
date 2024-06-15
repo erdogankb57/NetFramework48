@@ -143,6 +143,7 @@
     <Compile Include="Controllers\RecordController.cs" />
     <Compile Include="Controllers\RecordFileController.cs" />
     <Compile Include="Controllers\RecordImageController.cs" />
+    <Compile Include="Controllers\ResourceFileController.cs" />
     <Compile Include="Controllers\SEOIndexController.cs" />
     <Compile Include="Controllers\SharedController.cs" />
     <Compile Include="Controllers\SiteController.cs" />
@@ -552,7 +553,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="images\select-icon.png" />
-    <Content Include="Content\js\core.js" />
     <Content Include="Content\js\jquery-3.4.1.js" />
     <Content Include="Content\css\perfect-scrollbar.css" />
     <Content Include="Content\js\perfect-scrollbar.jquery.js" />
@@ -572,6 +572,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Content\Uploads\EditorImage\" />
     <Folder Include="Content\Uploads\File\" />
+    <Folder Include="Views\ResourceFile\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
