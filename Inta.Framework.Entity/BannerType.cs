@@ -40,7 +40,17 @@ namespace Inta.Framework.Entity
 		[Required(ErrorMessage = "Bu alan boş geçilemez.")]
 		[Range(100, 2000, ErrorMessage = "Lütfen 100 ile 2000 arasında bir değer giriniz.")]
 		public int BigImageWidth { get; set; }
-		
+
+		[DatabaseColumn(Name = "SmallImageHeight")]
+		[Required(ErrorMessage = "Bu alan boş geçilemez.")]
+		[Range(100, 2000, ErrorMessage = "Lütfen 100 ile 2000 arasında bir değer giriniz.")]
+		public int SmallImageHeight{ get; set; }
+
+		[DatabaseColumn(Name = "BigImageHeight")]
+		[Required(ErrorMessage = "Bu alan boş geçilemez.")]
+		[Range(100, 2000, ErrorMessage = "Lütfen 100 ile 2000 arasında bir değer giriniz.")]
+		public int BigImageHeight{ get; set; }
+
 		[DatabaseColumn(Name = "RecordDate")]
 		public DateTime? RecordDate { get; set; }
 		

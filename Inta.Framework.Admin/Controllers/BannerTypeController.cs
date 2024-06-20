@@ -127,6 +127,10 @@ namespace Inta.Framework.Admin.Controllers
 
                 parameters.Add(new SqlParameter { ParameterName = "SmallImageWidth", Value = request.SmallImageWidth });
                 parameters.Add(new SqlParameter { ParameterName = "BigImageWidth", Value = request.BigImageWidth });
+                parameters.Add(new SqlParameter { ParameterName = "SmallImageHeight", Value = request.SmallImageHeight });
+                parameters.Add(new SqlParameter { ParameterName = "BigImageHeight", Value = request.BigImageHeight });
+
+
                 if (request.IsActive)
                     parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 1 });
                 else
@@ -144,7 +148,7 @@ namespace Inta.Framework.Admin.Controllers
 
                 if (request.Id == 0)
                 {
-                    db.ExecuteNoneQuery("insert into [BannerType](SystemUserId,LanguageId,Name,SmallImageWidth,BigImageWidth,Description,IsActive) values(@SystemUserId,@LanguageId,@Name,@SmallImageWidth,@BigImageWidth,@Description,@IsActive)", System.Data.CommandType.Text, parameters);
+                    db.ExecuteNoneQuery("insert into [BannerType](SystemUserId,LanguageId,Name,SmallImageWidth,BigImageWidth,SmallImageHeight,BigImageHeight,Description,IsActive) values(@SystemUserId,@LanguageId,@Name,@SmallImageWidth,@BigImageWidth,@SmallImageHeight,@BigImageHeight,@Description,@IsActive)", System.Data.CommandType.Text, parameters);
 
                     return Json(new ReturnObject<BannerType>
                     {
@@ -159,7 +163,7 @@ namespace Inta.Framework.Admin.Controllers
                     parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
 
 
-                    db.ExecuteNoneQuery("Update [BannerType] set LanguageId=@LanguageId,Name=@Name,SmallImageWidth=@SmallImageWidth,BigImageWidth=@BigImageWidth,IsActive=@IsActive,Description=@Description where Id=@Id", System.Data.CommandType.Text, parameters);
+                    db.ExecuteNoneQuery("Update [BannerType] set LanguageId=@LanguageId,Name=@Name,SmallImageWidth=@SmallImageWidth,BigImageWidth=@BigImageWidth,SmallImageHeight=@SmallImageHeight,BigImageHeight=@BigImageHeight,IsActive=@IsActive,Description=@Description where Id=@Id", System.Data.CommandType.Text, parameters);
 
                     return Json(new ReturnObject<BannerType>
                     {

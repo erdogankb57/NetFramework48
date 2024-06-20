@@ -127,6 +127,9 @@ namespace Inta.Framework.Admin.Controllers
 
                     ViewBag.ImageSmallWidth = !string.IsNullOrEmpty(bannerType.Data["SmallImageWidth"].ToString()) && bannerType.Data["SmallImageWidth"].ToString() != "0" ? Convert.ToInt32(bannerType.Data["SmallImageWidth"]) : 100;
                     ViewBag.ImageBigWidth = !string.IsNullOrEmpty(bannerType.Data["BigImageWidth"].ToString()) && bannerType.Data["BigImageWidth"].ToString() != "0" ? Convert.ToInt32(bannerType.Data["BigImageWidth"]) : 500;
+                    ViewBag.ImageSmallHeight = !string.IsNullOrEmpty(bannerType.Data["SmallImageHeight"].ToString()) && bannerType.Data["SmallImageHeight"].ToString() != "0" ? Convert.ToInt32(bannerType.Data["SmallImageHeight"]) : 100;
+                    ViewBag.ImageBigHeight = !string.IsNullOrEmpty(bannerType.Data["BigImageHeight"].ToString()) && bannerType.Data["BigImageHeight"].ToString() != "0" ? Convert.ToInt32(bannerType.Data["BigImageHeight"]) : 500;
+
                 }
 
                 return View("Add", model.Data);
@@ -213,7 +216,7 @@ namespace Inta.Framework.Admin.Controllers
                     {
                         Data = banner.Data,
                         ResultType = MessageType.Success,
-                        RedirectUrl = Image != null ? $"/ImageCrop/Index?ImageName={banner.Data.Image}&Dimension=b_&width={bannerType.Data.BigImageWidth}&height={bannerType.Data.BigImageWidth}&SaveUrl=/Banner/Index?Message=Kayıt ekleme işlemi başarıyla tamamlandı" : $"/Banner/Index?Message=Kayıt ekleme işlemi başarıyla tamamlandı"
+                        RedirectUrl = Image != null ? $"/ImageCrop/Index?ImageName={banner.Data.Image}&Dimension=b_&width={bannerType.Data.BigImageWidth}&height={bannerType.Data.BigImageHeight}&SaveUrl=/Banner/Index?Message=Kayıt ekleme işlemi başarıyla tamamlandı" : $"/Banner/Index?Message=Kayıt ekleme işlemi başarıyla tamamlandı"
                     });
                 }
                 else
@@ -251,7 +254,7 @@ namespace Inta.Framework.Admin.Controllers
                     {
                         Data = request,
                         ResultType = MessageType.Success,
-                        RedirectUrl = Image != null ? $"/ImageCrop/Index?ImageName={banner.Data.Image}&Dimension=b_&width={bannerType.Data.BigImageWidth}&height={bannerType.Data.BigImageWidth}&SaveUrl=/Banner/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı" : $"/Banner/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı"
+                        RedirectUrl = Image != null ? $"/ImageCrop/Index?ImageName={banner.Data.Image}&Dimension=b_&width={bannerType.Data.BigImageWidth}&height={bannerType.Data.BigImageHeight}&SaveUrl=/Banner/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı" : $"/Banner/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı"
                     });
                 }
             }
