@@ -19,10 +19,10 @@ var ResizeImage = function (width, height) {
         if (trueWidth > 800) {
             var sizeRatio = 800 / trueWidth;
 
-            boxWidth = width * sizeRatio;
-            boxHeight = height * sizeRatio;
-            imageWidth = trueWidth * sizeRatio;
-            imageHeight = trueHeight * sizeRatio;
+            boxWidth = parseInt(width * sizeRatio);
+            boxHeight = parseInt(height * sizeRatio);
+            imageWidth = parseInt(trueWidth * sizeRatio);
+            imageHeight = parseInt(trueHeight * sizeRatio);
         }
 
         //if (imageWidth >= 800) {
@@ -99,6 +99,31 @@ var CropImage = function (id, saveUrl) {
                 if (saveUrl != null) {
                     location.href = saveUrl;
                 }
+            }
+
+        }, error: function (data) {
+            setTimeout(function () {
+                showAlert(".popupMessage", "Resim croplama sırasında hata oluştu.", "error");
+            }, 100);
+        }
+    });
+
+    console.log(CropCoordinat);
+}
+
+var ReturnImage = function (id) {
+    var splitImageUrl = $("#" + id).attr("src").split("/");
+
+    $.ajax({
+        url: "/ImageCrop/ReturnImage",
+        type: "POST",
+        data: { "imageName": splitImageUrl[splitImageUrl.length - 1].split("?")[0] },
+        dataType: 'json',
+        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+        success: function (data) {
+            debugger;
+            if (data.ResultMessage == "OK") {
+                location.reload();
             }
 
         }, error: function (data) {
