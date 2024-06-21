@@ -63,6 +63,7 @@ var ResizeImage = function (width, height) {
             boxWidth: imageWidth,
             boxHeight: imageHeight,
             trueSize: [trueWidth, trueHeight],
+            minSize: [width, height],
             onSelect: function (c) {
                 CropCoordinat = c;
             }
