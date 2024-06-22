@@ -16,9 +16,8 @@ namespace Inta.Framework.Admin.Controllers
         public ActionResult Index()
         {
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
-            AuthenticationData authenticationData = new AuthenticationData();
             List<SqlParameter> parameters = new List<SqlParameter>();
-            parameters.Add(new SqlParameter { ParameterName = "UserName", Value = authenticationData.UserName });
+            parameters.Add(new SqlParameter { ParameterName = "UserName", Value = AuthenticationData.UserName });
             var user = db.Get<SystemUser>("Select * from SystemUser where UserName=@UserName", System.Data.CommandType.Text, parameters);
 
             return View(user.Data);
@@ -31,7 +30,6 @@ namespace Inta.Framework.Admin.Controllers
                 ReturnObject<SystemUser> result = new ReturnObject<SystemUser>();
 
                 DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
-                AuthenticationData authenticationData = new AuthenticationData();
                 List<SqlParameter> parameters = new List<SqlParameter>();
                 parameters.Add(new SqlParameter { ParameterName = "Name", Value = user.Name });
                 parameters.Add(new SqlParameter { ParameterName = "SurName", Value = user.SurName });

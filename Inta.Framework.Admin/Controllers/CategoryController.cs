@@ -27,7 +27,6 @@ namespace Inta.Framework.Admin.Controllers
 
         public ActionResult GetList(PagingDataListRequest<CategorySearch> request)
         {
-            AuthenticationData authenticationData = new AuthenticationData();
             List<SqlParameter> Parameters = new List<SqlParameter>();
             if (string.IsNullOrEmpty(request.Search.Name))
                 Parameters.Add(new SqlParameter { ParameterName = "Name", Value = DBNull.Value });
@@ -44,7 +43,7 @@ namespace Inta.Framework.Admin.Controllers
             else
                 Parameters.Add(new SqlParameter { ParameterName = "CategoryId", Value = request.Search.CategoryId.ToString() });
 
-            Parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = authenticationData.LanguageId });
+            Parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = AuthenticationData.LanguageId });
 
 
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
@@ -144,7 +143,6 @@ namespace Inta.Framework.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                AuthenticationData authenticationData = new AuthenticationData();
                 ReturnObject<Category> result = new ReturnObject<Category>();
                 DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
 
@@ -166,7 +164,7 @@ namespace Inta.Framework.Admin.Controllers
                 }
 
                 List<SqlParameter> parameters = new List<SqlParameter>();
-                parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = authenticationData.LanguageId });
+                parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = AuthenticationData.LanguageId });
                 parameters.Add(new SqlParameter { ParameterName = "CategoryId", Value = request.CategoryId });
 
 
@@ -239,7 +237,7 @@ namespace Inta.Framework.Admin.Controllers
                 else
                     parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 0 });
 
-                parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = authenticationData.UserId });
+                parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = AuthenticationData.UserId });
 
 
 

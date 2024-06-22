@@ -123,13 +123,12 @@ namespace Inta.Framework.Admin.Controllers
             if (ModelState.IsValid)
             {
 
-                AuthenticationData authenticationData = new AuthenticationData();
                 ReturnObject<FirmVariables> result = new ReturnObject<FirmVariables>();
                 DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
 
 
                 List<SqlParameter> parameters = new List<SqlParameter>();
-                parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = authenticationData.LanguageId });
+                parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = AuthenticationData.LanguageId });
 
                 if (!string.IsNullOrEmpty(request.Name))
                     parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Name });
@@ -149,7 +148,7 @@ namespace Inta.Framework.Admin.Controllers
                 parameters.Add(new SqlParameter { ParameterName = "OrderNumber", Value = request.OrderNumber });
                 parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 1 });
 
-                parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = authenticationData.UserId });
+                parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = AuthenticationData.UserId });
 
 
 

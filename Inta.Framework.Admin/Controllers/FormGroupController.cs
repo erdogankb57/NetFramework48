@@ -121,7 +121,6 @@ namespace Inta.Framework.Admin.Controllers
             if (ModelState.IsValid)
             {
                 ReturnObject<FormGroup> result = new ReturnObject<FormGroup>();
-                AuthenticationData authenticationData = new AuthenticationData();
                 DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
                 List<SqlParameter> parameters = new List<SqlParameter>();
 
@@ -137,7 +136,7 @@ namespace Inta.Framework.Admin.Controllers
 
                 parameters.Add(new SqlParameter { ParameterName = "OrderNumber", Value = request.OrderNumber });
                 parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = request.IsActive });
-                parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = authenticationData.UserId });
+                parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = AuthenticationData.UserId });
 
 
 

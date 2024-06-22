@@ -117,7 +117,6 @@ namespace Inta.Framework.Admin.Controllers
             if (ModelState.IsValid)
             {
 
-                AuthenticationData authenticationData = new AuthenticationData();
                 ReturnObject<PageType> result = new ReturnObject<PageType>();
                 DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
 
@@ -156,7 +155,7 @@ namespace Inta.Framework.Admin.Controllers
                 parameters.Add(new SqlParameter { ParameterName = "IsPagingEnabled", Value = request.IsPagingEnabled });
                 parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = request.IsActive });
 
-                parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = authenticationData.UserId });
+                parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = AuthenticationData.UserId });
 
 
 

@@ -99,7 +99,6 @@ namespace Inta.Framework.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                AuthenticationData authenticationData = new AuthenticationData();
                 ReturnObject<SystemAction> result = new ReturnObject<SystemAction>();
                 DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
 
@@ -121,7 +120,7 @@ namespace Inta.Framework.Admin.Controllers
                 else
                     parameters.Add(new SqlParameter { ParameterName = "Description", Value = DBNull.Value });
 
-                parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = authenticationData.UserId });
+                parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = AuthenticationData.UserId });
 
 
 

@@ -122,13 +122,12 @@ namespace Inta.Framework.Admin.Controllers
             if (ModelState.IsValid)
             {
 
-                AuthenticationData authenticationData = new AuthenticationData();
                 ReturnObject<StaticText> result = new ReturnObject<StaticText>();
                 DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
 
 
                 List<SqlParameter> parameters = new List<SqlParameter>();
-                parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = authenticationData.UserId });
+                parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = AuthenticationData.UserId });
 
                 if (!string.IsNullOrEmpty(request.Name))
                     parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Name });

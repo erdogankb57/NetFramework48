@@ -148,7 +148,6 @@ namespace Inta.Framework.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                AuthenticationData authenticationData = new AuthenticationData();
                 ReturnObject<SystemRole> result = new ReturnObject<SystemRole>();
                 DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
 
@@ -166,7 +165,7 @@ namespace Inta.Framework.Admin.Controllers
                 SystemRoleParameter.Add(new SqlParameter { ParameterName = "RecordDate", Value = DateTime.Now });
                 SystemRoleParameter.Add(new SqlParameter { ParameterName = "IsActive", Value = request.IsActive });
 
-                SystemRoleParameter.Add(new SqlParameter { ParameterName = "SystemUserId", Value = authenticationData.UserId });
+                SystemRoleParameter.Add(new SqlParameter { ParameterName = "SystemUserId", Value = AuthenticationData.UserId });
 
 
                 if (request.Id == 0)
@@ -176,32 +175,36 @@ namespace Inta.Framework.Admin.Controllers
                     values(@Name,@Explanation,@RecordDate,@IsActive);select RoleId = SCOPE_IDENTITY();
                     ", System.Data.CommandType.Text, SystemRoleParameter).Data;
 
-                    foreach (var item in actions)
+                    if (actions != null)
                     {
+                        foreach (var item in actions)
+                        {
 
-                        List<SqlParameter> actionRoleParameter = new List<SqlParameter>();
-                        actionRoleParameter.Add(new SqlParameter { ParameterName = "SystemActionId", Value = item });
-                        actionRoleParameter.Add(new SqlParameter { ParameterName = "SystemRoleId", Value = roleId });
+                            List<SqlParameter> actionRoleParameter = new List<SqlParameter>();
+                            actionRoleParameter.Add(new SqlParameter { ParameterName = "SystemActionId", Value = item });
+                            actionRoleParameter.Add(new SqlParameter { ParameterName = "SystemRoleId", Value = roleId });
 
-                        db.ExecuteNoneQuery(@"
+                            db.ExecuteNoneQuery(@"
                     insert into SystemActionRole(SystemActionId,SystemRoleId)
                     values(@SystemActionId,@SystemRoleId)
                     ", System.Data.CommandType.Text, actionRoleParameter);
+                        }
                     }
 
-
-                    foreach (var item in menuList)
+                    if (menuList != null)
                     {
-                        List<SqlParameter> menuRoleParameter = new List<SqlParameter>();
-                        menuRoleParameter.Add(new SqlParameter { ParameterName = "SystemMenuId", Value = item });
-                        menuRoleParameter.Add(new SqlParameter { ParameterName = "SystemRoleId", Value = roleId });
+                        foreach (var item in menuList)
+                        {
+                            List<SqlParameter> menuRoleParameter = new List<SqlParameter>();
+                            menuRoleParameter.Add(new SqlParameter { ParameterName = "SystemMenuId", Value = item });
+                            menuRoleParameter.Add(new SqlParameter { ParameterName = "SystemRoleId", Value = roleId });
 
-                        db.ExecuteNoneQuery(@"
+                            db.ExecuteNoneQuery(@"
                     insert into SystemMenuRole(SystemMenuId,SystemRoleId)
                     values(@SystemMenuId,@SystemRoleId)
                     ", System.Data.CommandType.Text, menuRoleParameter);
+                        }
                     }
-
 
                     return Json(new ReturnObject<SystemRole>
                     {

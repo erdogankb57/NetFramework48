@@ -24,7 +24,6 @@ namespace Inta.Framework.Admin.Controllers
 
         public ActionResult GetList(PagingDataListRequest<BannerTypeSearch> request)
         {
-            AuthenticationData authenticationData = new AuthenticationData();
             List<SqlParameter> Parameters = new List<SqlParameter>();
             if (string.IsNullOrEmpty(request.Search.Name))
                 Parameters.Add(new SqlParameter { ParameterName = "Name", Value = DBNull.Value });
@@ -36,7 +35,7 @@ namespace Inta.Framework.Admin.Controllers
             else
                 Parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = request.Search.IsActive });
 
-            Parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = authenticationData.LanguageId });
+            Parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = AuthenticationData.LanguageId });
 
 
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
@@ -116,7 +115,6 @@ namespace Inta.Framework.Admin.Controllers
             if (ModelState.IsValid)
             {
                 ReturnObject<BannerType> result = new ReturnObject<BannerType>();
-                AuthenticationData authenticationData = new AuthenticationData();
                 DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
                 List<SqlParameter> parameters = new List<SqlParameter>();
 
@@ -141,8 +139,8 @@ namespace Inta.Framework.Admin.Controllers
                 else
                     parameters.Add(new SqlParameter { ParameterName = "Description", Value = request.Description });
 
-                parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = authenticationData.LanguageId });
-                parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = authenticationData.UserId });
+                parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = AuthenticationData.LanguageId });
+                parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = AuthenticationData.UserId });
 
 
 

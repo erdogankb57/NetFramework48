@@ -126,7 +126,6 @@ namespace Inta.Framework.Admin.Controllers
         [HttpPost]
         public ActionResult Save(RecordImage request, HttpPostedFileBase ImageName)
         {
-            AuthenticationData authenticationData = new AuthenticationData();
             ReturnObject<RecordImage> result = new ReturnObject<RecordImage>();
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
 
@@ -149,7 +148,7 @@ namespace Inta.Framework.Admin.Controllers
             }
 
             List<SqlParameter> parameters = new List<SqlParameter>();
-            parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = authenticationData.LanguageId });
+            parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = AuthenticationData.LanguageId });
             if (!string.IsNullOrEmpty(request.Name))
                 parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Name });
             else
@@ -191,7 +190,7 @@ namespace Inta.Framework.Admin.Controllers
 
             parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 0 });
 
-            parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = authenticationData.UserId});
+            parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = AuthenticationData.UserId});
 
 
 

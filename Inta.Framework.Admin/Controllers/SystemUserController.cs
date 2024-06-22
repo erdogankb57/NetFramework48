@@ -134,7 +134,6 @@ namespace Inta.Framework.Admin.Controllers
             if (ModelState.IsValid)
             {
 
-                AuthenticationData authenticationData = new AuthenticationData();
                 ReturnObject<SystemUser> result = new ReturnObject<SystemUser>();
                 DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
 

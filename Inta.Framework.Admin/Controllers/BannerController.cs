@@ -26,7 +26,6 @@ namespace Inta.Framework.Admin.Controllers
 
         public ActionResult GetList(PagingDataListRequest<BannerSearch> request)
         {
-            AuthenticationData authenticationData = new AuthenticationData();
             List<SqlParameter> Parameters = new List<SqlParameter>();
             if (string.IsNullOrEmpty(request.Search.Name))
                 Parameters.Add(new SqlParameter { ParameterName = "Name", Value = DBNull.Value });
@@ -39,7 +38,7 @@ namespace Inta.Framework.Admin.Controllers
             else
                 Parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = request.Search.IsActive });
 
-            Parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = authenticationData.LanguageId });
+            Parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = AuthenticationData.LanguageId });
 
 
 
@@ -143,7 +142,6 @@ namespace Inta.Framework.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                AuthenticationData authenticationData = new AuthenticationData();
                 ReturnObject<Banner> result = new ReturnObject<Banner>();
                 DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
                 var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
@@ -169,7 +167,7 @@ namespace Inta.Framework.Admin.Controllers
                 }
 
                 List<SqlParameter> parameters = new List<SqlParameter>();
-                parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = authenticationData.LanguageId });
+                parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = AuthenticationData.LanguageId });
                 parameters.Add(new SqlParameter { ParameterName = "BannerTypeId", Value = request.BannerTypeId });
                 if (!string.IsNullOrEmpty(request.Name))
                     parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Name });
@@ -202,7 +200,7 @@ namespace Inta.Framework.Admin.Controllers
                 else
                     parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 0 });
 
-                parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = authenticationData.UserId });
+                parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = AuthenticationData.UserId });
 
                 
                 if (request.Id == 0)

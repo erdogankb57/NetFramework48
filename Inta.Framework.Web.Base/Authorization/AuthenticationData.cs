@@ -8,13 +8,9 @@ using System.Web.Script.Serialization;
 
 namespace Inta.Framework.Admin.Base.Authorization
 {
-    public class AuthenticationData
+    public static class AuthenticationData
     {
-        public AuthenticationData()
-        {
-        }
-
-        public int LanguageId
+        public static int LanguageId
         {
             get
             {
@@ -25,7 +21,7 @@ namespace Inta.Framework.Admin.Base.Authorization
             }
         }
 
-        public string UserName
+        public static string UserName
         {
             get
             {
@@ -36,7 +32,7 @@ namespace Inta.Framework.Admin.Base.Authorization
             }
         }
 
-        public string UserId
+        public static string UserId
         {
             get
             {
@@ -47,7 +43,7 @@ namespace Inta.Framework.Admin.Base.Authorization
             }
         }
 
-        public string Password
+        public static string Password
         {
             get
             {
@@ -57,7 +53,7 @@ namespace Inta.Framework.Admin.Base.Authorization
                     return "";
             }
         }
-        public string LoginDate
+        public static string LoginDate
         {
             get
             {
@@ -67,7 +63,18 @@ namespace Inta.Framework.Admin.Base.Authorization
                     return "";
             }
         }
-        public bool HasSession
+
+        public static bool IsAdmin
+        {
+            get
+            {
+                if (GetAuthenticationData.ContainsKey("IsAdmin"))
+                    return Convert.ToBoolean(GetAuthenticationData["IsAdmin"].ToString());
+                else
+                    return false;
+            }
+        }
+        public static bool HasSession
         {
             get
             {
@@ -78,7 +85,7 @@ namespace Inta.Framework.Admin.Base.Authorization
             }
         }
 
-        public void SetLangugageId(string id)
+        public static void SetLangugageId(string id)
         {
             if (HttpContext.Current.Session["AuthData"] != null)
             {
@@ -97,7 +104,7 @@ namespace Inta.Framework.Admin.Base.Authorization
             }
         }
 
-        private Dictionary<string, string> GetAuthenticationData
+        private static Dictionary<string, string> GetAuthenticationData
         {
             get
             {

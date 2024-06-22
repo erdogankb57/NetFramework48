@@ -46,6 +46,8 @@ namespace Inta.Framework.Admin.Controllers
                     authKey.Add("loginDate", DateTime.Now.ToString());
                     authKey.Add("languageId", request.LanguageId);
                     authKey.Add("userId", user.Data["Id"].ToString());
+                    authKey.Add("IsAdmin", user.Data["IsAdmin"].ToString());
+
 
 
                     JavaScriptSerializer serializer = new JavaScriptSerializer();

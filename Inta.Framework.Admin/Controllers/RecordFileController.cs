@@ -124,7 +124,6 @@ namespace Inta.Framework.Admin.Controllers
         [HttpPost]
         public ActionResult Save(RecordFile request, HttpPostedFileBase FileName)
         {
-            AuthenticationData authenticationData = new AuthenticationData();
             ReturnObject<RecordFile> result = new ReturnObject<RecordFile>();
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
 
@@ -136,7 +135,7 @@ namespace Inta.Framework.Admin.Controllers
             }
 
             List<SqlParameter> parameters = new List<SqlParameter>();
-            parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = authenticationData.LanguageId });
+            parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = AuthenticationData.LanguageId });
             if (!string.IsNullOrEmpty(request.Name))
                 parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Name });
             else
@@ -176,7 +175,7 @@ namespace Inta.Framework.Admin.Controllers
             else
                 parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 0 });
 
-            parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = authenticationData.UserId });
+            parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = AuthenticationData.UserId });
 
 
 

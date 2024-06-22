@@ -123,7 +123,6 @@ namespace Inta.Framework.Admin.Controllers
                 ReturnObject<FormGroup> result = new ReturnObject<FormGroup>();
                 DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
                 List<SqlParameter> parameters = new List<SqlParameter>();
-                AuthenticationData authenticationData = new AuthenticationData();
 
                 if (string.IsNullOrEmpty(request.Name))
                     parameters.Add(new SqlParameter { ParameterName = "FormGroupId", Value = DBNull.Value });
@@ -152,8 +151,8 @@ namespace Inta.Framework.Admin.Controllers
 
                 if (request.Id == 0)
                 {
-                    parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = authenticationData.UserId });
-                    parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = authenticationData.LanguageId });
+                    parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = AuthenticationData.UserId });
+                    parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = AuthenticationData.LanguageId });
                     parameters.Add(new SqlParameter { ParameterName = "RecordDate", Value = DateTime.Now });
 
                     db.ExecuteNoneQuery("insert into [FormElement](SystemUserId,LanguageId,FormGroupId,ElementTypeId,Name,OrderNumber,RecordDate,IsActive) values(@SystemUserId,@LanguageId,@FormGroupId,@ElementTypeId,@Name,@OrderNumber,@RecordDate,@IsActive)", System.Data.CommandType.Text, parameters);

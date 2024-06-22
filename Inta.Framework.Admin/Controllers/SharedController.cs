@@ -21,10 +21,9 @@ namespace Inta.Framework.Admin.Controllers
         {
             ReturnObject<int> returnObject = new ReturnObject<int>();
 
-            AuthenticationData authenticationData = new AuthenticationData();
             if (id > 0)
             {
-                authenticationData.SetLangugageId(id.ToString());
+                AuthenticationData.SetLangugageId(id.ToString());
                 returnObject.ResultType = MessageType.Success;
                 returnObject.Data = id;
             }

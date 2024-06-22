@@ -124,14 +124,13 @@ namespace Inta.Framework.Admin.Controllers
         [HttpPost]
         public ActionResult Save(FormElementOptions request, HttpPostedFileBase FileImage)
         {
-            AuthenticationData authenticationData = new AuthenticationData();
             ReturnObject<FormElementOptions> result = new ReturnObject<FormElementOptions>();
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
 
 
             List<SqlParameter> parameters = new List<SqlParameter>();
-            parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = authenticationData.LanguageId });
-            parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = authenticationData.UserId });
+            parameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = AuthenticationData.LanguageId });
+            parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = AuthenticationData.UserId });
             parameters.Add(new SqlParameter { ParameterName = "FormElementId", Value = request.FormElementId });
 
             if (!string.IsNullOrEmpty(request.Name))

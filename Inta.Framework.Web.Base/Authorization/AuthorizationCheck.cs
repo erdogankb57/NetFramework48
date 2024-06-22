@@ -18,13 +18,12 @@ namespace Inta.Framework.Admin.Base.Authorization
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             Controller controller = context?.Controller as Controller;
-            AuthenticationData _authenticationData = new AuthenticationData();
             DBLayer dbLayer = new DBLayer(System.Configuration.ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
-            if (_authenticationData?.HasSession ?? false)
+            if (AuthenticationData.HasSession)
             {
                 List<SqlParameter> userParameters = new List<SqlParameter>();
-                userParameters.Add(new SqlParameter { ParameterName = "UserName", Value = _authenticationData.UserName });
-                userParameters.Add(new SqlParameter { ParameterName = "Password", Value = _authenticationData.Password });
+                userParameters.Add(new SqlParameter { ParameterName = "UserName", Value = AuthenticationData.UserName });
+                userParameters.Add(new SqlParameter { ParameterName = "Password", Value = AuthenticationData.Password });
 
                 var user = dbLayer.Get("Select * from SystemUser where UserName=@UserName and Password=@Password and IsActive=1", System.Data.CommandType.Text, userParameters);
                 if (user?.Data != null)
@@ -41,8 +40,8 @@ namespace Inta.Framework.Admin.Base.Authorization
                     if (controller != null && userRole?.Data != null)
                         controller.ViewBag.RoleName = userRole.Data["Name"];
 
-                    if (!string.IsNullOrEmpty(_authenticationData.LanguageId.ToString()))
-                        controller.ViewBag.LanguageId = _authenticationData.LanguageId.ToString();
+                    if (!string.IsNullOrEmpty(AuthenticationData.LanguageId.ToString()))
+                        controller.ViewBag.LanguageId = AuthenticationData.LanguageId.ToString();
 
                     List<SqlParameter> parameters = new List<SqlParameter>();
                     parameters.Add(new SqlParameter { ParameterName = "RoleId", Value = user.Data["SystemRoleId"] });
