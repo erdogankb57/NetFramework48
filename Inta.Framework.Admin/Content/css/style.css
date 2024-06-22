@@ -673,6 +673,8 @@ table.dataTable .editor_remove {
 body .error {
     color: red;
     font-size: 12px;
+    width:100%;
+    float:left;
 }
 
 .btn-standart {

@@ -142,6 +142,9 @@ namespace Inta.Framework.Admin.Controllers
         [ValidateInput(false)]//Ckeditor data alınamadığı için eklendi.
         public ActionResult Save(Category request, HttpPostedFileBase ImageFile)
         {
+            if (request.CategoryId == 0)
+                ModelState.AddModelError("CategoryId", "Lütfen kategori seçiniz.");
+
             if (ModelState.IsValid)
             {
                 AuthenticationData authenticationData = new AuthenticationData();

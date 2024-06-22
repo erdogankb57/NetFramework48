@@ -20,6 +20,7 @@ namespace Inta.Framework.Entity
 
         [Required(ErrorMessage = "Bu alan boş geçilemez.")]
         public int PageTypeId { get; set; }
+
         public int CategoryId { get; set; }
         public string Code { get; set; }
 
