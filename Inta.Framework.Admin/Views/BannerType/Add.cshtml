@@ -31,7 +31,7 @@
                     <div class="col-lg-3">
                         <label for="exampleFormControlInput1">Küçük Resim Genişlik</label>
                     </div><div class="col-lg-9">
-                        @Html.TextBoxFor(m => m.SmallImageWidth, new { @class = "form-control" })
+                        @Html.TextBoxFor(m => m.SmallImageWidth, new { @type = "number", @class = "form-control" })
 
                     </div>
                 </div>
@@ -41,7 +41,7 @@
                     <div class="col-lg-3">
                         <label for="exampleFormControlInput1">Küçük Resim Yükseklik</label>
                     </div><div class="col-lg-9">
-                        @Html.TextBoxFor(m => m.SmallImageHeight, new { @class = "form-control" })
+                        @Html.TextBoxFor(m => m.SmallImageHeight, new { @type = "number", @class = "form-control" })
 
                     </div>
                 </div>
@@ -51,7 +51,7 @@
                     <div class="col-lg-3">
                         <label for="exampleFormControlInput1">Büyük Resim Genişlik</label>
                     </div><div class="col-lg-9">
-                        @Html.TextBoxFor(m => m.BigImageWidth, new { @class = "form-control" })
+                        @Html.TextBoxFor(m => m.BigImageWidth, new { @type = "number", @class = "form-control" })
 
                     </div>
                 </div>
@@ -61,7 +61,7 @@
                     <div class="col-lg-3">
                         <label for="exampleFormControlInput1">Büyük Resim Yükseklik</label>
                     </div><div class="col-lg-9">
-                        @Html.TextBoxFor(m => m.BigImageHeight, new { @class = "form-control" })
+                        @Html.TextBoxFor(m => m.BigImageHeight, new { @type = "number", @class = "form-control" })
 
                     </div>
                 </div>

@@ -377,6 +377,12 @@ var $PagingDataList = {
 
         $("#" + formId).find("button[type='submit']").prop('disabled', true);
 
+        $(function () {
+            $("input,textarea,select").change(function () {
+                $(this).parent("div").find(".error").remove();
+            })
+        });
+
         //Hata mesajları post edilmeden önce temizlenir.
         $("#saveForm").find(".error").remove();
 
@@ -782,7 +788,7 @@ $ImageFileUpload = {
                     } else {
                         location.reload();
                     }
-                    
+
                     setTimeout(function () {
                         showAlert(".popupMessage", "Resim silme işlemi başarıyla tamamlandı.", "success");
                     }, 100);
@@ -813,9 +819,11 @@ $Form = {
     //    });
     //},
     Init: function (formId) {
- 
+        $("input,textarea,select").change(function () {
+            $(this).parent("div").find(".error").remove();
+        })
     },
-    Save: function (formId,formPostUrl) {
+    Save: function (formId, formPostUrl) {
         //$("#" + formId + " input, #" + formId + " select").change(function () {
         //    $Form.Validation(formId);
         //});
@@ -824,6 +832,8 @@ $Form = {
             e.preventDefault();
 
             $("#" + formId + " .error").remove();
+
+
 
             //$Form.Validation(formId);
 

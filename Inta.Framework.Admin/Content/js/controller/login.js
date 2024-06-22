@@ -1,4 +1,10 @@
 ﻿$(function () {
+    $(function () {
+        $("input,textarea,select").change(function () {
+            $(this).parent("div").find(".error").remove();
+        })
+    });
+
     $("#loginForm").submit(function (e) {
         e.preventDefault();
 

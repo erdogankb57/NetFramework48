@@ -24,3 +24,4 @@ var ProgressClear = function (elem) {
     });
 
 }
+

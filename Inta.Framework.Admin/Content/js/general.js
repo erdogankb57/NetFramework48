@@ -55,7 +55,7 @@ $(document).ready(function () {
 
     //showLoading();
 
-   
+
     $(".nav-menu").perfectScrollbar();
     $('.notification-body').perfectScrollbar();
 
@@ -77,7 +77,7 @@ $(document).ready(function () {
         }
         setTimeout(function () { $(".nav-menu").perfectScrollbar("update"); }, 200);
 
-       
+
 
     })
 
@@ -157,4 +157,3 @@ $(function () {
         }
     });
 })
-
