@@ -822,7 +822,22 @@ $Form = {
     Init: function (formId) {
         $("input,textarea,select").change(function () {
             $(this).parent("div").find(".error").remove();
-        })
+        });
+
+        $("textarea.ckeditor").each(function () {
+            var shortContentEditor = CKEDITOR.instances[$(this).attr("id")];
+            if (shortContentEditor) { shortContentEditor.destroy(true); }
+            CKEDITOR.replace($(this).attr("id"), {
+                enterMode: CKEDITOR.ENTER_BR,
+                htmlEncodeOutput: false,
+                height: 250,
+                filebrowserImageUploadUrl: '/Contents',//for uploading image
+                filebrowserImageBrowseUrl: '/EditorImageUpload'
+            });
+            CKEDITOR.instances[$(this).attr("id")].setData($(this).val());
+
+        });
+
     },
     Save: function (formId, formPostUrl) {
         //$("#" + formId + " input, #" + formId + " select").change(function () {

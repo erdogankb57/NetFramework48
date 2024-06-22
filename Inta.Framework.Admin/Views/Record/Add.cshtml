@@ -7,7 +7,7 @@
     List<SelectListItem> categoryTree = (List<SelectListItem>)ViewBag.categoryTree;
     List<SelectListItem> targetType = new List<SelectListItem>();
     targetType.Add(new SelectListItem { Text = "Seçiniz", Value = "0" });
-    targetType.Add(new SelectListItem { Text = "Aynı sayfa", Value = "1" });
+    targetType.Add(new SelectListItem { Text = "Aynı sayfa", Value = "1", Selected = true });
     targetType.Add(new SelectListItem { Text = "Farklı sayfa", Value = "2" });
     string imageFolder = ViewBag.ImageFolder;
 }
