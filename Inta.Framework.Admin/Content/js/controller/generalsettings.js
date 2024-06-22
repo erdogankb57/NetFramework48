@@ -30,11 +30,13 @@ $(document).ready(function () {
                     }, 100);
 
                 $("#saveForm").find("button[type='submit']").prop('disabled', false);
+                scroolTop(0, 300);
 
             }, error: function (data) {
                 setTimeout(function () {
                     showAlert(".popupMessage", "Kayıt işlemi sırasında hata oluştu. Lütfen alanları kontrol ediniz.", "error");
                 }, 100);
+                scroolTop(0, 300);
             }
         });
     });
