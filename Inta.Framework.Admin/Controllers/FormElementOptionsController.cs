@@ -53,8 +53,8 @@ namespace Inta.Framework.Admin.Controllers
                 Id = s.Id,
                 Name = s.Name,
                 IsActive = s.IsActive ? "Aktif" : "Pasif",
-                Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/FormElementOptions/Add','True'," + s.Id.ToString() + ")\">Düzenle</a>",
-                Delete = "<a href='javascript:void(0)' onclick=\"$PagingDataList.DeleteRecordModal('PagingDataList','/FormElementOptions/Delete',SearchDataList," + s.Id.ToString() + ")\">Sil</a>"
+                Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/FormElementOptions/Add','True'," + s.Id.ToString() + ")\"><img src='/Content/images/edit-icon.png' width='20'/></a>",
+                Delete = "<a href='javascript:void(0)' onclick=\"$PagingDataList.DeleteRecordModal('PagingDataList','/FormElementOptions/Delete',SearchDataList," + s.Id.ToString() + ")\"><img src='/Content/images/delete-icon.png' width='20'/></a>"
             }).ToList();
 
 

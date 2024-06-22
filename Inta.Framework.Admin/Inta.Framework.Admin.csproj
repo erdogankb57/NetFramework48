@@ -525,6 +525,8 @@
     <Content Include="Content\fancybox\css\jquery.fancybox.min.css" />
     <Content Include="Content\fancybox\js\jquery.fancybox.js" />
     <Content Include="Content\fancybox\js\jquery.fancybox.min.js" />
+    <Content Include="Content\images\delete-icon.png" />
+    <Content Include="Content\images\edit-icon.png" />
     <Content Include="Content\images\image1.jpg" />
     <Content Include="Content\images\login_bg.jpg" />
     <Content Include="Content\images\logo.png" />

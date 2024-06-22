@@ -50,8 +50,8 @@ namespace Inta.Framework.Admin.Controllers
                 Id = s.Id,
                 ControllerName = s.ControllerName,
                 ActionName = s.ActionName,
-                Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/SystemAction/Add','True'," + s.Id.ToString() + ")\">Düzenle</a>",
-                Delete = "<a href='javascript:void(0)' onclick=\"$PagingDataList.DeleteRecordModal('SystemActionList','/SystemAction/Delete',SearchDataList," + s.Id.ToString() + ")\">Sil</a>"
+                Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/SystemAction/Add','True'," + s.Id.ToString() + ")\"><img src='/Content/images/edit-icon.png' width='20'/></a>",
+                Delete = "<a href='javascript:void(0)' onclick=\"$PagingDataList.DeleteRecordModal('SystemActionList','/SystemAction/Delete',SearchDataList," + s.Id.ToString() + ")\"><img src='/Content/images/delete-icon.png' width='20'/></a>"
             }).ToList();
 
 

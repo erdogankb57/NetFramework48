@@ -49,8 +49,8 @@ namespace Inta.Framework.Admin.Controllers
                 Name = s.Name,
                 Explanation = s.Explanation,
                 IsActive = s.IsActive ? "Aktif" : "Pasif",
-                Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/StaticText/Add','True'," + s.Id.ToString() + ")\">Düzenle</a>",
-                Delete = "<a href='javascript:void(0)' onclick=\"$PagingDataList.DeleteRecordModal('PagingDataList','/StaticText/Delete',SearchDataList," + s.Id.ToString() + ")\">Sil</a>"
+                Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/StaticText/Add','True'," + s.Id.ToString() + ")\"><img src='/Content/images/edit-icon.png' width='20'/></a>",
+                Delete = "<a href='javascript:void(0)' onclick=\"$PagingDataList.DeleteRecordModal('PagingDataList','/StaticText/Delete',SearchDataList," + s.Id.ToString() + ")\"><img src='/Content/images/delete-icon.png' width='20'/></a>"
             }).ToList();
 
 

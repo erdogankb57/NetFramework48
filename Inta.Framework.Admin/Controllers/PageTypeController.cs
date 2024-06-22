@@ -48,8 +48,8 @@ namespace Inta.Framework.Admin.Controllers
                 Select = "<input type='checkbox' name='" + s.Id + "' />",
                 Id = s.Id,
                 Name = s.Name,
-                Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/PageType/Add','True'," + s.Id.ToString() + ")\">Düzenle</a>",
-                Delete = "<a href='javascript:void(0)' onclick=\"$PagingDataList.DeleteRecordModal('PageTypeList','/PageType/Delete',SearchDataList," + s.Id.ToString() + ")\">Sil</a>"
+                Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/PageType/Add','True'," + s.Id.ToString() + ")\"><img src='/Content/images/edit-icon.png' width='20'/></a>",
+                Delete = "<a href='javascript:void(0)' onclick=\"$PagingDataList.DeleteRecordModal('PageTypeList','/PageType/Delete',SearchDataList," + s.Id.ToString() + ")\"><img src='/Content/images/delete-icon.png' width='20'/></a>"
             }).ToList();
 
 

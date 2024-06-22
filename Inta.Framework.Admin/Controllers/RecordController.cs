@@ -59,8 +59,8 @@ namespace Inta.Framework.Admin.Controllers
                 IsActive = s.IsActive ? "Aktif" : "Pasif",
                 RecordImage = "<a href='/RecordImage/Index/" + s.Id + "'>Resim Ekle</a>",
                 RecordFile = "<a href='/RecordFile/Index/" + s.Id + "'>Dosya Ekle</a>",
-                Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/Record/Add','False'," + s.Id.ToString() + ",AddCallBack)\">Düzenle</a>",
-                Delete = "<a href='javascript:void(0)' onclick=\"$PagingDataList.DeleteRecordModal('RecordList','/Record/Delete',SearchDataList," + s.Id.ToString() + ")\">Sil</a>"
+                Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/Record/Add','False'," + s.Id.ToString() + ",AddCallBack)\"><img src='/Content/images/edit-icon.png' width='20'/></a>",
+                Delete = "<a href='javascript:void(0)' onclick=\"$PagingDataList.DeleteRecordModal('RecordList','/Record/Delete',SearchDataList," + s.Id.ToString() + ")\"><img src='/Content/images/delete-icon.png' width='20'/></a>"
             }).ToList();
 
 
@@ -146,14 +146,23 @@ namespace Inta.Framework.Admin.Controllers
         [ValidateInput(false)]//Ckeditor data alınamadığı için eklendi.
         public ActionResult Save(Record request, HttpPostedFileBase ImageFile)
         {
+            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+
             if (request.CategoryId == 0)
                 ModelState.AddModelError("CategoryId", "Lütfen kategori seçiniz.");
+            else
+            {
+                var category = db.Get("Select * from Category inner join PageType on Category.PageTypeId=PageType.Id where Category.Id=" + request.CategoryId, System.Data.CommandType.Text);
+                if (!Convert.ToBoolean(category.Data["CanContentBeAdded"]))
+                {
+                    ModelState.AddModelError("CategoryId", "Seçtiğiniz kategoriye içerik eklenemez. Lütfen başka bir kategori seçiniz.");
+                }
+            }
 
             if (ModelState.IsValid)
             {
                 AuthenticationData authenticationData = new AuthenticationData();
                 ReturnObject<Banner> result = new ReturnObject<Banner>();
-                DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
 
                 if (ImageFile != null)
                 {

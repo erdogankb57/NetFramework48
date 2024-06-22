@@ -43,6 +43,7 @@ var $PagingDataList = {
                         if (column != undefined) {
                             var ColumnFormat = $(column).attr("format");
                             var width = $(column).attr("width");
+                            var TextAllign = $(column).attr("TextAllign");
 
 
                             var row = response.Data[i];

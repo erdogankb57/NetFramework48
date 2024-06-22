@@ -60,8 +60,8 @@ namespace Inta.Framework.Admin.Controllers
                 Id = s.Id,
                 Name = s.Name,
                 IsActive = s.IsActive ? "Aktif" : "Pasif",
-                Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/Category/Add','False'," + s.Id.ToString() + ",AddCallBack)\">Düzenle</a>",
-                Delete = "<a href='javascript:void(0)' onclick=\"$PagingDataList.DeleteRecordModal('CategoryList','/Category/Delete',SearchDataList," + s.Id.ToString() + ")\">Sil</a>"
+                Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/Category/Add','False'," + s.Id.ToString() + ",AddCallBack)\"><img src='/Content/images/edit-icon.png' width='20'/></a>",
+                Delete = "<a href='javascript:void(0)' onclick=\"$PagingDataList.DeleteRecordModal('CategoryList','/Category/Delete',SearchDataList," + s.Id.ToString() + ")\"><img src='/Content/images/delete-icon.png' width='20'/></a>"
             }).ToList();
 
 
@@ -142,9 +142,6 @@ namespace Inta.Framework.Admin.Controllers
         [ValidateInput(false)]//Ckeditor data alınamadığı için eklendi.
         public ActionResult Save(Category request, HttpPostedFileBase ImageFile)
         {
-            if (request.CategoryId == 0)
-                ModelState.AddModelError("CategoryId", "Lütfen kategori seçiniz.");
-
             if (ModelState.IsValid)
             {
                 AuthenticationData authenticationData = new AuthenticationData();
