@@ -55,12 +55,12 @@ namespace Inta.Framework.Admin.Controllers
 
                     HttpContext.Session["AuthData"] = authData;
 
-                    if (request.CreatePersistentCookie == true)
-                    {
-                        HttpCookie cookie = new HttpCookie("AuthData", authData);
-                        cookie.Expires = DateTime.Now.AddDays(1);
-                        Response.Cookies.Add(cookie);
-                    }
+                    //if (request.CreatePersistentCookie == true)
+                    //{
+                    //    HttpCookie cookie = new HttpCookie("AuthData", authData);
+                    //    cookie.Expires = DateTime.Now.AddDays(1);
+                    //    HttpContext.Response.Cookies.Add(cookie);
+                    //}
 
                     if (!string.IsNullOrEmpty(request.ReturnUrl))
                     {

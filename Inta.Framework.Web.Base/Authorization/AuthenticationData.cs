@@ -111,8 +111,8 @@ namespace Inta.Framework.Admin.Base.Authorization
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
                 if (HttpContext.Current.Session["AuthData"] != null)
                     return serializer.Deserialize<Dictionary<string, string>>(HttpContext.Current.Session["AuthData"].ToString());
-                //else if (HttpContext.Current.Session["AuthData"] != null)
-                //    serializer.Deserialize<Dictionary<string, string>>(HttpCookie["AuthData"].ToString());
+                //else if (HttpContext.Current.Response.Cookies.Get("AuthData").Value != null)
+                //   return serializer.Deserialize<Dictionary<string, string>>(HttpContext.Current.Response.Cookies.Get("AuthData").Value.ToString());
                 else
                     return new Dictionary<string, string>();
             }

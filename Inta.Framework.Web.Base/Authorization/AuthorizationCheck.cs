@@ -16,6 +16,7 @@ namespace Inta.Framework.Admin.Base.Authorization
 
         }
         public override void OnActionExecuting(ActionExecutingContext context)
+        
         {
             Controller controller = context?.Controller as Controller;
             DBLayer dbLayer = new DBLayer(System.Configuration.ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
