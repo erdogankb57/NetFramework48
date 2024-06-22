@@ -164,6 +164,7 @@
     <Compile Include="Models\FormElementOptionsSearch.cs" />
     <Compile Include="Models\FormElementSearch.cs" />
     <Compile Include="Models\FormGroupSearch.cs" />
+    <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\MessageHistorySearch.cs" />
     <Compile Include="Models\PageTypeSearch.cs" />
     <Compile Include="Models\RecordFileSearch.cs" />

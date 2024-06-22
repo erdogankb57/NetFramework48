@@ -1,4 +1,5 @@
-﻿using Inta.Framework.Ado.Net;
+﻿using Inta.Framework.Admin.Models;
+using Inta.Framework.Ado.Net;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -21,53 +22,65 @@ namespace Inta.Framework.Admin.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult SignIn(string userName, string password, string LanguageId, bool? createPersistentCookie, string ReturnUrl)
+        public ActionResult SignIn(LoginModel request)
         {
-            DBLayer dbLayer = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
-            List<SqlParameter> parameters = new List<SqlParameter>();
-            parameters.Add(new SqlParameter { ParameterName = "UserName", Value = userName });
-            parameters.Add(new SqlParameter { ParameterName = "Password", Value = password });
-
-            var user = dbLayer.Get("Select * from SystemUser where (UserName=@UserName or Email=@UserName) and Password=@Password and IsActive=1", System.Data.CommandType.Text, parameters);
-            if (user.Data != null)
+            if (ModelState.IsValid)
             {
-                if (String.IsNullOrEmpty(LanguageId))
+                DBLayer dbLayer = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter { ParameterName = "UserName", Value = request.UserName });
+                parameters.Add(new SqlParameter { ParameterName = "Password", Value = request.Password });
+
+                var user = dbLayer.Get("Select * from SystemUser where (UserName=@UserName or Email=@UserName) and Password=@Password and IsActive=1", System.Data.CommandType.Text, parameters);
+                if (user.Data != null)
                 {
-                    var lang = dbLayer.Get("Select * from Language where IsActive=1 Order by Id desc", System.Data.CommandType.Text, parameters);
-                    LanguageId = lang.Data != null ? lang.Data["Id"].ToString() : "0";
-                }
+                    if (String.IsNullOrEmpty(request.LanguageId))
+                    {
+                        var lang = dbLayer.Get("Select * from Language where IsActive=1 Order by Id desc", System.Data.CommandType.Text, parameters);
+                        request.LanguageId = lang.Data != null ? lang.Data["Id"].ToString() : "0";
+                    }
 
-                Dictionary<string, string> authKey = new Dictionary<string, string>();
-                authKey.Add("userName", user.Data["UserName"].ToString());
-                authKey.Add("password", user.Data["Password"].ToString());
-                authKey.Add("loginDate", DateTime.Now.ToString());
-                authKey.Add("languageId", LanguageId);
-                authKey.Add("userId", user.Data["Id"].ToString());
+                    Dictionary<string, string> authKey = new Dictionary<string, string>();
+                    authKey.Add("userName", user.Data["UserName"].ToString());
+                    authKey.Add("password", user.Data["Password"].ToString());
+                    authKey.Add("loginDate", DateTime.Now.ToString());
+                    authKey.Add("languageId", request.LanguageId);
+                    authKey.Add("userId", user.Data["Id"].ToString());
 
 
-                JavaScriptSerializer serializer = new JavaScriptSerializer();
-                var authData = serializer.Serialize(authKey);
+                    JavaScriptSerializer serializer = new JavaScriptSerializer();
+                    var authData = serializer.Serialize(authKey);
 
-                HttpContext.Session["AuthData"] = authData;
+                    HttpContext.Session["AuthData"] = authData;
 
-                if (createPersistentCookie == true)
-                {
-                    HttpCookie cookie = new HttpCookie("AuthData", authData);
-                    cookie.Expires = DateTime.Now.AddDays(1);
-                    Response.Cookies.Add(cookie);
-                }
+                    if (request.CreatePersistentCookie == true)
+                    {
+                        HttpCookie cookie = new HttpCookie("AuthData", authData);
+                        cookie.Expires = DateTime.Now.AddDays(1);
+                        Response.Cookies.Add(cookie);
+                    }
 
-                if (!string.IsNullOrEmpty(ReturnUrl))
-                {
-                    return Json(new { Status = "OK", ReturnUrl = ReturnUrl, Message = "" });
+                    if (!string.IsNullOrEmpty(request.ReturnUrl))
+                    {
+                        return Json(new { Status = "OK", ReturnUrl = request.ReturnUrl, Message = "" });
+                    }
+                    else
+                        return Json(new { Status = "OK", ReturnUrl = "/Home", Message = "" });
+
                 }
                 else
-                    return Json(new { Status = "OK", ReturnUrl = "/Home", Message = "" });
-
+                {
+                    return Json(new { Status = "Error", ReturnUrl = request.ReturnUrl, Message = "Kullanıcı adı veya şifre hatalı." });
+                }
             }
             else
             {
-                return Json(new { Status = "Error", ReturnUrl = ReturnUrl, Message = "Kullanıcı adı veya şifre hatalı." });
+                return Json(new
+                {
+                    Data = request,
+                    Status = "Error",
+                    Validation = ModelState.ToList().Where(v => v.Value.Errors.Any()).Select(s => new { Key = s.Key, Error = s.Value.Errors })
+                });
             }
         }
         public ActionResult SignOut()
