@@ -50,7 +50,7 @@ namespace Inta.Framework.Admin.Controllers
                 Name = s.Name,
                 IsActive = s.IsActive ? "Aktif" : "Pasif",
                 ElementOptions = "<a href='/FormElementOptions/Index/" + s.Id.ToString() + "'\">Seçenek Ekle</a>",
-                Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/FormElementOptions/Add','True'," + s.Id.ToString() + ")\">Düzenle</a>",
+                Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/FormElement/Add','True'," + s.Id.ToString() + ")\">Düzenle</a>",
                 Delete = "<a href='javascript:void(0)' onclick=\"$PagingDataList.DeleteRecordModal('BannerTypeList','/FormElementOptions/Delete',SearchDataList," + s.Id.ToString() + ")\">Sil</a>"
             }).ToList();
 

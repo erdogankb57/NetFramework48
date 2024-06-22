@@ -26,7 +26,7 @@
                         <label for="exampleFormControlInput1">Form Elemanı</label>
                     </div><div class="col-lg-9">
                         @{
-                            @Html.Raw(Html.SelectListFor("Select * from FormElement", ObjectId: "FormElementIdDisplay", ObjectName: "FormElementIdDisplay", DisplayName: "Name", ValueName: "Id", SelectedValue: Model.FormElementId.ToString(), DefaultText: "Seçiniz", DefaultValue: "", IsDisabled: true));
+                            @Html.Raw(Html.SelectListFor("Select * from FormElement", ObjectId: "FormElementId", ObjectName: "FormElementId", DisplayName: "Name", ValueName: "Id", SelectedValue: Model.FormElementId.ToString(), DefaultText: "Seçiniz", DefaultValue: "", IsDisabled: true));
                         }
                     </div>
                 </div>
