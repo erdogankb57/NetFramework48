@@ -92,13 +92,14 @@ var CropImage = function (id, saveUrl) {
             if (data.ResultMessage == "OK") {
                 console.log(data.ImageUrl);
                 $("#jcrop").html("<img id='imagePreview' src='" + data.ImageUrl + "'/>");
-                ResizeImage($("#Width").val(), $("#Height").val());
                 setTimeout(function () {
                     showAlert(".popupMessage", "Resim başarıyla croplandı.", "success");
                 }, 100);
 
                 if (saveUrl != null) {
                     location.href = saveUrl;
+                } else {
+                    location.reload();
                 }
             }
 

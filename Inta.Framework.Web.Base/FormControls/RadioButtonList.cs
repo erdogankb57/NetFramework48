@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace Inta.Framework.Web.Base.FormControls
+namespace Inta.Framework.Admin.Base.FormControls
 {
     public static class RadioButtonList
     {

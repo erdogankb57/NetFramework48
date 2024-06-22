@@ -1,18 +1,14 @@
-﻿using Inta.Framework.Ado.Net;
+﻿using Inta.Framework.Admin.Base.Authorization;
+using Inta.Framework.Admin.Base.FormControls;
+using Inta.Framework.Ado.Net;
 using Inta.Framework.Contract;
-using Inta.Framework.Entity;
-using Inta.Framework.Web.Base.Authorization;
-using Inta.Framework.Web.Base.FormControls;
-using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace Inta.Framework.Web.Base.Controllers
+namespace Inta.Framework.Admin.Base.Controllers
 {
     [AuthorizationCheck]
     public class CategoryBaseController : Controller

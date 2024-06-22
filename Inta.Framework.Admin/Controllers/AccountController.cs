@@ -1,7 +1,7 @@
 ﻿using Inta.Framework.Ado.Net;
 using Inta.Framework.Contract;
 using Inta.Framework.Entity;
-using Inta.Framework.Web.Base.Authorization;
+using Inta.Framework.Admin.Base.Authorization;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;

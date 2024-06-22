@@ -12,7 +12,7 @@ namespace Inta.Framework.Admin.Controllers
         //Dosyanın bu şekilde çalıştırılabilmesi için propertiesden embeded resource olarak ayarlanması gerekir.
         public ActionResult GetJavascriptFile(string file)
         {
-            var asm = System.Reflection.Assembly.Load("Inta.Framework.Web.Base");
+            var asm = System.Reflection.Assembly.Load("Inta.Framework.Admin.Base");
             var names = asm.GetManifestResourceNames();
             if (names.Any(a => a == file))
             {
@@ -24,7 +24,7 @@ namespace Inta.Framework.Admin.Controllers
         }
        public ActionResult GetCssFile(string file)
         {
-            var asm = System.Reflection.Assembly.Load("Inta.Framework.Web.Base");
+            var asm = System.Reflection.Assembly.Load("Inta.Framework.Admin.Base");
             var names = asm.GetManifestResourceNames();
             if (names.Any(a => a == file))
             {

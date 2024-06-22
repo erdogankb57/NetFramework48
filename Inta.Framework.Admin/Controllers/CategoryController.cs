@@ -3,8 +3,8 @@ using Inta.Framework.Ado.Net;
 using Inta.Framework.Contract;
 using Inta.Framework.Entity;
 using Inta.Framework.Extension;
-using Inta.Framework.Web.Base.Authorization;
-using Inta.Framework.Web.Base.FormControls;
+using Inta.Framework.Admin.Base.Authorization;
+using Inta.Framework.Admin.Base.FormControls;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -298,7 +298,7 @@ namespace Inta.Framework.Admin.Controllers
                     {
                         Data = request,
                         ResultType = MessageType.Success,
-                        RedirectUrl = ImageFile != null ? $"/ImageCrop/Index?ImageName={category.Data.Image}&Dimension=b_&width={500}&height={100}&SaveUrl=/ContactInformation/Index?Message=Kayıt ekleme işlemi başarıyla tamamlandı" : "/Category/Index?Message=Kayıt ekleme işlemi başarıyla tamamlandı"
+                        RedirectUrl = ImageFile != null ? $"/ImageCrop/Index?ImageName={category.Data.Image}&Dimension=b_&width={500}&height={100}&SaveUrl=/Category/Index?Message=Kayıt ekleme işlemi başarıyla tamamlandı" : "/Category/Index?Message=Kayıt ekleme işlemi başarıyla tamamlandı"
 
                     });
                 }
@@ -334,7 +334,7 @@ namespace Inta.Framework.Admin.Controllers
                     {
                         Data = request,
                         ResultType = MessageType.Success,
-                        RedirectUrl = ImageFile != null ? $"/ImageCrop/Index?ImageName={category.Data.Image}&Dimension=b_&width={500}&height={100}&SaveUrl=/ContactInformation/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı" : "/Category/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı"
+                        RedirectUrl = ImageFile != null ? $"/ImageCrop/Index?ImageName={category.Data.Image}&Dimension=b_&width={500}&height={100}&SaveUrl=/Category/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı" : "/Category/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı"
 
                     });
                 }

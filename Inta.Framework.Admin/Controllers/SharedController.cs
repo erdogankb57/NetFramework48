@@ -1,5 +1,5 @@
 ﻿using Inta.Framework.Contract;
-using Inta.Framework.Web.Base.Authorization;
+using Inta.Framework.Admin.Base.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,4 +1,4 @@
-﻿using Inta.Framework.Web.Base.Authorization;
+﻿using Inta.Framework.Admin.Base.Authorization;
 using System.Web.Mvc;
 
 namespace Inta.Framework.Admin.Controllers
