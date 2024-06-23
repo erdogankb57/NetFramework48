@@ -29,8 +29,8 @@ namespace Inta.Framework.Admin.Controllers
             StringBuilder shtml = new StringBuilder();
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             List<SqlParameter> categoryParameters = new List<SqlParameter>();
-            categoryParameters.Add(new SqlParameter { ParameterName = "Id", Value =request.CategoryId });
-    
+            categoryParameters.Add(new SqlParameter { ParameterName = "Id", Value = request.CategoryId });
+
             if (request.IsActive == -1)
                 categoryParameters.Add(new SqlParameter { ParameterName = "IsActive", Value = DBNull.Value });
             else
@@ -201,7 +201,7 @@ namespace Inta.Framework.Admin.Controllers
         {
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
 
-            if (request.Id == 0)
+            if (request.Id == 0 && request.CategoryId != 0)
             {
                 var category = db.Get("Select * from Category where Id=" + request.CategoryId, System.Data.CommandType.Text);
                 if (!Convert.ToBoolean(category.Data["CanSubCategoryBeAdded"]))
@@ -302,8 +302,8 @@ namespace Inta.Framework.Admin.Controllers
                 if (request.IsActive)
                     parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 1 });
                 else
-                    parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 0 }); 
-                
+                    parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 0 });
+
                 if (request.CanSubCategoryBeAdded)
                     parameters.Add(new SqlParameter { ParameterName = "CanSubCategoryBeAdded", Value = 1 });
                 else
