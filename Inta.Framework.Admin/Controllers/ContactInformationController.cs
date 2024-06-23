@@ -110,13 +110,13 @@ namespace Inta.Framework.Admin.Controllers
 
             ViewBag.ImageFolder = System.Configuration.ConfigurationManager.AppSettings["ImageUpload"].ToString();
 
-            if (id == 0)
-                return PartialView("Add", new ContactInformation { IsActive = true });
+            if (id == 0 || id == null)
+                return View("Add", new ContactInformation { IsActive = true });
             else
             {
                 var model = db.Get<ContactInformation>("select * from [ContactInformation] where Id=@Id", System.Data.CommandType.Text, parameters);
 
-                return PartialView("Add", model.Data);
+                return View("Add", model.Data);
             }
 
 

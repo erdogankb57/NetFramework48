@@ -41,6 +41,7 @@ namespace Inta.Framework.Admin.Base.FormControls
             shtml.Append("            Seçilen Kaydı Sil");
             shtml.Append("        </a>");
             shtml.Append("    </div>");
+            shtml.Append("    <p class=\"text-danger\">Lütfen işlem yapmak istediğiniz kategoriyi seçiniz.</p>");
             shtml.Append("<div class='CategoryTreeMain'>");
             shtml.Append("<ul>");
             for (int i = 0; i < category.Data.Rows.Count; i++)

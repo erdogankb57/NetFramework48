@@ -168,7 +168,7 @@ namespace Inta.Framework.Admin.Controllers
 
             if (id == 0 || id == null)
             {
-                var category = new Category { IsActive = true, CategoryId = 0 };
+                var category = new Category { IsActive = true, CategoryId = 0, CanSubCategoryBeAdded = true };
                 if (!string.IsNullOrEmpty(Request["MainCategoryId"]))
                     category.CategoryId = Convert.ToInt32(Request["MainCategoryId"]);
 
@@ -199,10 +199,19 @@ namespace Inta.Framework.Admin.Controllers
         [ValidateInput(false)]//Ckeditor data alınamadığı için eklendi.
         public ActionResult Save(Category request, HttpPostedFileBase ImageFile)
         {
+            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+
+            if (request.Id == 0)
+            {
+                var category = db.Get("Select * from Category where Id=" + request.CategoryId, System.Data.CommandType.Text);
+                if (!Convert.ToBoolean(category.Data["CanSubCategoryBeAdded"]))
+                {
+                    ModelState.AddModelError("CategoryId", "Seçtiğiniz kategoriye alt kategori eklenemez. Lütfen başka bir kategori seçiniz.");
+                }
+            }
             if (ModelState.IsValid)
             {
                 ReturnObject<Category> result = new ReturnObject<Category>();
-                DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
 
                 if (ImageFile != null)
                 {
@@ -293,7 +302,12 @@ namespace Inta.Framework.Admin.Controllers
                 if (request.IsActive)
                     parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 1 });
                 else
-                    parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 0 });
+                    parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 0 }); 
+                
+                if (request.CanSubCategoryBeAdded)
+                    parameters.Add(new SqlParameter { ParameterName = "CanSubCategoryBeAdded", Value = 1 });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "CanSubCategoryBeAdded", Value = 0 });
 
                 parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = AuthenticationData.UserId });
 
@@ -322,7 +336,8 @@ namespace Inta.Framework.Admin.Controllers
                 ImageTitle,
                 Explanation,
                 OrderNumber,
-                IsActive
+                IsActive,
+                CanSubCategoryBeAdded
                 )
                 values(
                 @SystemUserId,
@@ -342,7 +357,8 @@ namespace Inta.Framework.Admin.Controllers
                 @ImageTitle,
                 @Explanation,
                 @OrderNumber,
-                @IsActive
+                @IsActive,
+                @CanSubCategoryBeAdded
                 ); SELECT SCOPE_IDENTITY()
                 ");
                     var inserted = db.ExecuteScalar(shtml.ToString(), System.Data.CommandType.Text, parameters);
@@ -380,7 +396,8 @@ namespace Inta.Framework.Admin.Controllers
                     shtml.Append(@"ImageTag=@ImageTag,
                 ImageTitle=@ImageTitle,
                 Explanation=@Explanation,
-                OrderNumber=@OrderNumber
+                OrderNumber=@OrderNumber,
+                CanSubCategoryBeAdded=@CanSubCategoryBeAdded
                 where Id=@Id");
                     db.ExecuteNoneQuery(shtml.ToString(), System.Data.CommandType.Text, parameters);
 
