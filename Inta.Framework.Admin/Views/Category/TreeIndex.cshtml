@@ -20,17 +20,6 @@
             <div class="form-group">
                 <div class="row">
                     <div class="col-lg-2">
-                        Banner Adı
-                    </div>
-                    <div class="col-lg-10">
-                        <input type="text" class="form-control" id="Name" />
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-lg-2">
                         Aktif Mi
                     </div>
                     <div class="col-lg-10">
@@ -78,7 +67,7 @@
                 if ($("#search #CategoryId").val() != "") {
                     val["CategoryId"] = $("#search #CategoryId").val();
                 }
-                $CategoryTree.ReloadData("CategoryTreeBox", val);
+                $CategoryTree.ReloadData("CategoryTreeBox", val, TreeCallBack);
             });
 
             $TreeSelectBox.Init();
@@ -86,7 +75,11 @@
         }
 
         SearchDataList();
-        $CategoryTree.Init();
+
+        function TreeCallBack() {
+            $CategoryTree.Init();
+
+        }
 
 
         @{

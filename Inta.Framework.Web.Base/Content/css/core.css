@@ -393,22 +393,26 @@ select {
 /*CategorySelectBox*/
 
 /*CategoryTreeFor*/
-.CategoryTreeBox ul li a{
-    padding:5px 10px;
-    text-decoration:none;
-    cursor:pointer;
-    display:inline-block;
+.CategoryTreeBox ul li a {
+    padding: 5px 10px;
+    text-decoration: none;
+    cursor: pointer;
+    display: inline-block;
 }
 
-    .CategoryTreeBox ul li a.active {
+.CategoryTreeBox .CategoryTreeMain ul li .active {
+    background: #369;
+    color: #FFFFFF;
+}
+
+.CategoryTreeBox .CategoryTreeMain ul li a {
+    color: #000000;
+}
+
+    .CategoryTreeBox .CategoryTreeMain ul li a:hover {
         background: #369;
         color: #FFFFFF;
     }
-
-.CategoryTreeBox ul li a:hover {
-    background: #369;
-    color:#FFFFFF;
-}
 
 .CategoryTreeBox ul, .CategoryTreeBox ul ul {
     list-style: none;
@@ -425,7 +429,7 @@ select {
         line-height: 20px;
         color: #369;
         border-left: 1px solid rgb(100,100,100);
-        margin-left:10px;
+        margin-left: 10px;
     }
 
         .CategoryTreeBox ul li:last-child {

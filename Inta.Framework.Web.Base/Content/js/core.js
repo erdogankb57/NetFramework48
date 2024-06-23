@@ -930,6 +930,7 @@ $Form = {
 $CategoryTree = {
     Init: function () {
         $(".CategoryTreeBox ul li a").click(function () {
+            debugger;
             if ($(this).hasClass("active")) {
                 $(".CategoryTreeBox ul li a").removeClass("active");
             } else {
@@ -972,7 +973,7 @@ $CategoryTree = {
             });
         }
     },
-    ReloadData: function (ObjectId, Data) {
+    ReloadData: function (ObjectId, Data, CallBackFunction) {
         debugger;
         $("#" + ObjectId).find(".CategoryTreeMain").html("Yükleniyor");
         $.ajax({
@@ -986,7 +987,12 @@ $CategoryTree = {
             },
             error: function (response) {
 
-            }
+            },
+            complete: function () {
+                if (CallBackFunction != null) {
+                    CallBackFunction.call();
+                }
+            },
         });
     }
 }
