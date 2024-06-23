@@ -947,7 +947,15 @@ $CategoryTree = {
             showAlert(".listMessage", "Lütfen düzenlemek istediğiniz kaydı seçiniz", "error");
         }
     },
-    Delete: function () {
+    AddCategory: function () {
+        var id = $(".CategoryTreeBox ul li a.active").attr("id")
+        if (id != undefined) {
+            location.href = "/Category/Add/0?MainCategoryId=" + id;
+        } else {
+            showAlert(".listMessage", "Lütfen düzenlemek istediğiniz kaydı seçiniz", "error");
+        }
+    },
+    Delete: function (DeleteCallBack) {
         var id = $(".CategoryTreeBox ul li a.active").attr("id")
         var text = "Bu kaydı silmek istediğinizden emin misiniz?";
 
@@ -965,6 +973,11 @@ $CategoryTree = {
                     showAlert(".listMessage", "Kayıt silme işlemi başarıyla tamamlandı.", "success");
 
 
+                },
+                complete: function () {
+                    if (DeleteCallBack != null) {
+                        DeleteCallBack.call();
+                    }
                 },
                 error: function (response) {
                     showAlert(".listMessage", "Kayıt silme işlemi sırasında hata oluştu.", "error");
@@ -992,7 +1005,7 @@ $CategoryTree = {
                 if (CallBackFunction != null) {
                     CallBackFunction.call();
                 }
-            },
+            }
         });
     }
 }

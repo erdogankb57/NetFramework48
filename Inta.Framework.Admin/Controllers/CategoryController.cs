@@ -167,7 +167,13 @@ namespace Inta.Framework.Admin.Controllers
             ViewBag.ImageFolder = settings.Data.ImageCdnUrl;
 
             if (id == 0 || id == null)
-                return PartialView("Add", new Category { IsActive = true, CategoryId = 0 });
+            {
+                var category = new Category { IsActive = true, CategoryId = 0 };
+                if (!string.IsNullOrEmpty(Request["MainCategoryId"]))
+                    category.CategoryId = Convert.ToInt32(Request["MainCategoryId"]);
+
+                return PartialView("Add", category);
+            }
             else
             {
                 List<SqlParameter> parameters = new List<SqlParameter>();

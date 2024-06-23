@@ -78,7 +78,7 @@ namespace Inta.Framework.Admin.Base.Authorization
             else
             {
                 if (context != null)
-                    context.Result = new RedirectResult("/Login?ReturnUrl=" + context.HttpContext.Request.Path + context.HttpContext.Request.QueryString);
+                    context.Result = new RedirectResult("/Login?ReturnUrl=" + context.HttpContext.Request.Path);
             }
 
             if (context != null)

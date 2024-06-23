@@ -17,7 +17,8 @@ namespace Inta.Framework.Admin.Base.FormControls
         int Id,
         string ObjectId,
         string ObjectName,
-        string AddUrl
+        string AddUrl,
+        string DeleteCallBack
         )
         {
             StringBuilder shtml = new StringBuilder();
@@ -33,7 +34,10 @@ namespace Inta.Framework.Admin.Base.FormControls
             shtml.Append($"        <a class='btn btn-standart' onclick='$CategoryTree.Edit()'>");
             shtml.Append("            Seçilen Kaydı Düzenle");
             shtml.Append("        </a>");
-            shtml.Append($"        <a class='btn btn-standart' onclick='$CategoryTree.Delete()'>");
+            shtml.Append($"        <a class='btn btn-standart' onclick='$CategoryTree.AddCategory()'>");
+            shtml.Append("            Seçilen Kayda Alt Kategori Ekle");
+            shtml.Append("        </a>");
+            shtml.Append($"        <a class='btn btn-standart' onclick='$CategoryTree.Delete({DeleteCallBack})'>");
             shtml.Append("            Seçilen Kaydı Sil");
             shtml.Append("        </a>");
             shtml.Append("    </div>");

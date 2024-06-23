@@ -685,7 +685,7 @@ body .error {
 
     .btn-standart:hover {
         background: #0f0f17;
-        color: #fff;
+        color: #fff !important;
     }
 
 .custom-combobox {
