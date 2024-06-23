@@ -926,3 +926,46 @@ $Form = {
 
     }
 }
+
+$CategoryTree = {
+    Init: function () {
+        $(".CategoryTreeBox ul li a").click(function () {
+            $(".CategoryTreeBox ul li a").removeClass("active");
+            $(this).addClass("active");
+        });
+    },
+    Edit: function () {
+        var id = $(".CategoryTreeBox ul li a.active").attr("id")
+        if (id != undefined) {
+            location.href = "/Category/Add/" + id;
+        } else {
+            showAlert(".listMessage", "Lütfen silmek istediğiniz kaydı seçiniz", "error");
+        }
+    },
+    Delete: function () {
+        var id = $(".CategoryTreeBox ul li a.active").attr("id")
+        var text = "Bu kaydı silmek istediğinizden emin misiniz?";
+
+        var onay = confirm(text);
+
+        if (onay) {
+            $.ajax({
+                url: "/Category/Delete",
+                type: "POST",
+                dataType: 'json',
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                data: { "ids": id },
+                success: function (response) {
+                    debugger;
+                    showAlert(".listMessage", "Kayıt silme işlemi başarıyla tamamlandı.", "success");
+                    $PagingDataList.SelectedPassiveRecord(ObjectId);
+
+                },
+                error: function (response) {
+                    showAlert(".listMessage", "Kayıt silme işlemi sırasında hata oluştu.", "error");
+
+                }
+            });
+        }
+    }
+}

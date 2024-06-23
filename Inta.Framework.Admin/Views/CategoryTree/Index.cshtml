@@ -4,7 +4,15 @@
 }
 
 <div class="form-content">
+    <div class="listMessage">
+    </div>
     <div class="col-lg-12">
-        @Html.CategoryTreeFor(Id: 0, ObjectId: "CategoryTreeBox", ObjectName: "CategoryTreeBox")
+        @Html.CategoryTreeFor(Id: 0, ObjectId: "CategoryTreeBox", ObjectName: "CategoryTreeBox", AddUrl: "/Category/Add/0")
     </div>
 </div>
+
+<script>
+    $(function () {
+        $CategoryTree.Init();
+    })
+</script>

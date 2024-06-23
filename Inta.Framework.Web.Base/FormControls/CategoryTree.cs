@@ -16,7 +16,8 @@ namespace Inta.Framework.Admin.Base.FormControls
         this HtmlHelper content,
         int Id,
         string ObjectId,
-        string ObjectName
+        string ObjectName,
+        string AddUrl
         )
         {
             StringBuilder shtml = new StringBuilder();
@@ -25,10 +26,21 @@ namespace Inta.Framework.Admin.Base.FormControls
             categoryParameters.Add(new SqlParameter { ParameterName = "Id", Value = Id });
             var category = db.Find("Select * from Category where CategoryId=@Id", System.Data.CommandType.Text, categoryParameters);
             shtml.Append($"<div class='CategoryTreeBox' id='{ObjectId}' name='{ObjectName}'>");
+            shtml.Append("    <div class='form-group'>");
+            shtml.Append($"        <a class='btn btn-standart' href=\"{AddUrl}\">");
+            shtml.Append("            Kayıt Ekle");
+            shtml.Append("        </a>");
+            shtml.Append($"        <a class='btn btn-standart' onclick='$CategoryTree.Edit()'>");
+            shtml.Append("            Seçilen Kaydı Düzenle");
+            shtml.Append("        </a>");
+            shtml.Append($"        <a class='btn btn-standart' onclick='$CategoryTree.Delete()'>");
+            shtml.Append("            Seçilen Kaydı Sil");
+            shtml.Append("        </a>");
+            shtml.Append("    </div>");
             shtml.Append("<ul>");
             for (int i = 0; i < category.Data.Rows.Count; i++)
             {
-                shtml.Append("<li><a href='#'>" + category.Data.Rows[i]["Name"]+"</a>");
+                shtml.Append("<li><a href='#' id='"+ category.Data.Rows[i]["Id"] + "'>" + category.Data.Rows[i]["Name"]+"</a>");
                 shtml.Append(GetSubCategory(Convert.ToInt32(category.Data.Rows[i]["Id"])));
                 shtml.Append("</li>");
             }
@@ -47,7 +59,7 @@ namespace Inta.Framework.Admin.Base.FormControls
             shtml.Append("<ul>");
             for (int i = 0; i < category.Data.Rows.Count; i++)
             {
-                shtml.Append("<li><a href='#'>" + category.Data.Rows[i]["Name"] + "</a>");
+                shtml.Append("<li><a href='#' id='" + category.Data.Rows[i]["Id"] + "'>" + category.Data.Rows[i]["Name"] + "</a>");
                 shtml.Append(GetSubCategory(Convert.ToInt32(category.Data.Rows[i]["Id"])));
                 shtml.Append("</li>");
             }
