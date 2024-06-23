@@ -24,7 +24,64 @@ namespace Inta.Framework.Admin.Controllers
         {
             return View("TreeIndex");
         }
+        public ActionResult GetTreeList(CategorySearch request)
+        {
+            StringBuilder shtml = new StringBuilder();
+            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+            List<SqlParameter> categoryParameters = new List<SqlParameter>();
+            categoryParameters.Add(new SqlParameter { ParameterName = "Id", Value =request.CategoryId });
 
+            if (string.IsNullOrEmpty(request.Name))
+                categoryParameters.Add(new SqlParameter { ParameterName = "Name", Value = DBNull.Value });
+            else
+                categoryParameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Name.ToString() });
+
+            if (request.IsActive == -1)
+                categoryParameters.Add(new SqlParameter { ParameterName = "IsActive", Value = DBNull.Value });
+            else
+                categoryParameters.Add(new SqlParameter { ParameterName = "IsActive", Value = request.IsActive });
+
+            categoryParameters.Add(new SqlParameter { ParameterName = "LanguageId", Value = AuthenticationData.LanguageId });
+
+
+            var category = db.Find("Select * from Category where CategoryId=@Id and LanguageId=@LanguageId and (@Name is null or Name like '%'+@Name+'%') and  (@IsActive is null or IsActive=@IsActive)", System.Data.CommandType.Text, categoryParameters);
+
+            shtml.Append("<ul>");
+            for (int i = 0; i < category.Data.Rows.Count; i++)
+            {
+                shtml.Append("<li><a href='#' id='" + category.Data.Rows[i]["Id"] + "'>" + category.Data.Rows[i]["Name"] + "</a>");
+                shtml.Append(GetSubCategory(Convert.ToInt32(category.Data.Rows[i]["Id"])));
+                shtml.Append("</li>");
+            }
+            shtml.Append("</ul>");
+
+            var result = new ReturnObject<string>
+            {
+                Data = shtml.ToString(),
+                ResultType = MessageType.Success
+            };
+
+            return Json(result);
+        }
+
+        private static string GetSubCategory(int Id)
+        {
+            StringBuilder shtml = new StringBuilder();
+            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+            List<SqlParameter> categoryParameters = new List<SqlParameter>();
+            categoryParameters.Add(new SqlParameter { ParameterName = "Id", Value = Id });
+            var category = db.Find("Select * from Category where CategoryId=@Id", System.Data.CommandType.Text, categoryParameters);
+            shtml.Append("<ul>");
+            for (int i = 0; i < category.Data.Rows.Count; i++)
+            {
+                shtml.Append("<li><a href='#' id='" + category.Data.Rows[i]["Id"] + "'>" + category.Data.Rows[i]["Name"] + "</a>");
+                shtml.Append(GetSubCategory(Convert.ToInt32(category.Data.Rows[i]["Id"])));
+                shtml.Append("</li>");
+            }
+            shtml.Append("</ul>");
+
+            return shtml.ToString();
+        }
         public ActionResult GetList(PagingDataListRequest<CategorySearch> request)
         {
             List<SqlParameter> Parameters = new List<SqlParameter>();

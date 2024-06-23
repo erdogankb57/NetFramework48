@@ -962,7 +962,7 @@ $CategoryTree = {
                 success: function (response) {
                     debugger;
                     showAlert(".listMessage", "Kayıt silme işlemi başarıyla tamamlandı.", "success");
-                    $PagingDataList.SelectedPassiveRecord(ObjectId);
+
 
                 },
                 error: function (response) {
@@ -971,5 +971,22 @@ $CategoryTree = {
                 }
             });
         }
+    },
+    ReloadData: function (ObjectId, Data) {
+        debugger;
+        $("#" + ObjectId).find(".CategoryTreeMain").html("Yükleniyor");
+        $.ajax({
+            url: "/Category/GetTreeList",
+            type: "POST",
+            dataType: 'json',
+            /*         contentType: 'application/x-www-form-urlencoded; charset=UTF-8',*/
+            data: Data,
+            success: function (response) {
+                $("#" + ObjectId).find(".CategoryTreeMain").html(response.Data);
+            },
+            error: function (response) {
+
+            }
+        });
     }
 }

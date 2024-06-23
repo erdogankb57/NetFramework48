@@ -37,6 +37,7 @@ namespace Inta.Framework.Admin.Base.FormControls
             shtml.Append("            Seçilen Kaydı Sil");
             shtml.Append("        </a>");
             shtml.Append("    </div>");
+            shtml.Append("<div class='CategoryTreeMain'>");
             shtml.Append("<ul>");
             for (int i = 0; i < category.Data.Rows.Count; i++)
             {
@@ -45,6 +46,7 @@ namespace Inta.Framework.Admin.Base.FormControls
                 shtml.Append("</li>");
             }
             shtml.Append("</ul>");
+            shtml.Append("</div>");
             shtml.Append("</div>");
             return new MvcHtmlString(shtml.ToString());
         }
@@ -64,6 +66,7 @@ namespace Inta.Framework.Admin.Base.FormControls
                 shtml.Append("</li>");
             }
             shtml.Append("</ul>");
+
 
             return shtml.ToString();
         }
