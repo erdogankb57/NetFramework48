@@ -370,8 +370,8 @@ select {
     }
 
         .TreeSelectBox ul li:hover {
-            background:#29293b;
-            color:#FFFFFF;
+            background: #29293b;
+            color: #FFFFFF;
         }
 
         .TreeSelectBox ul li:before {
@@ -391,3 +391,46 @@ select {
 }
 
 /*CategorySelectBox*/
+
+/*CategoryTreeFor*/
+
+
+.CategoryTreeBox ul, .CategoryTreeBox ul ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+    .CategoryTreeBox ul ul {
+        margin-left: 15px;
+    }
+
+    .CategoryTreeBox ul li {
+        margin: 0;
+        padding: 0 7px;
+        line-height: 20px;
+        color: #369;
+        border-left: 1px solid rgb(100,100,100);
+    }
+
+        .CategoryTreeBox ul li:last-child {
+            border-left: none;
+        }
+
+        .CategoryTreeBox ul li:before {
+            position: relative;
+            top: -0.3em;
+            height: 1em;
+            width: 12px;
+            color: white;
+            border-bottom: 1px solid rgb(100,100,100);
+            content: "";
+            display: inline-block;
+            left: -7px;
+        }
+
+        .CategoryTreeBox ul li:last-child:before {
+            border-left: 1px solid rgb(100,100,100);
+        }
+
+/*CategoryTreeFor*/

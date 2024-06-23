@@ -125,6 +125,7 @@
     <Compile Include="Controllers\BannerController.cs" />
     <Compile Include="Controllers\BannerTypeController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\CategoryTreeController.cs" />
     <Compile Include="Controllers\ContactInformationController.cs" />
     <Compile Include="Controllers\EditorImageUploadController.cs" />
     <Compile Include="Controllers\ErrorPageController.cs" />
@@ -657,6 +658,7 @@
     <Content Include="Views\ImageCrop\Index.cshtml" />
     <Content Include="Views\ContactInformation\Popup_Add.cshtml" />
     <Content Include="Views\Category\Popup_Add.cshtml" />
+    <Content Include="Views\CategoryTree\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Inta.Framework.Ado.Net\Inta.Framework.Ado.Net.csproj">
