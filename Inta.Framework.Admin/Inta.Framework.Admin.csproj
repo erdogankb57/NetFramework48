@@ -528,9 +528,11 @@
     <Content Include="Content\fancybox\js\jquery.fancybox.min.js" />
     <Content Include="Content\images\delete-icon.png" />
     <Content Include="Content\images\edit-icon.png" />
+    <Content Include="Content\images\file-icon.png" />
     <Content Include="Content\images\image1.jpg" />
     <Content Include="Content\images\login_bg.jpg" />
     <Content Include="Content\images\logo.png" />
+    <Content Include="Content\images\photo-icon.png" />
     <Content Include="Content\images\user-icon.png" />
     <Content Include="Content\images\user.jpg" />
     <Content Include="Content\js\autocomplete.js" />

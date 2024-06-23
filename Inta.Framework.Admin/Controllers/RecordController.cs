@@ -56,8 +56,8 @@ namespace Inta.Framework.Admin.Controllers
                 Id = s.Id,
                 Name = s.Name,
                 IsActive = s.IsActive ? "Aktif" : "Pasif",
-                RecordImage = "<a href='/RecordImage/Index/" + s.Id + "'>Resim Ekle</a>",
-                RecordFile = "<a href='/RecordFile/Index/" + s.Id + "'>Dosya Ekle</a>",
+                RecordImage = "<a href='/RecordImage/Index/" + s.Id + "'><img src='/Content/images/photo-icon.png' width='20'/></a>",
+                RecordFile = "<a href='/RecordFile/Index/" + s.Id + "'><img src='/Content/images/file-icon.png' width='20'/></a>",
                 Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/Record/Add','False'," + s.Id.ToString() + ",AddCallBack)\"><img src='/Content/images/edit-icon.png' width='20'/></a>",
                 Delete = "<a href='javascript:void(0)' onclick=\"$PagingDataList.DeleteRecordModal('RecordList','/Record/Delete',SearchDataList," + s.Id.ToString() + ")\"><img src='/Content/images/delete-icon.png' width='20'/></a>"
             }).ToList();
@@ -162,6 +162,19 @@ namespace Inta.Framework.Admin.Controllers
             {
                 ReturnObject<Banner> result = new ReturnObject<Banner>();
 
+                if (string.IsNullOrEmpty(request.RecordUrl))
+                    request.RecordUrl = StringManager.TextUrlCharSeoReplace(!String.IsNullOrEmpty(request.Name) ? request.Name : "");
+
+                if (string.IsNullOrEmpty(request.Title))
+                    request.Title = request.Name;
+
+                if (string.IsNullOrEmpty(request.MetaDescription))
+                    request.MetaDescription = request.Name;
+
+                if (string.IsNullOrEmpty(request.MetaKeywords))
+                    request.MetaKeywords = request.Name;
+
+
                 if (ImageFile != null)
                 {
                     int imageSmallWidth = 100;
@@ -239,7 +252,7 @@ namespace Inta.Framework.Admin.Controllers
                 if (!string.IsNullOrEmpty(request.Image))
                     parameters.Add(new SqlParameter { ParameterName = "Image", Value = request.Image });
                 else
-                    parameters.Add(new SqlParameter { ParameterName = "Image", Value = DBNull.Value});
+                    parameters.Add(new SqlParameter { ParameterName = "Image", Value = DBNull.Value });
 
                 parameters.Add(new SqlParameter { ParameterName = "OrderNumber", Value = request.OrderNumber });
 
@@ -300,8 +313,8 @@ namespace Inta.Framework.Admin.Controllers
                     return Json(new ReturnObject<Record>
                     {
                         Data = request,
-                        RedirectUrl = ImageFile != null 
-                        ? $"/ImageCrop/Index?ImageName={request.Image}&Dimension=b_&width={500}&height={100}&SaveUrl=/Record/Index?Message=Kayıt ekleme işlemi başarıyla tamamlandı" 
+                        RedirectUrl = ImageFile != null
+                        ? $"/ImageCrop/Index?ImageName={request.Image}&Dimension=b_&width={500}&height={100}&SaveUrl=/Record/Index?Message=Kayıt ekleme işlemi başarıyla tamamlandı"
                         : "/Record/Index?Message=Kayıt ekleme işlemi başarıyla tamamlandı",
 
                         ResultType = MessageType.Success

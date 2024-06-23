@@ -49,6 +49,7 @@
     <Compile Include="ImageManager.cs" />
     <Compile Include="MailManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StringManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

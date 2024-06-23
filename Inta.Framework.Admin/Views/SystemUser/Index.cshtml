@@ -9,10 +9,21 @@
             <div class="form-group">
                 <div class="row">
                     <div class="col-lg-2">
-                        Text
+                        Adı
                     </div>
                     <div class="col-lg-10">
                         <input type="text" class="form-control" id="Name" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-lg-2">
+                        Soyadı
+                    </div>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" id="SurName" />
                     </div>
                 </div>
             </div>
@@ -93,21 +104,21 @@
                     {
                         Name = "IsActive",
                         Text = "Durum",
-                        Width = 100
+                        Width = 70
 
                     });
                     col.Add(new PagingDataListColumn
                     {
                         Name = "Edit",
                         Text = "Düzenle",
-                        Width = 100
+                        Width = 70
 
                     });
                     col.Add(new PagingDataListColumn
                     {
                         Name = "Delete",
                         Text = "Sil",
-                        Width = 100
+                        Width = 70
 
                     });
                 }
@@ -124,12 +135,15 @@
         var SearchDataList = function () {
             $(function () {
                 debugger;
-                var val = { Name: null, IsActive: true };
+                var val = { Name: null, IsActive: true, SurName: null };
                 if ($("#search #Name").val() != "") {
                     val["Name"] = $("#search #Name").val();
                 }
                 if ($("#search #IsActive").val() != "") {
                     val["IsActive"] = $("#search #IsActive").val();
+                }
+                if ($("#search #SurName").val() != "") {
+                    val["SurName"] = $("#search #SurName").val();
                 }
 
                 $PagingDataList.ReloadData("PagingDataList", val);
