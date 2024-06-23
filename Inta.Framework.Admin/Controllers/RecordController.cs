@@ -36,7 +36,7 @@ namespace Inta.Framework.Admin.Controllers
             else
                 Parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = request.Search.IsActive });
 
-            if (request.Search.CategoryId == null)
+            if (request.Search.CategoryId == null || request.Search.CategoryId == 0)
                 Parameters.Add(new SqlParameter { ParameterName = "CategoryId", Value = DBNull.Value });
             else
                 Parameters.Add(new SqlParameter { ParameterName = "CategoryId", Value = request.Search.CategoryId });
