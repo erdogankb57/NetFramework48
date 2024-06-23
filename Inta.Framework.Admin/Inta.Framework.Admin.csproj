@@ -124,6 +124,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BannerController.cs" />
     <Compile Include="Controllers\BannerTypeController.cs" />
+    <Compile Include="Controllers\CategoryBaseController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CategoryTreeController.cs" />
     <Compile Include="Controllers\ContactInformationController.cs" />

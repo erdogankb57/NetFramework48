@@ -8,7 +8,7 @@ using System.Data.SqlClient;
 using System.Text;
 using System.Web.Mvc;
 
-namespace Inta.Framework.Admin.Base.Controllers
+namespace Inta.Framework.Admin.Controllers
 {
     [AuthorizationCheck]
     public class CategoryBaseController : Controller

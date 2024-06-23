@@ -67,7 +67,6 @@
   <ItemGroup>
     <Compile Include="Authorization\AuthenticationData.cs" />
     <Compile Include="Authorization\AuthorizationCheck.cs" />
-    <Compile Include="Controllers\CategoryBaseController.cs" />
     <Compile Include="FormControls\CategoryTree.cs" />
     <Compile Include="FormControls\CheckBoxListFilter.cs" />
     <Compile Include="FormControls\ImageFileUpload.cs" />

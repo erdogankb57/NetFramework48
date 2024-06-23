@@ -39,10 +39,11 @@ namespace Inta.Framework.Admin.Controllers
             else
                 Parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = request.Search.IsActive });
 
+            Parameters.Add(new SqlParameter { ParameterName = "RecordId", Value = HttpContext.Session["RecordId"] });
 
 
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
-            string sqlQuery = "Select * from RecordImage where (@Name is null or Name like '%'+@Name+'%') and (@IsActive is null or IsActive=@IsActive) order by " + request.OrderColumn + (request.OrderType == PagingDataListOrderType.Ascending ? " asc" : " desc");
+            string sqlQuery = "Select * from RecordImage where RecordId=@RecordId and (@Name is null or Name like '%'+@Name+'%') and (@IsActive is null or IsActive=@IsActive) order by " + request.OrderColumn + (request.OrderType == PagingDataListOrderType.Ascending ? " asc" : " desc");
             var data = db.Find<RecordImage>(sqlQuery, System.Data.CommandType.Text, Parameters);
             int count = data?.Data?.ToList()?.Count ?? 0;
 
@@ -188,17 +189,19 @@ namespace Inta.Framework.Admin.Controllers
             else
                 parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 0 });
 
-            parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = 0 });
-
-            parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = AuthenticationData.UserId});
+            parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = AuthenticationData.UserId });
 
 
 
 
             if (request.Id == 0)
             {
+
+                parameters.Add(new SqlParameter { ParameterName = "RecordId", Value = HttpContext.Session["RecordId"] });
+
                 db.ExecuteNoneQuery(@"insert into 
                 RecordImage(
+                RecordId,
                 SystemUserId,
                 Name,
                 ShortExplanation,
@@ -210,6 +213,7 @@ namespace Inta.Framework.Admin.Controllers
                 HomePageStatus,
                 OrderNumber,
                 IsActive) values(
+                @RecordId,
                 @SystemUserId,
                 @Name,
                 @ShortExplanation,
