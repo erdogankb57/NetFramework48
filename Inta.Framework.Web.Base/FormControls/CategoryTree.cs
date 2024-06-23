@@ -26,7 +26,7 @@ namespace Inta.Framework.Admin.Base.FormControls
             shtml.Append("<ul>");
             for (int i = 0; i < category.Data.Rows.Count; i++)
             {
-                shtml.Append("<li>"+ category.Data.Rows[i]["Name"]);
+                shtml.Append("<li><a href='#'>" + category.Data.Rows[i]["Name"]+"</a>");
                 shtml.Append(GetSubCategory(Convert.ToInt32(category.Data.Rows[i]["Id"])));
                 shtml.Append("</li>");
             }
@@ -45,7 +45,7 @@ namespace Inta.Framework.Admin.Base.FormControls
             shtml.Append("<ul>");
             for (int i = 0; i < category.Data.Rows.Count; i++)
             {
-                shtml.Append("<li>" + category.Data.Rows[i]["Name"]);
+                shtml.Append("<li><a href='#'>" + category.Data.Rows[i]["Name"] + "</a>");
                 shtml.Append(GetSubCategory(Convert.ToInt32(category.Data.Rows[i]["Id"])));
                 shtml.Append("</li>");
             }
