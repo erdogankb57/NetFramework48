@@ -14,7 +14,9 @@ namespace Inta.Framework.Admin.Base.FormControls
     {
         public static MvcHtmlString CategoryTreeFor(
         this HtmlHelper content,
-        int Id
+        int Id,
+        string ObjectId,
+        string ObjectName
         )
         {
             StringBuilder shtml = new StringBuilder();
@@ -22,7 +24,7 @@ namespace Inta.Framework.Admin.Base.FormControls
             List<SqlParameter> categoryParameters = new List<SqlParameter>();
             categoryParameters.Add(new SqlParameter { ParameterName = "Id", Value = Id });
             var category = db.Find("Select * from Category where CategoryId=@Id", System.Data.CommandType.Text, categoryParameters);
-            shtml.Append("<div class='CategoryTreeBox'>");
+            shtml.Append($"<div class='CategoryTreeBox' id='{ObjectId}' name='{ObjectName}'>");
             shtml.Append("<ul>");
             for (int i = 0; i < category.Data.Rows.Count; i++)
             {
