@@ -930,8 +930,12 @@ $Form = {
 $CategoryTree = {
     Init: function () {
         $(".CategoryTreeBox ul li a").click(function () {
-            $(".CategoryTreeBox ul li a").removeClass("active");
-            $(this).addClass("active");
+            if ($(this).hasClass("active")) {
+                $(".CategoryTreeBox ul li a").removeClass("active");
+            } else {
+                $(".CategoryTreeBox ul li a").removeClass("active");
+                $(this).addClass("active");
+            }
         });
     },
     Edit: function () {
@@ -939,7 +943,7 @@ $CategoryTree = {
         if (id != undefined) {
             location.href = "/Category/Add/" + id;
         } else {
-            showAlert(".listMessage", "Lütfen silmek istediğiniz kaydı seçiniz", "error");
+            showAlert(".listMessage", "Lütfen düzenlemek istediğiniz kaydı seçiniz", "error");
         }
     },
     Delete: function () {

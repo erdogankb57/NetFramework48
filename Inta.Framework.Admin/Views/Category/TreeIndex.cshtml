@@ -10,9 +10,17 @@
         @Html.CategoryTreeFor(Id: 0, ObjectId: "CategoryTreeBox", ObjectName: "CategoryTreeBox", AddUrl: "/Category/Add/0")
     </div>
 </div>
-
-<script>
+@section scripts{
+    <script>
     $(function () {
         $CategoryTree.Init();
     })
-</script>
+
+        @{
+            if (Request["Message"]!= null)
+            {
+                @Html.Raw("showAlert('.listMessage', '"+ Request["Message"] + "', 'success');");
+            }
+        }
+    </script>
+}

@@ -22,7 +22,7 @@ namespace Inta.Framework.Admin.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return View("TreeIndex");
         }
 
         public ActionResult GetList(PagingDataListRequest<CategorySearch> request)

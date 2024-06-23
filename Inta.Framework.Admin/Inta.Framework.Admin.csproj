@@ -658,7 +658,7 @@
     <Content Include="Views\ImageCrop\Index.cshtml" />
     <Content Include="Views\ContactInformation\Popup_Add.cshtml" />
     <Content Include="Views\Category\Popup_Add.cshtml" />
-    <Content Include="Views\CategoryTree\Index.cshtml" />
+    <Content Include="Views\Category\TreeIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Inta.Framework.Ado.Net\Inta.Framework.Ado.Net.csproj">
