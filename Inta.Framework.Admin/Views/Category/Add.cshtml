@@ -130,7 +130,9 @@
                                 int ImageSmallWidth = Convert.ToInt32(ViewBag.ImageSmallWidth);
                                 int ImageBigWidth = Convert.ToInt32(ViewBag.ImageBigWidth);
 
-                                @Html.ImageFileUploadFor(Id: Model.Id, ObjectId: "ImageFile", ObjectName: "ImageFile", Image: Model.Image, DeleteUrl: "/Category/DeleteImage", ListObjectId: "CategoryList", isBigImage: true, smallImageCropWidth: ImageSmallWidth, smallImageCropHeight: ImageSmallWidth, bigImageCropWidth: ImageBigWidth, bigImageCropHeight: ImageBigWidth, SaveUrl: "/Category/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı")}
+                                string filePath = ViewBag.ImageFolder;
+
+                                @Html.ImageFileUploadFor(Id: Model.Id, ObjectId: "ImageFile", ObjectName: "ImageFile", Image: Model.Image, DeleteUrl: "/Category/DeleteImage", ListObjectId: "CategoryList", SmallSperator: "k_", BigSperator: "b_", CdnUrl: filePath, smallImageCropWidth: ImageSmallWidth, smallImageCropHeight: ImageSmallWidth, bigImageCropWidth: ImageBigWidth, bigImageCropHeight: ImageBigWidth, SaveUrl: "/Category/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı")}
 
                         </div>
                     </div>
@@ -184,7 +186,7 @@
                 else
                 {
                     Html.HiddenFor(m => m.CanBeDeleted);
-                                    }
+                }
             }
 
             @{

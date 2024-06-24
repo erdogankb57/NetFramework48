@@ -129,7 +129,10 @@
                     <label for="exampleFormControlInput1">Resim</label>
                 </div>
                 <div class="col-lg-4">
-                    @Html.ImageFileUploadFor(Id: Model.Id, ObjectId: "FileImage", ObjectName: "FileImage", Image: Model.Image, DeleteUrl: "/ContactInformation/DeleteImage", ListObjectId: "ContactInformationList", isBigImage: true, smallImageCropWidth: 200, smallImageCropHeight: 100, bigImageCropWidth: 500, bigImageCropHeight: 200, SaveUrl: "/ContactInformation/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı")
+                    @{
+                        string cdnUrl = ViewBag.ImageFolder;
+                    }
+                    @Html.ImageFileUploadFor(Id: Model.Id, ObjectId: "FileImage", ObjectName: "FileImage", Image: Model.Image, DeleteUrl: "/ContactInformation/DeleteImage", ListObjectId: "ContactInformationList", SmallSperator: "k_", BigSperator: "b_", CdnUrl: cdnUrl, smallImageCropWidth: 200, smallImageCropHeight: 100, bigImageCropWidth: 500, bigImageCropHeight: 200, SaveUrl: "/ContactInformation/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı")
 
                 </div>
 

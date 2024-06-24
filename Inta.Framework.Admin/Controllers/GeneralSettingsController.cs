@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Web.Mvc;
+using System.Web;
+using Inta.Framework.Extension;
 
 namespace Inta.Framework.Admin.Controllers
 {
@@ -20,16 +22,28 @@ namespace Inta.Framework.Admin.Controllers
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             List<SqlParameter> parameters = new List<SqlParameter>();
             var result = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
+            if (result.Data != null)
+                ViewBag.ImageFolder = result.Data.ImageCdnUrl;
+
             return View(result.Data);
         }
 
         [HttpPost]
-        public ActionResult Save(GeneralSettings request)
+        public ActionResult Save(GeneralSettings request, HttpPostedFileBase Logo)
         {
             ReturnObject<GeneralSettings> data = new ReturnObject<GeneralSettings>();
 
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             List<SqlParameter> parameters = new List<SqlParameter>();
+
+ 
+
+            if (Logo != null)
+            {
+                request.Logo = ImageManager.ImageUploadSingleCopy(Logo, request.ImageUploadPath);
+                parameters.Add(new SqlParameter { ParameterName = "Logo", Value = request.Logo });
+            }
+
 
             if (string.IsNullOrEmpty(request.EmailIpAdress))
                 parameters.Add(new SqlParameter { ParameterName = "EmailIpAdress", Value = DBNull.Value });
@@ -111,8 +125,7 @@ namespace Inta.Framework.Admin.Controllers
 
             parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
 
-
-            db.ExecuteNoneQuery(@"
+            string query = @"
             Update GeneralSettings
             set
             EmailIpAdress=@EmailIpAdress,
@@ -139,9 +152,15 @@ namespace Inta.Framework.Admin.Controllers
             GalleryImageBigWidth=@GalleryImageBigWidth,
             GalleryImageBigHeight=@GalleryImageBigHeight,
             EditorImageUploadCdn=@EditorImageUploadCdn,
-            EditorImageUploadPath=@EditorImageUploadPath
-            where Id=@Id    
-            ", System.Data.CommandType.Text, parameters);
+            EditorImageUploadPath=@EditorImageUploadPath,";
+            if (Logo != null)
+            {
+                query += " Logo=@Logo";
+
+            }
+            query += " where Id=@Id";
+            ;
+            db.ExecuteNoneQuery(query, System.Data.CommandType.Text, parameters);
 
             //return Json(new ReturnObject<GeneralSettings>
             //{

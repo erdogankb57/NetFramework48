@@ -149,7 +149,7 @@ namespace Inta.Framework.Admin.Controllers
 
             if (request.CategoryId == 0)
                 ModelState.AddModelError("CategoryId", "Lütfen kategori seçiniz.");
-            else
+            else if (request.Id == 0)
             {
                 var category = db.Get("Select * from Category where Category.Id=" + Convert.ToInt32(request.CategoryId), System.Data.CommandType.Text);
                 if (!Convert.ToBoolean(category.Data["CanContentBeAdded"]))

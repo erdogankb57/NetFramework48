@@ -44,6 +44,7 @@ namespace Inta.Framework.Entity
         public int GalleryImageSmallHeight { get; set; }
         public int GalleryImageBigWidth { get; set; }
         public int GalleryImageBigHeight { get; set; }
+        public string Logo { get; set; }
 
 
 

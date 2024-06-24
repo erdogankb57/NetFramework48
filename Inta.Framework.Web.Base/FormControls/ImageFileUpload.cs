@@ -20,12 +20,14 @@ namespace Inta.Framework.Admin.Base.FormControls
         string Image = null,
         string DeleteUrl = null,
         string ListObjectId = null,
-        bool isBigImage = true,
+        string SmallSperator = null,
+        string BigSperator = null,
+        string CdnUrl = null,
         int smallImageCropWidth = 0,
         int smallImageCropHeight = 0,
         int bigImageCropWidth = 0,
         int bigImageCropHeight = 0,
-        string SaveUrl = null
+        string SaveUrl = null        
         )
         {
             if (ObjectId is null)
@@ -47,7 +49,7 @@ namespace Inta.Framework.Admin.Base.FormControls
             shtml.Append($@"
                            <div class='image' style='{(string.IsNullOrEmpty(Image) ? "display:none" : "display:block")}'>
                                     <div class='small-image-content'>
-                                        <a id='ImageLink' href='{ConfigurationManager.AppSettings["ImageUpload"] + (isBigImage ? "b_" : "k_") + Image}' data-fancybox data-caption=''><img class='ImagePreview' src='{ConfigurationManager.AppSettings["ImageUpload"] + "k_" + Image}' width='100' height='100' style='border:solid 1px #000000' /></a>
+                                        <a id='ImageLink' href='{CdnUrl + BigSperator + Image}' data-fancybox data-caption=''><img class='ImagePreview' src='{CdnUrl + SmallSperator + Image}' width='100' height='100' style='border:solid 1px #000000' /></a>
                                     </div>
                                     <div class='image-delete'>
                                         <button type='button' class='btn btn-standart' onclick=""$ImageFileUpload.Delete({Id},'{ObjectId}','{ListObjectId}')"">Resmi sil</button>
