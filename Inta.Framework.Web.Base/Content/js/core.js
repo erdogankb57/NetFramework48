@@ -845,6 +845,7 @@ $Form = {
         //});
 
         $("#" + formId).submit(function (e) {
+            debugger;
             e.preventDefault();
 
             $("#" + formId + " .error").remove();
@@ -970,8 +971,12 @@ $CategoryTree = {
                 data: { "ids": id },
                 success: function (response) {
                     debugger;
-                    showAlert(".listMessage", "Kayıt silme işlemi başarıyla tamamlandı.", "success");
-
+                    if (response.ResultType == 0) {
+                        showAlert(".listMessage", response.ErrorMessage, "success");
+                    } else {
+                        showAlert(".listMessage", response.ErrorMessage, "error");
+                    }
+                    
 
                 },
                 complete: function () {

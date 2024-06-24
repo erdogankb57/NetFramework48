@@ -129,7 +129,7 @@ namespace Inta.Framework.Admin.Controllers
                 ViewBag.ImageFolder = generalSettings.Data.ImageCdnUrl;
 
             if (id == null || id == 0)
-                return PartialView("Add", new Record { IsActive = true });
+                return PartialView("Add", new Record { IsActive = true, TargetId = 1 });
             else
             {
                 var model = db.Get<Record>("select * from [Record] where Id=@Id", System.Data.CommandType.Text, parameters);

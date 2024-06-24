@@ -130,12 +130,25 @@ namespace Inta.Framework.Admin.Controllers
         [HttpPost]
         public ActionResult Delete(string ids)
         {
+            ReturnObject<Category> returnObject = new ReturnObject<Category>();
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             foreach (var item in ids.Split(',').ToList())
             {
-                var result = db.ExecuteNoneQuery("Delete from Category where id=" + item, System.Data.CommandType.Text);
+                var category = db.Get<Category>("select * from Category where id=" + Convert.ToInt32(item), System.Data.CommandType.Text);
+                if (category.Data.CanBeDeleted)
+                {
+                    db.ExecuteNoneQuery("Delete from Category where id=" + Convert.ToInt32(item), System.Data.CommandType.Text);
+                    returnObject.ErrorMessage = "Kayıt başarıyla silindi";
+                    returnObject.ResultType = MessageType.Success;
+                }
+                else
+                {
+                    returnObject.ErrorMessage = "Bu kategori silinemez.Lütfen kategori silinebilme özelliğini düzenleyiniz.";
+                    returnObject.ResultType = MessageType.Error;
+                }
+
             }
-            return Json("OK", JsonRequestBehavior.AllowGet);
+            return Json(returnObject, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -201,6 +214,7 @@ namespace Inta.Framework.Admin.Controllers
         {
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
 
+            
             if (request.Id == 0 && request.CategoryId != 0)
             {
                 var category = db.Get("Select * from Category where Id=" + request.CategoryId, System.Data.CommandType.Text);
@@ -211,6 +225,9 @@ namespace Inta.Framework.Admin.Controllers
             }
             if (ModelState.IsValid)
             {
+                if (string.IsNullOrEmpty(request.CategoryUrl))
+                    request.CategoryUrl = StringManager.TextUrlCharSeoReplace(!String.IsNullOrEmpty(request.Name) ? request.Name : "");
+
                 ReturnObject<Category> result = new ReturnObject<Category>();
 
                 if (ImageFile != null)
@@ -309,6 +326,11 @@ namespace Inta.Framework.Admin.Controllers
                 else
                     parameters.Add(new SqlParameter { ParameterName = "CanSubCategoryBeAdded", Value = 0 });
 
+                if (request.CanBeDeleted)
+                    parameters.Add(new SqlParameter { ParameterName = "CanBeDeleted", Value = 1 });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "CanBeDeleted", Value = 0 });
+
                 parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = AuthenticationData.UserId });
 
 
@@ -337,7 +359,8 @@ namespace Inta.Framework.Admin.Controllers
                 Explanation,
                 OrderNumber,
                 IsActive,
-                CanSubCategoryBeAdded
+                CanSubCategoryBeAdded,
+                CanBeDeleted
                 )
                 values(
                 @SystemUserId,
@@ -358,7 +381,8 @@ namespace Inta.Framework.Admin.Controllers
                 @Explanation,
                 @OrderNumber,
                 @IsActive,
-                @CanSubCategoryBeAdded
+                @CanSubCategoryBeAdded,
+                @CanBeDeleted
                 ); SELECT SCOPE_IDENTITY()
                 ");
                     var inserted = db.ExecuteScalar(shtml.ToString(), System.Data.CommandType.Text, parameters);
@@ -397,7 +421,8 @@ namespace Inta.Framework.Admin.Controllers
                 ImageTitle=@ImageTitle,
                 Explanation=@Explanation,
                 OrderNumber=@OrderNumber,
-                CanSubCategoryBeAdded=@CanSubCategoryBeAdded
+                CanSubCategoryBeAdded=@CanSubCategoryBeAdded,
+                CanBeDeleted=@CanBeDeleted
                 where Id=@Id");
                     db.ExecuteNoneQuery(shtml.ToString(), System.Data.CommandType.Text, parameters);
 

@@ -3,7 +3,7 @@
     List<SelectListItem> targets = new List<SelectListItem>();
     targets.Add(new SelectListItem { Text = "Seçiniz", Value = "" });
     targets.Add(new SelectListItem { Text = "Farklı sekmede aç", Value = "1" });
-    targets.Add(new SelectListItem { Text = "Aynı sayfada aç", Value = "1" });
+    targets.Add(new SelectListItem { Text = "Aynı sayfada aç", Value = "2", Selected = true });
 }
 <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -64,7 +64,7 @@
                     <div class="col-lg-3">
                         <label for="exampleFormControlInput1">Resim</label>
                     </div><div class="col-lg-9">
-                        @Html.ImageFileUploadFor(Id: Model.Id, ObjectId: "ImageName", ObjectName: "ImageName", Image: Model.ImageName, DeleteUrl: "/RecordImage/DeleteImage", ListObjectId: "PagingDataList",isBigImage:true,smallImageCropWidth:200, smallImageCropHeight:200,bigImageCropWidth:200, bigImageCropHeight:200, SaveUrl: "/RecordImage/Index/"+ Session["RecordId"])
+                        @Html.ImageFileUploadFor(Id: Model.Id, ObjectId: "ImageName", ObjectName: "ImageName", Image: Model.ImageName, DeleteUrl: "/RecordImage/DeleteImage", ListObjectId: "PagingDataList", isBigImage: true, smallImageCropWidth: 200, smallImageCropHeight: 200, bigImageCropWidth: 200, bigImageCropHeight: 200, SaveUrl: "/RecordImage/Index/" + Session["RecordId"])
                     </div>
                 </div>
             </div>
