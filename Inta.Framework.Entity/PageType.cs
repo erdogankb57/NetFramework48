@@ -34,7 +34,6 @@ namespace Inta.Framework.Entity
 		public string ViewName { get; set; }
 		public bool IsExplanationEnabled { get; set; }
 		public bool IsShortExplanationEnabled { get; set; }
-		public bool CanContentBeAdded { get; set; }
 		public bool IsMenuFirstRecord { get; set; }
 		public bool IsMenuFirstCategory { get; set; }
 		public bool IsPagingEnabled { get; set; }

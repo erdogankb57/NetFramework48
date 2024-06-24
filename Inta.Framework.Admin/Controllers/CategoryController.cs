@@ -181,7 +181,7 @@ namespace Inta.Framework.Admin.Controllers
 
             if (id == 0 || id == null)
             {
-                var category = new Category { IsActive = true, CategoryId = 0, CanSubCategoryBeAdded = true };
+                var category = new Category { IsActive = true, CategoryId = 0, CanSubCategoryBeAdded = true, CanContentBeAdded = true, CanBeDeleted = true };
                 if (!string.IsNullOrEmpty(Request["MainCategoryId"]))
                     category.CategoryId = Convert.ToInt32(Request["MainCategoryId"]);
 
@@ -214,7 +214,7 @@ namespace Inta.Framework.Admin.Controllers
         {
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
 
-            
+
             if (request.Id == 0 && request.CategoryId != 0)
             {
                 var category = db.Get("Select * from Category where Id=" + request.CategoryId, System.Data.CommandType.Text);
@@ -335,6 +335,12 @@ namespace Inta.Framework.Admin.Controllers
                 else
                     parameters.Add(new SqlParameter { ParameterName = "CanSubCategoryBeAdded", Value = 0 });
 
+                if (request.CanContentBeAdded)
+                    parameters.Add(new SqlParameter { ParameterName = "CanContentBeAdded", Value = 1 });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "CanContentBeAdded", Value = 0 });
+
+
                 if (request.CanBeDeleted)
                     parameters.Add(new SqlParameter { ParameterName = "CanBeDeleted", Value = 1 });
                 else
@@ -369,7 +375,8 @@ namespace Inta.Framework.Admin.Controllers
                 OrderNumber,
                 IsActive,
                 CanSubCategoryBeAdded,
-                CanBeDeleted
+                CanBeDeleted,
+                CanContentBeAdded
                 )
                 values(
                 @SystemUserId,
@@ -391,7 +398,8 @@ namespace Inta.Framework.Admin.Controllers
                 @OrderNumber,
                 @IsActive,
                 @CanSubCategoryBeAdded,
-                @CanBeDeleted
+                @CanBeDeleted,
+                @CanContentBeAdded
                 ); SELECT SCOPE_IDENTITY()
                 ");
                     var inserted = db.ExecuteScalar(shtml.ToString(), System.Data.CommandType.Text, parameters);
@@ -431,7 +439,8 @@ namespace Inta.Framework.Admin.Controllers
                 Explanation=@Explanation,
                 OrderNumber=@OrderNumber,
                 CanSubCategoryBeAdded=@CanSubCategoryBeAdded,
-                CanBeDeleted=@CanBeDeleted
+                CanBeDeleted=@CanBeDeleted,
+                CanContentBeAdded=@CanContentBeAdded
                 where Id=@Id");
                     db.ExecuteNoneQuery(shtml.ToString(), System.Data.CommandType.Text, parameters);
 

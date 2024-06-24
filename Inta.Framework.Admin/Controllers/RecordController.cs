@@ -151,7 +151,7 @@ namespace Inta.Framework.Admin.Controllers
                 ModelState.AddModelError("CategoryId", "Lütfen kategori seçiniz.");
             else
             {
-                var category = db.Get("Select * from Category inner join PageType on Category.PageTypeId=PageType.Id where Category.Id=" + request.CategoryId, System.Data.CommandType.Text);
+                var category = db.Get("Select * from Category where Category.Id=" + Convert.ToInt32(request.CategoryId), System.Data.CommandType.Text);
                 if (!Convert.ToBoolean(category.Data["CanContentBeAdded"]))
                 {
                     ModelState.AddModelError("CategoryId", "Seçtiğiniz kategoriye içerik eklenemez. Lütfen başka bir kategori seçiniz.");

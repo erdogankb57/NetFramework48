@@ -149,7 +149,6 @@ namespace Inta.Framework.Admin.Controllers
 
                 parameters.Add(new SqlParameter { ParameterName = "IsExplanationEnabled", Value = request.IsExplanationEnabled });
                 parameters.Add(new SqlParameter { ParameterName = "IsShortExplanationEnabled", Value = request.IsShortExplanationEnabled });
-                parameters.Add(new SqlParameter { ParameterName = "CanContentBeAdded", Value = request.CanContentBeAdded });
                 parameters.Add(new SqlParameter { ParameterName = "IsMenuFirstRecord", Value = request.IsMenuFirstRecord });
                 parameters.Add(new SqlParameter { ParameterName = "IsMenuFirstCategory", Value = request.IsMenuFirstCategory });
                 parameters.Add(new SqlParameter { ParameterName = "IsPagingEnabled", Value = request.IsPagingEnabled });
@@ -173,7 +172,6 @@ namespace Inta.Framework.Admin.Controllers
                 ViewName,
                 IsExplanationEnabled,
                 IsShortExplanationEnabled,
-                CanContentBeAdded,
                 IsMenuFirstRecord,
                 IsMenuFirstCategory,
                 IsPagingEnabled,
@@ -188,7 +186,6 @@ namespace Inta.Framework.Admin.Controllers
                 @ViewName,
                 @IsExplanationEnabled,
                 @IsShortExplanationEnabled,
-                @CanContentBeAdded,
                 @IsMenuFirstRecord,
                 @IsMenuFirstCategory,
                 @IsPagingEnabled,
@@ -212,7 +209,6 @@ namespace Inta.Framework.Admin.Controllers
                 ViewName=@ViewName,
                 IsExplanationEnabled=@IsExplanationEnabled,
                 IsShortExplanationEnabled=@IsShortExplanationEnabled,
-                CanContentBeAdded=@CanContentBeAdded,
                 IsMenuFirstRecord=@IsMenuFirstRecord,
                 IsMenuFirstCategory=@IsMenuFirstCategory,   
                 IsPagingEnabled=@IsPagingEnabled,

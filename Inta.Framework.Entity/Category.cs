@@ -42,5 +42,6 @@ namespace Inta.Framework.Entity
         public DateTime RecordDate { get; set; }
         public bool IsActive { get; set; }
         public string Explanation { get; set; }
+        public bool CanContentBeAdded { get; set; }
     }
 }
