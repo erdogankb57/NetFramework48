@@ -228,6 +228,15 @@ namespace Inta.Framework.Admin.Controllers
                 if (string.IsNullOrEmpty(request.CategoryUrl))
                     request.CategoryUrl = StringManager.TextUrlCharSeoReplace(!String.IsNullOrEmpty(request.Name) ? request.Name : "");
 
+                if (string.IsNullOrEmpty(request.Title))
+                    request.Title = request.Name;
+
+                if (string.IsNullOrEmpty(request.MetaDecription))
+                    request.MetaDecription = request.Name;
+
+                if (string.IsNullOrEmpty(request.MetaKeywords))
+                    request.MetaKeywords = request.Name;
+
                 ReturnObject<Category> result = new ReturnObject<Category>();
 
                 if (ImageFile != null)
