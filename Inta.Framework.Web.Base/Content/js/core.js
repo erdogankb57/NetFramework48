@@ -854,7 +854,18 @@ $Form = {
 
             //$Form.Validation(formId);
 
-            var formData = new FormData($('#' + formId)[0]);
+            var formData = new FormData($("#" + formId)[0]);
+            
+
+
+            $("textarea.ckeditor").each(function () {
+                var shortContentEditor = CKEDITOR.instances[$(this).attr("id")];
+                formData.set([$(this).attr("name")], shortContentEditor.getData());
+
+
+            });
+
+
             $.ajax({
                 url: formPostUrl,
                 type: "POST",
@@ -870,6 +881,8 @@ $Form = {
                             $('#' + formId)[0].reset();
                             location.href = data.RedirectUrl;
                         }
+
+                        $Form.Init(formId);
 
                         //var keys = Object.keys(data.Data);
                         //for (var i = 0; i < keys.length; i++) {
