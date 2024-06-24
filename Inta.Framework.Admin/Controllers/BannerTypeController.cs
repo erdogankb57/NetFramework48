@@ -73,6 +73,30 @@ namespace Inta.Framework.Admin.Controllers
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             foreach (var item in ids.Split(',').ToList())
             {
+                var bannerList = db.Find<Banner>("Select * from Banner where BannerTypeId=" + Convert.ToInt32(item), System.Data.CommandType.Text);
+
+                if (bannerList.Data != null)
+                {
+                    foreach (var banner in bannerList.Data)
+                    {
+                        if (!string.IsNullOrEmpty(banner.Image))
+                        {
+                            var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
+                            string filepath = generalSettings.Data.ImageUploadPath;
+                            if (System.IO.File.Exists(generalSettings.Data.ImageUploadPath + "\\" + "k_" + banner.Image))
+                                System.IO.File.Delete(generalSettings.Data.ImageUploadPath + "\\" + "k_" + banner.Image);
+
+                            if (System.IO.File.Exists(generalSettings.Data.ImageUploadPath + "\\" + "b_" + banner.Image))
+                                System.IO.File.Delete(generalSettings.Data.ImageUploadPath + "\\" + "b_" + banner.Image);
+
+                            if (System.IO.File.Exists(generalSettings.Data.ImageUploadPath + "\\" + banner.Image))
+                                System.IO.File.Delete(generalSettings.Data.ImageUploadPath + "\\" + banner.Image);
+
+                        }
+                        //Banner sil
+                        db.ExecuteNoneQuery("Delete Banner where Id=" + Convert.ToInt32(banner.Id), System.Data.CommandType.Text);
+                    }
+                }
                 var result = db.ExecuteNoneQuery("Delete from BannerType where id=" + item, System.Data.CommandType.Text);
             }
             return Json("OK", JsonRequestBehavior.AllowGet);
