@@ -223,7 +223,7 @@
                 </div><div class="col-lg-4">
                     @{
                         string filePath = ViewBag.ImageFolder;
-                        @Html.ImageFileUploadFor(Id: Model.Id, ObjectId: "Logo", ObjectName: "Logo", Image: Model.Logo, DeleteUrl: "/Banner/DeleteImage", ListObjectId: "PagingDataList", SmallSperator: "", BigSperator: "", CdnUrl: filePath);
+                        @Html.ImageFileUploadFor(Id: Model.Id, ObjectId: "Logo", ObjectName: "Logo", Image: Model.Logo, DeleteUrl: "/GeneralSettings/DeleteImage", ListObjectId: "PagingDataList", SmallSperator: "", BigSperator: "", CdnUrl: filePath, isImageCrop:false);
                     }
                 </div>
             </div>

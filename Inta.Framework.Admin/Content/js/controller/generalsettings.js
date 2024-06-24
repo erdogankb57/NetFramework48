@@ -20,9 +20,10 @@ $(document).ready(function () {
             processData: false,
             success: function (data) {
                 if (data.ResultType == 0) {
+                    location.reload();
                     setTimeout(function () {
                         showAlert(".popupMessage", "Kayıt işlemi başarıyla tamamlandı.", "success");
-                    }, 100);
+                    }, 500);
                 }
                 else
                     setTimeout(function () {

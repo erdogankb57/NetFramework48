@@ -171,5 +171,38 @@ namespace Inta.Framework.Admin.Controllers
 
             return Json(data);
         }
+
+        [HttpPost]
+        public ActionResult DeleteImage(string id)
+        {
+            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter { ParameterName = "Id", Value = id });
+            var banner = db.Get<GeneralSettings>("select * from GeneralSettings where Id=" + Convert.ToInt32(id), System.Data.CommandType.Text).Data;
+            if (banner != null && !string.IsNullOrEmpty(banner.Logo))
+            {
+                DeleteImageFile(banner.Logo);
+                var result = db.ExecuteNoneQuery("Update GeneralSettings set Logo='' where Id=@Id", System.Data.CommandType.Text, parameters);
+            }
+
+            return Json("OK", JsonRequestBehavior.AllowGet);
+        }
+
+        private void DeleteImageFile(string Image)
+        {
+            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+
+            var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
+            string filepath = generalSettings.Data.ImageUploadPath;
+            if (System.IO.File.Exists(generalSettings.Data.ImageUploadPath + "\\" + "k_" + Image))
+                System.IO.File.Delete(generalSettings.Data.ImageUploadPath + "\\" + "k_" + Image);
+
+            if (System.IO.File.Exists(generalSettings.Data.ImageUploadPath + "\\" + "b_" + Image))
+                System.IO.File.Delete(generalSettings.Data.ImageUploadPath + "\\" + "b_" + Image);
+
+            if (System.IO.File.Exists(generalSettings.Data.ImageUploadPath + "\\" + Image))
+                System.IO.File.Delete(generalSettings.Data.ImageUploadPath + "\\" + Image);
+
+        }
     }
 }

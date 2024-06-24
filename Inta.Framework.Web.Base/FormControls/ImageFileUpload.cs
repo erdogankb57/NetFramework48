@@ -27,7 +27,8 @@ namespace Inta.Framework.Admin.Base.FormControls
         int smallImageCropHeight = 0,
         int bigImageCropWidth = 0,
         int bigImageCropHeight = 0,
-        string SaveUrl = null        
+        string SaveUrl = null,
+        bool isImageCrop = true
         )
         {
             if (ObjectId is null)
@@ -56,7 +57,7 @@ namespace Inta.Framework.Admin.Base.FormControls
                                     </div>
                                     ");
 
-            if (!string.IsNullOrEmpty(Image))
+            if (!string.IsNullOrEmpty(Image) && isImageCrop)
             {
                 shtml.Append($@"
                                     <div class='image-delete'>
