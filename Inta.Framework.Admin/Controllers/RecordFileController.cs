@@ -39,9 +39,11 @@ namespace Inta.Framework.Admin.Controllers
             else
                 Parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = request.Search.IsActive });
 
+            Parameters.Add(new SqlParameter { ParameterName = "RecordId", Value = HttpContext.Session["RecordId"] });
+
 
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
-            string sqlQuery = "Select * from RecordFile where (@Name is null or Name like '%'+@Name+'%') and (@IsActive is null or IsActive=@IsActive) order by " + request.OrderColumn + (request.OrderType == PagingDataListOrderType.Ascending ? " asc" : " desc");
+            string sqlQuery = "Select * from RecordFile where RecordId=@RecordId and (@Name is null or Name like '%'+@Name+'%') and (@IsActive is null or IsActive=@IsActive) order by " + request.OrderColumn + (request.OrderType == PagingDataListOrderType.Ascending ? " asc" : " desc");
             var data = db.Find<RecordFile>(sqlQuery, System.Data.CommandType.Text, Parameters);
             int count = data?.Data?.ToList()?.Count ?? 0;
 
@@ -106,8 +108,10 @@ namespace Inta.Framework.Admin.Controllers
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             List<SqlParameter> parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter { ParameterName = "Id", Value = id });
-
-            ViewBag.ImageFolder = System.Configuration.ConfigurationManager.AppSettings["ImageUpload"].ToString();
+                        
+            var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
+            if (generalSettings.Data != null)
+                ViewBag.FileShowFolder = generalSettings.Data.FileCdnUrl;
 
             if (id == 0)
                 return PartialView("Add", new RecordFile { IsActive = true });
@@ -127,11 +131,13 @@ namespace Inta.Framework.Admin.Controllers
             ReturnObject<RecordFile> result = new ReturnObject<RecordFile>();
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
 
-            string filepath = ConfigurationManager.AppSettings["ImageUpload"].ToString();
-
-            if (FileName != null)
+            string filepath = "";
+            var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
+            if (FileName != null && generalSettings.Data != null)
             {
-                request.FileName = ImageManager.ImageUploadSingleCopy(FileName, filepath);
+                filepath = generalSettings.Data.FileUploadPath;
+
+                request.FileName = FileManager.FileUpload(FileName, filepath);
             }
 
             List<SqlParameter> parameters = new List<SqlParameter>();
@@ -181,8 +187,11 @@ namespace Inta.Framework.Admin.Controllers
 
             if (request.Id == 0)
             {
+                parameters.Add(new SqlParameter { ParameterName = "RecordId", Value = HttpContext.Session["RecordId"] });
+
                 db.ExecuteNoneQuery(@"insert into 
                 RecordFile(
+                RecordId,
                 SystemUserId,
                 Name,
                 ShortExplanation,
@@ -194,6 +203,7 @@ namespace Inta.Framework.Admin.Controllers
                 HomePageStatus,
                 OrderNumber,
                 IsActive) values(
+                @RecordId,
                 @SystemUserId,
                 @Name,
                 @ShortExplanation,

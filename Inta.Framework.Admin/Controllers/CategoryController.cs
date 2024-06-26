@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Transactions;
 
 namespace Inta.Framework.Admin.Controllers
 {
@@ -132,22 +133,73 @@ namespace Inta.Framework.Admin.Controllers
         {
             ReturnObject<Category> returnObject = new ReturnObject<Category>();
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
-            foreach (var item in ids.Split(',').ToList())
+            using (TransactionScope scope = new TransactionScope())
             {
-                var category = db.Get<Category>("select * from Category where id=" + Convert.ToInt32(item), System.Data.CommandType.Text);
-                if (category.Data.CanBeDeleted)
+                try
                 {
-                    db.ExecuteNoneQuery("Delete from Category where id=" + Convert.ToInt32(item), System.Data.CommandType.Text);
-                    returnObject.ErrorMessage = "Kayıt başarıyla silindi";
-                    returnObject.ResultType = MessageType.Success;
+                    foreach (var item in ids.Split(',').ToList())
+                    {
+                        var category = db.Get<Category>("select * from Category where id=" + Convert.ToInt32(item), System.Data.CommandType.Text);
+                        //Kategori silinebilme özelliği var mı
+                        if (category.Data != null && category.Data.CanBeDeleted)
+                        {
+                            DeleteImageFile(category.Data.Image);
+
+                            var recordList = db.Find<Record>("Select * from Record where CategoryId=" + category.Data.Id, System.Data.CommandType.Text);
+                            if (recordList.Data != null)
+                            {
+                                foreach (var record in recordList.Data)
+                                {
+
+                                    db.ExecuteNoneQuery("Delete from Record where Id=" + record.Id, System.Data.CommandType.Text);
+                                    //Record resimler silinecek
+                                    DeleteImageFile(record.Image);
+
+                                    var recordImageList = db.Find<RecordImage>("Select * from RecordImage where RecordId=" + record.Id, System.Data.CommandType.Text);
+                                    if (recordImageList.Data != null)
+                                    {
+                                        foreach (var recordImage in recordImageList.Data)
+                                        {
+                                            db.ExecuteNoneQuery("delete from RecordImage where Id=" + recordImage.Id, System.Data.CommandType.Text);
+                                            //RecordImage resimler silinecek
+                                            DeleteImageFile(recordImage.ImageName);
+                                        }
+                                    }
+
+                                    var recordFileList = db.Find<RecordFile>("Select * from RecordImage where RecordId=" + record.Id, System.Data.CommandType.Text);
+                                    if (recordFileList.Data != null)
+                                    {
+                                        foreach (var recordFile in recordFileList.Data)
+                                        {
+                                            db.ExecuteNoneQuery("delete from RecordFile where Id=" + recordFile.Id, System.Data.CommandType.Text);
+                                            //RecordFile dosyalar silinecek
+                                            DeleteFile(recordFile.FileName);
+                                        }
+                                    }
+                                }
+                            }
+
+                            db.ExecuteNoneQuery("Delete from Category where id=" + Convert.ToInt32(item), System.Data.CommandType.Text);
+                            returnObject.ErrorMessage = "Kayıt başarıyla silindi";
+                            returnObject.ResultType = MessageType.Success;
+                        }
+                        else
+                        {
+                            returnObject.ErrorMessage = "Bu kategori silinemez.Lütfen kategori silinebilme özelliğini düzenleyiniz.";
+                            returnObject.ResultType = MessageType.Error;
+                        }
+
+                    }
+
+                    scope.Complete();
                 }
-                else
+                catch (Exception ex)
                 {
-                    returnObject.ErrorMessage = "Bu kategori silinemez.Lütfen kategori silinebilme özelliğini düzenleyiniz.";
-                    returnObject.ResultType = MessageType.Error;
+
                 }
 
             }
+
             return Json(returnObject, JsonRequestBehavior.AllowGet);
         }
 
@@ -490,6 +542,34 @@ namespace Inta.Framework.Admin.Controllers
             var result = db.Get<PageType>("select * from PageType where Id=@Id", System.Data.CommandType.Text, parameters);
 
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        private void DeleteImageFile(string Image)
+        {
+            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+
+            var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
+            string filepath = generalSettings.Data.ImageUploadPath;
+            if (System.IO.File.Exists(generalSettings.Data.ImageUploadPath + "\\" + "k_" + Image))
+                System.IO.File.Delete(generalSettings.Data.ImageUploadPath + "\\" + "k_" + Image);
+
+            if (System.IO.File.Exists(generalSettings.Data.ImageUploadPath + "\\" + "b_" + Image))
+                System.IO.File.Delete(generalSettings.Data.ImageUploadPath + "\\" + "b_" + Image);
+
+            if (System.IO.File.Exists(generalSettings.Data.ImageUploadPath + "\\" + Image))
+                System.IO.File.Delete(generalSettings.Data.ImageUploadPath + "\\" + Image);
+
+        }
+
+        private void DeleteFile(string File)
+        {
+            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+
+            var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
+            string filepath = generalSettings.Data.ImageUploadPath;
+            if (System.IO.File.Exists(generalSettings.Data.FileUploadPath + "\\" + File))
+                System.IO.File.Delete(generalSettings.Data.FileUploadPath + "\\" + File);
+
         }
     }
 }

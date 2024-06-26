@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileManager.cs" />
     <Compile Include="ImageManager.cs" />
     <Compile Include="MailManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

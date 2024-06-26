@@ -76,7 +76,13 @@ namespace Inta.Framework.Admin.Controllers
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             foreach (var item in ids.Split(',').ToList())
             {
-                var result = db.ExecuteNoneQuery("Delete from ContactInformation where id=" + item, System.Data.CommandType.Text);
+                var contact = db.Get<ContactInformation>("select * from ContactInformation where Id=" + Convert.ToInt32(item), System.Data.CommandType.Text);
+                if (contact.Data != null)
+                {
+                    if (!string.IsNullOrEmpty(contact.Data.Image))
+                        DeleteImageFile(contact.Data.Image);
+                    var result = db.ExecuteNoneQuery("Delete from ContactInformation where id=" + Convert.ToInt32(item), System.Data.CommandType.Text);
+                }
             }
             return Json("OK", JsonRequestBehavior.AllowGet);
         }
@@ -107,7 +113,7 @@ namespace Inta.Framework.Admin.Controllers
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             List<SqlParameter> parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter { ParameterName = "Id", Value = id });
-           
+
             var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
             if (generalSettings.Data != null)
                 ViewBag.ImageFolder = generalSettings.Data.ImageCdnUrl;
@@ -332,9 +338,34 @@ namespace Inta.Framework.Admin.Controllers
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             List<SqlParameter> parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter { ParameterName = "Id", Value = id });
-            var result = db.ExecuteNoneQuery("Update ContactInformation set Image='' where Id=@Id", System.Data.CommandType.Text, parameters);
+
+            var contact = db.Get<ContactInformation>("select * from ContactInformation where Id=" + Convert.ToInt32(id), System.Data.CommandType.Text);
+            if (contact.Data != null)
+            {
+                if (!string.IsNullOrEmpty(contact.Data.Image))
+                    DeleteImageFile(contact.Data.Image);
+
+                var result = db.ExecuteNoneQuery("Update ContactInformation set Image='' where Id=@Id", System.Data.CommandType.Text, parameters);
+            }
 
             return Json("OK", JsonRequestBehavior.AllowGet);
+        }
+
+        private void DeleteImageFile(string Image)
+        {
+            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+
+            var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
+            string filepath = generalSettings.Data.ImageUploadPath;
+            if (System.IO.File.Exists(generalSettings.Data.ImageUploadPath + "\\" + "k_" + Image))
+                System.IO.File.Delete(generalSettings.Data.ImageUploadPath + "\\" + "k_" + Image);
+
+            if (System.IO.File.Exists(generalSettings.Data.ImageUploadPath + "\\" + "b_" + Image))
+                System.IO.File.Delete(generalSettings.Data.ImageUploadPath + "\\" + "b_" + Image);
+
+            if (System.IO.File.Exists(generalSettings.Data.ImageUploadPath + "\\" + Image))
+                System.IO.File.Delete(generalSettings.Data.ImageUploadPath + "\\" + Image);
+
         }
     }
 }
