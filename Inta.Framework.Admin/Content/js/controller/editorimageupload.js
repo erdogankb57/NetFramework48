@@ -1,37 +1,69 @@
 ﻿var CropCoordinat;
 
 var ResizeImage = function () {
-    var imageWidth = 700;
-    var imageHeight = 700;
+    var width = 700;
+    var height = 700;
+    var boxWidth = 700;
+    var boxHeight = 700;
+
 
     const img = new Image();
     img.onload = function () {
-        imageWidth = this.width;
-        imageHeight = this.height;
+        trueWidth = this.width;
+        trueHeight = this.height;
 
-        var boxWidth = imageWidth / 1.5;
-        var oranDurumu = false;
-        var boxHeight = boxWidth * imageHeight / imageWidth;
-        if (oranDurumu == false) {
-            boxHeight = boxWidth;
+        var imageWidth = trueWidth;
+        var imageHeight = trueHeight;
+
+
+        //Resim 800px genişliğe göre ayarlanır.
+        if (trueWidth > 700) {
+            var sizeRatio = 700 / trueWidth;
+
+            boxWidth = parseInt(width * sizeRatio);
+            boxHeight = parseInt(height * sizeRatio);
+            imageWidth = parseInt(trueWidth * sizeRatio);
+            imageHeight = parseInt(trueHeight * sizeRatio);
         }
+
+        //if (imageWidth >= 800) {
+        //    imageWidth = 800;
+        //    imageHeight = imageWidth * this.height / this.width;
+        //}
+
+
+        $("#imagePreview img").attr("width", this.width);
+        $("#imagePreview img").attr("height", this.height);
+
+
+
+        var oranDurumu = false;
+        if (boxWidth > imageWidth) {
+            boxWidth = imageWidth;
+        }
+
+        if (boxHeight > imageHeight) {
+            boxHeight = imageHeight;
+        }
+
         var x = imageWidth / 2 - boxWidth / 2;
         var y = imageHeight / 2 - boxHeight / 2;
-        var x1 = x + boxWidth;
-        var y1 = y + boxHeight;
+        var x1 = x + width;
+        var y1 = y + height;
+
 
         $("#imagePreview").Jcrop({
-            aspectRatio: oranDurumu ? imageWidth / imageHeight : false,
+            aspectRatio: oranDurumu ? boxWidth / boxHeight : false,
             setSelect: [x, y, x1, y1],
-            allowSelect: true,
+            allowSelect: false,
             allowMove: true,
             allowResize: true,
-            fixedSupport: true,
+            fixedSupport: false,
             //boxWidth: boxWidth,
             //boxHeight: boxHeight,
             boxWidth: imageWidth,
             boxHeight: imageHeight,
-            trueSize: [imageWidth, imageHeight],
+            trueSize: [trueWidth, trueHeight],
             onSelect: function (c) {
                 CropCoordinat = c;
             }

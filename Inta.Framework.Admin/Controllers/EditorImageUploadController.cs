@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Data.SqlClient;
 
 namespace Inta.Framework.Admin.Controllers
 {
@@ -62,8 +63,11 @@ namespace Inta.Framework.Admin.Controllers
         }
         public ActionResult GetImageList()
         {
-
-            string imageFilePath = HttpContext.Server.MapPath(ConfigurationManager.AppSettings["FileUploadEditor"]);
+            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+            string imageFilePath = "";
+            var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
+            if (generalSettings.Data != null)
+                imageFilePath = generalSettings.Data.EditorImageUploadCdn;
 
             List<FileInfo> imageList = new List<FileInfo>();
 
@@ -82,13 +86,24 @@ namespace Inta.Framework.Admin.Controllers
         {
             if (Image != null)
             {
-                DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
-                string filePath = "";
-                var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
-                if (generalSettings.Data != null)
-                    filePath = generalSettings.Data.EditorImageUploadPath;
+                try
+                {
+                    DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+                    string filePath = "";
+                    var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
+                    if (generalSettings.Data != null)
+                        filePath = generalSettings.Data.EditorImageUploadPath;
 
-                var imageResult = ImageManager.ImageUploadSingleCopy(Image, filePath);
+                    var imageResult = ImageManager.ImageUploadSingleCopy(Image, filePath);
+
+                    List<SqlParameter> parameters = new List<SqlParameter>();
+                    parameters.Add(new SqlParameter { ParameterName = "Name", Value = imageResult });
+                    db.ExecuteNoneQuery("insert into EditorImages(Name) values(@Name)", System.Data.CommandType.Text, parameters);
+                }
+                catch (Exception ex)
+                {
+                }
+
             }
 
             return Json("OK");
