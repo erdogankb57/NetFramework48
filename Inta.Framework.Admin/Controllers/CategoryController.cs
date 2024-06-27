@@ -166,7 +166,7 @@ namespace Inta.Framework.Admin.Controllers
                                         }
                                     }
 
-                                    var recordFileList = db.Find<RecordFile>("Select * from RecordImage where RecordId=" + record.Id, System.Data.CommandType.Text);
+                                    var recordFileList = db.Find<RecordFile>("Select * from RecordFile where RecordId=" + record.Id, System.Data.CommandType.Text);
                                     if (recordFileList.Data != null)
                                     {
                                         foreach (var recordFile in recordFileList.Data)
@@ -182,6 +182,8 @@ namespace Inta.Framework.Admin.Controllers
                             db.ExecuteNoneQuery("Delete from Category where id=" + Convert.ToInt32(item), System.Data.CommandType.Text);
                             returnObject.ErrorMessage = "Kayıt başarıyla silindi";
                             returnObject.ResultType = MessageType.Success;
+
+                            scope.Complete();
                         }
                         else
                         {
@@ -566,7 +568,6 @@ namespace Inta.Framework.Admin.Controllers
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
 
             var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
-            string filepath = generalSettings.Data.ImageUploadPath;
             if (System.IO.File.Exists(generalSettings.Data.FileUploadPath + "\\" + File))
                 System.IO.File.Delete(generalSettings.Data.FileUploadPath + "\\" + File);
 
