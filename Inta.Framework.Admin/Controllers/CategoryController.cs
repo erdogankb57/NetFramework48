@@ -182,8 +182,6 @@ namespace Inta.Framework.Admin.Controllers
                             db.ExecuteNoneQuery("Delete from Category where id=" + Convert.ToInt32(item), System.Data.CommandType.Text);
                             returnObject.ErrorMessage = "Kayıt başarıyla silindi";
                             returnObject.ResultType = MessageType.Success;
-
-                            scope.Complete();
                         }
                         else
                         {

@@ -580,6 +580,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Content\Uploads\EditorImage\" />
     <Folder Include="Content\Uploads\File\" />
+    <Folder Include="Views\CategoryImageSize\" />
     <Folder Include="Views\ResourceFile\" />
   </ItemGroup>
   <ItemGroup>

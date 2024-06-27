@@ -12,6 +12,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Transactions;
 
 namespace Inta.Framework.Admin.Controllers
 {
@@ -77,7 +78,63 @@ namespace Inta.Framework.Admin.Controllers
         [HttpPost]
         public ActionResult Delete(string ids)
         {
+            ReturnObject<Record> returnObject = new ReturnObject<Record>();
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    foreach (var item in ids.Split(',').ToList())
+                    {
+                        var recordList = db.Find<Record>("Select * from Record where Id=" + Convert.ToInt32(item), System.Data.CommandType.Text);
+                        if (recordList.Data != null)
+                        {
+                            foreach (var record in recordList.Data)
+                            {
+
+                                db.ExecuteNoneQuery("Delete from Record where Id=" + record.Id, System.Data.CommandType.Text);
+                                //Record resimler silinecek
+                                DeleteImageFile(record.Image);
+
+                                var recordImageList = db.Find<RecordImage>("Select * from RecordImage where RecordId=" + record.Id, System.Data.CommandType.Text);
+                                if (recordImageList.Data != null)
+                                {
+                                    foreach (var recordImage in recordImageList.Data)
+                                    {
+                                        db.ExecuteNoneQuery("delete from RecordImage where Id=" + recordImage.Id, System.Data.CommandType.Text);
+                                        //RecordImage resimler silinecek
+                                        DeleteImageFile(recordImage.ImageName);
+                                    }
+                                }
+
+                                var recordFileList = db.Find<RecordFile>("Select * from RecordFile where RecordId=" + record.Id, System.Data.CommandType.Text);
+                                if (recordFileList.Data != null)
+                                {
+                                    foreach (var recordFile in recordFileList.Data)
+                                    {
+                                        db.ExecuteNoneQuery("delete from RecordFile where Id=" + recordFile.Id, System.Data.CommandType.Text);
+                                        //RecordFile dosyalar silinecek
+                                        DeleteFile(recordFile.FileName);
+                                    }
+                                }
+                            }
+                        }
+
+                        returnObject.ErrorMessage = "Kayıt başarıyla silindi";
+                        returnObject.ResultType = MessageType.Success;
+
+                    }
+
+                    scope.Complete();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+            }
+
+
             foreach (var item in ids.Split(',').ToList())
             {
                 var result = db.ExecuteNoneQuery("Delete from Record where id=" + item, System.Data.CommandType.Text);
@@ -113,8 +170,13 @@ namespace Inta.Framework.Admin.Controllers
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             List<SqlParameter> parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter { ParameterName = "Id", Value = id });
-            var result = db.ExecuteNoneQuery("Update Record set Image='' where Id=@Id", System.Data.CommandType.Text, parameters);
+            var record = db.Get<Record>("select * from Record where Id="+Convert.ToInt32(id), System.Data.CommandType.Text);
+            if (record.Data != null)
+            {
+                db.ExecuteNoneQuery("Update Record set Image='' where Id=@Id", System.Data.CommandType.Text, parameters);
+                DeleteImageFile(record.Data.Image);
 
+            }
             return Json("OK", JsonRequestBehavior.AllowGet);
         }
         public ActionResult Add(int? id)
@@ -371,6 +433,33 @@ namespace Inta.Framework.Admin.Controllers
                     })
                 });
             }
+        }
+
+        private void DeleteImageFile(string Image)
+        {
+            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+
+            var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
+            string filepath = generalSettings.Data.ImageUploadPath;
+            if (System.IO.File.Exists(generalSettings.Data.ImageUploadPath + "\\" + "k_" + Image))
+                System.IO.File.Delete(generalSettings.Data.ImageUploadPath + "\\" + "k_" + Image);
+
+            if (System.IO.File.Exists(generalSettings.Data.ImageUploadPath + "\\" + "b_" + Image))
+                System.IO.File.Delete(generalSettings.Data.ImageUploadPath + "\\" + "b_" + Image);
+
+            if (System.IO.File.Exists(generalSettings.Data.ImageUploadPath + "\\" + Image))
+                System.IO.File.Delete(generalSettings.Data.ImageUploadPath + "\\" + Image);
+
+        }
+
+        private void DeleteFile(string File)
+        {
+            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+
+            var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
+            if (System.IO.File.Exists(generalSettings.Data.FileUploadPath + "\\" + File))
+                System.IO.File.Delete(generalSettings.Data.FileUploadPath + "\\" + File);
+
         }
     }
 }
