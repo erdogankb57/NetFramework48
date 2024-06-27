@@ -141,6 +141,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ImageCropController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\MessageHistoryController.cs" />
     <Compile Include="Controllers\NoAuthorizationController.cs" />
     <Compile Include="Controllers\PageTypeController.cs" />
@@ -665,6 +666,8 @@
     <Content Include="Views\ContactInformation\Popup_Add.cshtml" />
     <Content Include="Views\Category\Popup_Add.cshtml" />
     <Content Include="Views\Category\TreeIndex.cshtml" />
+    <Content Include="Views\Message\Success.cshtml" />
+    <Content Include="Views\Message\Error.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Inta.Framework.Ado.Net\Inta.Framework.Ado.Net.csproj">

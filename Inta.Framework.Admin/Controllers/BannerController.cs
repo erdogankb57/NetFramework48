@@ -143,6 +143,7 @@ namespace Inta.Framework.Admin.Controllers
         }
 
         [HttpPost]
+        [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Save(Banner request, HttpPostedFileBase Image)
         {
             if (ModelState.IsValid)
@@ -215,12 +216,10 @@ namespace Inta.Framework.Admin.Controllers
                     var banner = db.Get<Banner>("Select * from Banner where Id=" + inserted.Data, System.Data.CommandType.Text);
                     var bannerType = db.Get<BannerType>("Select * from BannerType where Id=" + Convert.ToInt32(banner.Data.BannerTypeId), System.Data.CommandType.Text);
 
-                    return Json(new ReturnObject<Banner>
-                    {
-                        Data = banner.Data,
-                        ResultType = MessageType.Success,
-                        RedirectUrl = Image != null ? $"/ImageCrop/Index?ImageName={banner.Data.Image}&Dimension=b_&width={bannerType.Data.BigImageWidth}&height={bannerType.Data.BigImageHeight}&SaveUrl=/Banner/Index?Message=Kayıt ekleme işlemi başarıyla tamamlandı" : $"/Banner/Index?Message=Kayıt ekleme işlemi başarıyla tamamlandı"
-                    });
+                    string RedirectUrl = Image != null ? $"/ImageCrop/Index?ImageName={banner.Data.Image}&Dimension=b_&width={bannerType.Data.BigImageWidth}&height={bannerType.Data.BigImageHeight}&SaveUrl=/Banner/Index" : $"/Banner/Index";
+
+                    return RedirectToAction("Success", "Message", new MessageModel { RedirectUrl = RedirectUrl, Message = "Kayıt ekleme işlemi başarıyla tamamlandı" });
+
                 }
                 else
                 {
@@ -253,22 +252,15 @@ namespace Inta.Framework.Admin.Controllers
                     var bannerType = db.Get<BannerType>("Select * from BannerType where Id=" + Convert.ToInt32(banner.Data.BannerTypeId), System.Data.CommandType.Text);
 
 
-                    return Json(new ReturnObject<Banner>
-                    {
-                        Data = request,
-                        ResultType = MessageType.Success,
-                        RedirectUrl = Image != null ? $"/ImageCrop/Index?ImageName={banner.Data.Image}&Dimension=b_&width={bannerType.Data.BigImageWidth}&height={bannerType.Data.BigImageHeight}&SaveUrl=/Banner/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı" : $"/Banner/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı"
-                    });
+                    string RedirectUrl = Image != null ? $"/ImageCrop/Index?ImageName={banner.Data.Image}&Dimension=b_&width={bannerType.Data.BigImageWidth}&height={bannerType.Data.BigImageHeight}&SaveUrl=/Banner/Index" : $"/Banner/Index";
+
+                    return RedirectToAction("Success", "Message", new MessageModel { RedirectUrl = RedirectUrl, Message = "Kayıt güncelleme işlemi başarıyla tamamlandı" });
+
                 }
             }
             else
             {
-                return Json(new ReturnObject<Banner>
-                {
-                    Data = request,
-                    ResultType = MessageType.Error,
-                    Validation = ModelState.ToList().Where(v => v.Value.Errors.Any()).Select(s => new { Key = s.Key, Error = s.Value.Errors })
-                });
+                return View("Add", request);
             }
 
         }
