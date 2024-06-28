@@ -7,7 +7,7 @@
 <div class="form-content">
     <div class="popupMessage"></div>
 
-    <form id="saveForm" method="post" novalidate>
+    <form method="post" action="/Category/Save" enctype="multipart/form-data">
         @Html.HiddenFor(m => m.Id)
 
         <div class="container-fluid">

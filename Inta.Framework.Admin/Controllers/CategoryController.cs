@@ -458,14 +458,11 @@ namespace Inta.Framework.Admin.Controllers
 
                     var category = db.Get<Category>("Select * from Category where Id=" + inserted.Data, System.Data.CommandType.Text);
 
+                    string RedirectUrl = ImageFile != null ? $"/ImageCrop/Index?ImageName={category.Data.Image}&Dimension=b_&width={500}&height={100}&SaveUrl=/Category/Index" : "/Category/Index";
 
-                    return Json(new ReturnObject<Category>
-                    {
-                        Data = request,
-                        ResultType = MessageType.Success,
-                        RedirectUrl = ImageFile != null ? $"/ImageCrop/Index?ImageName={category.Data.Image}&Dimension=b_&width={500}&height={100}&SaveUrl=/Category/Index?Message=Kayıt ekleme işlemi başarıyla tamamlandı" : "/Category/Index?Message=Kayıt ekleme işlemi başarıyla tamamlandı"
+                    return RedirectToAction("Success", "Message", new MessageModel { RedirectUrl = RedirectUrl, Message = "Kayıt ekleme işlemi başarıyla tamamlandı" });
 
-                    });
+
                 }
                 else
                 {
@@ -498,27 +495,18 @@ namespace Inta.Framework.Admin.Controllers
 
                     var category = db.Get<Category>("Select * from Category where Id=" + Convert.ToInt32(request.Id), System.Data.CommandType.Text);
 
-                    return Json(new ReturnObject<Category>
-                    {
-                        Data = request,
-                        ResultType = MessageType.Success,
-                        RedirectUrl = ImageFile != null ? $"/ImageCrop/Index?ImageName={category.Data.Image}&Dimension=b_&width={500}&height={100}&SaveUrl=/Category/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı" : "/Category/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı"
 
-                    });
+                    string RedirectUrl = ImageFile != null ? $"/ImageCrop/Index?ImageName={category.Data.Image}&Dimension=b_&width={500}&height={100}&SaveUrl=/Category/Index" : "/Category/Index";
+
+
+
+                    return RedirectToAction("Success", "Message", new MessageModel { RedirectUrl = RedirectUrl, Message = "Kayıt güncelleme işlemi başarıyla tamamlandı" });
+
                 }
             }
             else
             {
-                return Json(new ReturnObject<Category>
-                {
-                    Data = request,
-                    ResultType = MessageType.Error,
-                    Validation = ModelState.ToList().Where(v => v.Value.Errors.Any()).Select(s => new
-                    {
-                        Key = s.Key,
-                        Error = s.Value.Errors
-                    })
-                });
+                return View("Add", request);
             }
         }
 

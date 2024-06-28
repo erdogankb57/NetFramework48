@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Inta.Framework.Admin.Base.Authorization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,6 +12,7 @@ namespace Inta.Framework.Admin.Controllers
         public string RedirectUrl { get; set; }
         public string Message { get; set; }
     }
+    [AuthorizationCheck]
     public class MessageController : Controller
     {
         // GET: Message

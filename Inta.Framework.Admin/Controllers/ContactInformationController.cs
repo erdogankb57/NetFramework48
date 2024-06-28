@@ -280,13 +280,10 @@ namespace Inta.Framework.Admin.Controllers
                 @IsActive)", System.Data.CommandType.Text, parameters);
 
 
+                    string RedirectUrl = FileImage != null ? $"/ImageCrop/Index?ImageName={request.Image}&Dimension=b_&width={500}&height={100}&SaveUrl=/ContactInformation/Index" : "/ContactInformation/Index";
+                    
+                    return RedirectToAction("Success", "Message", new MessageModel { RedirectUrl = RedirectUrl, Message = "Kayıt ekleme işlemi başarıyla tamamlandı" });
 
-                    return Json(new ReturnObject<ContactInformation>
-                    {
-                        Data = request,
-                        ResultType = MessageType.Success,
-                        RedirectUrl = FileImage != null ? $"/ImageCrop/Index?ImageName={request.Image}&Dimension=b_&width={500}&height={100}&SaveUrl=/ContactInformation/Index?Message=Kayıt ekleme işlemi başarıyla tamamlandı" : "/ContactInformation/Index?Message=Kayıt ekleme işlemi başarıyla tamamlandı"
-                    });
                 }
                 else
                 {
@@ -313,22 +310,15 @@ namespace Inta.Framework.Admin.Controllers
                 Image=@Image
                 where Id=@Id", System.Data.CommandType.Text, parameters);
 
-                    return Json(new ReturnObject<ContactInformation>
-                    {
-                        Data = request,
-                        ResultType = MessageType.Success,
-                        RedirectUrl = FileImage != null ? $"/ImageCrop/Index?ImageName={request.Image}&Dimension=b_&width={500}&height={100}&SaveUrl=/ContactInformation/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı" : "/ContactInformation/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı"
-                    });
+                    string RedirectUrl = FileImage != null ? $"/ImageCrop/Index?ImageName={request.Image}&Dimension=b_&width={500}&height={100}&SaveUrl=/ContactInformation/Index" : "/ContactInformation/Index";
+                    
+                    return RedirectToAction("Success", "Message", new MessageModel { RedirectUrl = RedirectUrl, Message = "Kayıt güncelleme işlemi başarıyla tamamlandı" });
+
                 }
             }
             else
             {
-                return Json(new ReturnObject<ContactInformation>
-                {
-                    Data = request,
-                    ResultType = MessageType.Error,
-                    Validation = ModelState.ToList().Where(v => v.Value.Errors.Any()).Select(s => new { Key = s.Key, Error = s.Value.Errors })
-                });
+                return View("Add", request);
             }
         }
 

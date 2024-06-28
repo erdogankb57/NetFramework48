@@ -8,7 +8,7 @@
 <div class="form-content">
     <div class="popupMessage"></div>
 
-    <form id="saveForm" method="post" novalidate>
+    <form method="post" action="/GeneralSettings/Save" enctype="multipart/form-data">
 
         @Html.HiddenFor(h => h.Id)
 

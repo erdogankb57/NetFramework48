@@ -162,14 +162,9 @@ namespace Inta.Framework.Admin.Controllers
             ;
             db.ExecuteNoneQuery(query, System.Data.CommandType.Text, parameters);
 
-            //return Json(new ReturnObject<GeneralSettings>
-            //{
-            //    Data = request,
-            //    ResultType = MessageType.Success
-            //});
+            string RedirectUrl = "/GeneralSettings/Index";
+            return RedirectToAction("Success", "Message", new MessageModel { RedirectUrl = RedirectUrl, Message = "Kayıt güncelleme işlemi başarıyla tamamlandı" });
 
-
-            return Json(data);
         }
 
         [HttpPost]
