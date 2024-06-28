@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -22,10 +23,16 @@ namespace Inta.Framework.Entity
         public string EmailAdress { get; set; }
         public int EmailPort { get; set; }
         public string EmailPassword { get; set; }
+
+        [Required(ErrorMessage = "Bu alan boş geçilemez.")]
         public string DomainName { get; set; }
+        [Required(ErrorMessage = "Bu alan boş geçilemez.")]
         public string ImageCdnUrl { get; set; }
+        [Required(ErrorMessage = "Bu alan boş geçilemez.")]
         public string FileCdnUrl { get; set; }
+        [Required(ErrorMessage = "Bu alan boş geçilemez.")]
         public string ImageUploadPath { get; set; }
+        [Required(ErrorMessage = "Bu alan boş geçilemez.")]
         public string FileUploadPath { get; set; }
         public string EditorImageUploadCdn { get; set; }
         public string EditorImageUploadPath { get; set; }

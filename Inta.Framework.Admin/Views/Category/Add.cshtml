@@ -18,6 +18,9 @@
                         <label for="exampleFormControlInput1">Kategori</label>
                     </div><div class="col-lg-9">
                         @(Html.CategorySelectBoxFor(Id: Model.CategoryId, ObjectId: "CategoryId", ObjectName: "CategoryId", DisplayName: "Name", ValueName: "Id", DefaultText: "Lütfen kategori seçiniz", DefaultValue: ""))
+                        <div class="error text-danger">
+                            @Html.ValidationMessageFor(m => m.CategoryId)
+                        </div>
                     </div>
                 </div>
             </div>
@@ -27,6 +30,9 @@
                         <label for="exampleFormControlInput1">Sayfa Türü</label>
                     </div><div class="col-lg-9">
                         @Html.SelectListFor(query: "Select * from PageType where IsActive=1", ObjectId: "PageTypeId", ObjectName: "PageTypeId", DisplayName: "Name", ValueName: "Id", SelectedValue: (Model.PageTypeId != null ? Model.PageTypeId.ToString() : ""), DefaultText: "Seçiniz", DefaultValue: "", IconName: null, IsRequired: false, IsDisabled: false)
+                        <div class="error text-danger">
+                            @Html.ValidationMessageFor(m => m.PageTypeId)
+                        </div>
                     </div>
                 </div>
             </div>
@@ -36,6 +42,9 @@
                         <label for="exampleFormControlInput1">Kategori Adı</label>
                     </div><div class="col-lg-9">
                         @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                        <div class="error text-danger">
+                            @Html.ValidationMessageFor(m => m.Name)
+                        </div>
                     </div>
                 </div>
             </div>
@@ -275,8 +284,6 @@
 
 <script type="text/javascript">
     $(function () {
-        $Form.Init("saveForm");
-        $Form.Save("saveForm", "/Category/Save");
         $TreeSelectBox.Init();
         $TreeSelectBox.Select();
 

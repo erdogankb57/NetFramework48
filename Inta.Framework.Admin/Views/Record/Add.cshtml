@@ -30,6 +30,10 @@
                         <label for="exampleFormControlInput1">Kategori</label>
                     </div><div class="col-lg-9">
                         @(Html.CategorySelectBoxFor(Id: Model.CategoryId, ObjectId: "CategoryId", ObjectName: "CategoryId", DisplayName: "Name", ValueName: "Id", DefaultText: "Lütfen kategori seçiniz", DefaultValue: ""))
+
+                        <div class="error text-danger">
+                            @Html.ValidationMessageFor(m => m.CategoryId)
+                        </div>
                     </div>
                 </div>
             </div>
@@ -40,6 +44,9 @@
                         <label for="exampleFormControlInput1">İçerik Adı</label>
                     </div><div class="col-lg-9">
                         @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                        <div class="error text-danger">
+                            @Html.ValidationMessageFor(m => m.Name)
+                        </div>
                     </div>
                 </div>
             </div>
@@ -110,6 +117,10 @@
                         <label for="exampleFormControlInput1">Açılış Tipi</label>
                     </div><div class="col-lg-9">
                         @Html.DropDownListFor(m => m.TargetId, targetType, new { @class = "form-control" })
+
+                        <div class="error text-danger">
+                            @Html.ValidationMessageFor(m => m.TargetId)
+                        </div>
                     </div>
                 </div>
             </div>
@@ -161,10 +172,10 @@
                     <div class="col-lg-3">
                         <label for="exampleFormControlInput1">Resim</label>
                     </div><div class="col-lg-9">
-                    @{ 
-                        string CdnUrl = ViewBag.ImageFolder;
-                    }
-                        @Html.ImageFileUploadFor(Id: Model.Id, ObjectId: "ImageFile", ObjectName: "ImageFile", Image: Model.Image, DeleteUrl: "/Record/DeleteImage", ListObjectId: "RecordList", SmallSperator:"k_",BigSperator:"b_",CdnUrl: CdnUrl, smallImageCropWidth: 200, smallImageCropHeight: 100, bigImageCropWidth: 500, bigImageCropHeight: 200, SaveUrl: "/Record/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı")
+                        @{
+                            string CdnUrl = ViewBag.ImageFolder;
+                        }
+                        @Html.ImageFileUploadFor(Id: Model.Id, ObjectId: "ImageFile", ObjectName: "ImageFile", Image: Model.Image, DeleteUrl: "/Record/DeleteImage", ListObjectId: "RecordList", SmallSperator: "k_", BigSperator: "b_", CdnUrl: CdnUrl, smallImageCropWidth: 200, smallImageCropHeight: 100, bigImageCropWidth: 500, bigImageCropHeight: 200, SaveUrl: "/Record/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı")
 
                     </div>
                 </div>

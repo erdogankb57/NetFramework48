@@ -20,12 +20,18 @@
                     <label for="exampleFormControlInput1">Adres Başlık</label>
                 </div><div class="col-lg-4">
                     @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                    <div class="error text-danger">
+                        @Html.ValidationMessageFor(m => m.Name)
+                    </div>
                 </div>
 
                 <div class="col-lg-2">
                     <label for="exampleFormControlInput1">E-Mail</label>
                 </div><div class="col-lg-4">
                     @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                    <div class="error text-danger">
+                        @Html.ValidationMessageFor(m => m.Email)
+                    </div>
                 </div>
             </div>
         </div>
@@ -35,6 +41,9 @@
                     <label for="exampleFormControlInput1">Telefon</label>
                 </div><div class="col-lg-4">
                     @Html.TextBoxFor(m => m.Phone, new { @class = "form-control" })
+                    <div class="error text-danger">
+                        @Html.ValidationMessageFor(m => m.Phone)
+                    </div>
                 </div>
 
                 <div class="col-lg-2">
@@ -70,6 +79,9 @@
                     <label for="exampleFormControlInput1">Adres</label>
                 </div><div class="col-lg-4">
                     @Html.TextAreaFor(m => m.Adress, new { @class = "form-control" })
+                    <div class="error text-danger">
+                        @Html.ValidationMessageFor(m => m.Adress)
+                    </div>
                 </div>
 
             </div>
@@ -154,11 +166,3 @@
         </div>
     </form>
 </div>
-
-<script type="text/javascript">
-    $(function () {
-        $Form.Init("saveForm");
-        $Form.Save("saveForm", "/ContactInformation/Save");
-
-    });
-</script>

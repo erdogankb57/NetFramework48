@@ -31,101 +31,103 @@ namespace Inta.Framework.Admin.Controllers
         [HttpPost]
         public ActionResult Save(GeneralSettings request, HttpPostedFileBase Logo)
         {
-            ReturnObject<GeneralSettings> data = new ReturnObject<GeneralSettings>();
-
-            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
-            List<SqlParameter> parameters = new List<SqlParameter>();
-
- 
-
-            if (Logo != null)
+            if (ModelState.IsValid)
             {
-                request.Logo = ImageManager.ImageUploadSingleCopy(Logo, request.ImageUploadPath);
-                parameters.Add(new SqlParameter { ParameterName = "Logo", Value = request.Logo });
-            }
+                ReturnObject<GeneralSettings> data = new ReturnObject<GeneralSettings>();
+
+                DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+                List<SqlParameter> parameters = new List<SqlParameter>();
 
 
-            if (string.IsNullOrEmpty(request.EmailIpAdress))
-                parameters.Add(new SqlParameter { ParameterName = "EmailIpAdress", Value = DBNull.Value });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "EmailIpAdress", Value = request.EmailIpAdress });
 
-            if (string.IsNullOrEmpty(request.EmailAdress))
-                parameters.Add(new SqlParameter { ParameterName = "EmailAdress", Value = DBNull.Value });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "EmailAdress", Value = request.EmailAdress });
-
-            parameters.Add(new SqlParameter { ParameterName = "EmailPort", Value = request.EmailPort });
-
-            if (string.IsNullOrEmpty(request.EmailPassword))
-                parameters.Add(new SqlParameter { ParameterName = "EmailPassword", Value = DBNull.Value });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "EmailPassword", Value = request.EmailPassword });
-
-            if (string.IsNullOrEmpty(request.DomainName))
-                parameters.Add(new SqlParameter { ParameterName = "DomainName", Value = DBNull.Value });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "DomainName", Value = request.DomainName });
-
-            if (string.IsNullOrEmpty(request.ImageCdnUrl))
-                parameters.Add(new SqlParameter { ParameterName = "ImageCdnUrl", Value = DBNull.Value });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "ImageCdnUrl", Value = request.ImageCdnUrl });
-
-            if (string.IsNullOrEmpty(request.FileCdnUrl))
-                parameters.Add(new SqlParameter { ParameterName = "FileCdnUrl", Value = DBNull.Value });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "FileCdnUrl", Value = request.FileCdnUrl });
-
-            if (string.IsNullOrEmpty(request.ImageUploadPath))
-                parameters.Add(new SqlParameter { ParameterName = "ImageUploadPath", Value = DBNull.Value });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "ImageUploadPath", Value = request.ImageUploadPath });
-
-            if (string.IsNullOrEmpty(request.FileUploadPath))
-                parameters.Add(new SqlParameter { ParameterName = "FileUploadPath", Value = DBNull.Value });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "FileUploadPath", Value = request.FileUploadPath });
-
-            if (string.IsNullOrEmpty(request.DeveloperName))
-                parameters.Add(new SqlParameter { ParameterName = "DeveloperName", Value = DBNull.Value });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "DeveloperName", Value = request.DeveloperName });
-
-            if (string.IsNullOrEmpty(request.DeveloperEmail))
-                parameters.Add(new SqlParameter { ParameterName = "DeveloperEmail", Value = DBNull.Value });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "DeveloperEmail", Value = request.DeveloperEmail });
-
-            if (string.IsNullOrEmpty(request.EditorImageUploadCdn))
-                parameters.Add(new SqlParameter { ParameterName = "EditorImageUploadCdn", Value = DBNull.Value });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "EditorImageUploadCdn", Value = request.EditorImageUploadCdn });
-
-            if (string.IsNullOrEmpty(request.EditorImageUploadPath))
-                parameters.Add(new SqlParameter { ParameterName = "EditorImageUploadPath", Value = DBNull.Value });
-            else
-                parameters.Add(new SqlParameter { ParameterName = "EditorImageUploadPath", Value = request.EditorImageUploadPath });
+                if (Logo != null)
+                {
+                    request.Logo = ImageManager.ImageUploadSingleCopy(Logo, request.ImageUploadPath);
+                    parameters.Add(new SqlParameter { ParameterName = "Logo", Value = request.Logo });
+                }
 
 
-            parameters.Add(new SqlParameter { ParameterName = "CategoryImageSmallWidth", Value = request.CategoryImageSmallWidth });
-            parameters.Add(new SqlParameter { ParameterName = "CategoryImageSmallHeight", Value = request.CategoryImageSmallHeight });
-            parameters.Add(new SqlParameter { ParameterName = "CategoryImageBigWidth", Value = request.CategoryImageBigWidth });
-            parameters.Add(new SqlParameter { ParameterName = "CategoryImageBigHeight", Value = request.CategoryImageBigHeight });
-            parameters.Add(new SqlParameter { ParameterName = "ContentImageSmallWidth", Value = request.ContentImageSmallWidth });
-            parameters.Add(new SqlParameter { ParameterName = "ContentImageSmallHeight", Value = request.ContentImageSmallHeight });
-            parameters.Add(new SqlParameter { ParameterName = "ContentImageBigWidth", Value = request.ContentImageBigWidth });
-            parameters.Add(new SqlParameter { ParameterName = "ContentImageBigHeight", Value = request.ContentImageBigHeight });
+                if (string.IsNullOrEmpty(request.EmailIpAdress))
+                    parameters.Add(new SqlParameter { ParameterName = "EmailIpAdress", Value = DBNull.Value });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "EmailIpAdress", Value = request.EmailIpAdress });
 
-            parameters.Add(new SqlParameter { ParameterName = "GalleryImageSmallWidth", Value = request.GalleryImageSmallWidth });
-            parameters.Add(new SqlParameter { ParameterName = "GalleryImageSmallHeight", Value = request.GalleryImageSmallHeight });
-            parameters.Add(new SqlParameter { ParameterName = "GalleryImageBigWidth", Value = request.GalleryImageBigWidth });
-            parameters.Add(new SqlParameter { ParameterName = "GalleryImageBigHeight", Value = request.GalleryImageBigHeight });
+                if (string.IsNullOrEmpty(request.EmailAdress))
+                    parameters.Add(new SqlParameter { ParameterName = "EmailAdress", Value = DBNull.Value });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "EmailAdress", Value = request.EmailAdress });
+
+                parameters.Add(new SqlParameter { ParameterName = "EmailPort", Value = request.EmailPort });
+
+                if (string.IsNullOrEmpty(request.EmailPassword))
+                    parameters.Add(new SqlParameter { ParameterName = "EmailPassword", Value = DBNull.Value });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "EmailPassword", Value = request.EmailPassword });
+
+                if (string.IsNullOrEmpty(request.DomainName))
+                    parameters.Add(new SqlParameter { ParameterName = "DomainName", Value = DBNull.Value });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "DomainName", Value = request.DomainName });
+
+                if (string.IsNullOrEmpty(request.ImageCdnUrl))
+                    parameters.Add(new SqlParameter { ParameterName = "ImageCdnUrl", Value = DBNull.Value });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "ImageCdnUrl", Value = request.ImageCdnUrl });
+
+                if (string.IsNullOrEmpty(request.FileCdnUrl))
+                    parameters.Add(new SqlParameter { ParameterName = "FileCdnUrl", Value = DBNull.Value });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "FileCdnUrl", Value = request.FileCdnUrl });
+
+                if (string.IsNullOrEmpty(request.ImageUploadPath))
+                    parameters.Add(new SqlParameter { ParameterName = "ImageUploadPath", Value = DBNull.Value });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "ImageUploadPath", Value = request.ImageUploadPath });
+
+                if (string.IsNullOrEmpty(request.FileUploadPath))
+                    parameters.Add(new SqlParameter { ParameterName = "FileUploadPath", Value = DBNull.Value });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "FileUploadPath", Value = request.FileUploadPath });
+
+                if (string.IsNullOrEmpty(request.DeveloperName))
+                    parameters.Add(new SqlParameter { ParameterName = "DeveloperName", Value = DBNull.Value });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "DeveloperName", Value = request.DeveloperName });
+
+                if (string.IsNullOrEmpty(request.DeveloperEmail))
+                    parameters.Add(new SqlParameter { ParameterName = "DeveloperEmail", Value = DBNull.Value });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "DeveloperEmail", Value = request.DeveloperEmail });
+
+                if (string.IsNullOrEmpty(request.EditorImageUploadCdn))
+                    parameters.Add(new SqlParameter { ParameterName = "EditorImageUploadCdn", Value = DBNull.Value });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "EditorImageUploadCdn", Value = request.EditorImageUploadCdn });
+
+                if (string.IsNullOrEmpty(request.EditorImageUploadPath))
+                    parameters.Add(new SqlParameter { ParameterName = "EditorImageUploadPath", Value = DBNull.Value });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "EditorImageUploadPath", Value = request.EditorImageUploadPath });
 
 
-            parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
+                parameters.Add(new SqlParameter { ParameterName = "CategoryImageSmallWidth", Value = request.CategoryImageSmallWidth });
+                parameters.Add(new SqlParameter { ParameterName = "CategoryImageSmallHeight", Value = request.CategoryImageSmallHeight });
+                parameters.Add(new SqlParameter { ParameterName = "CategoryImageBigWidth", Value = request.CategoryImageBigWidth });
+                parameters.Add(new SqlParameter { ParameterName = "CategoryImageBigHeight", Value = request.CategoryImageBigHeight });
+                parameters.Add(new SqlParameter { ParameterName = "ContentImageSmallWidth", Value = request.ContentImageSmallWidth });
+                parameters.Add(new SqlParameter { ParameterName = "ContentImageSmallHeight", Value = request.ContentImageSmallHeight });
+                parameters.Add(new SqlParameter { ParameterName = "ContentImageBigWidth", Value = request.ContentImageBigWidth });
+                parameters.Add(new SqlParameter { ParameterName = "ContentImageBigHeight", Value = request.ContentImageBigHeight });
 
-            string query = @"
+                parameters.Add(new SqlParameter { ParameterName = "GalleryImageSmallWidth", Value = request.GalleryImageSmallWidth });
+                parameters.Add(new SqlParameter { ParameterName = "GalleryImageSmallHeight", Value = request.GalleryImageSmallHeight });
+                parameters.Add(new SqlParameter { ParameterName = "GalleryImageBigWidth", Value = request.GalleryImageBigWidth });
+                parameters.Add(new SqlParameter { ParameterName = "GalleryImageBigHeight", Value = request.GalleryImageBigHeight });
+
+
+                parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
+
+                string query = @"
             Update GeneralSettings
             set
             EmailIpAdress=@EmailIpAdress,
@@ -153,18 +155,22 @@ namespace Inta.Framework.Admin.Controllers
             GalleryImageBigHeight=@GalleryImageBigHeight,
             EditorImageUploadCdn=@EditorImageUploadCdn,
             EditorImageUploadPath=@EditorImageUploadPath,";
-            if (Logo != null)
-            {
-                query += " Logo=@Logo";
+                if (Logo != null)
+                {
+                    query += " Logo=@Logo";
 
+                }
+                query += " where Id=@Id";
+                ;
+                db.ExecuteNoneQuery(query, System.Data.CommandType.Text, parameters);
+
+                string RedirectUrl = "/GeneralSettings/Index";
+                return RedirectToAction("Success", "Message", new MessageModel { RedirectUrl = RedirectUrl, Message = "Kayıt güncelleme işlemi başarıyla tamamlandı" });
             }
-            query += " where Id=@Id";
-            ;
-            db.ExecuteNoneQuery(query, System.Data.CommandType.Text, parameters);
-
-            string RedirectUrl = "/GeneralSettings/Index";
-            return RedirectToAction("Success", "Message", new MessageModel { RedirectUrl = RedirectUrl, Message = "Kayıt güncelleme işlemi başarıyla tamamlandı" });
-
+            else
+            {
+                return View("Index", request);
+            }
         }
 
         [HttpPost]

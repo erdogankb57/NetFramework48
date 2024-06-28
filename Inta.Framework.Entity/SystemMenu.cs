@@ -31,6 +31,7 @@ namespace Inta.Framework.Entity
         public DateTime RecordDate { get; set; }
         [Column("IsActive")]
         public bool IsActive { get; set; }
+        public bool ShowInMenu { get; set; }
     }
 
 }

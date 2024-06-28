@@ -51,14 +51,8 @@ namespace Inta.Framework.Admin.Extension
             var data = dbLayer.Get("Select * from SystemMenu where Id=@Id", System.Data.CommandType.Text, parameters).Data;
             if (data != null)
             {
-                if (Convert.ToInt32(data["SystemMenuId"]) != 0)
-                {
-                    shtml.Append(GetTopMenu(Convert.ToInt32(data["SystemMenuId"])));
-                    shtml.Append("<li class=\"breadcrumb-item\"><a href='/" + data["ControllerName"] + "/" + data["ActionName"] + "'>" + data["Name"] + "</a></li>");
-
-                }
-                else
-                    shtml.Append("<li class=\"breadcrumb-item\"><a href='#'>" + data["Name"] + "</a></li>");
+                shtml.Append(GetTopMenu(Convert.ToInt32(data["SystemMenuId"])));
+                shtml.Append("<li class=\"breadcrumb-item\"><a href='/" + data["BreadCrumpUrl"] + "'>" + data["BreadCrumpName"] + "</a></li>");
             }
 
             return shtml.ToString();
