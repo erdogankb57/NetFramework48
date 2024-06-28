@@ -77,9 +77,28 @@ namespace Inta.Framework.Admin.Controllers
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             foreach (var item in ids.Split(',').ToList())
             {
-                var result = db.ExecuteNoneQuery("Delete from RecordFile where id=" + item, System.Data.CommandType.Text);
+                var recordFileList = db.Find<RecordFile>("Select * from RecordFile where id=" + Convert.ToInt32(item), System.Data.CommandType.Text);
+                if (recordFileList.Data != null)
+                {
+                    foreach (var recordFile in recordFileList.Data)
+                    {
+                        db.ExecuteNoneQuery("delete from RecordFile where Id=" + recordFile.Id, System.Data.CommandType.Text);
+                        //RecordFile dosyalar silinecek
+                        DeleteFile(recordFile.FileName);
+                    }
+                }
             }
             return Json("OK", JsonRequestBehavior.AllowGet);
+        }
+
+        private void DeleteFile(string File)
+        {
+            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+
+            var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
+            if (System.IO.File.Exists(generalSettings.Data.FileUploadPath + "\\" + File))
+                System.IO.File.Delete(generalSettings.Data.FileUploadPath + "\\" + File);
+
         }
 
         [HttpPost]
@@ -108,7 +127,7 @@ namespace Inta.Framework.Admin.Controllers
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             List<SqlParameter> parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter { ParameterName = "Id", Value = id });
-                        
+
             var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
             if (generalSettings.Data != null)
                 ViewBag.FileShowFolder = generalSettings.Data.FileCdnUrl;
