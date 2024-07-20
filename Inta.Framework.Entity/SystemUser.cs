@@ -42,6 +42,8 @@ namespace Inta.Framework.Entity
 
 		[Required(ErrorMessage = "Bu alan boş geçilemez.")]
 		public string Address { get; set; }
+		public string Image { get; set; }
+
 		public DateTime RecordDate { get; set; }
 		public bool IsActive { get; set; }
 		public bool IsAdmin { get; set; }

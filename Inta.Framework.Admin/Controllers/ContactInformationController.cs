@@ -12,6 +12,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Text;
 
 namespace Inta.Framework.Admin.Controllers
 {
@@ -237,7 +238,8 @@ namespace Inta.Framework.Admin.Controllers
 
                 if (request.Id == 0)
                 {
-                    db.ExecuteNoneQuery(@"insert into 
+                    StringBuilder shtml = new StringBuilder();
+                    shtml.Append(@"insert into 
                 [ContactInformation](
                 SystemUserId,
                 LanguageId,
@@ -256,7 +258,11 @@ namespace Inta.Framework.Admin.Controllers
                 FormSendEmail,
                 OrderNumber,
                 RecordDate,
-                Image,
+");
+                    if (FileImage != null)
+                        shtml.Append("Image,");
+
+                    shtml.Append(@"
                 IsActive) 
                 values(
                 @SystemUserId,
@@ -276,12 +282,15 @@ namespace Inta.Framework.Admin.Controllers
                 @FormSendEmail,
                 @OrderNumber,
                 @RecordDate,
-                @Image,
-                @IsActive)", System.Data.CommandType.Text, parameters);
+");
+                    if (FileImage != null)
+                        shtml.Append("@Image,");
+                    shtml.Append("@IsActive)");
+                    db.ExecuteNoneQuery(shtml.ToString(), System.Data.CommandType.Text, parameters);
 
 
                     string RedirectUrl = FileImage != null ? $"/ImageCrop/Index?ImageName={request.Image}&Dimension=b_&width={500}&height={100}&SaveUrl=/ContactInformation/Index" : "/ContactInformation/Index";
-                    
+
                     return RedirectToAction("Success", "Message", new MessageModel { RedirectUrl = RedirectUrl, Message = "Kayıt ekleme işlemi başarıyla tamamlandı" });
 
                 }
@@ -297,8 +306,8 @@ namespace Inta.Framework.Admin.Controllers
 
 
                     parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
-
-                    db.ExecuteNoneQuery(@"Update [ContactInformation] set 
+                    StringBuilder shtml = new StringBuilder();
+                    shtml.Append(@"Update [ContactInformation] set 
                 LanguageId=@LanguageId,
                 Name=@Name,
                 Email=@Email,
@@ -316,11 +325,15 @@ namespace Inta.Framework.Admin.Controllers
                 OrderNumber=@OrderNumber,
                 RecordDate=@RecordDate,
                 IsActive=@IsActive,
-                Image=@Image
-                where Id=@Id", System.Data.CommandType.Text, parameters);
+                ");
+                    if (FileImage != null)
+                        shtml.Append("Image=@Image");
+
+                    shtml.Append(" where Id=@Id");
+                    db.ExecuteNoneQuery(shtml.ToString(), System.Data.CommandType.Text, parameters);
 
                     string RedirectUrl = FileImage != null ? $"/ImageCrop/Index?ImageName={request.Image}&Dimension=b_&width={500}&height={100}&SaveUrl=/ContactInformation/Index" : "/ContactInformation/Index";
-                    
+
                     return RedirectToAction("Success", "Message", new MessageModel { RedirectUrl = RedirectUrl, Message = "Kayıt güncelleme işlemi başarıyla tamamlandı" });
 
                 }

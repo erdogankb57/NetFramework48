@@ -10,6 +10,9 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web;
+using Inta.Framework.Extension;
+using System.Text;
 
 namespace Inta.Framework.Admin.Controllers
 {
@@ -61,7 +64,7 @@ namespace Inta.Framework.Admin.Controllers
                 SurName = s.SurName,
                 UserName = s.UserName,
                 IsActive = s.IsActive ? "Aktif" : "Pasif",
-                Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/SystemUser/Add','True'," + s.Id.ToString() + ")\"><img src='/Content/images/edit-icon.png' width='20'/></a>",
+                Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/SystemUser/Add','False'," + s.Id.ToString() + ")\"><img src='/Content/images/edit-icon.png' width='20'/></a>",
                 Delete = "<a href='javascript:void(0)' onclick=\"$PagingDataList.DeleteRecordModal('PagingDataList','/SystemUser/Delete',SearchDataList," + s.Id.ToString() + ")\"><img src='/Content/images/delete-icon.png' width='20'/></a>"
             }).ToList();
 
@@ -115,6 +118,9 @@ namespace Inta.Framework.Admin.Controllers
             List<SqlParameter> parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter { ParameterName = "Id", Value = id });
 
+            var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
+            if (generalSettings.Data != null)
+                ViewBag.ImageFolder = generalSettings.Data.ImageCdnUrl;
 
             if (id == 0)
                 return PartialView("Add", new SystemUser { IsActive = true });
@@ -129,7 +135,7 @@ namespace Inta.Framework.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult Save(SystemUser request)
+        public ActionResult Save(SystemUser request, HttpPostedFileBase Image)
         {
             if (ModelState.IsValid)
             {
@@ -142,6 +148,16 @@ namespace Inta.Framework.Admin.Controllers
                 parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = 0 });
                 parameters.Add(new SqlParameter { ParameterName = "SystemRoleId", Value = request.SystemRoleId });
 
+                string filepath = "";
+                if (Image != null)
+                {
+
+                    var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
+                    if (generalSettings.Data != null)
+                        filepath = generalSettings.Data.ImageUploadPath;
+
+                    request.Image = ImageManager.ImageUploadDoubleCopy(Image, filepath, 100, 500);
+                }
 
                 if (!string.IsNullOrEmpty(request.Name))
                     parameters.Add(new SqlParameter { ParameterName = "Name", Value = request.Name });
@@ -181,12 +197,18 @@ namespace Inta.Framework.Admin.Controllers
                 parameters.Add(new SqlParameter { ParameterName = "IsAdmin", Value = request.IsAdmin });
                 parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = request.IsActive });
 
+                if (!string.IsNullOrEmpty(request.Image))
+                    parameters.Add(new SqlParameter { ParameterName = "Image", Value = request.Image });
+                else
+                    parameters.Add(new SqlParameter { ParameterName = "Image", Value = DBNull.Value });
+
 
                 if (request.Id == 0)
                 {
                     parameters.Add(new SqlParameter { ParameterName = "RecordDate", Value = DateTime.Now });
 
-                    db.ExecuteNoneQuery(@"insert into [SystemUser](
+                    StringBuilder shtml = new StringBuilder();
+                    shtml.Append(@"insert into [SystemUser](
                 SystemRoleId,
                 Name,
                 SurName,
@@ -196,7 +218,12 @@ namespace Inta.Framework.Admin.Controllers
                 Phone,
                 Address,
                 IsAdmin,
-                IsActive
+                IsActive,
+                ");
+                    if (Image != null)
+                        shtml.Append(@"Image");
+
+                    shtml.Append(@"
                 ) values(
                 @SystemRoleId,
                 @Name,
@@ -207,20 +234,36 @@ namespace Inta.Framework.Admin.Controllers
                 @Phone,
                 @Address,
                 @IsAdmin,
-                @IsActive
-                )", System.Data.CommandType.Text, parameters);
-
-                    return Json(new ReturnObject<SystemUser>
+                @IsActive,
+                ");
+                    if (Image != null)
                     {
-                        Data = request,
-                        ResultType = MessageType.Success
-                    });
+                        shtml.Append("@Image");
+                    }
+                    shtml.Append(")");
+
+                    db.ExecuteNoneQuery(shtml.ToString(), System.Data.CommandType.Text, parameters);
+
+                    string RedirectUrl = Image != null ? $"/ImageCrop/Index?ImageName={request.Image}&Dimension=b_&width={500}&height={100}&SaveUrl=/SystemUser/Index" : "/SystemUser/Index";
+
+                    return RedirectToAction("Success", "Message", new MessageModel { RedirectUrl = RedirectUrl, Message = "Kayıt ekleme işlemi başarıyla tamamlandı" });
+
                 }
                 else
                 {
+
+                    if (Image != null)
+                    {
+                        var categoryImage = db.Get("Select * from SystemUser where Id=" + Convert.ToInt32(request.Id), System.Data.CommandType.Text);
+
+                        if (categoryImage.Data != null && categoryImage.Data["Image"] != null)
+                            DeleteImageFile(categoryImage.Data["Image"].ToString());
+                    }
+
                     parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
 
-                    db.ExecuteNoneQuery(@"Update [SystemUser] set 
+                    StringBuilder shtml = new StringBuilder();
+                    shtml.Append(@"Update [SystemUser] set 
                 SystemRoleId=@SystemRoleId,
                 Name=@Name,
                 SurName=@SurName,
@@ -230,28 +273,63 @@ namespace Inta.Framework.Admin.Controllers
                 Phone=@Phone,
                 Address=@Address,
                 IsAdmin=@IsAdmin,
-                IsActive=@IsActive                
-                where Id=@Id", System.Data.CommandType.Text, parameters);
+                IsActive=@IsActive,");
+                    if (Image != null)
+                        shtml.Append("Image=@Image");
+                    shtml.Append(" where Id=@Id");
 
-                    return Json(new ReturnObject<SystemUser>
-                    {
-                        Data = request,
-                        ResultType = MessageType.Success
-                    });
+                    db.ExecuteNoneQuery(shtml.ToString(), System.Data.CommandType.Text, parameters);
+
+                    string RedirectUrl = Image != null ? $"/ImageCrop/Index?ImageName={request.Image}&Dimension=b_&width={500}&height={100}&SaveUrl=/SystemUser/Index" : "/SystemUser/Index";
+
+                    return RedirectToAction("Success", "Message", new MessageModel { RedirectUrl = RedirectUrl, Message = "Kayıt güncelleme işlemi başarıyla tamamlandı" });
+
                 }
             }
 
             else
             {
-                return Json(new ReturnObject<SystemUser>
-                {
-                    Data = request,
-                    ResultType = MessageType.Error,
-                    Validation = ModelState.ToList().Where(v => v.Value.Errors.Any()).Select(s => new { Key = s.Key, Error = s.Value.Errors })
-                });
+                return View("Add", request);
             }
         }
 
+        [HttpPost]
+        public ActionResult DeleteImage(string id)
+        {
+            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter { ParameterName = "Id", Value = id });
+
+            var contact = db.Get<SystemUser>("select * from SystemUser where Id=" + Convert.ToInt32(id), System.Data.CommandType.Text);
+            if (contact.Data != null)
+            {
+                if (!string.IsNullOrEmpty(contact.Data.Image))
+                    DeleteImageFile(contact.Data.Image);
+
+                var result = db.ExecuteNoneQuery("Update SystemUser set Image='' where Id=@Id", System.Data.CommandType.Text, parameters);
+            }
+
+            return Json("OK", JsonRequestBehavior.AllowGet);
+        }
+
+        private void DeleteImageFile(string Image)
+        {
+            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+
+            var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
+            string filepath = generalSettings.Data.ImageUploadPath;
+            if (System.IO.File.Exists(generalSettings.Data.ImageUploadPath + "\\" + "k_" + Image))
+                System.IO.File.Delete(generalSettings.Data.ImageUploadPath + "\\" + "k_" + Image);
+
+            if (System.IO.File.Exists(generalSettings.Data.ImageUploadPath + "\\" + "b_" + Image))
+                System.IO.File.Delete(generalSettings.Data.ImageUploadPath + "\\" + "b_" + Image);
+
+            if (System.IO.File.Exists(generalSettings.Data.ImageUploadPath + "\\" + Image))
+                System.IO.File.Delete(generalSettings.Data.ImageUploadPath + "\\" + Image);
+
+        }
 
     }
+
+
 }

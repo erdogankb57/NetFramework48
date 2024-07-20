@@ -1,132 +1,140 @@
-﻿@model Inta.Framework.Entity.SystemUser
-<div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-        <div class="modal-header">
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
-            <h5 class="modal-title" id="exampleModalLabel">Kullanıcı Ekle / Düzenle</h5>
+@model Inta.Framework.Entity.SystemUser
 
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+<div class="form-content">
+    <div class="popupMessage"></div>
 
+    <form method="post" action="/SystemUser/Save" enctype="multipart/form-data">
+        @Html.HiddenFor(h => h.Id)
+
+
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-3">
+                    <label for="exampleFormControlInput1">Kullanıcı Tipi</label>
+                </div>
+                <div class="col-lg-9">
+
+                    @{
+                        @Html.Raw(Html.SelectListFor("Select * from SystemRole", ObjectId: "SystemRoleId", ObjectName: "SystemRoleId", DisplayName: "Name", ValueName: "Id", SelectedValue: Model.SystemRoleId.ToString(), DefaultText: "Seçiniz", DefaultValue: ""));
+                    }
+
+                </div>
+            </div>
         </div>
-        <div class="modal-body">
-            <div class="popupMessage"></div>
-            @Html.HiddenFor(h => h.Id)
 
 
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-3">
+                    <label for="exampleFormControlInput1">Adı</label>
+                </div><div class="col-lg-9">
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
 
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-lg-3">
-                        <label for="exampleFormControlInput1">Kullanıcı Tipi</label>
-                    </div>
-                    <div class="col-lg-9">
-
-                        @{
-                            @Html.Raw(Html.SelectListFor("Select * from SystemRole", ObjectId: "SystemRoleId", ObjectName: "SystemRoleId", DisplayName: "Name", ValueName: "Id", SelectedValue: Model.SystemRoleId.ToString(), DefaultText: "Seçiniz", DefaultValue: ""));
-                        }
-
-                    </div>
                 </div>
             </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-3">
+                    <label for="exampleFormControlInput1">Soyadı</label>
+                </div><div class="col-lg-9">
+                    @Html.TextBoxFor(m => m.SurName, new { @class = "form-control" })
 
-
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-lg-3">
-                        <label for="exampleFormControlInput1">Adı</label>
-                    </div><div class="col-lg-9">
-                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
-
-                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-lg-3">
-                        <label for="exampleFormControlInput1">Soyadı</label>
-                    </div><div class="col-lg-9">
-                        @Html.TextBoxFor(m => m.SurName, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-3">
+                    <label for="exampleFormControlInput1">Kullanıcı Adı</label>
+                </div><div class="col-lg-9">
+                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
 
-                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-lg-3">
-                        <label for="exampleFormControlInput1">Kullanıcı Adı</label>
-                    </div><div class="col-lg-9">
-                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-3">
+                    <label for="exampleFormControlInput1">Şifre</label>
+                </div><div class="col-lg-9">
+                    @Html.TextBoxFor(m => m.Password, new { @class = "form-control" })
 
-                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-lg-3">
-                        <label for="exampleFormControlInput1">Şifre</label>
-                    </div><div class="col-lg-9">
-                        @Html.TextBoxFor(m => m.Password, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-3">
+                    <label for="exampleFormControlInput1">E-Mail</label>
+                </div><div class="col-lg-9">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
 
-                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-lg-3">
-                        <label for="exampleFormControlInput1">E-Mail</label>
-                    </div><div class="col-lg-9">
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+        </div>
 
-                    </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-3">
+                    <label for="exampleFormControlInput1">Telefon</label>
+                </div><div class="col-lg-9">
+                    @Html.TextBoxFor(m => m.Phone, new { @class = "form-control" })
+
                 </div>
             </div>
+        </div>
 
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-lg-3">
-                        <label for="exampleFormControlInput1">Telefon</label>
-                    </div><div class="col-lg-9">
-                        @Html.TextBoxFor(m => m.Phone, new { @class = "form-control" })
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-3">
+                    <label for="exampleFormControlInput1">Adres</label>
+                </div><div class="col-lg-9">
+                    @Html.TextAreaFor(m => m.Address, new { @class = "form-control" })
 
-                    </div>
                 </div>
             </div>
-
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-lg-3">
-                        <label for="exampleFormControlInput1">Adres</label>
-                    </div><div class="col-lg-9">
-                        @Html.TextAreaFor(m => m.Address, new { @class = "form-control" })
-
-                    </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-3">
+                    <label for="exampleFormControlInput1">Admin Mi</label>
+                </div><div class="col-lg-9">
+                    @Html.CheckBoxFor(m => m.IsAdmin, new { @checked = "checked" })
                 </div>
             </div>
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-lg-3">
-                        <label for="exampleFormControlInput1">Admin Mi</label>
-                    </div><div class="col-lg-9">
-                        @Html.CheckBoxFor(m => m.IsAdmin, new { @checked = "checked" })
-                    </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-3">
+                    <label for="exampleFormControlInput1">Aktif Mi</label>
+                </div><div class="col-lg-9">
+                    @Html.CheckBoxFor(m => m.IsActive, new { @checked = "checked" })
                 </div>
             </div>
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-lg-3">
-                        <label for="exampleFormControlInput1">Aktif Mi</label>
-                    </div><div class="col-lg-9">
-                        @Html.CheckBoxFor(m => m.IsActive, new { @checked = "checked" })
-                    </div>
-                </div>
-            </div>
+        </div>
 
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-3">
+                    <label for="exampleFormControlInput1">Resim</label>
+                </div><div class="col-lg-9">
+                    @{
+                        string cdnUrl = ViewBag.ImageFolder;
+                    }
+                    @Html.ImageFileUploadFor(Id: Model.Id, ObjectId: "Image", ObjectName: "Image", Image: Model.Image, DeleteUrl: "/SystemUser/DeleteImage", ListObjectId: "PagingDataList", SmallSperator: "k_", BigSperator: "b_", CdnUrl: cdnUrl, smallImageCropWidth: 200, smallImageCropHeight: 100, bigImageCropWidth: 500, bigImageCropHeight: 200, SaveUrl: "/SystemUser/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı")
+
+                </div>
+            </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-standart" data-dismiss="modal">Kapat</button>
+            <a onclick="history.back()" class="btn btn-standart">Geri dön</a>
             <button type="submit" id="btnsubmit" class="btn btn-standart">Kaydet</button>
         </div>
-    </div>
+    </form>
 </div>
