@@ -7,7 +7,7 @@
     <div class="row">
         @{
             Inta.Framework.Ado.Net.DBLayer dbLayer = new Inta.Framework.Ado.Net.DBLayer(System.Configuration.ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
-            var menu = dbLayer.Find("Select * from SystemMenu where SystemMenuId IN (Select Id from SystemMenu where SystemMenuId=0) Order by OrderNumber asc", System.Data.CommandType.Text).Data;
+            var menu = dbLayer.Find("Select * from SystemMenu where SystemMenuId IN (Select Id from SystemMenu where SystemMenuId=0) and ShowInMenu=1 Order by OrderNumber asc", System.Data.CommandType.Text).Data;
         }
         @for (int i = 0; i < menu.Rows.Count; i++)
         {
