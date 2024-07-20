@@ -243,15 +243,25 @@ namespace Inta.Framework.Admin.Controllers
             }
             else
             {
+
+                if (FileName != null)
+                {
+                    var recordImage = db.Get("Select * from RecordFile where Id=" + Convert.ToInt32(request.Id), System.Data.CommandType.Text);
+
+                    if (recordImage.Data != null && recordImage.Data["FileName"] != null)
+                        DeleteFile(recordImage.Data["FileName"].ToString());
+                }
+
+
                 parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
 
                 db.ExecuteNoneQuery(@"Update [RecordFile] set 
                 Name=@Name,
                 ShortExplanation=@ShortExplanation,
                 Explanation=@Explanation,
-                ImageName=@ImageName,
-                ImageTagName=@ImageTagName,
-                ImageTitleName=@ImageTitleName,
+                FileName=@FileName,
+                FileTagName=@FileTagName,
+                FileTitleName=@FileTitleName,
                 TargetId=@TargetId,
                 HomePageStatus=@HomePageStatus,
                 OrderNumber=@OrderNumber,

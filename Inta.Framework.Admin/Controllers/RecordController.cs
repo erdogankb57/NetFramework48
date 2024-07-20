@@ -383,6 +383,15 @@ namespace Inta.Framework.Admin.Controllers
                 }
                 else
                 {
+
+                    if (ImageFile != null)
+                    {
+                        var recordImage = db.Get("Select * from Record where Id=" + Convert.ToInt32(request.Id), System.Data.CommandType.Text);
+
+                        if (recordImage.Data != null && recordImage.Data["Image"] != null)
+                            DeleteImageFile(recordImage.Data["Image"].ToString());
+                    }
+
                     parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
 
                     string query = @"Update [Record] set 

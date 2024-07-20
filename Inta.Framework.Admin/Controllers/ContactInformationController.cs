@@ -287,6 +287,15 @@ namespace Inta.Framework.Admin.Controllers
                 }
                 else
                 {
+                    if (FileImage != null)
+                    {
+                        var contactImage = db.Get("Select * from ContactInformation where Id=" + Convert.ToInt32(request.Id), System.Data.CommandType.Text);
+
+                        if (contactImage.Data != null && contactImage.Data["Image"] != null)
+                            DeleteImageFile(contactImage.Data["Image"].ToString());
+                    }
+
+
                     parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
 
                     db.ExecuteNoneQuery(@"Update [ContactInformation] set 

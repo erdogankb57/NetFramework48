@@ -219,10 +219,16 @@ namespace Inta.Framework.Admin.Controllers
                     string RedirectUrl = Image != null ? $"/ImageCrop/Index?ImageName={banner.Data.Image}&Dimension=b_&width={bannerType.Data.BigImageWidth}&height={bannerType.Data.BigImageHeight}&SaveUrl=/Banner/Index" : $"/Banner/Index";
 
                     return RedirectToAction("Success", "Message", new MessageModel { RedirectUrl = RedirectUrl, Message = "Kayıt ekleme işlemi başarıyla tamamlandı" });
-
                 }
                 else
                 {
+                    if (Image != null)
+                    {
+                        var bannerImage = db.Get("Select * from Banner where Id=" + Convert.ToInt32(request.Id), System.Data.CommandType.Text);
+
+                        if (bannerImage.Data != null && bannerImage.Data["Image"] != null)
+                            DeleteImageFile(bannerImage.Data["Image"].ToString());
+                    }
                     parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
 
                     StringBuilder shtml = new StringBuilder();

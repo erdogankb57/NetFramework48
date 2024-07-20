@@ -466,6 +466,14 @@ namespace Inta.Framework.Admin.Controllers
                 }
                 else
                 {
+                    if (ImageFile != null)
+                    {
+                        var categoryImage = db.Get("Select * from Category where Id=" + Convert.ToInt32(request.Id), System.Data.CommandType.Text);
+
+                        if (categoryImage.Data != null && categoryImage.Data["Image"] != null)
+                            DeleteImageFile(categoryImage.Data["Image"].ToString());
+                    }
+
                     parameters.Add(new SqlParameter { ParameterName = "Id", Value = request.Id });
 
                     StringBuilder shtml = new StringBuilder();
