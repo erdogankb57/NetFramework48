@@ -6,10 +6,13 @@
 
 @foreach (var item in ustMenu.Data)
 {
+    var user = db.Get("Select * from SystemUser where Id=" + Convert.ToInt32(Inta.Framework.Admin.Base.Authorization.AuthenticationData.UserId), System.Data.CommandType.Text);
+    
 
     Inta.Framework.Ado.Net.DBLayer dbAltMenu = new Inta.Framework.Ado.Net.DBLayer(System.Configuration.ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
     var altMenu = dbAltMenu.Find<Inta.Framework.Entity.SystemMenu>("Select * from SystemMenu where SystemMenuId=" + item.Id + " and IsActive=1 Order by OrderNumber asc", System.Data.CommandType.Text);
     bool active = altMenu.Data.Any(a => a.ControllerName == this.ViewContext.RouteData.Values["controller"].ToString() && a.ActionName == this.ViewContext.RouteData.Values["action"].ToString());
+
 
     <li menu-id="@item.Id">
 
