@@ -394,9 +394,10 @@ select {
 
 /*CategoryTreeFor*/
 .CategoryTreeBox ul li a {
-    padding: 10px 15px;
+    padding: 5px 15px;
     text-decoration: none;
     cursor: pointer;
+    border:solid 1px #DDDDDD;
 }
 
 .CategoryTreeBox .CategoryTreeMain ul li .active {
@@ -420,14 +421,14 @@ select {
 }
 
     .CategoryTreeBox ul ul {
-        margin-left: 15px;
+        margin-left: 40px;
     }
 
     .CategoryTreeBox ul li {
         margin: 0;
-        line-height: 20px;
+        line-height: 25px;
         color: #369;
-        border-left: 1px solid rgb(100,100,100);
+        border-left: 1px solid #DDDDDD;
         margin-left: 10px;
     }
 
@@ -441,13 +442,13 @@ select {
             height: 2em;
             width: 12px;
             color: white;
-            border-bottom: 1px solid rgb(100,100,100);
+            border-bottom: 1px solid #DDDDDD;
             content: "";
             display: inline-block;
         }
 
         .CategoryTreeBox ul li:last-child:before {
-            border-left: 1px solid rgb(100,100,100);
+            border-left: 1px solid #DDDDDD;
         }
 
 /*CategoryTreeFor*/
