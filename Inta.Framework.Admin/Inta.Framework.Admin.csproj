@@ -151,7 +151,6 @@
     <Compile Include="Controllers\ResourceFileController.cs" />
     <Compile Include="Controllers\SEOIndexController.cs" />
     <Compile Include="Controllers\SharedController.cs" />
-    <Compile Include="Controllers\SiteController.cs" />
     <Compile Include="Controllers\StaticTextController.cs" />
     <Compile Include="Controllers\SystemActionController.cs" />
     <Compile Include="Controllers\SystemRoleController.cs" />
@@ -649,7 +648,6 @@
     <Content Include="Views\RecordImage\Add.cshtml" />
     <Content Include="Views\RecordFile\Index.cshtml" />
     <Content Include="Views\RecordFile\Add.cshtml" />
-    <Content Include="Views\Site\Index.cshtml" />
     <Content Include="Views\NoAuthorization\Index.cshtml" />
     <Content Include="Views\FormGroup\Index.cshtml" />
     <Content Include="Views\FormGroup\Add.cshtml" />
