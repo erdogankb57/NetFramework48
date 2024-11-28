@@ -373,12 +373,12 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
                 ", System.Data.CommandType.Text, parameters);
 
                     string RedirectUrl = ImageFile != null
-                        ? $"/ImageCrop/Index?ImageName={request.Image}&Dimension=b_&width={500}&height={100}&SaveUrl=/Record/Index"
-                        : "/Record/Index";
+                        ? $"/Admin/ImageCrop/Index?ImageName={request.Image}&Dimension=b_&width={500}&height={100}&SaveUrl=/Admin/Record/Index"
+                        : "/Admin/Record/Index";
 
 
 
-                    return RedirectToAction("Success", "Message", new MessageModel { RedirectUrl = RedirectUrl, Message = "Kayıt ekleme işlemi başarıyla tamamlandı" });
+                    return RedirectToAction("Success", "Message", new { area = "Admin", RedirectUrl = RedirectUrl, Message = "Kayıt ekleme işlemi başarıyla tamamlandı" });
 
                 }
                 else
@@ -423,13 +423,13 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
                     string RedirectUrl = ImageFile != null ? $"/Admin/ImageCrop/Index?ImageName={request.Image}&Dimension=b_&width={500}&height={100}&SaveUrl=/Record/Index" : "/Admin/Record/Index";
                     
 
-                    return RedirectToAction("Success", "Message", new MessageModel { RedirectUrl = RedirectUrl, Message = "Kayıt ekleme güncelleme başarıyla tamamlandı" });
+                    return RedirectToAction("Success", "Message", new { area = "Admin", RedirectUrl = RedirectUrl, Message = "Kayıt ekleme güncelleme başarıyla tamamlandı" });
 
                 }
             }
             else
             {
-                return View("Add", request);
+                return View("~/Areas/Admin/Views/Record/Add.cshtml", request);
             }
         }
 

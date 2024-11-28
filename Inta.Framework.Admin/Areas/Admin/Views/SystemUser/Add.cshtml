@@ -22,7 +22,9 @@
                     @{
                         @Html.Raw(Html.SelectListFor("Select * from SystemRole", ObjectId: "SystemRoleId", ObjectName: "SystemRoleId", DisplayName: "Name", ValueName: "Id", SelectedValue: Model.SystemRoleId.ToString(), DefaultText: "Seçiniz", DefaultValue: ""));
                     }
-
+                    <div class="error text-danger">
+                        @Html.ValidationMessageFor(m => m.SystemRoleId)
+                    </div>
                 </div>
             </div>
         </div>
@@ -35,6 +37,10 @@
                 </div><div class="col-lg-9">
                     @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
 
+                    <div class="error text-danger">
+                        @Html.ValidationMessageFor(m => m.Name)
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -44,6 +50,10 @@
                     <label for="exampleFormControlInput1">Soyadı</label>
                 </div><div class="col-lg-9">
                     @Html.TextBoxFor(m => m.SurName, new { @class = "form-control" })
+
+                    <div class="error text-danger">
+                        @Html.ValidationMessageFor(m => m.SurName)
+                    </div>
 
                 </div>
             </div>
@@ -55,6 +65,9 @@
                 </div><div class="col-lg-9">
                     @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
 
+                    <div class="error text-danger">
+                        @Html.ValidationMessageFor(m => m.UserName)
+                    </div>
                 </div>
             </div>
         </div>
@@ -64,6 +77,10 @@
                     <label for="exampleFormControlInput1">Şifre</label>
                 </div><div class="col-lg-9">
                     @Html.TextBoxFor(m => m.Password, new { @class = "form-control" })
+
+                    <div class="error text-danger">
+                        @Html.ValidationMessageFor(m => m.Password)
+                    </div>
 
                 </div>
             </div>
@@ -75,6 +92,10 @@
                 </div><div class="col-lg-9">
                     @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
 
+                    <div class="error text-danger">
+                        @Html.ValidationMessageFor(m => m.Email)
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -85,6 +106,9 @@
                     <label for="exampleFormControlInput1">Telefon</label>
                 </div><div class="col-lg-9">
                     @Html.TextBoxFor(m => m.Phone, new { @class = "form-control" })
+                    <div class="error text-danger">
+                        @Html.ValidationMessageFor(m => m.Phone)
+                    </div>
 
                 </div>
             </div>
@@ -96,6 +120,10 @@
                     <label for="exampleFormControlInput1">Adres</label>
                 </div><div class="col-lg-9">
                     @Html.TextAreaFor(m => m.Address, new { @class = "form-control" })
+
+                    <div class="error text-danger">
+                        @Html.ValidationMessageFor(m => m.Address)
+                    </div>
 
                 </div>
             </div>

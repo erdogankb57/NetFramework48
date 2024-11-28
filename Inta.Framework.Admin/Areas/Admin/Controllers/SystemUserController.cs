@@ -246,7 +246,7 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
 
                     string RedirectUrl = Image != null ? $"/Admin/ImageCrop/Index?ImageName={request.Image}&Dimension=b_&width={500}&height={100}&SaveUrl=/Admin/SystemUser/Index" : "/Admin/SystemUser/Index";
 
-                    return RedirectToAction("Success", "Message", new MessageModel { RedirectUrl = RedirectUrl, Message = "Kayıt ekleme işlemi başarıyla tamamlandı" });
+                    return RedirectToAction("Success", "Message", new { area = "Admin", RedirectUrl = RedirectUrl, Message = "Kayıt ekleme işlemi başarıyla tamamlandı" });
 
                 }
                 else
@@ -282,14 +282,14 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
 
                     string RedirectUrl = Image != null ? $"/Admin/ImageCrop/Index?ImageName={request.Image}&Dimension=b_&width={500}&height={100}&SaveUrl=/Admin/SystemUser/Index" : "/Admin/SystemUser/Index";
 
-                    return RedirectToAction("Success", "Message", new MessageModel { RedirectUrl = RedirectUrl, Message = "Kayıt güncelleme işlemi başarıyla tamamlandı" });
+                    return RedirectToAction("Success", "Message", new { area = "Admin", RedirectUrl = RedirectUrl, Message = "Kayıt güncelleme işlemi başarıyla tamamlandı" });
 
                 }
             }
 
             else
             {
-                return View("Add", request);
+                return View("~/Areas/Admin/Views/SystemUser/Add.cshtml", request);
             }
         }
 
