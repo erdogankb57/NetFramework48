@@ -4,11 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Inta.Framework.Admin.Controllers
+namespace Inta.Framework.Admin.Areas.Admin.Controllers
 {
-    public class HomeController : Controller
+    public class NoAuthorizationController : Controller
     {
-        // GET: Home
+        // GET: NoAuthorization
         public ActionResult Index()
         {
             return View();

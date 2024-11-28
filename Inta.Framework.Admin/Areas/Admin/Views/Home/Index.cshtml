@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="dashboard">
+    <div class="row">
+        @{
+            Inta.Framework.Ado.Net.DBLayer dbLayer = new Inta.Framework.Ado.Net.DBLayer(System.Configuration.ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+            var menu = dbLayer.Find("Select * from SystemMenu where SystemMenuId IN (Select Id from SystemMenu where SystemMenuId=0) and ShowInMenu=1 Order by OrderNumber asc", System.Data.CommandType.Text).Data;
+        }
+        @for (int i = 0; i < menu.Rows.Count; i++)
+        {
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <a href="@(menu.Rows[i]["ControllerName"] == "#" ? "#" : "/Admin/" + menu.Rows[i]["ControllerName"] + "/" +menu.Rows[i]["ActionName"])" class="item">
+                    <span class="icon">
+                        <i class="@menu.Rows[i]["MenuIcon"]" style="font-size: 20px;" aria-hidden="true"></i>
+                    </span>
+                    <span class="text">
+                        @menu.Rows[i]["Name"].ToString().ToUpper()
+                    </span>
+                </a>
+            </div>
+        }
+
+    </div>
+</div>
+
+
+@section scripts{
+}

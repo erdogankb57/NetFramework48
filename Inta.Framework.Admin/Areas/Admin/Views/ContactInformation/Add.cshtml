@@ -1,0 +1,168 @@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@model Inta.Framework.Entity.ContactInformation
+
+<div class="form-content">
+    <div class="popupMessage"></div>
+
+    <form method="post" action="/ContactInformation/Save" enctype="multipart/form-data">
+        @Html.HiddenFor(m => m.Id)
+        <div class="popupMessage"></div>
+        @Html.HiddenFor(h => h.Id)
+        @Html.HiddenFor(h => h.RecordDate)
+        @Html.HiddenFor(h => h.LanguageId)
+
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-2">
+                    <label for="exampleFormControlInput1">Adres Başlık</label>
+                </div><div class="col-lg-4">
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                    <div class="error text-danger">
+                        @Html.ValidationMessageFor(m => m.Name)
+                    </div>
+                </div>
+
+                <div class="col-lg-2">
+                    <label for="exampleFormControlInput1">E-Mail</label>
+                </div><div class="col-lg-4">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                    <div class="error text-danger">
+                        @Html.ValidationMessageFor(m => m.Email)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-2">
+                    <label for="exampleFormControlInput1">Telefon</label>
+                </div><div class="col-lg-4">
+                    @Html.TextBoxFor(m => m.Phone, new { @class = "form-control" })
+                    <div class="error text-danger">
+                        @Html.ValidationMessageFor(m => m.Phone)
+                    </div>
+                </div>
+
+                <div class="col-lg-2">
+                    <label for="exampleFormControlInput1">Gsm</label>
+                </div><div class="col-lg-4">
+                    @Html.TextBoxFor(m => m.Gsm, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-2">
+                    <label for="exampleFormControlInput1">Fax</label>
+                </div><div class="col-lg-4">
+                    @Html.TextBoxFor(m => m.Fax, new { @class = "form-control" })
+                </div>
+
+                <div class="col-lg-2">
+                    <label for="exampleFormControlInput1">Google Map Frame</label>
+                </div><div class="col-lg-4">
+                    @Html.TextBoxFor(m => m.GoogleMapFrame, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-2">
+                    <label for="exampleFormControlInput1">Açıklama</label>
+                </div><div class="col-lg-4">
+                    @Html.TextAreaFor(m => m.Explanation, new { @class = "form-control" })
+                </div>
+                <div class="col-lg-2">
+                    <label for="exampleFormControlInput1">Adres</label>
+                </div><div class="col-lg-4">
+                    @Html.TextAreaFor(m => m.Adress, new { @class = "form-control" })
+                    <div class="error text-danger">
+                        @Html.ValidationMessageFor(m => m.Adress)
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-2">
+                    <label for="exampleFormControlInput1">Google Map Link</label>
+                </div><div class="col-lg-4">
+                    @Html.TextBoxFor(m => m.GoogleMapLink, new { @class = "form-control" })
+                </div>
+
+                <div class="col-lg-2">
+                    <label for="exampleFormControlInput1">Google Map X</label>
+                </div><div class="col-lg-4">
+                    @Html.TextBoxFor(m => m.GoogleMapX, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-2">
+                    <label for="exampleFormControlInput1">Google Map Y</label>
+                </div><div class="col-lg-4">
+                    @Html.TextBoxFor(m => m.GoogleMapY, new { @class = "form-control" })
+                </div>
+                <div class="col-lg-2">
+                    <label for="exampleFormControlInput1">Form Mail Gönderen</label>
+                </div><div class="col-lg-4">
+                    @Html.TextBoxFor(m => m.FormSendEmail, new { @class = "form-control" })
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-2">
+                    <label for="exampleFormControlInput1">QR Kod</label>
+                </div><div class="col-lg-4">
+                    @Html.TextBoxFor(m => m.QrCode, new { @class = "form-control" })
+                </div>
+                <div class="col-lg-2">
+                    <label for="exampleFormControlInput1">Sıra Numarası</label>
+                </div><div class="col-lg-4">
+                    @Html.TextBoxFor(m => m.OrderNumber, new { @class = "form-control" })
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-2">
+                    <label for="exampleFormControlInput1">Resim</label>
+                </div>
+                <div class="col-lg-4">
+                    @{
+                        string cdnUrl = ViewBag.ImageFolder;
+                    }
+                    @Html.ImageFileUploadFor(Id: Model.Id, ObjectId: "FileImage", ObjectName: "FileImage", Image: Model.Image, DeleteUrl: "/ContactInformation/DeleteImage", ListObjectId: "ContactInformationList", SmallSperator: "k_", BigSperator: "b_", CdnUrl: cdnUrl, smallImageCropWidth: 200, smallImageCropHeight: 100, bigImageCropWidth: 500, bigImageCropHeight: 200, SaveUrl: "/ContactInformation/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı")
+
+                </div>
+
+                <div class="col-lg-2">
+                    <label for="exampleFormControlInput1">Aktif mi</label>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-check">
+                        @Html.CheckBoxFor(m => m.IsActive, new { @checked = "checked" })
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <a onclick="history.back()" class="btn btn-standart">Geri dön</a>
+            <button type="submit" id="btnsubmit" class="btn btn-standart">Kaydet</button>
+        </div>
+    </form>
+</div>

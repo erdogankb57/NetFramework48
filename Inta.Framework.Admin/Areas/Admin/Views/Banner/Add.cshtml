@@ -1,0 +1,132 @@
+﻿@model Inta.Framework.Entity.Banner
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    List<SelectListItem> targets = new List<SelectListItem>();
+    targets.Add(new SelectListItem { Text = "Seçiniz", Value = "" });
+    targets.Add(new SelectListItem { Text = "Farklı sekmede aç", Value = "0" });
+    targets.Add(new SelectListItem { Text = "Aynı sayfada aç", Value = "1" });
+
+    int languageId = Convert.ToInt32(ViewBag.LanguageId);
+}
+
+<div class="form-content">
+    <div class="popupMessage"></div>
+
+    <form method="post" action="/Banner/Save" enctype="multipart/form-data">
+        @Html.HiddenFor(m => m.Id)
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-3">
+                    <label for="exampleFormControlInput1">Banner Tipi</label>
+                </div>
+                <div class="col-lg-9">
+
+                    @{
+                        @Html.Raw(Html.SelectListFor("Select * from BannerType", ObjectId: "BannerTypeId", ObjectName: "BannerTypeId", DisplayName: "Name", ValueName: "Id", SelectedValue: Model.BannerTypeId.ToString(), DefaultText: "Seçiniz", DefaultValue: "", RequiredMessage: "Bu alan boş geçilemez.", IsRequired: true));
+                    }
+                    <div class="error text-danger">
+                        @Html.ValidationMessageFor(m => m.BannerTypeId)
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-3">
+                    <label for="exampleFormControlInput1">Banner Adı</label>
+                </div><div class="col-lg-9">
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                    <div class="error text-danger">
+                        @Html.ValidationMessageFor(m => m.Name)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-3">
+                    <label for="exampleFormControlInput1">Link</label>
+                </div><div class="col-lg-9">
+                    @Html.TextBoxFor(m => m.Link, new { @class = "form-control" })
+                    <div class="error text-danger">
+                        @Html.ValidationMessageFor(m => m.Link)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-3">
+                    <label for="exampleFormControlInput1">Açılış tipi</label>
+                </div>
+                <div class="col-lg-9">
+                    @Html.DropDownListFor(m => m.TargetId, targets, new { @class = "form-control" })
+                    <div class="error text-danger">
+                        @Html.ValidationMessageFor(m => m.TargetId)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-3">
+                    <label for="exampleFormControlInput1">Kısa Açıklama</label>
+                </div><div class="col-lg-9">
+                    @Html.TextAreaFor(m => m.ShortExplanation, new { @class = "form-control" })
+                    <div class="error text-danger">
+                        @Html.ValidationMessageFor(m => m.ShortExplanation)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-3">
+                    <label for="exampleFormControlInput1">Sıra Numarası</label>
+                </div><div class="col-lg-9">
+                    @Html.TextBoxFor(m => m.OrderNumber, new { @class = "form-control", @required = "required", @numeric = "numeric", })
+                    <div class="error text-danger">
+                        @Html.ValidationMessageFor(m => m.OrderNumber)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-3">
+                    <label for="exampleFormControlInput1">Aktif mi</label>
+                </div>
+                <div class="col-lg-9">
+                    <div class="form-check">
+                        @Html.CheckBoxFor(m => m.IsActive, new { @class = "form-check-input" })
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-3">
+                    <label for="exampleFormControlInput1">Resim</label>
+                </div><div class="col-lg-9">
+                    @{
+                        int ImageSmallWidth = Convert.ToInt32(ViewBag.ImageSmallWidth);
+                        int ImageBigWidth = Convert.ToInt32(ViewBag.ImageBigWidth);
+                        int ImageSmallHeight = Convert.ToInt32(ViewBag.ImageSmallHeight);
+                        int ImageBigHeight = Convert.ToInt32(ViewBag.ImageBigHeight);
+
+                        string cdnUrl = ViewBag.ImageFolder;
+                        @Html.ImageFileUploadFor(Id: Model.Id, ObjectId: "Image", ObjectName: "Image", Image: Model.Image, DeleteUrl: "/Banner/DeleteImage", ListObjectId: "PagingDataList", SmallSperator: "k_", BigSperator: "b_", CdnUrl: cdnUrl, smallImageCropWidth: ImageSmallWidth, smallImageCropHeight: ImageSmallHeight, bigImageCropWidth: ImageBigWidth, bigImageCropHeight: ImageBigHeight, SaveUrl: "/Banner/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı");
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a onclick="history.back()" class="btn btn-standart">Geri dön</a>
+            <button type="submit" id="btnsubmit" class="btn btn-standart">Kaydet</button>
+        </div>
+    </form>
+</div>

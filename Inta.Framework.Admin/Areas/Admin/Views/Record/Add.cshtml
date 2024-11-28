@@ -1,0 +1,211 @@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@model Inta.Framework.Entity.Record
+@{
+    List<SelectListItem> categoryTree = (List<SelectListItem>)ViewBag.categoryTree;
+    List<SelectListItem> targetType = new List<SelectListItem>();
+    targetType.Add(new SelectListItem { Text = "Seçiniz", Value = "0" });
+    targetType.Add(new SelectListItem { Text = "Aynı sayfa", Value = "1", Selected = true });
+    targetType.Add(new SelectListItem { Text = "Farklı sayfa", Value = "2" });
+    string imageFolder = ViewBag.ImageFolder;
+}
+
+<div class="form-content">
+    <div class="popupMessage"></div>
+
+    <form method="post" action="/Record/Save" enctype="multipart/form-data">
+
+
+        @Html.HiddenFor(h => h.Id)
+        @Html.HiddenFor(h => h.RecordDate)
+        @Html.HiddenFor(h => h.LanguageId)
+
+        <div class="container-fluid">
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <label for="exampleFormControlInput1">Kategori</label>
+                    </div><div class="col-lg-9">
+                        @(Html.CategorySelectBoxFor(Id: Model.CategoryId, ObjectId: "CategoryId", ObjectName: "CategoryId", DisplayName: "Name", ValueName: "Id", DefaultText: "Lütfen kategori seçiniz", DefaultValue: ""))
+
+                        <div class="error text-danger">
+                            @Html.ValidationMessageFor(m => m.CategoryId)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <label for="exampleFormControlInput1">İçerik Adı</label>
+                    </div><div class="col-lg-9">
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                        <div class="error text-danger">
+                            @Html.ValidationMessageFor(m => m.Name)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <label for="exampleFormControlInput1">İçerik Url</label>
+                    </div><div class="col-lg-9">
+                        @Html.TextBoxFor(m => m.RecordUrl, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <label for="exampleFormControlInput1">Meta Title</label>
+                    </div><div class="col-lg-9">
+                        @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <label for="exampleFormControlInput1">Meta Description</label>
+                    </div><div class="col-lg-9">
+                        @Html.TextBoxFor(m => m.MetaDescription, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <label for="exampleFormControlInput1">Meta Keywords</label>
+                    </div><div class="col-lg-9">
+                        @Html.TextBoxFor(m => m.MetaKeywords, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <label for="exampleFormControlInput1">Url</label>
+                    </div><div class="col-lg-9">
+                        @Html.TextBoxFor(m => m.Url, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <label for="exampleFormControlInput1">Statik Link</label>
+                    </div><div class="col-lg-9">
+                        @Html.TextBoxFor(m => m.Link, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <label for="exampleFormControlInput1">Açılış Tipi</label>
+                    </div><div class="col-lg-9">
+                        @Html.DropDownListFor(m => m.TargetId, targetType, new { @class = "form-control" })
+
+                        <div class="error text-danger">
+                            @Html.ValidationMessageFor(m => m.TargetId)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <label for="exampleFormControlInput1">Sıra Numarası</label>
+                    </div><div class="col-lg-9">
+                        @Html.TextBoxFor(m => m.OrderNumber, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">
+                        <label for="exampleFormControlInput1">Aktif mi</label>
+                    </div><div class="col-lg-9  col-md-6 col-sm-6 col-xs-6">
+                        <div class="form-check">
+                            @Html.CheckBoxFor(m => m.IsActive, new { @class = "form-check-input" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <label for="exampleFormControlInput1">Kısa İçerik</label>
+                    </div><div class="col-lg-9">
+                        @Html.TextAreaFor(m => m.ShortContent, new { @class = "form-control ckeditor", @required = "required" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <label for="exampleFormControlInput1">Kısa Açıklama</label>
+                    </div><div class="col-lg-9">
+                        @Html.TextAreaFor(m => m.ShortExplanation, new { @class = "form-control ckeditor", @required = "required" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <label for="exampleFormControlInput1">Resim</label>
+                    </div><div class="col-lg-9">
+                        @{
+                            string CdnUrl = ViewBag.ImageFolder;
+                        }
+                        @Html.ImageFileUploadFor(Id: Model.Id, ObjectId: "ImageFile", ObjectName: "ImageFile", Image: Model.Image, DeleteUrl: "/Record/DeleteImage", ListObjectId: "RecordList", SmallSperator: "k_", BigSperator: "b_", CdnUrl: CdnUrl, smallImageCropWidth: 200, smallImageCropHeight: 100, bigImageCropWidth: 500, bigImageCropHeight: 200, SaveUrl: "/Record/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı")
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <label for="exampleFormControlInput1">Aktif Mi</label>
+                    </div><div class="col-lg-9">
+                        @Html.CheckBoxFor(m => m.IsActive, new { @checked = "checked" })
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+            <a onclick="history.back()" class="btn btn-standart">Geri dön</a>
+            <button type="submit" id="btnsubmit" class="btn btn-standart">Kaydet</button>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $TreeSelectBox.Init();
+        $TreeSelectBox.Select();
+        $Form.Init("saveForm");
+        $Form.Save("saveForm", "/Record/Save");
+
+    });
+</script>

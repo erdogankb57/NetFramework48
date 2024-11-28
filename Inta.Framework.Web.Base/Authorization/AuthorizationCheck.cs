@@ -66,7 +66,7 @@ namespace Inta.Framework.Admin.Base.Authorization
                     //Yapılan istek ajax isteği değilse yetkilendirme kontrolü yapılır.
                     if (controller.RouteData.Values["controller"].ToString() != "Account" && !Convert.ToBoolean(user.Data["IsAdmin"]) && context != null && context.HttpContext.Request.Headers["x-requested-with"] != "XMLHttpRequest" && activeRoleAction.Data == null)
                     {
-                        context.Result = new RedirectResult("/NoAuthorization");
+                        context.Result = new RedirectResult("/Admin/NoAuthorization");
                         return;
                     }
                     else if (!Convert.ToBoolean(user.Data["IsAdmin"]) && context != null && context.HttpContext.Request.Headers["x-requested-with"] == "XMLHttpRequest" && activeRoleAction.Data == null)
@@ -78,7 +78,7 @@ namespace Inta.Framework.Admin.Base.Authorization
             else
             {
                 if (context != null)
-                    context.Result = new RedirectResult("/Login?ReturnUrl=" + context.HttpContext.Request.Path);
+                    context.Result = new RedirectResult("/Admin/Login?ReturnUrl=" + context.HttpContext.Request.Path);
             }
 
             if (context != null)
