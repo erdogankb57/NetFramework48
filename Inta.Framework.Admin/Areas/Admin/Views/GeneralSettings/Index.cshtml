@@ -241,7 +241,7 @@
                 </div><div class="col-lg-4">
                     @{
                         string filePath = ViewBag.ImageFolder;
-                        @Html.ImageFileUploadFor(Id: Model.Id, ObjectId: "Logo", ObjectName: "Logo", Image: Model.Logo, DeleteUrl: "/GeneralSettings/DeleteImage", ListObjectId: "PagingDataList", SmallSperator: "", BigSperator: "", CdnUrl: filePath, isImageCrop: false);
+                        @Html.ImageFileUploadFor(Id: Model.Id, ObjectId: "Logo", ObjectName: "Logo", Image: Model.Logo, DeleteUrl: "/Admin/GeneralSettings/DeleteImage", ListObjectId: "PagingDataList", SmallSperator: "", BigSperator: "", CdnUrl: filePath, isImageCrop: false);
                     }
                 </div>
             </div>
@@ -256,5 +256,5 @@
 
 
 @section scripts{
-    <script src="~/Content/js/controller/generalsettings.js"></script>
+    <script src="~/Admin/Content/js/controller/generalsettings.js"></script>
 }

@@ -57,10 +57,10 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
                 Id = s.Id,
                 Name = s.Name,
                 IsActive = s.IsActive ? "Aktif" : "Pasif",
-                RecordImage = "<a href='/RecordImage/Index/" + s.Id + "'><img src='/Content/images/photo-icon.png' width='20'/></a>",
-                RecordFile = "<a href='/RecordFile/Index/" + s.Id + "'><img src='/Content/images/file-icon.png' width='20'/></a>",
-                Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/Record/Add','False'," + s.Id.ToString() + ",AddCallBack)\"><img src='/Content/images/edit-icon.png' width='20'/></a>",
-                Delete = "<a href='javascript:void(0)' onclick=\"$PagingDataList.DeleteRecordModal('RecordList','/Record/Delete',SearchDataList," + s.Id.ToString() + ")\"><img src='/Content/images/delete-icon.png' width='20'/></a>"
+                RecordImage = "<a href='/RecordImage/Index/" + s.Id + "'><img src='/Areas/Admin/Content/images/photo-icon.png' width='20'/></a>",
+                RecordFile = "<a href='/RecordFile/Index/" + s.Id + "'><img src='/Areas/Admin/Content/images/file-icon.png' width='20'/></a>",
+                Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/Admin/Record/Add','False'," + s.Id.ToString() + ",AddCallBack)\"><img src='/Areas/Admin/Content/images/edit-icon.png' width='20'/></a>",
+                Delete = "<a href='javascript:void(0)' onclick=\"$PagingDataList.DeleteRecordModal('RecordList','/Admin/Record/Delete',SearchDataList," + s.Id.ToString() + ")\"><img src='/Areas/Admin/Content/images/delete-icon.png' width='20'/></a>"
             }).ToList();
 
 
@@ -420,7 +420,7 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
 
                     db.ExecuteNoneQuery(query, System.Data.CommandType.Text, parameters);
 
-                    string RedirectUrl = ImageFile != null ? $"/ImageCrop/Index?ImageName={request.Image}&Dimension=b_&width={500}&height={100}&SaveUrl=/Record/Index" : "/Record/Index";
+                    string RedirectUrl = ImageFile != null ? $"/Admin/ImageCrop/Index?ImageName={request.Image}&Dimension=b_&width={500}&height={100}&SaveUrl=/Record/Index" : "/Admin/Record/Index";
                     
 
                     return RedirectToAction("Success", "Message", new MessageModel { RedirectUrl = RedirectUrl, Message = "Kayıt ekleme güncelleme başarıyla tamamlandı" });

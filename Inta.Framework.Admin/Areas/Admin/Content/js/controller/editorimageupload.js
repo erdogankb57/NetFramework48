@@ -82,7 +82,7 @@ var CropImage = function (id) {
     var splitImageUrl = $("#" + id).attr("src").split("/");
 
     $.ajax({
-        url: "/EditorImageUpload/CropImage",
+        url: "/Admin/EditorImageUpload/CropImage",
         type: "POST",
         data: { "imageName": splitImageUrl[splitImageUrl.length - 1].split("?")[0], "width": parseInt(w), "height": parseInt(h), "x": parseInt(x), "y": parseInt(y) },
         dataType: 'json',
@@ -112,7 +112,7 @@ var ListImageLoad = function () {
     $('#fileList').find('option').remove();
 
     $.ajax({
-        url: "/EditorImageUpload/GetImageList",
+        url: "/Admin/EditorImageUpload/GetImageList",
         type: "GET",
         dataType: 'json',
         contentType: false,

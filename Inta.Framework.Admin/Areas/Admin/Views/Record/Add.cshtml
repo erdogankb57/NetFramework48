@@ -175,7 +175,7 @@
                         @{
                             string CdnUrl = ViewBag.ImageFolder;
                         }
-                        @Html.ImageFileUploadFor(Id: Model.Id, ObjectId: "ImageFile", ObjectName: "ImageFile", Image: Model.Image, DeleteUrl: "/Record/DeleteImage", ListObjectId: "RecordList", SmallSperator: "k_", BigSperator: "b_", CdnUrl: CdnUrl, smallImageCropWidth: 200, smallImageCropHeight: 100, bigImageCropWidth: 500, bigImageCropHeight: 200, SaveUrl: "/Record/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı")
+                        @Html.ImageFileUploadFor(Id: Model.Id, ObjectId: "ImageFile", ObjectName: "ImageFile", Image: Model.Image, DeleteUrl: "/Admin/Record/DeleteImage", ListObjectId: "RecordList", SmallSperator: "k_", BigSperator: "b_", CdnUrl: CdnUrl, smallImageCropWidth: 200, smallImageCropHeight: 100, bigImageCropWidth: 500, bigImageCropHeight: 200, SaveUrl: "/Admin/Record/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı")
 
                     </div>
                 </div>
@@ -205,7 +205,7 @@
         $TreeSelectBox.Init();
         $TreeSelectBox.Select();
         $Form.Init("saveForm");
-        $Form.Save("saveForm", "/Record/Save");
+        $Form.Save("saveForm", "/Admin/Record/Save");
 
     });
 </script>

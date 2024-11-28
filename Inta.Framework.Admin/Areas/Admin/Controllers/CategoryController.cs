@@ -112,8 +112,8 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
                 Id = s.Id,
                 Name = s.Name,
                 IsActive = s.IsActive ? "Aktif" : "Pasif",
-                Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/Category/Add','False'," + s.Id.ToString() + ",AddCallBack)\"><img src='/Content/images/edit-icon.png' width='20'/></a>",
-                Delete = "<a href='javascript:void(0)' onclick=\"$PagingDataList.DeleteRecordModal('CategoryList','/Category/Delete',SearchDataList," + s.Id.ToString() + ")\"><img src='/Content/images/delete-icon.png' width='20'/></a>"
+                Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/Admin/Category/Add','False'," + s.Id.ToString() + ",AddCallBack)\"><img src='/Admin/Content/images/edit-icon.png' width='20'/></a>",
+                Delete = "<a href='javascript:void(0)' onclick=\"$PagingDataList.DeleteRecordModal('CategoryList','/Admin/Category/Delete',SearchDataList," + s.Id.ToString() + ")\"><img src='/Admin/Content/images/delete-icon.png' width='20'/></a>"
             }).ToList();
 
 
@@ -458,7 +458,7 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
 
                     var category = db.Get<Category>("Select * from Category where Id=" + inserted.Data, System.Data.CommandType.Text);
 
-                    string RedirectUrl = ImageFile != null ? $"/ImageCrop/Index?ImageName={category.Data.Image}&Dimension=b_&width={500}&height={100}&SaveUrl=/Category/Index" : "/Category/Index";
+                    string RedirectUrl = ImageFile != null ? $"/Admin/ImageCrop/Index?ImageName={category.Data.Image}&Dimension=b_&width={500}&height={100}&SaveUrl=/Admin/Category/Index" : "/Admin/Category/Index";
 
                     return RedirectToAction("Success", "Message", new MessageModel { RedirectUrl = RedirectUrl, Message = "Kayıt ekleme işlemi başarıyla tamamlandı" });
 
@@ -504,7 +504,7 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
                     var category = db.Get<Category>("Select * from Category where Id=" + Convert.ToInt32(request.Id), System.Data.CommandType.Text);
 
 
-                    string RedirectUrl = ImageFile != null ? $"/ImageCrop/Index?ImageName={category.Data.Image}&Dimension=b_&width={500}&height={100}&SaveUrl=/Category/Index" : "/Category/Index";
+                    string RedirectUrl = ImageFile != null ? $"/Admin/ImageCrop/Index?ImageName={category.Data.Image}&Dimension=b_&width={500}&height={100}&SaveUrl=/Admin/Category/Index" : "/Admin/Category/Index";
 
 
 

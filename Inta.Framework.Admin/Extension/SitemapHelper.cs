@@ -52,7 +52,7 @@ namespace Inta.Framework.Admin.Extension
             if (data != null)
             {
                 shtml.Append(GetTopMenu(Convert.ToInt32(data["SystemMenuId"])));
-                shtml.Append("<li class=\"breadcrumb-item\"><a href='/" + data["BreadCrumpUrl"] + "'>" + data["BreadCrumpName"] + "</a></li>");
+                shtml.Append("<li class=\"breadcrumb-item\"><a href='" + data["BreadCrumpUrl"] + "'>" + data["BreadCrumpName"] + "</a></li>");
             }
 
             return shtml.ToString();

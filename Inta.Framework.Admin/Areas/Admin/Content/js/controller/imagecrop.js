@@ -82,7 +82,7 @@ var CropImage = function (id, saveUrl) {
     var splitImageUrl = $("#" + id).attr("src").split("/");
 
     $.ajax({
-        url: "/ImageCrop/CropImage",
+        url: "/Admin/ImageCrop/CropImage",
         type: "POST",
         data: { "imageName": splitImageUrl[splitImageUrl.length - 1].split("?")[0], "width": parseInt(w), "height": parseInt(h), "x": parseInt(x), "y": parseInt(y) },
         dataType: 'json',
@@ -117,7 +117,7 @@ var ReturnImage = function (id) {
     var splitImageUrl = $("#" + id).attr("src").split("/");
 
     $.ajax({
-        url: "/ImageCrop/ReturnImage",
+        url: "/Admin/ImageCrop/ReturnImage",
         type: "POST",
         data: { "imageName": splitImageUrl[splitImageUrl.length - 1].split("?")[0] },
         dataType: 'json',

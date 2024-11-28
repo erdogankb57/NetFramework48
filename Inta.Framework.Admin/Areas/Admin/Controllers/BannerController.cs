@@ -55,8 +55,8 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
                 Id = s.Id,
                 Name = s.Name,
                 IsActive = s.IsActive ? "Aktif" : "Pasif",
-                Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/Banner/Add','False'," + s.Id.ToString() + ")\"><img src='/Content/images/edit-icon.png' width='20'/></a>",
-                Delete = "<a href='javascript:void(0)' onclick=\"$PagingDataList.DeleteRecordModal('PagingDataList','/Banner/Delete',SearchDataList," + s.Id.ToString() + ")\"><img src='/Content/images/delete-icon.png' width='20'/></a>"
+                Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/Admin/Banner/Add','False'," + s.Id.ToString() + ")\"><img src='/Areas/Admin/Content/images/edit-icon.png' width='20'/></a>",
+                Delete = "<a href='javascript:void(0)' onclick=\"$PagingDataList.DeleteRecordModal('PagingDataList','/Admin/Banner/Delete',SearchDataList," + s.Id.ToString() + ")\"><img src='/Areas/Admin/Content/images/delete-icon.png' width='20'/></a>"
             }).ToList();
 
 
@@ -216,7 +216,7 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
                     var banner = db.Get<Banner>("Select * from Banner where Id=" + inserted.Data, System.Data.CommandType.Text);
                     var bannerType = db.Get<BannerType>("Select * from BannerType where Id=" + Convert.ToInt32(banner.Data.BannerTypeId), System.Data.CommandType.Text);
 
-                    string RedirectUrl = Image != null ? $"/ImageCrop/Index?ImageName={banner.Data.Image}&Dimension=b_&width={bannerType.Data.BigImageWidth}&height={bannerType.Data.BigImageHeight}&SaveUrl=/Banner/Index" : $"/Banner/Index";
+                    string RedirectUrl = Image != null ? $"/Admin/ImageCrop/Index?ImageName={banner.Data.Image}&Dimension=b_&width={bannerType.Data.BigImageWidth}&height={bannerType.Data.BigImageHeight}&SaveUrl=/Admin/Banner/Index" : $"/Admin/Banner/Index";
 
                     return RedirectToAction("Success", "Message", new MessageModel { RedirectUrl = RedirectUrl, Message = "Kayıt ekleme işlemi başarıyla tamamlandı" });
                 }
@@ -258,7 +258,7 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
                     var bannerType = db.Get<BannerType>("Select * from BannerType where Id=" + Convert.ToInt32(banner.Data.BannerTypeId), System.Data.CommandType.Text);
 
 
-                    string RedirectUrl = Image != null ? $"/ImageCrop/Index?ImageName={banner.Data.Image}&Dimension=b_&width={bannerType.Data.BigImageWidth}&height={bannerType.Data.BigImageHeight}&SaveUrl=/Banner/Index" : $"/Banner/Index";
+                    string RedirectUrl = Image != null ? $"/Admin/ImageCrop/Index?ImageName={banner.Data.Image}&Dimension=b_&width={bannerType.Data.BigImageWidth}&height={bannerType.Data.BigImageHeight}&SaveUrl=/Admin/Banner/Index" : $"/Admin/Banner/Index";
 
                     return RedirectToAction("Success", "Message", new MessageModel { RedirectUrl = RedirectUrl, Message = "Kayıt güncelleme işlemi başarıyla tamamlandı" });
 

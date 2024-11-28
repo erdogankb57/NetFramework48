@@ -141,7 +141,7 @@
 
                                 string filePath = ViewBag.ImageFolder;
 
-                                @Html.ImageFileUploadFor(Id: Model.Id, ObjectId: "ImageFile", ObjectName: "ImageFile", Image: Model.Image, DeleteUrl: "/Category/DeleteImage", ListObjectId: "CategoryList", SmallSperator: "k_", BigSperator: "b_", CdnUrl: filePath, smallImageCropWidth: ImageSmallWidth, smallImageCropHeight: ImageSmallWidth, bigImageCropWidth: ImageBigWidth, bigImageCropHeight: ImageBigWidth, SaveUrl: "/Category/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı")}
+                                @Html.ImageFileUploadFor(Id: Model.Id, ObjectId: "ImageFile", ObjectName: "ImageFile", Image: Model.Image, DeleteUrl: "/Admin/Category/DeleteImage", ListObjectId: "CategoryList", SmallSperator: "k_", BigSperator: "b_", CdnUrl: filePath, smallImageCropWidth: ImageSmallWidth, smallImageCropHeight: ImageSmallWidth, bigImageCropWidth: ImageBigWidth, bigImageCropHeight: ImageBigWidth, SaveUrl: "/Admin/Category/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı")}
 
                         </div>
                     </div>
@@ -289,7 +289,7 @@
 
         $("#PageTypeId").change(function () {
             $.ajax({
-                url: "/Category/GetPageType",
+                url: "/Admin/Category/GetPageType",
                 type: "POST",
                 dataType: 'json',
                 contentType: 'application/x-www-form-urlencoded; charset=UTF-8',

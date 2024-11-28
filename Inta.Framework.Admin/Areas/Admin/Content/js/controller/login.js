@@ -14,7 +14,7 @@
 
         var formData = new FormData($('#loginForm')[0]);
         $.ajax({
-            url: "/Login/SignIn",
+            url: "/Admin/Login/SignIn",
             type: "POST",
             data: formData,
             dataType: 'json',

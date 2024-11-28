@@ -55,8 +55,8 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
                 Id = s.Id,
                 Name = s.Name,
                 IsActive = s.IsActive ? "Aktif" : "Pasif",
-                Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/ContactInformation/Add','False'," + s.Id.ToString() + ")\"><img src='/Content/images/edit-icon.png' width='20'/></a>",
-                Delete = "<a href='javascript:void(0)' onclick=\"$PagingDataList.DeleteRecordModal('ContactInformationList','/ContactInformation/Delete',SearchDataList," + s.Id.ToString() + ")\"><img src='/Content/images/delete-icon.png' width='20'/></a>"
+                Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/Admin/ContactInformation/Add','False'," + s.Id.ToString() + ")\"><img src='/Areas/Admin/Content/images/edit-icon.png' width='20'/></a>",
+                Delete = "<a href='javascript:void(0)' onclick=\"$PagingDataList.DeleteRecordModal('ContactInformationList','/Admin/ContactInformation/Delete',SearchDataList," + s.Id.ToString() + ")\"><img src='/Areas/Admin/Content/images/delete-icon.png' width='20'/></a>"
             }).ToList();
 
 
@@ -289,7 +289,7 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
                     db.ExecuteNoneQuery(shtml.ToString(), System.Data.CommandType.Text, parameters);
 
 
-                    string RedirectUrl = FileImage != null ? $"/ImageCrop/Index?ImageName={request.Image}&Dimension=b_&width={500}&height={100}&SaveUrl=/ContactInformation/Index" : "/ContactInformation/Index";
+                    string RedirectUrl = FileImage != null ? $"/Admin/ImageCrop/Index?ImageName={request.Image}&Dimension=b_&width={500}&height={100}&SaveUrl=/Admin/ContactInformation/Index" : "/Admin/ContactInformation/Index";
 
                     return RedirectToAction("Success", "Message", new MessageModel { RedirectUrl = RedirectUrl, Message = "Kayıt ekleme işlemi başarıyla tamamlandı" });
 
@@ -332,7 +332,7 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
                     shtml.Append(" where Id=@Id");
                     db.ExecuteNoneQuery(shtml.ToString(), System.Data.CommandType.Text, parameters);
 
-                    string RedirectUrl = FileImage != null ? $"/ImageCrop/Index?ImageName={request.Image}&Dimension=b_&width={500}&height={100}&SaveUrl=/ContactInformation/Index" : "/ContactInformation/Index";
+                    string RedirectUrl = FileImage != null ? $"/Admin/ImageCrop/Index?ImageName={request.Image}&Dimension=b_&width={500}&height={100}&SaveUrl=/Admin/ContactInformation/Index" : "/Admin/ContactInformation/Index";
 
                     return RedirectToAction("Success", "Message", new MessageModel { RedirectUrl = RedirectUrl, Message = "Kayıt güncelleme işlemi başarıyla tamamlandı" });
 
