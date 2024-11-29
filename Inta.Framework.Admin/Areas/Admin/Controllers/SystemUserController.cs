@@ -86,7 +86,7 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             foreach (var item in ids.Split(',').ToList())
             {
-                var result = db.ExecuteNoneQuery("Delete from StaticText where id=" + item, System.Data.CommandType.Text);
+                var result = db.ExecuteNoneQuery("Delete from SystemUser where id=" + item, System.Data.CommandType.Text);
             }
             return Json("OK", JsonRequestBehavior.AllowGet);
         }
@@ -218,7 +218,7 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
                 Phone,
                 Address,
                 IsAdmin,
-                IsActive,
+                IsActive
                 ");
                     if (Image != null)
                         shtml.Append(@"Image");
@@ -234,7 +234,7 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
                 @Phone,
                 @Address,
                 @IsAdmin,
-                @IsActive,
+                @IsActive
                 ");
                     if (Image != null)
                     {
