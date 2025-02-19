@@ -115,9 +115,7 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
             List<SqlParameter> parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter { ParameterName = "Id", Value = id });
 
-            var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
-            if (generalSettings.Data != null)
-                ViewBag.ImageFolder = generalSettings.Data.ImageCdnUrl;
+            ViewBag.ImageFolder = ConfigurationManager.AppSettings["ImageUpload"].ToString();
 
             if (id == null || id == 0)
                 return View("Add", new Banner { IsActive = true });
@@ -162,8 +160,7 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
                     var bannerType = db.Get("Select * from BannerType where Id=" + request.BannerTypeId, System.Data.CommandType.Text);
                     if (bannerType != null && bannerType.Data != null)
                     {
-                        if (generalSettings.Data != null)
-                            filepath = generalSettings.Data.ImageUploadPath;
+                        filepath = Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"].ToString());
 
                         imageSmallWidth = !string.IsNullOrEmpty(bannerType.Data["SmallImageWidth"].ToString()) && bannerType.Data["SmallImageWidth"].ToString() != "0" ? Convert.ToInt32(bannerType.Data["SmallImageWidth"]) : 100;
                         imageBigWidth = !string.IsNullOrEmpty(bannerType.Data["BigImageWidth"].ToString()) && bannerType.Data["BigImageWidth"].ToString() != "0" ? Convert.ToInt32(bannerType.Data["BigImageWidth"]) : 500;
@@ -218,7 +215,7 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
 
                     string RedirectUrl = Image != null ? $"/Admin/ImageCrop/Index?ImageName={banner.Data.Image}&Dimension=b_&width={bannerType.Data.BigImageWidth}&height={bannerType.Data.BigImageHeight}&SaveUrl=/Admin/Banner/Index" : $"/Admin/Banner/Index";
 
-                    return RedirectToAction("Success", "Message", new { area = "Admin",  RedirectUrl = RedirectUrl, Message = "Kayıt ekleme işlemi başarıyla tamamlandı" });
+                    return RedirectToAction("Success", "Message", new { area = "Admin", RedirectUrl = RedirectUrl, Message = "Kayıt ekleme işlemi başarıyla tamamlandı" });
                 }
                 else
                 {

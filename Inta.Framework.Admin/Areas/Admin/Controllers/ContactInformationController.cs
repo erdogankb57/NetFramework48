@@ -117,7 +117,7 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
 
             var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
             if (generalSettings.Data != null)
-                ViewBag.ImageFolder = generalSettings.Data.ImageCdnUrl;
+                ViewBag.ImageFolder = ConfigurationManager.AppSettings["ImageUpload"];
 
             if (id == 0 || id == null)
                 return View("Add", new ContactInformation { IsActive = true });
@@ -143,9 +143,7 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
                 if (FileImage != null)
                 {
 
-                    var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
-                    if (generalSettings.Data != null)
-                        filepath = generalSettings.Data.ImageUploadPath;
+                        filepath = Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"]);
 
                     request.Image = ImageManager.ImageUploadDoubleCopy(FileImage, filepath, 100, 500);
 

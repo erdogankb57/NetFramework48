@@ -188,7 +188,7 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
 
             var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
             if (generalSettings.Data != null)
-                ViewBag.ImageFolder = generalSettings.Data.ImageCdnUrl;
+                ViewBag.ImageFolder = ConfigurationManager.AppSettings["ImageUpload"];
 
             if (id == null || id == 0)
                 return PartialView("Add", new Record { IsActive = true, TargetId = 1 });
@@ -249,7 +249,7 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
                     {
                         imageSmallWidth = generalSettings.Data.ContentImageSmallWidth;
                         imageBigWidth = generalSettings.Data.ContentImageBigWidth;
-                        filepath = generalSettings.Data.ImageUploadPath;
+                        filepath = Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"]);
                     }
 
                     request.Image = ImageManager.ImageUploadDoubleCopy(ImageFile, filepath, imageSmallWidth, imageBigWidth);

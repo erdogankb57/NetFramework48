@@ -18,7 +18,7 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
             var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
 
 
-            ViewBag.Image = generalSettings.Data.ImageCdnUrl + Request["Dimension"] + Request["ImageName"];
+            ViewBag.Image = ConfigurationManager.AppSettings["ImageUpload"].ToString() + Request["Dimension"] + Request["ImageName"];
             ViewBag.Width = Request["width"];
             ViewBag.Height = Request["height"];
             return View();
@@ -28,9 +28,7 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
         {
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             string imageUrl = "";
-            var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
-            if (generalSettings.Data != null)
-                imageUrl = generalSettings.Data.ImageUploadPath;
+            imageUrl = Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"]);
 
             //string imageUrl = HttpContext.Server.MapPath(ConfigurationManager.AppSettings["FileUploadEditor"]);
 
@@ -57,7 +55,7 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
             return Json(new
             {
                 ResultMessage = "OK",
-                ImageUrl = generalSettings.Data.ImageCdnUrl + imageName + "?d=" + guide.ToString()
+                ImageUrl = ConfigurationManager.AppSettings["ImageUpload"].ToString() + imageName + "?d=" + guide.ToString()
             });
         }
 

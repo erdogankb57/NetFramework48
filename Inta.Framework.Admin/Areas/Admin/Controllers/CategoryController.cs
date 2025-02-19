@@ -229,7 +229,7 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
 
             var settings = db.Get<GeneralSettings>("select top 1 * from GeneralSettings", System.Data.CommandType.Text);
-            ViewBag.ImageFolder = settings.Data.ImageCdnUrl;
+            ViewBag.ImageFolder = ConfigurationManager.AppSettings["ImageUpload"];
 
             if (id == 0 || id == null)
             {
@@ -302,7 +302,7 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
                     {
                         imageSmallWidth = generalSettings.Data.CategoryImageSmallWidth;
                         imageBigWidth = generalSettings.Data.CategoryImageBigWidth;
-                        filepath = generalSettings.Data.ImageUploadPath;
+                        filepath = Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"]);
                     }
 
                     request.Image = ImageManager.ImageUploadDoubleCopy(ImageFile, filepath, imageSmallWidth, imageBigWidth);

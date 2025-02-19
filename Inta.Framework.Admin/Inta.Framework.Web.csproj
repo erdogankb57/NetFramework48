@@ -557,7 +557,6 @@
     <Content Include="Areas\Admin\Content\js\perfect-scrollbar.v0.5.2.js" />
     <Content Include="Areas\Admin\Content\js\popper.min.js" />
     <Content Include="Areas\Admin\Content\js\validation.js" />
-    <Content Include="Areas\Admin\Content\Uploads\Image\gezinomi-logo.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -577,12 +576,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\Content\Uploads\EditorImage\" />
-    <Folder Include="Areas\Admin\Content\Uploads\File\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Views\CategoryImageSize\" />
     <Folder Include="Areas\Admin\Views\Default\" />
     <Folder Include="Areas\Admin\Views\ResourceFile\" />
+    <Folder Include="Uploads\EditorImages\" />
+    <Folder Include="Uploads\File\" />
+    <Folder Include="Uploads\Image\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
