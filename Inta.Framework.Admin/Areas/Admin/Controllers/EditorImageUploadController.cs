@@ -29,9 +29,8 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
         {
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             string imageUrl = "";
-            var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
-            if (generalSettings.Data != null)
-                imageUrl = generalSettings.Data.EditorImageUploadPath;
+
+            imageUrl = Server.MapPath(ConfigurationManager.AppSettings["FileUploadEditor"]);
 
             //string imageUrl = HttpContext.Server.MapPath(ConfigurationManager.AppSettings["FileUploadEditor"]);
 
@@ -58,16 +57,15 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
             return Json(new
             {
                 ResultMessage = "OK",
-                ImageUrl = generalSettings.Data.EditorImageUploadCdn + imageName + "?d=" + guide.ToString()
+                ImageUrl = ConfigurationManager.AppSettings["FileUploadEditor"] + imageName + "?d=" + guide.ToString()
             });
         }
         public ActionResult GetImageList()
         {
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             string imageFilePath = "";
-            var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
-            if (generalSettings.Data != null)
-                imageFilePath = generalSettings.Data.EditorImageUploadCdn;
+     
+                imageFilePath =  ConfigurationManager.AppSettings["FileUploadEditor"];
 
             List<FileInfo> imageList = new List<FileInfo>();
 
@@ -90,9 +88,8 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
                 {
                     DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
                     string filePath = "";
-                    var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
-                    if (generalSettings.Data != null)
-                        filePath = generalSettings.Data.EditorImageUploadPath;
+
+                        filePath = Server.MapPath(ConfigurationManager.AppSettings["FileUploadEditor"]);
 
                     var imageResult = ImageManager.ImageUploadSingleCopy(Image, filePath);
 
