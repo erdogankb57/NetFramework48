@@ -55,7 +55,7 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
                 Id = s.Id,
                 Name = s.Name,
                 IsActive = s.IsActive ? "Aktif" : "Pasif",
-                Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/Areas/Admin/RecordFile/Add','True'," + s.Id.ToString() + ")\"><img src='/Admin/Content/images/edit-icon.png' width='20'/></a>",
+                Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/Admin/RecordFile/Add','True'," + s.Id.ToString() + ")\"><img src='/Areas/Admin/Content/images/edit-icon.png' width='20'/></a>",
                 Delete = "<a href='javascript:void(0)' onclick=\"$PagingDataList.DeleteRecordModal('PagingDataList','/Admin/RecordFile/Delete',SearchDataList," + s.Id.ToString() + ")\"><img src='/Areas/Admin/Content/images/delete-icon.png' width='20'/></a>"
             }).ToList();
 
@@ -95,9 +95,8 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
         {
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
 
-            var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
-            if (System.IO.File.Exists(generalSettings.Data.FileUploadPath + "\\" + File))
-                System.IO.File.Delete(generalSettings.Data.FileUploadPath + "\\" + File);
+            if (System.IO.File.Exists(Server.MapPath(ConfigurationManager.AppSettings["FileUpload"]) + "\\" + File))
+                System.IO.File.Delete(Server.MapPath(ConfigurationManager.AppSettings["FileUpload"]) + "\\" + File);
 
         }
 
@@ -130,7 +129,7 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
 
             var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
             if (generalSettings.Data != null)
-                ViewBag.FileShowFolder = generalSettings.Data.FileCdnUrl;
+                ViewBag.FileShowFolder = ConfigurationManager.AppSettings["FileUpload"];
 
             if (id == 0)
                 return PartialView("Add", new RecordFile { IsActive = true });
@@ -154,7 +153,7 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
             var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
             if (FileName != null && generalSettings.Data != null)
             {
-                filepath = generalSettings.Data.FileUploadPath;
+                filepath = Server.MapPath(ConfigurationManager.AppSettings["FileUpload"]);
 
                 request.FileName = FileManager.FileUpload(FileName, filepath);
             }

@@ -92,16 +92,14 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
         {
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
 
-            var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
-            string filepath = generalSettings.Data.ImageUploadPath;
-            if (System.IO.File.Exists(generalSettings.Data.ImageUploadPath + "\\" + "k_" + Image))
-                System.IO.File.Delete(generalSettings.Data.ImageUploadPath + "\\" + "k_" + Image);
+            if (System.IO.File.Exists(Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"]) + "\\" + "k_" + Image))
+                System.IO.File.Delete(Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"]) + "\\" + "k_" + Image);
 
-            if (System.IO.File.Exists(generalSettings.Data.ImageUploadPath + "\\" + "b_" + Image))
-                System.IO.File.Delete(generalSettings.Data.ImageUploadPath + "\\" + "b_" + Image);
+            if (System.IO.File.Exists(Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"]) + "\\" + "b_" + Image))
+                System.IO.File.Delete(Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"]) + "\\" + "b_" + Image);
 
-            if (System.IO.File.Exists(generalSettings.Data.ImageUploadPath + "\\" + Image))
-                System.IO.File.Delete(generalSettings.Data.ImageUploadPath + "\\" + Image);
+            if (System.IO.File.Exists(Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"]) + "\\" + Image))
+                System.IO.File.Delete(Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"]) + "\\" + Image);
 
         }
 
@@ -133,7 +131,7 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
             parameters.Add(new SqlParameter { ParameterName = "Id", Value = id });
 
             var settings = db.Get<GeneralSettings>("select top 1 * from GeneralSettings", System.Data.CommandType.Text);
-            ViewBag.ImageFolder = settings.Data.ImageCdnUrl;
+            ViewBag.ImageFolder = ConfigurationManager.AppSettings["ImageUpload"];
 
             if (id == 0)
                 return PartialView("Add", new RecordImage { IsActive = true });
@@ -165,7 +163,7 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
                 {
                     imageSmallWidth = generalSettings.Data.GalleryImageSmallWidth;
                     imageBigWidth = generalSettings.Data.GalleryImageBigWidth;
-                    filepath = generalSettings.Data.ImageUploadPath;
+                    filepath = Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"]);
                 }
 
                 request.ImageName = ImageManager.ImageUploadDoubleCopy(ImageName, filepath, imageSmallWidth, imageBigWidth);

@@ -120,34 +120,41 @@
                 </div>
             </div>
             @*<div class="form-group">
-                    <div class="row">
-                        <div class="col-lg-3">
-                            <label for="exampleFormControlInput1">Form Grubu</label>
-                        </div><div class="col-lg-9">
-                            @Html.DropDownListFor(m => m.FormGroupId, formGroup.ToArray(), new { @class = "form-control" })
-                        </div>
-                    </div>
-                </div>*@
-            <div id="categoryImagePanel">
-
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-lg-3">
-                            <label for="exampleFormControlInput1">Resim</label>
-                        </div><div class="col-lg-9">
-                            @{
-                                int ImageSmallWidth = Convert.ToInt32(ViewBag.ImageSmallWidth);
-                                int ImageBigWidth = Convert.ToInt32(ViewBag.ImageBigWidth);
-
-                                string filePath = ViewBag.ImageFolder;
-
-                                @Html.ImageFileUploadFor(Id: Model.Id, ObjectId: "ImageFile", ObjectName: "ImageFile", Image: Model.Image, DeleteUrl: "/Admin/Category/DeleteImage", ListObjectId: "CategoryList", SmallSperator: "k_", BigSperator: "b_", CdnUrl: filePath, smallImageCropWidth: ImageSmallWidth, smallImageCropHeight: ImageSmallWidth, bigImageCropWidth: ImageBigWidth, bigImageCropHeight: ImageBigWidth, SaveUrl: "/Admin/Category/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı")}
-
-                        </div>
-                    </div>
+            <div class="row">
+                <div class="col-lg-3">
+                    <label for="exampleFormControlInput1">Form Grubu</label>
+                </div><div class="col-lg-9">
+                    @Html.DropDownListFor(m => m.FormGroupId, formGroup.ToArray(), new { @class = "form-control" })
                 </div>
             </div>
+        </div>*@
 
+            @{
+                if (!string.IsNullOrEmpty(Model.Image))
+                {
+
+                    <div id="categoryImagePanel">
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <label for="exampleFormControlInput1">Resim</label>
+                                </div><div class="col-lg-9">
+                                    @{
+                                        int ImageSmallWidth = Convert.ToInt32(ViewBag.ImageSmallWidth);
+                                        int ImageBigWidth = Convert.ToInt32(ViewBag.ImageBigWidth);
+
+                                        string filePath = ViewBag.ImageFolder;
+
+                                        @Html.ImageFileUploadFor(Id: Model.Id, ObjectId: "ImageFile", ObjectName: "ImageFile", Image: Model.Image, DeleteUrl: "/Admin/Category/DeleteImage", ListObjectId: "CategoryList", SmallSperator: "k_", BigSperator: "b_", CdnUrl: filePath, smallImageCropWidth: ImageSmallWidth, smallImageCropHeight: ImageSmallWidth, bigImageCropWidth: ImageBigWidth, bigImageCropHeight: ImageBigWidth, SaveUrl: "/Admin/Category/Index?Message=Kayıt güncelleme işlemi başarıyla tamamlandı")}
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+            }
             <div class="form-group">
                 <div class="row">
                     <div class="col-lg-3">

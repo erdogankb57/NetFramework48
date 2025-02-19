@@ -57,8 +57,8 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
                 Id = s.Id,
                 Name = s.Name,
                 IsActive = s.IsActive ? "Aktif" : "Pasif",
-                RecordImage = "<a href='/RecordImage/Index/" + s.Id + "'><img src='/Areas/Admin/Content/images/photo-icon.png' width='20'/></a>",
-                RecordFile = "<a href='/RecordFile/Index/" + s.Id + "'><img src='/Areas/Admin/Content/images/file-icon.png' width='20'/></a>",
+                RecordImage = "<a href='/Admin/RecordImage/Index/" + s.Id + "'><img src='/Areas/Admin/Content/images/photo-icon.png' width='20'/></a>",
+                RecordFile = "<a href='/Admin/RecordFile/Index/" + s.Id + "'><img src='/Areas/Admin/Content/images/file-icon.png' width='20'/></a>",
                 Edit = "<a href='javascript:void(0)' onclick=\"$PagingDataList.AddRecordModal('/Admin/Record/Add','False'," + s.Id.ToString() + ",AddCallBack)\"><img src='/Areas/Admin/Content/images/edit-icon.png' width='20'/></a>",
                 Delete = "<a href='javascript:void(0)' onclick=\"$PagingDataList.DeleteRecordModal('RecordList','/Admin/Record/Delete',SearchDataList," + s.Id.ToString() + ")\"><img src='/Areas/Admin/Content/images/delete-icon.png' width='20'/></a>"
             }).ToList();
@@ -439,14 +439,14 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
 
             var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
             string filepath = generalSettings.Data.ImageUploadPath;
-            if (System.IO.File.Exists(generalSettings.Data.ImageUploadPath + "\\" + "k_" + Image))
-                System.IO.File.Delete(generalSettings.Data.ImageUploadPath + "\\" + "k_" + Image);
+            if (System.IO.File.Exists(Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"]) + "\\" + "k_" + Image))
+                System.IO.File.Delete(Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"]) + "\\" + "k_" + Image);
 
-            if (System.IO.File.Exists(generalSettings.Data.ImageUploadPath + "\\" + "b_" + Image))
-                System.IO.File.Delete(generalSettings.Data.ImageUploadPath + "\\" + "b_" + Image);
+            if (System.IO.File.Exists(Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"]) + "\\" + "b_" + Image))
+                System.IO.File.Delete(Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"]) + "\\" + "b_" + Image);
 
-            if (System.IO.File.Exists(generalSettings.Data.ImageUploadPath + "\\" + Image))
-                System.IO.File.Delete(generalSettings.Data.ImageUploadPath + "\\" + Image);
+            if (System.IO.File.Exists(Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"]) + "\\" + Image))
+                System.IO.File.Delete(Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"]) + "\\" + Image);
 
         }
 

@@ -524,11 +524,13 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             List<SqlParameter> parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter { ParameterName = "Id", Value = id });
-            var category = db.Get<Category>("select * from Category where Id=@Id", System.Data.CommandType.Text);
+            var category = db.Get<Category>("select * from Category where Id=@Id", System.Data.CommandType.Text, parameters);
             if (category.Data != null)
             {
                 DeleteImageFile(category.Data.Image);
-                db.ExecuteNoneQuery("Update Category set Image='' where Id=@Id", System.Data.CommandType.Text, parameters);
+                List<SqlParameter> parameters2 = new List<SqlParameter>();
+                parameters2.Add(new SqlParameter { ParameterName = "Id", Value = id });
+                db.ExecuteNoneQuery("Update Category set Image='' where Id=@Id", System.Data.CommandType.Text, parameters2);
             }
 
             return Json("OK", JsonRequestBehavior.AllowGet);
@@ -549,16 +551,14 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
         {
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
 
-            var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
-            string filepath = generalSettings.Data.ImageUploadPath;
-            if (System.IO.File.Exists(generalSettings.Data.ImageUploadPath + "\\" + "k_" + Image))
-                System.IO.File.Delete(generalSettings.Data.ImageUploadPath + "\\" + "k_" + Image);
+            if (System.IO.File.Exists(Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"]) + "\\" + "k_" + Image))
+                System.IO.File.Delete(Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"]) + "\\" + "k_" + Image);
 
-            if (System.IO.File.Exists(generalSettings.Data.ImageUploadPath + "\\" + "b_" + Image))
-                System.IO.File.Delete(generalSettings.Data.ImageUploadPath + "\\" + "b_" + Image);
+            if (System.IO.File.Exists(Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"]) + "\\" + "b_" + Image))
+                System.IO.File.Delete(Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"]) + "\\" + "b_" + Image);
 
-            if (System.IO.File.Exists(generalSettings.Data.ImageUploadPath + "\\" + Image))
-                System.IO.File.Delete(generalSettings.Data.ImageUploadPath + "\\" + Image);
+            if (System.IO.File.Exists(Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"]) + "\\" + Image))
+                System.IO.File.Delete(Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"]) + "\\" + Image);
 
         }
 
