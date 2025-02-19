@@ -20,14 +20,19 @@ namespace Inta.Framework.Web
             List<SqlParameter> parameters = new List<SqlParameter>();
             var urlList = db.Find("select p.ControllerName,p.ActionName,c.Id,c.CategoryUrl from Category c inner join PageType p on c.PageTypeId=p.Id", System.Data.CommandType.Text);
 
+            //Url çağırılırken category/url/id şeklinde çağırılmalıdır.
             for (int i = 0; i < urlList.Data.Rows.Count; i++)
             {
-                routes.MapRoute(
-                name: "CategoryDefault" + urlList.Data.Rows[i]["Id"].ToString(),
-                url: GetCategoryUrl(Convert.ToInt32(urlList.Data.Rows[i]["Id"])),
-                defaults: new { controller = urlList.Data.Rows[i]["ControllerName"], action = urlList.Data.Rows[i]["ActionName"], id = UrlParameter.Optional },
-                new string[] { "Inta.Framework.Admin.Controllers" }
-);
+                string url = GetCategoryUrl(Convert.ToInt32(urlList.Data.Rows[i]["Id"]));
+                if (!string.IsNullOrEmpty(url))
+                {
+                    routes.MapRoute(
+                    name: "CategoryDefault" + urlList.Data.Rows[i]["Id"].ToString(),
+                    url: "category/" + url + "/{id}",
+                    defaults: new { controller = urlList.Data.Rows[i]["ControllerName"], action = urlList.Data.Rows[i]["ActionName"], id = UrlParameter.Optional },
+                    new string[] { "Inta.Framework.Admin.Controllers" }
+    );
+                }
             }
 
             routes.MapRoute(
@@ -40,7 +45,7 @@ namespace Inta.Framework.Web
 
         public static string GetCategoryUrl(int Id)
         {
-            string url = "category/";
+            string url = "";
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             List<SqlParameter> parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter { ParameterName = "CategoryId", Value = Id });
@@ -57,8 +62,6 @@ namespace Inta.Framework.Web
                 {
                     url = "" + category.Data["CategoryUrl"].ToString();
                 }
-
-                url = url + "/" + category.Data["Id"].ToString();
             }
 
             return url;

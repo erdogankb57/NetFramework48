@@ -9,7 +9,7 @@ namespace Inta.Framework.Admin.Controllers
     public class HomeController : Controller
     {
         // GET: Home
-        public ActionResult Index()
+        public ActionResult Index(int? id)
         {
             return View();
         }
