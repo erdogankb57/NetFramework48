@@ -58,7 +58,7 @@ namespace Inta.Framework.Admin
                     url = "" + category.Data["CategoryUrl"].ToString();
                 }
 
-                url = url + "/" + category.Data["Id"].ToString() + "";
+                url = url + "/" + category.Data["Id"].ToString();
             }
 
             return url;
