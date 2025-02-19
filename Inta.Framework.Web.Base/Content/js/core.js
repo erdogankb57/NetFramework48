@@ -956,7 +956,7 @@ $CategoryTree = {
     Edit: function () {
         var id = $(".CategoryTreeBox ul li a.active").attr("id")
         if (id != undefined) {
-            location.href = "/Category/Add/" + id;
+            location.href = "/Admin/Category/Add/" + id;
         } else {
             showAlert(".listMessage", "Lütfen düzenlemek istediğiniz kaydı seçiniz", "error");
         }
@@ -964,7 +964,7 @@ $CategoryTree = {
     AddCategory: function () {
         var id = $(".CategoryTreeBox ul li a.active").attr("id")
         if (id != undefined) {
-            location.href = "/Category/Add/0?MainCategoryId=" + id;
+            location.href = "/Admin/Category/Add/0?MainCategoryId=" + id;
         } else {
             showAlert(".listMessage", "Lütfen düzenlemek istediğiniz kaydı seçiniz", "error");
         }
@@ -977,7 +977,7 @@ $CategoryTree = {
 
         if (onay) {
             $.ajax({
-                url: "/Category/Delete",
+                url: "/Admin/Category/Delete",
                 type: "POST",
                 dataType: 'json',
                 contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -1008,7 +1008,7 @@ $CategoryTree = {
         debugger;
         $("#" + ObjectId).find(".CategoryTreeMain").html("Yükleniyor");
         $.ajax({
-            url: "/Category/GetTreeList",
+            url: "/Admin/Category/GetTreeList",
             type: "POST",
             dataType: 'json',
             /*         contentType: 'application/x-www-form-urlencoded; charset=UTF-8',*/

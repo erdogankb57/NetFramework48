@@ -237,7 +237,7 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
                 if (!string.IsNullOrEmpty(Request["MainCategoryId"]))
                     category.CategoryId = Convert.ToInt32(Request["MainCategoryId"]);
 
-                return PartialView("Add", category);
+                return View("Add", category);
             }
             else
             {
@@ -253,7 +253,7 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
                     ViewBag.ImageBigWidth = generalSettings.Data.CategoryImageBigWidth;
                 }
 
-                return PartialView("Add", model.Data);
+                return View("Add", (object)model.Data);
             }
 
 
