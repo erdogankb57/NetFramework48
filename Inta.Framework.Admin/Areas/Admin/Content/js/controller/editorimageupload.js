@@ -169,7 +169,7 @@ $(function () {
 
 
         $.ajax({
-            url: "/EditorImageUpload/Save",
+            url: "/Admin/EditorImageUpload/Save",
             type: "POST",
             data: form,
             dataType: 'json',

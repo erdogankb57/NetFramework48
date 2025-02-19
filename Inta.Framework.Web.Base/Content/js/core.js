@@ -233,8 +233,8 @@ var $PagingDataList = {
                         enterMode: CKEDITOR.ENTER_BR,
                         htmlEncodeOutput: false,
                         height: 250,
-                        filebrowserImageUploadUrl: '/Contents',//for uploading image
-                        filebrowserImageBrowseUrl: '/EditorImageUpload'
+                        filebrowserImageUploadUrl: '/Admin/Contents',//for uploading image
+                        filebrowserImageBrowseUrl: '/Admin/EditorImageUpload'
                     });
                     CKEDITOR.instances[$(this).attr("id")].setData($(this).val());
 
@@ -831,8 +831,8 @@ $Form = {
                 enterMode: CKEDITOR.ENTER_BR,
                 htmlEncodeOutput: false,
                 height: 250,
-                filebrowserImageUploadUrl: '/Contents',//for uploading image
-                filebrowserImageBrowseUrl: '/EditorImageUpload'
+                filebrowserImageUploadUrl: '/Admin/Contents',//for uploading image
+                filebrowserImageBrowseUrl: '/Admin/EditorImageUpload'
             });
             CKEDITOR.instances[$(this).attr("id")].setData($(this).val());
 
