@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace Inta.Framework.Admin
+namespace Inta.Framework.Web
 {
     public class RouteConfig
     {

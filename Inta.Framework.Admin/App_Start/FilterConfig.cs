@@ -2,7 +2,7 @@
 using System.Web;
 using System.Web.Mvc;
 
-namespace Inta.Framework.Admin
+namespace Inta.Framework.Web
 {
     public class FilterConfig
     {

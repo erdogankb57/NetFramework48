@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace Inta.Framework.Admin
+namespace Inta.Framework.Web
 {
     public class BundleConfig
     {
