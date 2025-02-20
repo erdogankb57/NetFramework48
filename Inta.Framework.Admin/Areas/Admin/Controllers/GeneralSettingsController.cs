@@ -128,7 +128,7 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
                 db.ExecuteNoneQuery(query, System.Data.CommandType.Text, parameters);
 
                 string RedirectUrl = "/Admin/GeneralSettings/Index";
-                return RedirectToAction("Success", "Message", new MessageModel { RedirectUrl = RedirectUrl, Message = "Kayıt güncelleme işlemi başarıyla tamamlandı" });
+                return RedirectToAction("Success", "Message", new { area = "Admin", RedirectUrl = RedirectUrl, Message = "Kayıt güncelleme işlemi başarıyla tamamlandı" });
             }
             else
             {
