@@ -16,8 +16,17 @@ namespace Inta.Framework.Web
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-
             CategoryManager categoryManager = new CategoryManager();
+
+
+            //Detay sayfası url yapısı hakkimizda/1.html şeklinde olacak
+            routes.MapRoute(
+                 name: "Detail",
+                 url: "{url}/{id}.html",
+                 defaults: new { url = UrlParameter.Optional, controller = "Detail", action = "Index", id = UrlParameter.Optional },
+                 new string[] { "Inta.Framework.Web.Controllers" }
+             );
+
             //Url çağırılırken category/url/id şeklinde çağırılmalıdır.
 
             var result = categoryManager.FindCategoryPageType();
@@ -34,13 +43,7 @@ namespace Inta.Framework.Web
                 }
             }
 
-            //Detay sayfası url yapısı hakkimizda/1.html şeklinde olacak
-            routes.MapRoute(
-                 name: "Detail",
-                 url: "{url}/{id}.html",
-                 defaults: new { url = UrlParameter.Optional, controller = "Detail", action = "Index", id = UrlParameter.Optional },
-                 new string[] { "Inta.Framework.Web.Controllers" }
-             );
+
 
             routes.MapRoute(
                  name: "Default",
