@@ -418,7 +418,7 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
 
                     db.ExecuteNoneQuery(query, System.Data.CommandType.Text, parameters);
 
-                    string RedirectUrl = ImageFile != null ? $"/Admin/ImageCrop/Index?ImageName={request.Image}&Dimension=b_&width={500}&height={100}&SaveUrl=/Record/Index" : "/Admin/Record/Index";
+                    string RedirectUrl = ImageFile != null ? $"/Admin/ImageCrop/Index?ImageName={request.Image}&Dimension=b_&width={500}&height={100}&SaveUrl=/Admin/Record/Index" : "/Admin/Record/Index";
                     
 
                     return RedirectToAction("Success", "Message", new { area = "Admin", RedirectUrl = RedirectUrl, Message = "Kayıt ekleme güncelleme başarıyla tamamlandı" });
