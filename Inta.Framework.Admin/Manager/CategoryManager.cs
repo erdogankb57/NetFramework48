@@ -21,7 +21,8 @@ namespace Inta.Framework.Web.Manager
             {
                 list.Add(new CategoryPageType
                 {
-                    CategoryFullUrl = "category/" + GetCategoryUrl(Convert.ToInt32(data.Data.Rows[i]["Id"])) + "/{id}",
+                    CategoryFullRouting = GetCategoryFullRouting(Convert.ToInt32(data.Data.Rows[i]["Id"])),
+                    CategoryFullUrl = GetCategoryFullUrl(Convert.ToInt32(data.Data.Rows[i]["Id"])),
                     Id = Convert.ToInt32(data.Data.Rows[i]["Id"]),
                     ControllerName = data.Data.Rows[i]["ControllerName"].ToString(),
                     ActionName = data.Data.Rows[i]["ActionName"].ToString(),
@@ -30,6 +31,16 @@ namespace Inta.Framework.Web.Manager
             }
 
             return list;
+        }
+
+        public static string GetCategoryFullRouting(int Id)
+        {
+            return "category/" + GetCategoryUrl(Convert.ToInt32(Id)) + "{id}";
+        }
+
+        public static string GetCategoryFullUrl(int Id)
+        {
+            return "/category/" + GetCategoryUrl(Id) + Id.ToString();
         }
 
         public static string GetCategoryUrl(int Id)
@@ -44,12 +55,12 @@ namespace Inta.Framework.Web.Manager
             {
                 if (category.Data["CategoryId"] != null && Convert.ToInt32(category.Data["CategoryId"]) != 0)
                 {
-                    url = "" + category.Data["CategoryUrl"].ToString();
+                    url = "" + category.Data["CategoryUrl"].ToString() + "/";
                     url = GetCategoryUrl(Convert.ToInt32(category.Data["CategoryId"])) + url;
                 }
                 else
                 {
-                    url = "" + category.Data["CategoryUrl"].ToString();
+                    url = "" + category.Data["CategoryUrl"].ToString() + "/";
                 }
             }
 
@@ -57,4 +68,6 @@ namespace Inta.Framework.Web.Manager
         }
 
     }
+
+    
 }

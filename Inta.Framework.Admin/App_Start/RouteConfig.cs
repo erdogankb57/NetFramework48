@@ -27,7 +27,7 @@ namespace Inta.Framework.Web
                 {
                     routes.MapRoute(
                     name: "CategoryDefault" + item.Id.ToString(),
-                    url: item.CategoryFullUrl,
+                    url: item.CategoryFullRouting,
                     defaults: new { controller = item.ControllerName, action = item.ActionName, id = UrlParameter.Optional },
                     new string[] { "Inta.Framework.Admin.Controllers" }
     );

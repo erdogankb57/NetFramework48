@@ -19,5 +19,6 @@ namespace Inta.Framework.Web.Models
         public string ControllerName { get; set; }
         public string ActionName { get; set; }
         public string CategoryName { get; set; }
+        public string CategoryFullRouting { get; set; }
     }
 }
