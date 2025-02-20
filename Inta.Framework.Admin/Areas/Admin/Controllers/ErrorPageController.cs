@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Inta.Framework.Admin.Areas.Admin.Controllers
+namespace Inta.Framework.Web.Areas.Admin.Controllers
 {
     public class ErrorPageController : Controller
     {

@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inta.Framework.Contract", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inta.Framework.Web", "Inta.Framework.Admin\Inta.Framework.Web.csproj", "{30A8FCF4-5FE5-4277-A54E-132CB73E2D21}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inta.Framework.Admin.Base", "Inta.Framework.Web.Base\Inta.Framework.Admin.Base.csproj", "{C2415E55-8FE0-4716-8174-97CDAB9646A5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inta.Framework.Web.Base", "Inta.Framework.Web.Base\Inta.Framework.Web.Base.csproj", "{C2415E55-8FE0-4716-8174-97CDAB9646A5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inta.Framework.Extension", "Inta.Framework.Extension\Inta.Framework.Extension.csproj", "{AD5F7236-DBC3-4FDB-A5BE-318327A09A56}"
 EndProject

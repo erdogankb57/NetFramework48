@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace Inta.Framework.Admin.Base.Authorization
+namespace Inta.Framework.Web.Base.Authorization
 {
     public class AuthorizationCheck : ActionFilterAttribute, IResultFilter
     {

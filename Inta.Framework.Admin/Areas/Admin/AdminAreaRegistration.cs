@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace Inta.Framework.Admin.Areas.Admin
+namespace Inta.Framework.Web.Areas.Admin
 {
     public class AdminAreaRegistration : AreaRegistration 
     {

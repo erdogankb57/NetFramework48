@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Inta.Framework.Admin.Areas.Admin.Controllers
+namespace Inta.Framework.Web.Areas.Admin.Controllers
 {
     public class ResourceFileController : Controller
     {
@@ -12,7 +12,7 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
         //Dosyanın bu şekilde çalıştırılabilmesi için propertiesden embeded resource olarak ayarlanması gerekir.
         public ActionResult GetJavascriptFile(string file)
         {
-            var asm = System.Reflection.Assembly.Load("Inta.Framework.Admin.Base");
+            var asm = System.Reflection.Assembly.Load("Inta.Framework.Web.Base");
             var names = asm.GetManifestResourceNames();
             if (names.Any(a => a == file))
             {
@@ -24,7 +24,7 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
         }
        public ActionResult GetCssFile(string file)
         {
-            var asm = System.Reflection.Assembly.Load("Inta.Framework.Admin.Base");
+            var asm = System.Reflection.Assembly.Load("Inta.Framework.Web.Base");
             var names = asm.GetManifestResourceNames();
             if (names.Any(a => a == file))
             {

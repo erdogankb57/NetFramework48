@@ -1,12 +1,12 @@
 ﻿using Inta.Framework.Ado.Net;
 using Inta.Framework.Entity;
-using Inta.Framework.Admin.Base.Authorization;
+using Inta.Framework.Web.Base.Authorization;
 using System;
 using System.Configuration;
 using System.Drawing;
 using System.Web.Mvc;
 
-namespace Inta.Framework.Admin.Areas.Admin.Controllers
+namespace Inta.Framework.Web.Areas.Admin.Controllers
 {
     [AuthorizationCheck]
     public class ImageCropController : Controller

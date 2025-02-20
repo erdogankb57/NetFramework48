@@ -690,9 +690,9 @@
       <Project>{AD5F7236-DBC3-4FDB-A5BE-318327A09A56}</Project>
       <Name>Inta.Framework.Extension</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Inta.Framework.Web.Base\Inta.Framework.Admin.Base.csproj">
+    <ProjectReference Include="..\Inta.Framework.Web.Base\Inta.Framework.Web.Base.csproj">
       <Project>{c2415e55-8fe0-4716-8174-97cdab9646a5}</Project>
-      <Name>Inta.Framework.Admin.Base</Name>
+      <Name>Inta.Framework.Web.Base</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

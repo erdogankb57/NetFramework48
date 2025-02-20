@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Script.Serialization;
 
-namespace Inta.Framework.Admin.Base.Authorization
+namespace Inta.Framework.Web.Base.Authorization
 {
     public static class AuthenticationData
     {

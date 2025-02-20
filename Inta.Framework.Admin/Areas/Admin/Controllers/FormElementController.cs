@@ -1,9 +1,9 @@
-﻿using Inta.Framework.Admin.Models;
+﻿using Inta.Framework.Web.Models;
 using Inta.Framework.Ado.Net;
 using Inta.Framework.Contract;
 using Inta.Framework.Entity;
-using Inta.Framework.Admin.Base.Authorization;
-using Inta.Framework.Admin.Base.FormControls;
+using Inta.Framework.Web.Base.Authorization;
+using Inta.Framework.Web.Base.FormControls;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -11,7 +11,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web.Mvc;
 
-namespace Inta.Framework.Admin.Areas.Admin.Controllers
+namespace Inta.Framework.Web.Areas.Admin.Controllers
 {
 
     [AuthorizationCheck]

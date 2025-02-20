@@ -7,8 +7,8 @@
     <ProjectGuid>{C2415E55-8FE0-4716-8174-97CDAB9646A5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Inta.Framework.Admin.Base</RootNamespace>
-    <AssemblyName>Inta.Framework.Admin.Base</AssemblyName>
+    <RootNamespace>Inta.Framework.Web.Base</RootNamespace>
+    <AssemblyName>Inta.Framework.Web.Base</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

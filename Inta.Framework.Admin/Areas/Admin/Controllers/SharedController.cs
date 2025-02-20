@@ -1,5 +1,5 @@
 ﻿using Inta.Framework.Contract;
-using Inta.Framework.Admin.Base.Authorization;
+using Inta.Framework.Web.Base.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 
-namespace Inta.Framework.Admin.Areas.Admin.Controllers
+namespace Inta.Framework.Web.Areas.Admin.Controllers
 {
     public class SharedController : Controller
     {

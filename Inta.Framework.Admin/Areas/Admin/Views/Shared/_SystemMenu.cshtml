@@ -6,7 +6,7 @@
 
 @foreach (var item in ustMenu.Data)
 {
-    var user = db.Get("Select * from SystemUser where Id=" + Convert.ToInt32(Inta.Framework.Admin.Base.Authorization.AuthenticationData.UserId), System.Data.CommandType.Text);
+    var user = db.Get("Select * from SystemUser where Id=" + Convert.ToInt32(Inta.Framework.Web.Base.Authorization.AuthenticationData.UserId), System.Data.CommandType.Text);
     
 
     Inta.Framework.Ado.Net.DBLayer dbAltMenu = new Inta.Framework.Ado.Net.DBLayer(System.Configuration.ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());

@@ -1,7 +1,7 @@
 ﻿using Inta.Framework.Ado.Net;
 using Inta.Framework.Entity;
 using Inta.Framework.Extension;
-using Inta.Framework.Admin.Base.Authorization;
+using Inta.Framework.Web.Base.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -12,7 +12,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data.SqlClient;
 
-namespace Inta.Framework.Admin.Areas.Admin.Controllers
+namespace Inta.Framework.Web.Areas.Admin.Controllers
 {
     [AuthorizationCheck]
     public class EditorImageUploadController : Controller

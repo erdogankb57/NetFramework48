@@ -1,7 +1,7 @@
 ﻿using Inta.Framework.Ado.Net;
 using Inta.Framework.Contract;
 using Inta.Framework.Entity;
-using Inta.Framework.Admin.Base.Authorization;
+using Inta.Framework.Web.Base.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -10,7 +10,7 @@ using System.Web.Mvc;
 using System.Web;
 using Inta.Framework.Extension;
 
-namespace Inta.Framework.Admin.Areas.Admin.Controllers
+namespace Inta.Framework.Web.Areas.Admin.Controllers
 {
     [AuthorizationCheck]
     public class GeneralSettingsController : Controller

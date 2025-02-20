@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace Inta.Framework.Admin.Models
+namespace Inta.Framework.Web.Models
 {
     public class LoginModel
     {

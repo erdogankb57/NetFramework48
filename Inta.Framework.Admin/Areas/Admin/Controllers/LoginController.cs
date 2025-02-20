@@ -1,4 +1,4 @@
-﻿using Inta.Framework.Admin.Models;
+﻿using Inta.Framework.Web.Models;
 using Inta.Framework.Ado.Net;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 
-namespace Inta.Framework.Admin.Areas.Admin.Controllers
+namespace Inta.Framework.Web.Areas.Admin.Controllers
 {
     public class LoginController : Controller
     {

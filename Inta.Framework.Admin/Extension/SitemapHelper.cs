@@ -8,7 +8,7 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Inta.Framework.Admin.Extension
+namespace Inta.Framework.Web.Extension
 {
     public static class SitemapHelper
     {
