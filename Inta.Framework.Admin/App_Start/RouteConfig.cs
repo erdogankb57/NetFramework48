@@ -1,4 +1,5 @@
 ﻿using Inta.Framework.Ado.Net;
+using Inta.Framework.Web.Manager;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -16,20 +17,18 @@ namespace Inta.Framework.Web
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
-            List<SqlParameter> parameters = new List<SqlParameter>();
-            var urlList = db.Find("select distinct p.ControllerName,p.ActionName,c.Id,c.CategoryUrl from Category c inner join PageType p on c.PageTypeId=p.Id", System.Data.CommandType.Text);
-
+            CategoryManager categoryManager = new CategoryManager();
             //Url çağırılırken category/url/id şeklinde çağırılmalıdır.
-            for (int i = 0; i < urlList.Data.Rows.Count; i++)
+
+            var result = categoryManager.FindCategoryPageType();
+            foreach (var item in result)
             {
-                string url = GetCategoryUrl(Convert.ToInt32(urlList.Data.Rows[i]["Id"]));
-                if (!string.IsNullOrEmpty(url))
+                if (!string.IsNullOrEmpty(item.CategoryFullUrl))
                 {
                     routes.MapRoute(
-                    name: "CategoryDefault" + urlList.Data.Rows[i]["Id"].ToString(),
-                    url: "category/" + url + "/{id}",
-                    defaults: new { controller = urlList.Data.Rows[i]["ControllerName"], action = urlList.Data.Rows[i]["ActionName"], id = UrlParameter.Optional },
+                    name: "CategoryDefault" + item.Id.ToString(),
+                    url: item.CategoryFullUrl,
+                    defaults: new { controller = item.ControllerName, action = item.ActionName, id = UrlParameter.Optional },
                     new string[] { "Inta.Framework.Admin.Controllers" }
     );
                 }
@@ -43,28 +42,6 @@ namespace Inta.Framework.Web
              );
         }
 
-        public static string GetCategoryUrl(int Id)
-        {
-            string url = "";
-            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
-            List<SqlParameter> parameters = new List<SqlParameter>();
-            parameters.Add(new SqlParameter { ParameterName = "CategoryId", Value = Id });
-            var category = db.Get("Select * from Category where Id=@CategoryId", System.Data.CommandType.Text, parameters);
 
-            if (category.Data != null)
-            {
-                if (category.Data["CategoryId"] != null && Convert.ToInt32(category.Data["CategoryId"]) != 0)
-                {
-                    url = "" + category.Data["CategoryUrl"].ToString();
-                    url = GetCategoryUrl(Convert.ToInt32(category.Data["CategoryId"])) + url;
-                }
-                else
-                {
-                    url = "" + category.Data["CategoryUrl"].ToString();
-                }
-            }
-
-            return url;
-        }
     }
 }

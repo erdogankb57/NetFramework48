@@ -161,6 +161,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Manager\CategoryManager.cs" />
     <Compile Include="Models\BannerSearch.cs" />
     <Compile Include="Models\BannerTypeSearch.cs" />
     <Compile Include="Models\CategorySearch.cs" />

@@ -25,7 +25,7 @@ namespace Inta.Framework.Web.Areas.Admin.Controllers
         {
             return View("TreeIndex");
         }
-        public ActionResult GetTreeList(CategorySearch request)
+        public ActionResult GetTreeList(Models.CategorySearch request)
         {
             StringBuilder shtml = new StringBuilder();
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
@@ -78,7 +78,7 @@ namespace Inta.Framework.Web.Areas.Admin.Controllers
 
             return shtml.ToString();
         }
-        public ActionResult GetList(PagingDataListRequest<CategorySearch> request)
+        public ActionResult GetList(PagingDataListRequest<Models.CategorySearch> request)
         {
             List<SqlParameter> Parameters = new List<SqlParameter>();
             if (string.IsNullOrEmpty(request.Search.Name))
@@ -101,7 +101,7 @@ namespace Inta.Framework.Web.Areas.Admin.Controllers
 
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             string sqlQuery = "Select * from Category where (@CategoryId is null or CategoryId=@CategoryId) and LanguageId=@LanguageId and (@Name is null or Name like '%'+@Name+'%') and  (@IsActive is null or IsActive=@IsActive) order by " + request.OrderColumn + (request.OrderType == PagingDataListOrderType.Ascending ? " asc" : " desc");
-            var data = db.Find<Category>(sqlQuery, System.Data.CommandType.Text, Parameters);
+            var data = db.Find<Entity.Category>(sqlQuery, System.Data.CommandType.Text, Parameters);
             int count = data?.Data?.ToList()?.Count ?? 0;
 
             var pagingData = data.Data.Skip((Convert.ToInt32(request.ActivePageNumber) - 1) * request.PageRowCount).Take(request.PageRowCount).ToList();
@@ -131,7 +131,7 @@ namespace Inta.Framework.Web.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Delete(string ids)
         {
-            ReturnObject<Category> returnObject = new ReturnObject<Category>();
+            ReturnObject<Entity.Category> returnObject = new ReturnObject<Entity.Category>();
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             using (TransactionScope scope = new TransactionScope())
             {
@@ -139,7 +139,7 @@ namespace Inta.Framework.Web.Areas.Admin.Controllers
                 {
                     foreach (var item in ids.Split(',').ToList())
                     {
-                        var category = db.Get<Category>("select * from Category where id=" + Convert.ToInt32(item), System.Data.CommandType.Text);
+                        var category = db.Get<Entity.Category>("select * from Category where id=" + Convert.ToInt32(item), System.Data.CommandType.Text);
                         //Kategori silinebilme özelliği var mı
                         if (category.Data != null && category.Data.CanBeDeleted)
                         {
@@ -233,7 +233,7 @@ namespace Inta.Framework.Web.Areas.Admin.Controllers
 
             if (id == 0 || id == null)
             {
-                var category = new Category { IsActive = true, CategoryId = 0, CanSubCategoryBeAdded = true, CanContentBeAdded = true, CanBeDeleted = true };
+                var category = new Entity.Category { IsActive = true, CategoryId = 0, CanSubCategoryBeAdded = true, CanContentBeAdded = true, CanBeDeleted = true };
                 if (!string.IsNullOrEmpty(Request["MainCategoryId"]))
                     category.CategoryId = Convert.ToInt32(Request["MainCategoryId"]);
 
@@ -244,7 +244,7 @@ namespace Inta.Framework.Web.Areas.Admin.Controllers
                 List<SqlParameter> parameters = new List<SqlParameter>();
                 parameters.Add(new SqlParameter { ParameterName = "Id", Value = id });
 
-                var model = db.Get<Category>("select * from [Category] where Id=@Id", System.Data.CommandType.Text, parameters);
+                var model = db.Get<Entity.Category>("select * from [Category] where Id=@Id", System.Data.CommandType.Text, parameters);
 
                 var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
                 if (generalSettings.Data != null)
@@ -262,7 +262,7 @@ namespace Inta.Framework.Web.Areas.Admin.Controllers
         [HttpPost]
 
         [ValidateInput(false)]//Ckeditor data alınamadığı için eklendi.
-        public ActionResult Save(Category request, HttpPostedFileBase ImageFile)
+        public ActionResult Save(Entity.Category request, HttpPostedFileBase ImageFile)
         {
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
 
@@ -289,7 +289,7 @@ namespace Inta.Framework.Web.Areas.Admin.Controllers
                 if (string.IsNullOrEmpty(request.MetaKeywords))
                     request.MetaKeywords = request.Name;
 
-                ReturnObject<Category> result = new ReturnObject<Category>();
+                ReturnObject<Entity.Category> result = new ReturnObject<Entity.Category>();
 
                 if (ImageFile != null)
                 {
@@ -456,7 +456,7 @@ namespace Inta.Framework.Web.Areas.Admin.Controllers
                 ");
                     var inserted = db.ExecuteScalar(shtml.ToString(), System.Data.CommandType.Text, parameters);
 
-                    var category = db.Get<Category>("Select * from Category where Id=" + inserted.Data, System.Data.CommandType.Text);
+                    var category = db.Get<Entity.Category>("Select * from Category where Id=" + inserted.Data, System.Data.CommandType.Text);
 
                     string RedirectUrl = ImageFile != null ? $"/Admin/ImageCrop/Index?ImageName={category.Data.Image}&Dimension=b_&width={500}&height={100}&SaveUrl=/Admin/Category/Index" : "/Admin/Category/Index";
 
@@ -501,7 +501,7 @@ namespace Inta.Framework.Web.Areas.Admin.Controllers
                 where Id=@Id");
                     db.ExecuteNoneQuery(shtml.ToString(), System.Data.CommandType.Text, parameters);
 
-                    var category = db.Get<Category>("Select * from Category where Id=" + Convert.ToInt32(request.Id), System.Data.CommandType.Text);
+                    var category = db.Get<Entity.Category>("Select * from Category where Id=" + Convert.ToInt32(request.Id), System.Data.CommandType.Text);
 
 
                     string RedirectUrl = ImageFile != null ? $"/Admin/ImageCrop/Index?ImageName={category.Data.Image}&Dimension=b_&width={500}&height={100}&SaveUrl=/Admin/Category/Index" : "/Admin/Category/Index";
@@ -524,7 +524,7 @@ namespace Inta.Framework.Web.Areas.Admin.Controllers
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             List<SqlParameter> parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter { ParameterName = "Id", Value = id });
-            var category = db.Get<Category>("select * from Category where Id=@Id", System.Data.CommandType.Text, parameters);
+            var category = db.Get<Entity.Category>("select * from Category where Id=@Id", System.Data.CommandType.Text, parameters);
             if (category.Data != null)
             {
                 DeleteImageFile(category.Data.Image);

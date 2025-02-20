@@ -24,7 +24,7 @@ namespace Inta.Framework.Web.Areas.Admin.Controllers
             return View();
         }
 
-        public ActionResult GetList(PagingDataListRequest<BannerSearch> request)
+        public ActionResult GetList(PagingDataListRequest<Models.BannerSearch> request)
         {
             List<SqlParameter> Parameters = new List<SqlParameter>();
             if (string.IsNullOrEmpty(request.Search.Name))
@@ -44,7 +44,7 @@ namespace Inta.Framework.Web.Areas.Admin.Controllers
 
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             string sqlQuery = "Select * from Banner where (@Name is null or Name like '%'+@Name+'%') and (@IsActive is null or IsActive=@IsActive) and LanguageId=@LanguageId order by " + request.OrderColumn + (request.OrderType == PagingDataListOrderType.Ascending ? " asc" : " desc");
-            var data = db.Find<Banner>(sqlQuery, System.Data.CommandType.Text, Parameters);
+            var data = db.Find<Entity.Banner>(sqlQuery, System.Data.CommandType.Text, Parameters);
             int count = data?.Data?.ToList()?.Count ?? 0;
 
             var pagingData = data.Data.Skip((Convert.ToInt32(request.ActivePageNumber) - 1) * request.PageRowCount).Take(request.PageRowCount).ToList();
@@ -77,7 +77,7 @@ namespace Inta.Framework.Web.Areas.Admin.Controllers
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             foreach (var item in ids.Split(',').ToList())
             {
-                var banner = db.Get<Banner>("select * from Banner where id=" + item, System.Data.CommandType.Text).Data;
+                var banner = db.Get<Entity.Banner>("select * from Banner where id=" + item, System.Data.CommandType.Text).Data;
                 if (banner != null)
                 {
                     DeleteImageFile(banner.Image);
@@ -118,10 +118,10 @@ namespace Inta.Framework.Web.Areas.Admin.Controllers
             ViewBag.ImageFolder = ConfigurationManager.AppSettings["ImageUpload"].ToString();
 
             if (id == null || id == 0)
-                return View("Add", new Banner { IsActive = true });
+                return View("Add", new Entity.Banner { IsActive = true });
             else
             {
-                var model = db.Get<Banner>("select * from [Banner] where Id=@Id", System.Data.CommandType.Text, parameters);
+                var model = db.Get<Entity.Banner>("select * from [Banner] where Id=@Id", System.Data.CommandType.Text, parameters);
 
                 var bannerType = db.Get("Select * from BannerType where Id=" + model.Data.BannerTypeId, System.Data.CommandType.Text);
                 if (bannerType != null && bannerType.Data != null)
@@ -142,11 +142,11 @@ namespace Inta.Framework.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Save(Banner request, HttpPostedFileBase Image)
+        public ActionResult Save(Entity.Banner request, HttpPostedFileBase Image)
         {
             if (ModelState.IsValid)
             {
-                ReturnObject<Banner> result = new ReturnObject<Banner>();
+                ReturnObject<Entity.Banner> result = new ReturnObject<Entity.Banner>();
                 DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
                 var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
 
@@ -210,7 +210,7 @@ namespace Inta.Framework.Web.Areas.Admin.Controllers
                 {
                     var inserted = db.ExecuteScalar("insert into [Banner](SystemUserId,LanguageId,BannerTypeId,Name,Link,TargetId,ShortExplanation,OrderNumber,Image,RecordDate,IsActive) values(@SystemUserId,@LanguageId,@BannerTypeId,@Name,@Link,@TargetId,@ShortExplanation,@OrderNumber,@Image,@RecordDate,@IsActive); SELECT SCOPE_IDENTITY()", System.Data.CommandType.Text, parameters);
 
-                    var banner = db.Get<Banner>("Select * from Banner where Id=" + inserted.Data, System.Data.CommandType.Text);
+                    var banner = db.Get<Entity.Banner>("Select * from Banner where Id=" + inserted.Data, System.Data.CommandType.Text);
                     var bannerType = db.Get<BannerType>("Select * from BannerType where Id=" + Convert.ToInt32(banner.Data.BannerTypeId), System.Data.CommandType.Text);
 
                     string RedirectUrl = Image != null ? $"/Admin/ImageCrop/Index?ImageName={banner.Data.Image}&Dimension=b_&width={bannerType.Data.BigImageWidth}&height={bannerType.Data.BigImageHeight}&SaveUrl=/Admin/Banner/Index" : $"/Admin/Banner/Index";
@@ -251,7 +251,7 @@ namespace Inta.Framework.Web.Areas.Admin.Controllers
 
                     db.ExecuteNoneQuery(shtml.ToString(), System.Data.CommandType.Text, parameters);
 
-                    var banner = db.Get<Banner>("Select * from Banner where Id=" + Convert.ToInt32(request.Id), System.Data.CommandType.Text);
+                    var banner = db.Get<Entity.Banner>("Select * from Banner where Id=" + Convert.ToInt32(request.Id), System.Data.CommandType.Text);
                     var bannerType = db.Get<BannerType>("Select * from BannerType where Id=" + Convert.ToInt32(banner.Data.BannerTypeId), System.Data.CommandType.Text);
 
 
@@ -275,7 +275,7 @@ namespace Inta.Framework.Web.Areas.Admin.Controllers
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             List<SqlParameter> parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter { ParameterName = "Id", Value = id });
-            var banner = db.Get<Banner>("select * from Banner where Id=" + Convert.ToInt32(id), System.Data.CommandType.Text).Data;
+            var banner = db.Get<Entity.Banner>("select * from Banner where Id=" + Convert.ToInt32(id), System.Data.CommandType.Text).Data;
             if (banner != null && !string.IsNullOrEmpty(banner.Image))
             {
                 DeleteImageFile(banner.Image);
