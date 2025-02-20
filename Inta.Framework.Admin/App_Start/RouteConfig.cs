@@ -29,16 +29,23 @@ namespace Inta.Framework.Web
                     name: "CategoryDefault" + item.Id.ToString(),
                     url: item.CategoryFullRouting,
                     defaults: new { controller = item.ControllerName, action = item.ActionName, id = UrlParameter.Optional },
-                    new string[] { "Inta.Framework.Admin.Controllers" }
+                    new string[] { "Inta.Framework.Web.Controllers" }
     );
                 }
             }
 
             routes.MapRoute(
+                 name: "Detail",
+                 url: "{controller}/{action}/{id}.html",
+                 defaults: new { controller = "Detail", action = "Index", id = UrlParameter.Optional },
+                 new string[] { "Inta.Framework.Web.Controllers" }
+             );
+
+            routes.MapRoute(
                  name: "Default",
                  url: "{controller}/{action}/{id}",
                  defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
-                 new string[] { "Inta.Framework.Admin.Controllers" }
+                 new string[] { "Inta.Framework.Web.Controllers" }
              );
         }
 

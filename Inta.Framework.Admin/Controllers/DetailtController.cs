@@ -6,10 +6,10 @@ using System.Web.Mvc;
 
 namespace Inta.Framework.Web.Controllers
 {
-    public class HomeController : Controller
+    public class DetailtController : Controller
     {
-        // GET: Home
-        public ActionResult Index(int? id)
+        // GET: Detailt
+        public ActionResult Index()
         {
             return View();
         }

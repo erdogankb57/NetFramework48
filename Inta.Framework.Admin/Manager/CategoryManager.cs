@@ -35,12 +35,12 @@ namespace Inta.Framework.Web.Manager
 
         public static string GetCategoryFullRouting(int Id)
         {
-            return "category/" + GetCategoryUrl(Convert.ToInt32(Id)) + "{id}";
+            return "" + GetCategoryUrl(Convert.ToInt32(Id)) + "{id}";
         }
 
         public static string GetCategoryFullUrl(int Id)
         {
-            return "/category/" + GetCategoryUrl(Id) + Id.ToString();
+            return "/" + GetCategoryUrl(Id) + Id.ToString();
         }
 
         public static string GetCategoryUrl(int Id)
