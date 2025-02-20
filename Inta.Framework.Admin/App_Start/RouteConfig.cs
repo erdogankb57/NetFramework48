@@ -34,10 +34,11 @@ namespace Inta.Framework.Web
                 }
             }
 
+            //Detay sayfası url yapısı hakkimizda/1.html şeklinde olacak
             routes.MapRoute(
                  name: "Detail",
-                 url: "{controller}/{action}/{id}.html",
-                 defaults: new { controller = "Detail", action = "Index", id = UrlParameter.Optional },
+                 url: "{url}/{id}.html",
+                 defaults: new { url = UrlParameter.Optional, controller = "Detail", action = "Index", id = UrlParameter.Optional },
                  new string[] { "Inta.Framework.Web.Controllers" }
              );
 

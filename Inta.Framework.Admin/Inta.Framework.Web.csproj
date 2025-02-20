@@ -156,7 +156,7 @@
     <Compile Include="Areas\Admin\Controllers\SystemActionController.cs" />
     <Compile Include="Areas\Admin\Controllers\SystemRoleController.cs" />
     <Compile Include="Areas\Admin\Controllers\SystemUserController.cs" />
-    <Compile Include="Controllers\DetailtController.cs" />
+    <Compile Include="Controllers\DetailController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Extension\SitemapHelper.cs" />
     <Compile Include="Global.asax.cs">
@@ -674,7 +674,7 @@
     <None Include="packages.config" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Detailt\Index.cshtml" />
+    <Content Include="Views\Detail\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Inta.Framework.Ado.Net\Inta.Framework.Ado.Net.csproj">

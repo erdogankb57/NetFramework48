@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace Inta.Framework.Web.Controllers
 {
-    public class DetailtController : Controller
+    public class DetailController : Controller
     {
         // GET: Detailt
         public ActionResult Index()
