@@ -18,7 +18,7 @@ namespace Inta.Framework.Web
 
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             List<SqlParameter> parameters = new List<SqlParameter>();
-            var urlList = db.Find("select p.ControllerName,p.ActionName,c.Id,c.CategoryUrl from Category c inner join PageType p on c.PageTypeId=p.Id", System.Data.CommandType.Text);
+            var urlList = db.Find("select distinct p.ControllerName,p.ActionName,c.Id,c.CategoryUrl from Category c inner join PageType p on c.PageTypeId=p.Id", System.Data.CommandType.Text);
 
             //Url çağırılırken category/url/id şeklinde çağırılmalıdır.
             for (int i = 0; i < urlList.Data.Rows.Count; i++)

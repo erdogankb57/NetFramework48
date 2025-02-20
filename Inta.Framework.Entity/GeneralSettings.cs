@@ -27,15 +27,6 @@ namespace Inta.Framework.Entity
         [Required(ErrorMessage = "Bu alan boş geçilemez.")]
         public string DomainName { get; set; }
         [Required(ErrorMessage = "Bu alan boş geçilemez.")]
-        public string ImageCdnUrl { get; set; }
-        [Required(ErrorMessage = "Bu alan boş geçilemez.")]
-        public string FileCdnUrl { get; set; }
-        [Required(ErrorMessage = "Bu alan boş geçilemez.")]
-        public string ImageUploadPath { get; set; }
-        [Required(ErrorMessage = "Bu alan boş geçilemez.")]
-        public string FileUploadPath { get; set; }
-        public string EditorImageUploadCdn { get; set; }
-        public string EditorImageUploadPath { get; set; }
         public string DeveloperName { get; set; }
         public string DeveloperEmail { get; set; }
         public int CategoryImageSmallWidth { get; set; }

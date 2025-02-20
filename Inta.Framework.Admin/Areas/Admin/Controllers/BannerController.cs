@@ -289,8 +289,6 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
         {
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
 
-            var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
-            string filepath = generalSettings.Data.ImageUploadPath;
             if (System.IO.File.Exists(Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"]) + "\\" + "k_" + Image))
                 System.IO.File.Delete(Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"]) + "\\" + "k_" + Image);
 

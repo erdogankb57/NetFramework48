@@ -81,16 +81,14 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
                     {
                         if (!string.IsNullOrEmpty(banner.Image))
                         {
-                            var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
-                            string filepath = generalSettings.Data.ImageUploadPath;
-                            if (System.IO.File.Exists(generalSettings.Data.ImageUploadPath + "\\" + "k_" + banner.Image))
-                                System.IO.File.Delete(generalSettings.Data.ImageUploadPath + "\\" + "k_" + banner.Image);
+                            if (System.IO.File.Exists(Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"]) + "\\" + "k_" + banner.Image))
+                                System.IO.File.Delete(Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"]) + "\\" + "k_" + banner.Image);
 
-                            if (System.IO.File.Exists(generalSettings.Data.ImageUploadPath + "\\" + "b_" + banner.Image))
-                                System.IO.File.Delete(generalSettings.Data.ImageUploadPath + "\\" + "b_" + banner.Image);
+                            if (System.IO.File.Exists(Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"]) + "\\" + "b_" + banner.Image))
+                                System.IO.File.Delete(Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"]) + "\\" + "b_" + banner.Image);
 
-                            if (System.IO.File.Exists(generalSettings.Data.ImageUploadPath + "\\" + banner.Image))
-                                System.IO.File.Delete(generalSettings.Data.ImageUploadPath + "\\" + banner.Image);
+                            if (System.IO.File.Exists(Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"]) + "\\" + banner.Image))
+                                System.IO.File.Delete(Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"]) + "\\" + banner.Image);
 
                         }
                         //Banner sil

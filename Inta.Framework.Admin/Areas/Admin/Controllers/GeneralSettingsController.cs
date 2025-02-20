@@ -23,8 +23,8 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
             List<SqlParameter> parameters = new List<SqlParameter>();
             var result = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
             if (result.Data != null)
-                ViewBag.ImageFolder = result.Data.ImageCdnUrl;
-
+                ViewBag.ImageFolder = ConfigurationManager.AppSettings["ImageUpload"];
+            
             return View(result.Data);
         }
 
@@ -42,7 +42,7 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
 
                 if (Logo != null)
                 {
-                    request.Logo = ImageManager.ImageUploadSingleCopy(Logo, request.ImageUploadPath);
+                    request.Logo = ImageManager.ImageUploadSingleCopy(Logo, Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"]));
                     parameters.Add(new SqlParameter { ParameterName = "Logo", Value = request.Logo });
                 }
 
@@ -69,26 +69,6 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
                 else
                     parameters.Add(new SqlParameter { ParameterName = "DomainName", Value = request.DomainName });
 
-                if (string.IsNullOrEmpty(request.ImageCdnUrl))
-                    parameters.Add(new SqlParameter { ParameterName = "ImageCdnUrl", Value = DBNull.Value });
-                else
-                    parameters.Add(new SqlParameter { ParameterName = "ImageCdnUrl", Value = request.ImageCdnUrl });
-
-                if (string.IsNullOrEmpty(request.FileCdnUrl))
-                    parameters.Add(new SqlParameter { ParameterName = "FileCdnUrl", Value = DBNull.Value });
-                else
-                    parameters.Add(new SqlParameter { ParameterName = "FileCdnUrl", Value = request.FileCdnUrl });
-
-                if (string.IsNullOrEmpty(request.ImageUploadPath))
-                    parameters.Add(new SqlParameter { ParameterName = "ImageUploadPath", Value = DBNull.Value });
-                else
-                    parameters.Add(new SqlParameter { ParameterName = "ImageUploadPath", Value = request.ImageUploadPath });
-
-                if (string.IsNullOrEmpty(request.FileUploadPath))
-                    parameters.Add(new SqlParameter { ParameterName = "FileUploadPath", Value = DBNull.Value });
-                else
-                    parameters.Add(new SqlParameter { ParameterName = "FileUploadPath", Value = request.FileUploadPath });
-
                 if (string.IsNullOrEmpty(request.DeveloperName))
                     parameters.Add(new SqlParameter { ParameterName = "DeveloperName", Value = DBNull.Value });
                 else
@@ -98,17 +78,6 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
                     parameters.Add(new SqlParameter { ParameterName = "DeveloperEmail", Value = DBNull.Value });
                 else
                     parameters.Add(new SqlParameter { ParameterName = "DeveloperEmail", Value = request.DeveloperEmail });
-
-                if (string.IsNullOrEmpty(request.EditorImageUploadCdn))
-                    parameters.Add(new SqlParameter { ParameterName = "EditorImageUploadCdn", Value = DBNull.Value });
-                else
-                    parameters.Add(new SqlParameter { ParameterName = "EditorImageUploadCdn", Value = request.EditorImageUploadCdn });
-
-                if (string.IsNullOrEmpty(request.EditorImageUploadPath))
-                    parameters.Add(new SqlParameter { ParameterName = "EditorImageUploadPath", Value = DBNull.Value });
-                else
-                    parameters.Add(new SqlParameter { ParameterName = "EditorImageUploadPath", Value = request.EditorImageUploadPath });
-
 
                 parameters.Add(new SqlParameter { ParameterName = "CategoryImageSmallWidth", Value = request.CategoryImageSmallWidth });
                 parameters.Add(new SqlParameter { ParameterName = "CategoryImageSmallHeight", Value = request.CategoryImageSmallHeight });
@@ -135,10 +104,6 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
             EmailPort=@EmailPort,
             EmailPassword=@EmailPassword,
             DomainName=@DomainName,
-            ImageCdnUrl=@ImageCdnUrl,
-            FileCdnUrl=@FileCdnUrl,
-            ImageUploadPath=@ImageUploadPath,
-            FileUploadPath=@FileUploadPath,
             DeveloperName=@DeveloperName,
             DeveloperEmail=@DeveloperEmail,
             CategoryImageSmallWidth=@CategoryImageSmallWidth,
@@ -152,9 +117,7 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
             GalleryImageSmallWidth=@GalleryImageSmallWidth,
             GalleryImageSmallHeight=@GalleryImageSmallHeight,
             GalleryImageBigWidth=@GalleryImageBigWidth,
-            GalleryImageBigHeight=@GalleryImageBigHeight,
-            EditorImageUploadCdn=@EditorImageUploadCdn,
-            EditorImageUploadPath=@EditorImageUploadPath,";
+            GalleryImageBigHeight=@GalleryImageBigHeight,";
                 if (Logo != null)
                 {
                     query += " Logo=@Logo";
@@ -193,16 +156,14 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
         {
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
 
-            var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
-            string filepath = generalSettings.Data.ImageUploadPath;
-            if (System.IO.File.Exists(generalSettings.Data.ImageUploadPath + "\\" + "k_" + Image))
-                System.IO.File.Delete(generalSettings.Data.ImageUploadPath + "\\" + "k_" + Image);
+            if (System.IO.File.Exists(Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"]) + "\\" + "k_" + Image))
+                System.IO.File.Delete(Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"]) + "\\" + "k_" + Image);
 
-            if (System.IO.File.Exists(generalSettings.Data.ImageUploadPath + "\\" + "b_" + Image))
-                System.IO.File.Delete(generalSettings.Data.ImageUploadPath + "\\" + "b_" + Image);
+            if (System.IO.File.Exists(Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"]) + "\\" + "b_" + Image))
+                System.IO.File.Delete(Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"]) + "\\" + "b_" + Image);
 
-            if (System.IO.File.Exists(generalSettings.Data.ImageUploadPath + "\\" + Image))
-                System.IO.File.Delete(generalSettings.Data.ImageUploadPath + "\\" + Image);
+            if (System.IO.File.Exists(Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"]) + "\\" + Image))
+                System.IO.File.Delete(Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"]) + "\\" + Image);
 
         }
     }

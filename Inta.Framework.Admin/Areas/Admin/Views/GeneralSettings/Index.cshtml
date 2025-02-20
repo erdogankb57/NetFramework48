@@ -45,66 +45,7 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <div class="row">
-                <div class="col-lg-2">
-                    <label for="exampleFormControlInput1">Dosya CDN Url</label>
-                </div><div class="col-lg-4">
-                    @Html.TextBoxFor(m => m.FileCdnUrl, new { @class = "form-control" })
-                    <div class="error text-danger">
-                        @Html.ValidationMessageFor(m => m.FileCdnUrl)
-                    </div>
-                </div>
 
-                <div class="col-lg-2">
-                    <label for="exampleFormControlInput1">Resim CDN Url</label>
-                </div><div class="col-lg-4">
-                    @Html.TextBoxFor(m => m.ImageCdnUrl, new { @class = "form-control" })
-                    <div class="error text-danger">
-                        @Html.ValidationMessageFor(m => m.ImageCdnUrl)
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="form-group">
-            <div class="row">
-                <div class="col-lg-2">
-                    <label for="exampleFormControlInput1">Resim Yükleme Yolu</label>
-                </div><div class="col-lg-4">
-                    @Html.TextBoxFor(m => m.ImageUploadPath, new { @class = "form-control" })
-                    <div class="error text-danger">
-                        @Html.ValidationMessageFor(m => m.ImageUploadPath)
-                    </div>
-                </div>
-
-                <div class="col-lg-2">
-                    <label for="exampleFormControlInput1">Dosya Yükleme Yolu</label>
-                </div><div class="col-lg-4">
-                    @Html.TextBoxFor(m => m.FileUploadPath, new { @class = "form-control" })
-                    <div class="error text-danger">
-                        @Html.ValidationMessageFor(m => m.FileUploadPath)
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="row">
-                <div class="col-lg-2">
-                    <label for="exampleFormControlInput1">Editor Resim Yükleme Yolu (Cdn)</label>
-                </div><div class="col-lg-4">
-                    @Html.TextBoxFor(m => m.EditorImageUploadCdn, new { @class = "form-control" })
-                </div>
-
-                <div class="col-lg-2">
-                    <label for="exampleFormControlInput1">Editor Resim Yükleme Yolu</label>
-                </div><div class="col-lg-4">
-                    @Html.TextBoxFor(m => m.EditorImageUploadPath, new { @class = "form-control" })
-                </div>
-            </div>
-        </div>
 
         <div class="form-group">
             <div class="row">

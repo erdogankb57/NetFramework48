@@ -186,8 +186,6 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
             parameters.Add(new SqlParameter { ParameterName = "Id", Value = id });
 
 
-            var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
-            if (generalSettings.Data != null)
                 ViewBag.ImageFolder = ConfigurationManager.AppSettings["ImageUpload"];
 
             if (id == null || id == 0)
@@ -437,8 +435,6 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
         {
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
 
-            var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
-            string filepath = generalSettings.Data.ImageUploadPath;
             if (System.IO.File.Exists(Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"]) + "\\" + "k_" + Image))
                 System.IO.File.Delete(Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"]) + "\\" + "k_" + Image);
 
@@ -454,9 +450,8 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
         {
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
 
-            var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
-            if (System.IO.File.Exists(generalSettings.Data.FileUploadPath + "\\" + File))
-                System.IO.File.Delete(generalSettings.Data.FileUploadPath + "\\" + File);
+            if (System.IO.File.Exists(Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"]) + "\\" + File))
+                System.IO.File.Delete(Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"]) + "\\" + File);
 
         }
     }

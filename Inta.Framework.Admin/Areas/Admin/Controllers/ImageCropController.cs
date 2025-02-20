@@ -63,16 +63,15 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
         {
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             string imageUrl = "";
-            var generalSettings = db.Get<GeneralSettings>("Select top 1 * from GeneralSettings", System.Data.CommandType.Text);
-            if (generalSettings.Data != null)
-                imageUrl = generalSettings.Data.ImageUploadPath;
+
+            imageUrl = Server.MapPath(ConfigurationManager.AppSettings["ImageUpload"]);
 
             //string imageUrl = HttpContext.Server.MapPath(ConfigurationManager.AppSettings["FileUploadEditor"]);
 
             // Create a new image at the cropped size
 
             //Load image from file
-            using (Image image = Image.FromFile(imageUrl + imageName.Substring(2,imageName.Length-2)))
+            using (Image image = Image.FromFile(imageUrl + imageName.Substring(2, imageName.Length - 2)))
             {
                 image.Save(imageUrl + imageName);
             }
@@ -81,7 +80,7 @@ namespace Inta.Framework.Admin.Areas.Admin.Controllers
             return Json(new
             {
                 ResultMessage = "OK",
-                ImageUrl = generalSettings.Data.ImageCdnUrl + imageName + "?d=" + guide.ToString()
+                ImageUrl = ConfigurationManager.AppSettings["ImageUpload"] + imageName + "?d=" + guide.ToString()
             });
         }
 
