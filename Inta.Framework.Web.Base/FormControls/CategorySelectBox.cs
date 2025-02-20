@@ -22,7 +22,8 @@ namespace Inta.Framework.Admin.Base.FormControls
         string ValueName = null,
         string DefaultValue = null,
         string DefaultText = null,
-        bool? CanSubCategoryBeAdded = null
+        bool? CanSubCategoryBeAdded = null,
+        bool? CanContentBeAdded = null
         )
         {
             if (ObjectId is null)
@@ -57,7 +58,13 @@ namespace Inta.Framework.Admin.Base.FormControls
             else
                 parameters.Add(new SqlParameter { ParameterName = "CanSubCategoryBeAdded", Value = CanSubCategoryBeAdded });
 
-            var returnObject = db.Find("Select * from Category where CategoryId=@Id and (@CanSubCategoryBeAdded is null or CanSubCategoryBeAdded=@CanSubCategoryBeAdded)", System.Data.CommandType.Text, parameters);
+            if (CanContentBeAdded == null)
+                parameters.Add(new SqlParameter { ParameterName = "CanContentBeAdded", Value = DBNull.Value });
+            else
+                parameters.Add(new SqlParameter { ParameterName = "CanContentBeAdded", Value = CanContentBeAdded });
+
+
+            var returnObject = db.Find("Select * from Category where CategoryId=@Id and (@CanSubCategoryBeAdded is null or CanSubCategoryBeAdded=@CanSubCategoryBeAdded) and (@CanContentBeAdded is null or CanContentBeAdded=@CanContentBeAdded)", System.Data.CommandType.Text, parameters);
             if (returnObject != null)
             {
                 for (int i = 0; i < returnObject.Data.Rows.Count; i++)
