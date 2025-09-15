@@ -278,8 +278,12 @@ namespace Inta.Framework.Web.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 if (string.IsNullOrEmpty(request.CategoryUrl))
+                {
                     request.CategoryUrl = StringManager.TextUrlCharSeoReplace(!String.IsNullOrEmpty(request.Name) ? request.Name : "");
 
+                    request.CategoryUrl = UrlControl(request.CategoryUrl);
+
+                }
                 if (string.IsNullOrEmpty(request.Title))
                     request.Title = request.Name;
 
@@ -517,6 +521,33 @@ namespace Inta.Framework.Web.Areas.Admin.Controllers
                 return View("~/Areas/Admin/Views/Category/Add.cshtml", request);
             }
         }
+
+        public string UrlControl(string url)
+        {
+            string newUrl = url;
+            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter { ParameterName = "CategoryUrl", Value = url });
+            var categoryResult = db.Get("Select * from Category where CategoryUrl=@CategoryUrl", System.Data.CommandType.Text, parameters);
+            if (categoryResult.Data != null)
+                newUrl = UrlControl(url + UrlControlCount(0));
+
+
+            List<SqlParameter> recordParameters = new List<SqlParameter>();
+            recordParameters.Add(new SqlParameter { ParameterName = "RecordUrl", Value = url });
+            var recordResult = db.Get("Select * from Record where RecordUrl=@RecordUrl", System.Data.CommandType.Text, recordParameters);
+            if (recordResult.Data != null)
+                newUrl = UrlControl(url + UrlControlCount(0));
+
+
+            return newUrl;
+        }
+        public int UrlControlCount(int count)
+        {
+            count++;
+            return count;
+        }
+
 
         [HttpPost]
         public ActionResult DeleteImage(string id)

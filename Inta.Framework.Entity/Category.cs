@@ -19,6 +19,7 @@ namespace Inta.Framework.Entity
         public int LanguageId { get; set; }
 
         [Required(ErrorMessage = "Bu alan boş geçilemez.")]
+        [Range(1.0, int.MaxValue, ErrorMessage = "Bu alan boş geçilemez.")]
         public int PageTypeId { get; set; }
 
         public int CategoryId { get; set; }
