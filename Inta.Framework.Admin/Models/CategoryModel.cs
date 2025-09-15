@@ -5,14 +5,8 @@ using System.Web;
 
 namespace Inta.Framework.Web.Models
 {
-    public class CategorySearch
-    {
-        public string Name { get; set; }
-        public int? CategoryId { get; set; }
-        public int IsActive { get; set; }
-    }
 
-    public class CategorySearchModel
+    public class CategoryModel
     {
         public string CategoryFullUrl { get; set; }
         public int Id { get; set; }
@@ -31,6 +25,6 @@ namespace Inta.Framework.Web.Models
         public string OrderNumber { get; set; }
         public string IsActive { get; set; }
         public string CategoryLink { get; set; }
-        public List<CategorySearchModel> Items { get; set; }
+        public List<CategoryModel> Items { get; set; }
     }
 }

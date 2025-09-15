@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Inta.Framework.Web.Models
+namespace Inta.Framework.Web.Areas.Admin.Models
 {
-    public class SystemRoleSearch
+    public class FirmVariablesSearch
     {
         public string Name { get; set; }
         public int IsActive { get; set; }

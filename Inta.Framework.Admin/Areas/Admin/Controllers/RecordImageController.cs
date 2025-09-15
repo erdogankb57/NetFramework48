@@ -12,6 +12,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Inta.Framework.Web.Areas.Admin.Models;
 
 namespace Inta.Framework.Web.Areas.Admin.Controllers
 {

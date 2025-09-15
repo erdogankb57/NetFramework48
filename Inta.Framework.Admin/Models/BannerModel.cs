@@ -5,13 +5,7 @@ using System.Web;
 
 namespace Inta.Framework.Web.Models
 {
-    public class BannerSearch
-    {
-        public string Name { get; set; }
-        public int IsActive { get; set; }
-    }
-
-    public class BannerSearchModel
+    public class BannerModel
     {
         public int Id { get; set; }
         public string BannerTypeName { get; set; }

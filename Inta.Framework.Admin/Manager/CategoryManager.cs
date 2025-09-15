@@ -15,18 +15,18 @@ namespace Inta.Framework.Web.Manager
         /// Kategori ve sayfa türlerinin listesini döner içerisinde kategori urlsini barındırır.
         /// </summary>
         /// <returns></returns>
-        public List<CategorySearchModel> Find(int Id)
+        public List<CategoryModel> Find(int Id)
         {
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             List<SqlParameter> parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter { ParameterName = "CategoryId", Value = Id });
 
 
-            List<CategorySearchModel> list = new List<CategorySearchModel>();
+            List<CategoryModel> list = new List<CategoryModel>();
             var data = db.Find("select distinct p.ControllerName,p.ActionName,c.*  from Category c inner join PageType p on c.PageTypeId=p.Id where c.CategoryId=@CategoryId", System.Data.CommandType.Text, parameters);
             for (int i = 0; i < data.Data.Rows.Count; i++)
             {
-                list.Add(new CategorySearchModel
+                list.Add(new CategoryModel
                 {
                     CategoryFullRouting = GetCategoryFullRouting(Convert.ToInt32(data.Data.Rows[i]["Id"])),
                     CategoryFullUrl = GetCategoryFullUrl(Convert.ToInt32(data.Data.Rows[i]["Id"])),
@@ -56,15 +56,15 @@ namespace Inta.Framework.Web.Manager
         /// Kategori ve sayfa türlerinin listesini döner içerisinde kategori urlsini barındırır.
         /// </summary>
         /// <returns></returns>
-        public List<CategorySearchModel> Find()
+        public List<CategoryModel> Find()
         {
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             List<SqlParameter> parameters = new List<SqlParameter>();
-            List<CategorySearchModel> list = new List<CategorySearchModel>();
+            List<CategoryModel> list = new List<CategoryModel>();
             var data = db.Find("select distinct p.ControllerName,p.ActionName,c.* from Category c inner join PageType p on c.PageTypeId=p.Id", System.Data.CommandType.Text);
             for (int i = 0; i < data.Data.Rows.Count; i++)
             {
-                list.Add(new CategorySearchModel
+                list.Add(new CategoryModel
                 {
                     CategoryFullRouting = GetCategoryFullRouting(Convert.ToInt32(data.Data.Rows[i]["Id"])),
                     CategoryFullUrl = GetCategoryFullUrl(Convert.ToInt32(data.Data.Rows[i]["Id"])),
@@ -93,18 +93,18 @@ namespace Inta.Framework.Web.Manager
         /// Kategori ve sayfa türlerini döner içerisinde kategori urlsini barındırır.
         /// </summary>
         /// <returns></returns>
-        public List<CategorySearchModel> Get(int Id)
+        public List<CategoryModel> Get(int Id)
         {
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             List<SqlParameter> parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter { ParameterName = "CategoryId", Value = Id });
 
 
-            List<CategorySearchModel> list = new List<CategorySearchModel>();
+            List<CategoryModel> list = new List<CategoryModel>();
             var data = db.Find("select distinct p.ControllerName,p.ActionName,c.*  from Category c inner join PageType p on c.PageTypeId=p.Id where c.Id=@CategoryId", System.Data.CommandType.Text, parameters);
             for (int i = 0; i < data.Data.Rows.Count; i++)
             {
-                list.Add(new CategorySearchModel
+                list.Add(new CategoryModel
                 {
                     CategoryFullRouting = GetCategoryFullRouting(Convert.ToInt32(data.Data.Rows[i]["Id"])),
                     CategoryFullUrl = GetCategoryFullUrl(Convert.ToInt32(data.Data.Rows[i]["Id"])),

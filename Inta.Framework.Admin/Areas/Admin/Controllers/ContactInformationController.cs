@@ -13,6 +13,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Text;
+using Inta.Framework.Web.Areas.Admin.Models;
 
 namespace Inta.Framework.Web.Areas.Admin.Controllers
 {

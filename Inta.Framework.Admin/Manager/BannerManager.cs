@@ -15,17 +15,17 @@ namespace Inta.Framework.Web.Manager
         /// Banner ve tiplerini döner
         /// </summary>
         /// <returns></returns>
-        public List<BannerSearchModel> Find(int Id)
+        public List<BannerModel> Find(int Id)
         {
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             List<SqlParameter> parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter { ParameterName = "BannerTypeId", Value = Id });
 
-            List<BannerSearchModel> list = new List<BannerSearchModel>();
+            List<BannerModel> list = new List<BannerModel>();
             var data = db.Find("select bt.Name as BannerTypeName,b.* from BannerType bt inner join Banner b on bt.Id=b.BannerTypeId where b.BannerTypeId=@BannerTypeId", System.Data.CommandType.Text, parameters);
             for (int i = 0; i < data.Data.Rows.Count; i++)
             {
-                list.Add(new BannerSearchModel
+                list.Add(new BannerModel
                 {
                     BannerTypeName = data.Data.Rows[i]["BannerTypeName"].ToString(),
                     Name = data.Data.Rows[i]["Name"].ToString(),
@@ -46,15 +46,15 @@ namespace Inta.Framework.Web.Manager
         /// Kategori ve sayfa türlerinin listesini döner içerisinde kategori urlsini barındırır.
         /// </summary>
         /// <returns></returns>
-        public List<BannerSearchModel> Find()
+        public List<BannerModel> Find()
         {
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             List<SqlParameter> parameters = new List<SqlParameter>();
-            List<BannerSearchModel> list = new List<BannerSearchModel>();
+            List<BannerModel> list = new List<BannerModel>();
             var data = db.Find("select bt.Name as BannerTypeName,b.* from BannerType bt inner join Banner b on bt.Id=b.BannerTypeId", System.Data.CommandType.Text);
             for (int i = 0; i < data.Data.Rows.Count; i++)
             {
-                list.Add(new BannerSearchModel
+                list.Add(new BannerModel
                 {
                     BannerTypeName = data.Data.Rows[i]["BannerTypeName"].ToString(),
                     Name = data.Data.Rows[i]["Name"].ToString(),
@@ -74,18 +74,18 @@ namespace Inta.Framework.Web.Manager
         /// Kategori ve sayfa türlerini döner içerisinde kategori urlsini barındırır.
         /// </summary>
         /// <returns></returns>
-        public List<BannerSearchModel> Get(int Id)
+        public List<BannerModel> Get(int Id)
         {
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             List<SqlParameter> parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter { ParameterName = "BannerId", Value = Id });
 
 
-            List<BannerSearchModel> list = new List<BannerSearchModel>();
+            List<BannerModel> list = new List<BannerModel>();
             var data = db.Find("select bt.Name as BannerTypeName,b.* from BannerType bt inner join Banner b on bt.Id=b.BannerTypeId where b.Id=@BannerId", System.Data.CommandType.Text, parameters);
             for (int i = 0; i < data.Data.Rows.Count; i++)
             {
-                list.Add(new BannerSearchModel
+                list.Add(new BannerModel
                 {
                     BannerTypeName = data.Data.Rows[i]["BannerTypeName"].ToString(),
                     Name = data.Data.Rows[i]["Name"].ToString(),

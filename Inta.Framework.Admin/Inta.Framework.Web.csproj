@@ -156,6 +156,25 @@
     <Compile Include="Areas\Admin\Controllers\SystemActionController.cs" />
     <Compile Include="Areas\Admin\Controllers\SystemRoleController.cs" />
     <Compile Include="Areas\Admin\Controllers\SystemUserController.cs" />
+    <Compile Include="Areas\Admin\Models\BannerSearch.cs" />
+    <Compile Include="Areas\Admin\Models\BannerTypeSearch.cs" />
+    <Compile Include="Areas\Admin\Models\CategorySearch.cs" />
+    <Compile Include="Areas\Admin\Models\ContactInformationSearch.cs" />
+    <Compile Include="Areas\Admin\Models\FirmVariablesSearch.cs" />
+    <Compile Include="Areas\Admin\Models\FormElementOptionsSearch.cs" />
+    <Compile Include="Areas\Admin\Models\FormElementSearch.cs" />
+    <Compile Include="Areas\Admin\Models\FormGroupSearch.cs" />
+    <Compile Include="Areas\Admin\Models\LoginModel.cs" />
+    <Compile Include="Areas\Admin\Models\MessageHistorySearch.cs" />
+    <Compile Include="Areas\Admin\Models\PageTypeSearch.cs" />
+    <Compile Include="Areas\Admin\Models\RecordFileSearch.cs" />
+    <Compile Include="Areas\Admin\Models\RecordImageSearch.cs" />
+    <Compile Include="Areas\Admin\Models\RecordSearch.cs" />
+    <Compile Include="Areas\Admin\Models\SEOIndexSearch.cs" />
+    <Compile Include="Areas\Admin\Models\StaticTextSearch.cs" />
+    <Compile Include="Areas\Admin\Models\SystemActionSearch.cs" />
+    <Compile Include="Areas\Admin\Models\SystemRoleSearch.cs" />
+    <Compile Include="Areas\Admin\Models\SystemUserSearch.cs" />
     <Compile Include="Controllers\DetailController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Extension\SitemapHelper.cs" />
@@ -164,25 +183,8 @@
     </Compile>
     <Compile Include="Manager\BannerManager.cs" />
     <Compile Include="Manager\CategoryManager.cs" />
-    <Compile Include="Models\BannerSearch.cs" />
-    <Compile Include="Models\BannerTypeSearch.cs" />
-    <Compile Include="Models\CategorySearch.cs" />
-    <Compile Include="Models\ContactInformationSearch.cs" />
-    <Compile Include="Models\FirmVariablesSearch.cs" />
-    <Compile Include="Models\FormElementOptionsSearch.cs" />
-    <Compile Include="Models\FormElementSearch.cs" />
-    <Compile Include="Models\FormGroupSearch.cs" />
-    <Compile Include="Models\LoginModel.cs" />
-    <Compile Include="Models\MessageHistorySearch.cs" />
-    <Compile Include="Models\PageTypeSearch.cs" />
-    <Compile Include="Models\RecordFileSearch.cs" />
-    <Compile Include="Models\RecordImageSearch.cs" />
-    <Compile Include="Models\RecordSearch.cs" />
-    <Compile Include="Models\SEOIndexSearch.cs" />
-    <Compile Include="Models\StaticTextSearch.cs" />
-    <Compile Include="Models\SystemActionSearch.cs" />
-    <Compile Include="Models\SystemRoleSearch.cs" />
-    <Compile Include="Models\SystemUserSearch.cs" />
+    <Compile Include="Models\BannerModel.cs" />
+    <Compile Include="Models\CategoryModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

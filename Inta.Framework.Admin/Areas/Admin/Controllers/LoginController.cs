@@ -8,6 +8,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
+using Inta.Framework.Web.Areas.Admin.Models;
 
 namespace Inta.Framework.Web.Areas.Admin.Controllers
 {
