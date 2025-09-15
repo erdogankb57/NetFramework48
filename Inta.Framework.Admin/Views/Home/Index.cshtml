@@ -3,11 +3,19 @@
     ViewBag.Title = "Index";
 }
 
-@{ 
+@{
     Inta.Framework.Web.Manager.CategoryManager category = new Inta.Framework.Web.Manager.CategoryManager();
-    foreach (var item in category.FindCategoryPageType().ToList())
+    foreach (var item in category.FindCategoryPageType(0).ToList())
     {
-        <a href="@item.CategoryFullUrl" >@item.CategoryName</a>
+        <a href="@item.CategoryFullUrl">@item.CategoryName</a>
+        <ul>
+            @foreach (var submenu in item.Items)
+            {
+            <li><a href="@submenu.CategoryFullUrl">@submenu.CategoryName</a></li>
+
+            }
+        </ul>
+
     }
 
 }

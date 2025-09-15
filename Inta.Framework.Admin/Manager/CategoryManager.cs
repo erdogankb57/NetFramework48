@@ -11,6 +11,40 @@ namespace Inta.Framework.Web.Manager
 {
     public class CategoryManager
     {
+        /// <summary>
+        /// Kategori ve sayfa türlerini döner içerisinde kategori urlsini barındırır.
+        /// </summary>
+        /// <returns></returns>
+        public List<CategoryPageType> FindCategoryPageType(int CategoryId)
+        {
+            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter { ParameterName = "CategoryId", Value = CategoryId });
+
+
+            List<CategoryPageType> list = new List<CategoryPageType>();
+            var data = db.Find("select distinct p.ControllerName,p.ActionName,c.Id,c.CategoryUrl,c.Name from Category c inner join PageType p on c.PageTypeId=p.Id where c.CategoryId=@CategoryId", System.Data.CommandType.Text, parameters);
+            for (int i = 0; i < data.Data.Rows.Count; i++)
+            {
+                list.Add(new CategoryPageType
+                {
+                    CategoryFullRouting = GetCategoryFullRouting(Convert.ToInt32(data.Data.Rows[i]["Id"])),
+                    CategoryFullUrl = GetCategoryFullUrl(Convert.ToInt32(data.Data.Rows[i]["Id"])),
+                    Id = Convert.ToInt32(data.Data.Rows[i]["Id"]),
+                    ControllerName = data.Data.Rows[i]["ControllerName"].ToString(),
+                    ActionName = data.Data.Rows[i]["ActionName"].ToString(),
+                    CategoryName = data.Data.Rows[i]["Name"].ToString(),
+                    Items = FindCategoryPageType(Convert.ToInt32(data.Data.Rows[i]["Id"]))
+                });
+            }
+
+            return list;
+        }
+
+        /// <summary>
+        /// Kategori ve sayfa türlerini döner içerisinde kategori urlsini barındırır.
+        /// </summary>
+        /// <returns></returns>
         public List<CategoryPageType> FindCategoryPageType()
         {
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
@@ -26,7 +60,7 @@ namespace Inta.Framework.Web.Manager
                     Id = Convert.ToInt32(data.Data.Rows[i]["Id"]),
                     ControllerName = data.Data.Rows[i]["ControllerName"].ToString(),
                     ActionName = data.Data.Rows[i]["ActionName"].ToString(),
-                    CategoryName  = data.Data.Rows[i]["Name"].ToString()
+                    CategoryName = data.Data.Rows[i]["Name"].ToString()
                 });
             }
 
@@ -69,5 +103,5 @@ namespace Inta.Framework.Web.Manager
 
     }
 
-    
+
 }
