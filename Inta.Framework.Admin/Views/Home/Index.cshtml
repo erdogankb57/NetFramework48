@@ -33,7 +33,18 @@
     var contactResult = contact.Find();
     foreach (var item in contactResult)
     {
-        @item.Name<br />
+        @item.Name
+        <br />
         @item.Phone
+    }
+    <br />
+    Inta.Framework.Web.Manager.RecordManager record = new Inta.Framework.Web.Manager.RecordManager();
+    var recordResult = record.Find();
+    foreach (var item in recordResult)
+    {
+        @item.Name
+        <br />
+        @Html.Raw(item.ShortContent)
+
     }
 }

@@ -155,6 +155,8 @@ namespace Inta.Framework.Web.Manager
                 {
                     url = "" + category.Data["CategoryUrl"].ToString() + "/";
                     url = GetCategoryUrl(Convert.ToInt32(category.Data["CategoryId"])) + url;
+
+                    //tek kategori ise detay/ şeklinde link verilecek
                 }
                 else
                 {

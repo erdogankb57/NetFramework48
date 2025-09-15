@@ -184,9 +184,11 @@
     <Compile Include="Manager\BannerManager.cs" />
     <Compile Include="Manager\CategoryManager.cs" />
     <Compile Include="Manager\ContactInformationManager.cs" />
+    <Compile Include="Manager\RecordManager.cs" />
     <Compile Include="Models\BannerModel.cs" />
     <Compile Include="Models\CategoryModel.cs" />
     <Compile Include="Models\ContactInformationModel.cs" />
+    <Compile Include="Models\RecordModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
