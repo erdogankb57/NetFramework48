@@ -141,11 +141,30 @@ namespace Inta.Framework.Web.Manager
             DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
             List<SqlParameter> parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter { ParameterName = "CategoryId", Value = Id });
-            var category = db.Get("Select c.*,p.IsNoLink from Category c inner join PageType p on c.PageTypeId=p.Id where c.Id=@CategoryId", System.Data.CommandType.Text, parameters);
+            var category = db.Get("Select c.*,p.IsNoLink,p.IsMenuFirstCategory,p.IsMenuFirstRecord from Category c inner join PageType p on c.PageTypeId=p.Id where c.Id=@CategoryId", System.Data.CommandType.Text, parameters);
             if (category.Data != null)
             {
                 if (category.Data["IsNoLink"] != DBNull.Value && Convert.ToBoolean(category.Data["IsNoLink"]))
                     return "javascript:void(0)";
+
+
+                if (category.Data["IsMenuFirstCategory"] != DBNull.Value && Convert.ToBoolean(category.Data["IsMenuFirstCategory"]))
+                {
+                    //ilk kategoriyi açalım
+                    List<SqlParameter> firstCategoryParameters = new List<SqlParameter>();
+                    firstCategoryParameters.Add(new SqlParameter { ParameterName = "CategoryId", Value = Id });
+                    var firstCategory = db.Get("Select top 1 * from Category where CategoryId=@CategoryId", System.Data.CommandType.Text, firstCategoryParameters);
+                    if (firstCategory.Data != null)
+                        return GetCategoryFullUrl(Convert.ToInt32(firstCategory.Data["Id"]));
+                }
+
+
+
+                if (category.Data["IsMenuFirstRecord"] != DBNull.Value && Convert.ToBoolean(category.Data["IsMenuFirstRecord"]))
+                {
+                    //ilk kaydı açalım
+                }
+
             }
             return "/" + GetCategoryUrl(Id) + Id.ToString();
         }

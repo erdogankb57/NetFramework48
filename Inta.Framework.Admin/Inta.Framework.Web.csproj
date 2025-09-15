@@ -175,6 +175,7 @@
     <Compile Include="Areas\Admin\Models\SystemActionSearch.cs" />
     <Compile Include="Areas\Admin\Models\SystemRoleSearch.cs" />
     <Compile Include="Areas\Admin\Models\SystemUserSearch.cs" />
+    <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\DetailController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Extension\SitemapHelper.cs" />
@@ -687,6 +688,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Detail\Index.cshtml" />
+    <Content Include="Views\Category\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Inta.Framework.Ado.Net\Inta.Framework.Ado.Net.csproj">
