@@ -43,7 +43,7 @@ namespace Inta.Framework.Web.Manager
         }
 
         /// <summary>
-        /// Kategori ve sayfa türlerinin listesini döner içerisinde kategori urlsini barındırır.
+        /// Banner ve tiplerini döner
         /// </summary>
         /// <returns></returns>
         public List<BannerModel> Find()
@@ -71,7 +71,7 @@ namespace Inta.Framework.Web.Manager
         }
 
         /// <summary>
-        /// Kategori ve sayfa türlerini döner içerisinde kategori urlsini barındırır.
+        /// Banner ve tiplerini döner
         /// </summary>
         /// <returns></returns>
         public List<BannerModel> Get(int Id)

@@ -27,5 +27,13 @@
         @item.Name
         <img src="~/Uploads/Image/@item.Image" />
     }
+    <br />
 
+    Inta.Framework.Web.Manager.ContactInformationManager contact = new Inta.Framework.Web.Manager.ContactInformationManager();
+    var contactResult = contact.Find();
+    foreach (var item in contactResult)
+    {
+        @item.Name<br />
+        @item.Phone
+    }
 }
