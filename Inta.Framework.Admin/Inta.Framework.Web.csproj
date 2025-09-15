@@ -520,6 +520,7 @@
     <Content Include="Areas\Admin\Content\css\assets\dist\js\bootstrap.js" />
     <Content Include="Areas\Admin\Content\css\assets\dist\js\bootstrap.min.js" />
     <Content Include="Areas\Admin\Content\css\bootstrap.min.css" />
+    <Content Include="Areas\Admin\Content\css\core.css" />
     <Content Include="Areas\Admin\Content\css\fileupload.css" />
     <Content Include="Areas\Admin\Content\css\image-crop.css" />
     <Content Include="Areas\Admin\Content\css\jquery-ui.css" />
@@ -548,6 +549,7 @@
     <Content Include="Areas\Admin\Content\js\controller\generalsettings.js" />
     <Content Include="Areas\Admin\Content\js\controller\imagecrop.js" />
     <Content Include="Areas\Admin\Content\js\controller\login.js" />
+    <Content Include="Areas\Admin\Content\js\core.js" />
     <Content Include="Areas\Admin\Content\js\feather.min.js" />
     <Content Include="Areas\Admin\Content\js\fontawesome.js" />
     <Content Include="Areas\Admin\Content\js\function.js" />
@@ -582,6 +584,7 @@
     <Folder Include="Areas\Admin\Views\CategoryImageSize\" />
     <Folder Include="Areas\Admin\Views\Default\" />
     <Folder Include="Areas\Admin\Views\ResourceFile\" />
+    <Folder Include="Content\" />
     <Folder Include="Uploads\EditorImages\" />
     <Folder Include="Uploads\File\" />
     <Folder Include="Uploads\Image\" />
