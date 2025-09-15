@@ -29,7 +29,7 @@ namespace Inta.Framework.Web
 
             //Url çağırılırken category/url/id şeklinde çağırılmalıdır.
 
-            var result = categoryManager.FindCategoryPageType();
+            var result = categoryManager.Find();
             foreach (var item in result)
             {
                 if (!string.IsNullOrEmpty(item.CategoryFullUrl))

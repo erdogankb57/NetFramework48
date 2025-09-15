@@ -5,16 +5,26 @@
 
 @{
     Inta.Framework.Web.Manager.CategoryManager category = new Inta.Framework.Web.Manager.CategoryManager();
-    foreach (var item in category.FindCategoryPageType(0).ToList())
+
+    foreach (var item in category.Find(0).ToList())
     {
         <a href="@item.CategoryFullUrl">@item.CategoryName</a>
         <ul>
             @foreach (var submenu in item.Items)
             {
-            <li><a href="@submenu.CategoryFullUrl">@submenu.CategoryName</a></li>
+                <li><a href="@submenu.CategoryFullUrl">@submenu.CategoryName</a></li>
 
             }
         </ul>
+
+    }
+
+
+    Inta.Framework.Web.Manager.BannerManager banner = new Inta.Framework.Web.Manager.BannerManager();
+    var bannerResult = banner.Find(76864);
+    foreach (var item in bannerResult)
+    {
+        @item.Name
 
     }
 
