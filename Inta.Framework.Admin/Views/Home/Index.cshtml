@@ -47,4 +47,13 @@
         @Html.Raw(item.ShortContent)
 
     }
+
+    Inta.Framework.Web.Manager.RecordImageManager recordImage = new Inta.Framework.Web.Manager.RecordImageManager();
+    var recordImageResult = recordImage.Find(8106);
+    foreach (var item in recordImageResult)
+    {
+        @item.Name
+        <img src="~/Uploads/Image/@item.ImageName" />
+
+    }
 }
