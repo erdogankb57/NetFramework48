@@ -138,6 +138,15 @@ namespace Inta.Framework.Web.Manager
 
         public static string GetCategoryFullUrl(int Id)
         {
+            DBLayer db = new DBLayer(ConfigurationManager.ConnectionStrings["DefaultDataContext"].ToString());
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter { ParameterName = "CategoryId", Value = Id });
+            var category = db.Get("Select c.*,p.IsNoLink from Category c inner join PageType p on c.PageTypeId=p.Id where c.Id=@CategoryId", System.Data.CommandType.Text, parameters);
+            if (category.Data != null)
+            {
+                if (category.Data["IsNoLink"] != DBNull.Value && Convert.ToBoolean(category.Data["IsNoLink"]))
+                    return "javascript:void(0)";
+            }
             return "/" + GetCategoryUrl(Id) + Id.ToString();
         }
 

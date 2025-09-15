@@ -153,6 +153,8 @@ namespace Inta.Framework.Web.Areas.Admin.Controllers
                 parameters.Add(new SqlParameter { ParameterName = "IsMenuFirstRecord", Value = request.IsMenuFirstRecord });
                 parameters.Add(new SqlParameter { ParameterName = "IsMenuFirstCategory", Value = request.IsMenuFirstCategory });
                 parameters.Add(new SqlParameter { ParameterName = "IsPagingEnabled", Value = request.IsPagingEnabled });
+                parameters.Add(new SqlParameter { ParameterName = "IsNoLink", Value = request.IsNoLink });
+
                 parameters.Add(new SqlParameter { ParameterName = "IsActive", Value = request.IsActive });
 
                 parameters.Add(new SqlParameter { ParameterName = "SystemUserId", Value = AuthenticationData.UserId });
@@ -175,6 +177,7 @@ namespace Inta.Framework.Web.Areas.Admin.Controllers
                 IsShortExplanationEnabled,
                 IsMenuFirstRecord,
                 IsMenuFirstCategory,
+                IsNoLink,
                 IsPagingEnabled,
                 IsActive) 
                 values
@@ -189,6 +192,7 @@ namespace Inta.Framework.Web.Areas.Admin.Controllers
                 @IsShortExplanationEnabled,
                 @IsMenuFirstRecord,
                 @IsMenuFirstCategory,
+                @IsNoLink,
                 @IsPagingEnabled,
                 @IsActive) ", System.Data.CommandType.Text, parameters);
 
@@ -213,6 +217,7 @@ namespace Inta.Framework.Web.Areas.Admin.Controllers
                 IsMenuFirstRecord=@IsMenuFirstRecord,
                 IsMenuFirstCategory=@IsMenuFirstCategory,   
                 IsPagingEnabled=@IsPagingEnabled,
+                IsNoLink=@IsNoLink,
                 IsActive=@IsActive
                 where Id=@Id", System.Data.CommandType.Text, parameters);
 

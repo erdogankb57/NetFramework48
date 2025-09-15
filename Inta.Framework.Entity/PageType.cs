@@ -37,6 +37,8 @@ namespace Inta.Framework.Entity
 		public bool IsMenuFirstRecord { get; set; }
 		public bool IsMenuFirstCategory { get; set; }
 		public bool IsPagingEnabled { get; set; }
+		public bool IsNoLink { get; set; }
+
 		public DateTime RecordDate { get; set; }
 		public bool IsActive { get; set; }
 	}
