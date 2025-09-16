@@ -56,4 +56,12 @@
         <img src="~/Uploads/Image/@item.ImageName" />
 
     }
+
+    Inta.Framework.Web.Manager.RecordFileManager recordFile = new Inta.Framework.Web.Manager.RecordFileManager();
+    var recordFileResult = recordFile.Find(8093);
+    foreach (var item in recordFileResult)
+    {
+        @item.Name
+
+    }
 }
