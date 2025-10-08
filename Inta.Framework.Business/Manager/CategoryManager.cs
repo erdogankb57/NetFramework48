@@ -1,13 +1,14 @@
 ﻿using Inta.Framework.Ado.Net;
-using Inta.Framework.Web.Models;
+using Inta.Framework.Business.Model;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Web;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Inta.Framework.Web.Manager
+namespace Inta.Framework.Business.Manager
 {
     public class CategoryManager
     {
@@ -169,7 +170,7 @@ namespace Inta.Framework.Web.Manager
                 List<SqlParameter> recordParameters = new List<SqlParameter>();
                 recordParameters.Add(new SqlParameter { ParameterName = "CategoryId", Value = Id });
                 var record = db.Find("select * from Record where CategoryId=@CategoryId", System.Data.CommandType.Text, recordParameters);
-                if (record.Data.Rows.Count==1)
+                if (record.Data.Rows.Count == 1)
                 {
                     return record.Data.Rows[0]["RecordUrl"].ToString() + "/" + record.Data.Rows[0]["Id"].ToString() + ".html";
                 }
@@ -205,6 +206,5 @@ namespace Inta.Framework.Web.Manager
         }
 
     }
-
 
 }

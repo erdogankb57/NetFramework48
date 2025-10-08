@@ -4,7 +4,7 @@
 }
 
 @{
-    Inta.Framework.Web.Manager.CategoryManager category = new Inta.Framework.Web.Manager.CategoryManager();
+    CategoryManager category = new CategoryManager();
 
     foreach (var item in category.Find(0).ToList())
     {
@@ -20,7 +20,7 @@
     }
 
 
-    Inta.Framework.Web.Manager.BannerManager banner = new Inta.Framework.Web.Manager.BannerManager();
+    BannerManager banner = new BannerManager();
     var bannerResult = banner.Find(76864);
     foreach (var item in bannerResult)
     {
@@ -29,7 +29,7 @@
     }
     <br />
 
-    Inta.Framework.Web.Manager.ContactInformationManager contact = new Inta.Framework.Web.Manager.ContactInformationManager();
+    ContactInformationManager contact = new ContactInformationManager();
     var contactResult = contact.Find();
     foreach (var item in contactResult)
     {
@@ -38,7 +38,7 @@
         @item.Phone
     }
     <br />
-    Inta.Framework.Web.Manager.RecordManager record = new Inta.Framework.Web.Manager.RecordManager();
+    RecordManager record = new RecordManager();
     var recordResult = record.Find();
     foreach (var item in recordResult)
     {
@@ -48,7 +48,7 @@
 
     }
 
-    Inta.Framework.Web.Manager.RecordImageManager recordImage = new Inta.Framework.Web.Manager.RecordImageManager();
+    RecordImageManager recordImage = new RecordImageManager();
     var recordImageResult = recordImage.Find(8106);
     foreach (var item in recordImageResult)
     {
@@ -57,7 +57,7 @@
 
     }
 
-    Inta.Framework.Web.Manager.RecordFileManager recordFile = new Inta.Framework.Web.Manager.RecordFileManager();
+    RecordFileManager recordFile = new RecordFileManager();
     var recordFileResult = recordFile.Find(8093);
     foreach (var item in recordFileResult)
     {

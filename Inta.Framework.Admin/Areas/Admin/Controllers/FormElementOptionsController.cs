@@ -1,7 +1,7 @@
-﻿using Inta.Framework.Web.Models;
-using Inta.Framework.Ado.Net;
+﻿using Inta.Framework.Ado.Net;
 using Inta.Framework.Contract;
 using Inta.Framework.Entity;
+using Inta.Framework.Web.Areas.Admin.Models;
 using Inta.Framework.Web.Base.Authorization;
 using Inta.Framework.Web.Base.FormControls;
 using System;
@@ -11,7 +11,6 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Inta.Framework.Web.Areas.Admin.Models;
 
 namespace Inta.Framework.Web.Areas.Admin.Controllers
 {

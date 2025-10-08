@@ -1,11 +1,4 @@
-﻿using Inta.Framework.Ado.Net;
-using Inta.Framework.Web.Manager;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
+﻿using Inta.Framework.Business.Manager;
 using System.Web.Mvc;
 using System.Web.Routing;
 

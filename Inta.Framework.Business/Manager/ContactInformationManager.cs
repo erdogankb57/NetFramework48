@@ -1,13 +1,14 @@
 ﻿using Inta.Framework.Ado.Net;
-using Inta.Framework.Web.Models;
+using Inta.Framework.Business.Model;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Web;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Inta.Framework.Web.Manager
+namespace Inta.Framework.Business.Manager
 {
     public class ContactInformationManager
     {

@@ -1,5 +1,4 @@
-﻿using Inta.Framework.Web.Models;
-using Inta.Framework.Ado.Net;
+﻿using Inta.Framework.Ado.Net;
 using Inta.Framework.Contract;
 using Inta.Framework.Entity;
 using Inta.Framework.Extension;
@@ -11,9 +10,9 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
-using System.Transactions;
 
 namespace Inta.Framework.Web.Areas.Admin.Controllers
 {
