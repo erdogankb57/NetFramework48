@@ -165,6 +165,15 @@ namespace Inta.Framework.Web.Manager
                     //ilk kaydı açalım
                 }
 
+
+                List<SqlParameter> recordParameters = new List<SqlParameter>();
+                recordParameters.Add(new SqlParameter { ParameterName = "CategoryId", Value = Id });
+                var record = db.Find("select * from Record where CategoryId=@CategoryId", System.Data.CommandType.Text, recordParameters);
+                if (record.Data.Rows.Count==1)
+                {
+                    return record.Data.Rows[0]["RecordUrl"].ToString() + "/" + record.Data.Rows[0]["Id"].ToString() + ".html";
+                }
+
             }
             return "/" + GetCategoryUrl(Id) + Id.ToString();
         }
