@@ -182,6 +182,18 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Manager\BannerManager.cs" />
+    <Compile Include="Manager\CategoryManager.cs" />
+    <Compile Include="Manager\ContactInformationManager.cs" />
+    <Compile Include="Manager\RecordFileManager.cs" />
+    <Compile Include="Manager\RecordImageManager.cs" />
+    <Compile Include="Manager\RecordManager.cs" />
+    <Compile Include="Model\BannerModel.cs" />
+    <Compile Include="Model\CategoryModel.cs" />
+    <Compile Include="Model\ContactInformationModel.cs" />
+    <Compile Include="Model\RecordFileModel.cs" />
+    <Compile Include="Model\RecordImageModel.cs" />
+    <Compile Include="Model\RecordModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -684,10 +696,6 @@
     <ProjectReference Include="..\Inta.Framework.Ado.Net\Inta.Framework.Ado.Net.csproj">
       <Project>{FE5EA30E-D2FF-4D24-B22A-8D0138027DBD}</Project>
       <Name>Inta.Framework.Ado.Net</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Inta.Framework.Business\Inta.Framework.Business.csproj">
-      <Project>{C6A6EC20-8151-44F9-9900-DB49E2EC53D1}</Project>
-      <Name>Inta.Framework.Business</Name>
     </ProjectReference>
     <ProjectReference Include="..\Inta.Framework.Contract\Inta.Framework.Contract.csproj">
       <Project>{F5C4E264-B7B8-4BC2-B0C6-0A7A418D9167}</Project>

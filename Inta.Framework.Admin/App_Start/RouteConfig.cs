@@ -1,4 +1,4 @@
-﻿using Inta.Framework.Business.Manager;
+﻿using Inta.Framework.Web.Manager;
 using System.Web.Mvc;
 using System.Web.Routing;
 
